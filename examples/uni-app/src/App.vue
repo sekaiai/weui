@@ -5,14 +5,12 @@
   </view>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'App',
-}
-</script>
-
 <script setup lang="ts">
 import WeuiOverlayHost from 'weui-design-vue/src/overlay-host/overlay-host.vue'
+
+defineOptions({
+  name: 'App',
+})
 </script>
 
 <style>

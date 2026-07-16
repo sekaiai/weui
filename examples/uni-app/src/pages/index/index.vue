@@ -13,16 +13,14 @@
   </view>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'PageIndex',
-}
-</script>
-
 <script setup lang="ts">
 const onPrimary = (e: Event) => {
   console.log('primary click', e)
 }
+
+defineOptions({
+  name: 'PageIndex',
+})
 </script>
 
 <style scoped>
@@ -43,7 +41,7 @@ const onPrimary = (e: Event) => {
   font-size: 14px;
   color: #888;
 }
-.page__bd button {
+.page__bd .weui-button {
   margin-bottom: 12px;
 }
 </style>
