@@ -22,9 +22,10 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { ref, shallowRef } from 'vue'
+import { ref, shallowRef, onMounted, onBeforeUnmount } from 'vue'
 import type { Component } from 'vue'
 import { overlayManager } from '../utils/overlay'
+import { setOverlayHost } from '../utils/overlay-host-ref'
 
 export interface OverlayItem {
   id: number
@@ -57,6 +58,15 @@ const remove = (id: number): void => {
 const handleClose = (id: number): void => {
   remove(id)
 }
+
+// 挂载时注册到全局引用，供命令式弹层 API 调用
+onMounted(() => {
+  setOverlayHost({ add, remove })
+})
+
+onBeforeUnmount(() => {
+  setOverlayHost(null)
+})
 
 // 暴露 API 给命令式调用方
 defineExpose({ add, remove })

@@ -33,6 +33,7 @@ const sidebar = {
       collapsible: true,
       items: [
         { text: 'Actionsheet 操作菜单', link: '/components/actionsheet' },
+        { text: 'Dialog 对话框', link: '/components/dialog' },
       ],
     },
   ],

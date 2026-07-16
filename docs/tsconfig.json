@@ -10,6 +10,7 @@
   "include": [
     ".vitepress/**/*.ts",
     ".vitepress/**/*.mts",
-    ".vitepress/**/*.vue"
+    ".vitepress/**/*.vue",
+    "../packages/components/types/uni.d.ts"
   ]
 }
