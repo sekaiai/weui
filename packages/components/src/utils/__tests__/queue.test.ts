@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 import { ToastQueue, type ToastTask } from '../queue'
 
 describe('ToastQueue', () => {
@@ -17,7 +17,7 @@ describe('ToastQueue', () => {
     expect(executed).toEqual(['a'])
   })
 
-  it('任务在栈上排队，done 后才执行下一个', () => {
+  it('任务在队列中排队，done 后才执行下一个', () => {
     queue.enqueue('a')
     queue.enqueue('b')
     expect(executed).toEqual(['a'])
