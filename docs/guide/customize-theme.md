@@ -21,4 +21,4 @@ WeUI Design Vue 通过 CSS 变量提供主题定制能力。
 
 ## 可用变量
 
-完整变量列表见 [theme.scss](https://github.com/your-repo/weui-design-vue/blob/main/packages/components/src/styles/theme.scss)。
+完整变量列表见 [theme.scss](https://github.com/xueyang/weui-design-vue/blob/main/packages/components/src/styles/theme.scss)。

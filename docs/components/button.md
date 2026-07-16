@@ -25,6 +25,15 @@
   <weui-button type="default" :disabled="true">禁用</weui-button>
 </div>
 
+::: details 查看代码
+```vue
+<template>
+  <weui-button type="primary" :disabled="true">禁用</weui-button>
+  <weui-button type="default" :disabled="true">禁用</weui-button>
+</template>
+```
+:::
+
 ## Attributes
 
 | 参数 | 说明 | 类型 | 可选值 | 默认值 |

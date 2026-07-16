@@ -1,6 +1,6 @@
 import DefaultTheme from 'vitepress/theme'
 import type { Theme } from 'vitepress'
-import WeuiDesignVue from 'weui-design-vue/src/index'
+import WeuiDesignVue from 'weui-design-vue'
 
 // 全局引入 weui 基础样式
 import 'weui/dist/style/weui.css'

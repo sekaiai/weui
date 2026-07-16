@@ -1,8 +1,8 @@
 import type { UserConfig } from 'vitepress'
 
 const nav = [
-  { text: '指导', link: '/guide/introduce', activeMatch: 'guide' },
-  { text: '组件', link: '/components/button', activeMatch: 'components' },
+  { text: '指导', link: '/guide/introduce', activeMatch: '^/guide/' },
+  { text: '组件', link: '/components/button', activeMatch: '^/components/' },
 ]
 
 const sidebar = {

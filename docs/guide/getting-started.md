@@ -28,7 +28,7 @@ pnpm add weui-design-vue
 在 `App.vue` 中：
 
 ```vue
-<style>
+<style lang="scss">
 @import 'weui/dist/style/weui.css';
 @import 'weui-design-vue/src/styles/weui-adapter.scss';
 @import 'weui-design-vue/src/styles/theme.scss';
