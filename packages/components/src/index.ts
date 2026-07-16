@@ -4,11 +4,9 @@ import type { WeuiButtonProps, WeuiButtonEmits } from './button'
 
 const components = [WeuiButton]
 
-const install = (vue: App): void => {
+const install = (app: App): void => {
   components.forEach((component) => {
-    if (component.install) {
-      vue.use(component as any)
-    }
+    component.install?.(app)
   })
 }
 

@@ -1,7 +1,8 @@
+import type { App } from 'vue'
 import WeuiButton from './button.vue'
 
-WeuiButton.install = (vue: any) => {
-  vue.component(WeuiButton.name!, WeuiButton)
+WeuiButton.install = (app: App) => {
+  app.component(WeuiButton.name || 'WeuiButton', WeuiButton)
 }
 
 export { WeuiButton }

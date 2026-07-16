@@ -33,7 +33,7 @@ export interface WeuiButtonEmits {
 }
 
 const props = withDefaults(defineProps<WeuiButtonProps>(), {
-  type: 'primary',
+  type: 'default',
   disabled: false,
 })
 

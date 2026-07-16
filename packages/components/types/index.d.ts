@@ -1,1 +1,2 @@
-export * from '../src/button'
+export { default } from '../src/index'
+export * from '../src/index'
