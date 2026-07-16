@@ -23,6 +23,12 @@
       "style": {
         "navigationBarTitleText": "Badge 徽章"
       }
+    },
+    {
+      "path": "pages/cell/cell",
+      "style": {
+        "navigationBarTitleText": "Cell 列表项"
+      }
     }
   ],
   "globalStyle": {
