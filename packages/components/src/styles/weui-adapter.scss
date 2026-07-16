@@ -28,3 +28,6 @@ button {
 
 // weui 中 a 标签的样式映射到 view.weui-link
 // 业务侧用 <view class="weui-link"> 替代 <a>
+view.weui-link {
+  text-decoration: none;
+}
