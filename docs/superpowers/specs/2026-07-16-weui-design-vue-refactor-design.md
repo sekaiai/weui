@@ -54,7 +54,7 @@ weui-design-vue/
 
 > 自检修订：原 30 个族遗漏了 weui-miniprogram 官方的 `form-page`、`slideview`，以及 weui-wxss example 中的 `preview`。为真正"全量对齐官方"，已补入，总数调整为 33。
 
-- **实现顺序**：按 weui-miniprogram 官方文档顺序逐个实现，再补齐 weui-wxss example 独有组件。官方顺序为：actionsheet → badge → cell → checkbox → dialog → form-page → form → gallery → grid → half-screen-dialog → icon → loading → msg → navbar → searchbar → slideview → tabbar → toptips → uploader；随后补齐 weui-wxss example 独有：button、input、article、flex、footer、list、panel、preview、progress、steps、loadmore、picker、toast
+- **实现顺序**：按 weui-miniprogram 官方文档顺序逐个实现，再补齐 weui-wxss example 独有组件。官方顺序为：actionsheet → badge → cell → checkbox → dialog → form-page → form → gallery → grid → half-screen-dialog → icon → loading → msg → navbar → searchbar → slideview → tabbar → toptips → uploader；随后补齐 weui-wxss example 独有：button、input、article、flex、footer、list、panel、preview、progress、steps、loadmore
 - cell-group（官方 cells）、checkbox-group 作为 cell/checkbox 的子组件随主组件实现，不单列
 - **全部组件均为 SFC**，无纯 JS 调用式组件；弹层类（toast/actionsheet/dialog/half-screen-dialog/picker/toptips）额外提供命令式函数
 
@@ -68,7 +68,7 @@ weui-design-vue/
 - **插槽**：每个组件提供 `default` + 语义化具名插槽（如 cell 的 `icon`/`title`/`value`/`footer`）；列表类组件支持 scoped slot 暴露 `{ item, index }`
 - **TS**：`<script setup lang="ts">` + `defineProps<{}>` 类型声明，导出 `XxxProps`/`XxxEmits` 类型；锁定 Vue 3.4+
 - **标签前缀**：`<weui-button>`、`<weui-cell>`（保持现有前缀）
-- **DOM 禁用**：禁用 `ref.focus()`、`window`、`document`、`nextTick` 操作 DOM；交互改用 uni API 或数据驱动
+- **DOM 禁用**：禁用直接操作 DOM 的 API（`ref.focus()`、`window`、`document`）；不直接操作 DOM 的 Vue API（如 `nextTick`）可按需使用；交互改用 uni API 或数据驱动
 
 ### 4.2 easycom 配置
 

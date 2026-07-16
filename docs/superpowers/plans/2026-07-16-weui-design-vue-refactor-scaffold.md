@@ -1118,8 +1118,10 @@ export function createApp() {
 
 ```vue
 <template>
-  <weui-overlay-host />
-  <pages />
+  <view>
+    <weui-overlay-host />
+    <pages />
+  </view>
 </template>
 
 <script lang="ts">
@@ -1329,7 +1331,6 @@ export default config
 ```typescript
 import DefaultTheme from 'vitepress/theme'
 import type { Theme } from 'vitepress'
-import { enhanceApp } from 'vitepress/dist/client'
 import WeuiDesignVue from 'weui-design-vue/src/index'
 
 // 全局引入 weui 基础样式

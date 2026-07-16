@@ -7,3 +7,9 @@ unpackage/
 .DS_Store
 .idea/
 .vscode/
+.env*
+.env.local
+coverage/
+*.tgz
+*.tsbuildinfo
+.eslintcache
