@@ -17,6 +17,12 @@
       "style": {
         "navigationBarTitleText": "Actionsheet 操作菜单"
       }
+    },
+    {
+      "path": "pages/badge/badge",
+      "style": {
+        "navigationBarTitleText": "Badge 徽章"
+      }
     }
   ],
   "globalStyle": {

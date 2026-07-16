@@ -23,6 +23,7 @@ const sidebar = {
       collapsible: true,
       items: [
         { text: 'Button 按钮', link: '/components/button' },
+        { text: 'Badge 徽章', link: '/components/badge' },
       ],
     },
     {
