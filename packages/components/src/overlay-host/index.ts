@@ -6,3 +6,4 @@ WeuiOverlayHost.install = (app: App) => {
 }
 
 export { WeuiOverlayHost }
+export type { OverlayItem } from './overlay-host.vue'

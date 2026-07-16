@@ -22,20 +22,21 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { ref, shallowRef, onUnmounted } from 'vue'
+import { ref, shallowRef } from 'vue'
+import type { Component } from 'vue'
 import { overlayManager } from '../utils/overlay'
 
-interface OverlayItem {
+export interface OverlayItem {
   id: number
-  component: any
-  props: Record<string, any>
+  component: Component
+  props: Record<string, unknown>
 }
 
 const items = shallowRef<OverlayItem[]>([])
 const nextId = ref(1)
 
 /** 添加命令式弹层，返回 id 与 z-index */
-const add = (component: any, props: Record<string, any> = {}): { id: number; zIndex: number } => {
+const add = (component: Component, props: Record<string, unknown> = {}): { id: number; zIndex: number } => {
   const id = nextId.value++
   const zIndex = overlayManager.push()
   const item: OverlayItem = { id, component, props: { ...props, zIndex } }
@@ -43,22 +44,19 @@ const add = (component: any, props: Record<string, any> = {}): { id: number; zIn
   return { id, zIndex }
 }
 
-/** 移除命令式弹层 */
+/** 移除命令式弹层。仅当移除的是栈顶时才释放 z-index */
 const remove = (id: number): void => {
-  const item = items.value.find((i) => i.id === id)
-  if (item) {
+  const index = items.value.findIndex((i) => i.id === id)
+  if (index === -1) return
+  if (index === items.value.length - 1) {
     overlayManager.pop()
-    items.value = items.value.filter((i) => i.id !== id)
   }
+  items.value = items.value.filter((i) => i.id !== id)
 }
 
 const handleClose = (id: number): void => {
   remove(id)
 }
-
-onUnmounted(() => {
-  overlayManager.reset()
-})
 
 // 暴露 API 给命令式调用方
 defineExpose({ add, remove })
