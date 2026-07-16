@@ -1,0 +1,13 @@
+/* 文档站私有样式 */
+.vp-doc .weui-btn {
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
+
+/* demo 容器 */
+.vp-doc .demo-block {
+  padding: 16px;
+  margin: 16px 0;
+  border: 1px solid #eee;
+  border-radius: 4px;
+}
