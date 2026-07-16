@@ -8,6 +8,7 @@ const uniAppCustomElements = [
   'switch', 'slider', 'picker', 'picker-view', 'picker-view-column',
   'editor', 'camera', 'live-player', 'live-pusher',
   'open-data', 'web-view', 'ad', 'official-account',
+  'navigator',
 ]
 
 export default defineConfig({

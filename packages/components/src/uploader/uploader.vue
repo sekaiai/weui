@@ -1,0 +1,149 @@
+<template>
+  <view :class="rootClass">
+    <view v-if="showHeader" class="weui-uploader__hd">
+      <view v-if="title" class="weui-uploader__title">{{ title }}</view>
+      <view class="weui-uploader__info">{{ infoText }}</view>
+    </view>
+
+    <view class="weui-uploader__bd">
+      <view class="weui-uploader__files">
+        <view
+          v-for="(file, index) in files"
+          :key="index"
+          :class="fileClass(file)"
+          :style="fileStyle(file)"
+          @click="handlePreview(file, index)"
+          @longpress="handleDelete(file, index)"
+        >
+          <view
+            v-if="hasStatusOverlay(file)"
+            class="weui-uploader__file-content"
+          >{{ resolveStatusText(file) }}</view>
+        </view>
+      </view>
+
+      <view v-if="canUpload" class="weui-uploader__input-box">
+        <input
+          class="weui-uploader__input"
+          type="file"
+          accept="image/*"
+          @change="handleSelect"
+        />
+      </view>
+    </view>
+
+    <view v-if="tips" class="weui-uploader__tips">{{ tips }}</view>
+
+    <slot />
+  </view>
+</template>
+
+<script lang="ts">
+export default {
+  name: 'WeuiUploader',
+  options: {
+    styleIsolation: 'apply-shared',
+    addGlobalClass: true,
+  },
+}
+</script>
+
+<script setup lang="ts">
+import { computed } from 'vue'
+
+export interface UploaderFile {
+  /** 文件 URL（图片地址） */
+  url: string
+  /** 状态 */
+  status?: 'loading' | 'error' | 'success'
+  /** 状态文字 */
+  statusText?: string
+}
+
+export interface WeuiUploaderProps {
+  /** 文件列表 */
+  files?: UploaderFile[]
+  /** 标题 */
+  title?: string
+  /** 提示文字 */
+  tips?: string
+  /** 最大上传数 */
+  count?: number
+  /** 单文件最大字节数 */
+  maxSize?: number
+  /** 是否显示头部 */
+  showHeader?: boolean
+  /** 附加在根元素上的扩展类名 */
+  extClass?: string
+}
+
+export interface WeuiUploaderEmits {
+  (e: 'select', event: Event): void
+  (e: 'preview', file: UploaderFile, index: number): void
+  (e: 'delete', file: UploaderFile, index: number): void
+  (e: 'exceed', count: number): void
+}
+
+const props = withDefaults(defineProps<WeuiUploaderProps>(), {
+  files: () => [],
+  title: undefined,
+  tips: undefined,
+  count: 9,
+  maxSize: undefined,
+  showHeader: true,
+  extClass: undefined,
+})
+
+const emit = defineEmits<WeuiUploaderEmits>()
+
+const rootClass = computed(() => {
+  const classes: string[] = ['weui-uploader']
+  if (props.extClass) classes.push(props.extClass)
+  return classes
+})
+
+const infoText = computed(() => `${props.files.length}/${props.count}`)
+
+const canUpload = computed(() => props.files.length < props.count)
+
+const fileClass = (file: UploaderFile) => {
+  const classes: string[] = ['weui-uploader__file']
+  if (file.status && file.status !== 'success') {
+    classes.push('weui-uploader__file_status')
+  }
+  return classes
+}
+
+const fileStyle = (file: UploaderFile) => ({
+  backgroundImage: `url(${file.url})`,
+})
+
+const hasStatusOverlay = (file: UploaderFile) => {
+  return file.status === 'loading' || file.status === 'error'
+}
+
+const resolveStatusText = (file: UploaderFile) => {
+  if (file.statusText) return file.statusText
+  if (file.status === 'loading') return '上传中'
+  if (file.status === 'error') return '上传失败'
+  return ''
+}
+
+const handleSelect = (event: Event) => {
+  const target = event.target as HTMLInputElement
+  const selectedCount = target.files?.length ?? 1
+  if (props.files.length + selectedCount > props.count) {
+    emit('exceed', props.count)
+    return
+  }
+  emit('select', event)
+}
+
+const handlePreview = (file: UploaderFile, index: number) => {
+  emit('preview', file, index)
+}
+
+const handleDelete = (file: UploaderFile, index: number) => {
+  emit('delete', file, index)
+}
+</script>

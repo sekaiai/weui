@@ -41,6 +41,150 @@
       "style": {
         "navigationBarTitleText": "Dialog 对话框"
       }
+    },
+    {
+      "path": "pages/icon/icon",
+      "style": {
+        "navigationBarTitleText": "Icon 图标"
+      }
+    },
+    {
+      "path": "pages/loading/loading",
+      "style": {
+        "navigationBarTitleText": "Loading 加载"
+      }
+    },
+    {
+      "path": "pages/article/article",
+      "style": {
+        "navigationBarTitleText": "Article 文章"
+      }
+    },
+    {
+      "path": "pages/flex/flex",
+      "style": {
+        "navigationBarTitleText": "Flex 弹性布局"
+      }
+    },
+    {
+      "path": "pages/footer/footer",
+      "style": {
+        "navigationBarTitleText": "Footer 页脚"
+      }
+    },
+    {
+      "path": "pages/progress/progress",
+      "style": {
+        "navigationBarTitleText": "Progress 进度条"
+      }
+    },
+    {
+      "path": "pages/loadmore/loadmore",
+      "style": {
+        "navigationBarTitleText": "Loadmore 加载更多"
+      }
+    },
+    {
+      "path": "pages/grid/grid",
+      "style": {
+        "navigationBarTitleText": "Grid 宫格"
+      }
+    },
+    {
+      "path": "pages/gallery/gallery",
+      "style": {
+        "navigationBarTitleText": "Gallery 画廊"
+      }
+    },
+    {
+      "path": "pages/steps/steps",
+      "style": {
+        "navigationBarTitleText": "Steps 步骤条"
+      }
+    },
+    {
+      "path": "pages/preview/preview",
+      "style": {
+        "navigationBarTitleText": "Preview 预览"
+      }
+    },
+    {
+      "path": "pages/panel/panel",
+      "style": {
+        "navigationBarTitleText": "Panel 面板"
+      }
+    },
+    {
+      "path": "pages/list/list",
+      "style": {
+        "navigationBarTitleText": "List 列表"
+      }
+    },
+    {
+      "path": "pages/msg/msg",
+      "style": {
+        "navigationBarTitleText": "Msg 提示页"
+      }
+    },
+    {
+      "path": "pages/input/input",
+      "style": {
+        "navigationBarTitleText": "Input 输入框"
+      }
+    },
+    {
+      "path": "pages/navbar/navbar",
+      "style": {
+        "navigationBarTitleText": "Navbar 选项卡"
+      }
+    },
+    {
+      "path": "pages/searchbar/searchbar",
+      "style": {
+        "navigationBarTitleText": "Searchbar 搜索栏"
+      }
+    },
+    {
+      "path": "pages/tabbar/tabbar",
+      "style": {
+        "navigationBarTitleText": "Tabbar 底部导航"
+      }
+    },
+    {
+      "path": "pages/slideview/slideview",
+      "style": {
+        "navigationBarTitleText": "Slideview 滑动视图"
+      }
+    },
+    {
+      "path": "pages/uploader/uploader",
+      "style": {
+        "navigationBarTitleText": "Uploader 上传"
+      }
+    },
+    {
+      "path": "pages/form/form",
+      "style": {
+        "navigationBarTitleText": "Form 表单"
+      }
+    },
+    {
+      "path": "pages/form-page/form-page",
+      "style": {
+        "navigationBarTitleText": "FormPage 表单页"
+      }
+    },
+    {
+      "path": "pages/half-screen-dialog/half-screen-dialog",
+      "style": {
+        "navigationBarTitleText": "HalfScreenDialog 半屏弹窗"
+      }
+    },
+    {
+      "path": "pages/toptips/toptips",
+      "style": {
+        "navigationBarTitleText": "Toptips 顶部提示"
+      }
     }
   ],
   "globalStyle": {
