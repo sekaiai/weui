@@ -2,6 +2,7 @@ import type { App } from 'vue'
 import { WeuiButton } from './button'
 import { WeuiOverlayHost } from './overlay-host'
 import type { WeuiButtonProps, WeuiButtonEmits } from './button'
+import type { OverlayItem } from './overlay-host'
 
 const components = [WeuiButton, WeuiOverlayHost]
 
@@ -14,4 +15,4 @@ const install = (app: App): void => {
 export default { install }
 
 export { WeuiButton, WeuiOverlayHost }
-export type { WeuiButtonProps, WeuiButtonEmits }
+export type { WeuiButtonProps, WeuiButtonEmits, OverlayItem }
