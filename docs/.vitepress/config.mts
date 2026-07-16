@@ -25,6 +25,7 @@ const sidebar = {
         { text: 'Button 按钮', link: '/components/button' },
         { text: 'Badge 徽章', link: '/components/badge' },
         { text: 'Cell 列表项', link: '/components/cell' },
+        { text: 'Checkbox 复选框', link: '/components/checkbox' },
       ],
     },
     {

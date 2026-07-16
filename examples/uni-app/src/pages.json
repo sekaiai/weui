@@ -29,6 +29,12 @@
       "style": {
         "navigationBarTitleText": "Cell 列表项"
       }
+    },
+    {
+      "path": "pages/checkbox/checkbox",
+      "style": {
+        "navigationBarTitleText": "Checkbox 复选框"
+      }
     }
   ],
   "globalStyle": {
