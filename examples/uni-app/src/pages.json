@@ -11,6 +11,12 @@
       "style": {
         "navigationBarTitleText": "WeUI Design Vue"
       }
+    },
+    {
+      "path": "pages/actionsheet/actionsheet",
+      "style": {
+        "navigationBarTitleText": "Actionsheet 操作菜单"
+      }
     }
   ],
   "globalStyle": {
