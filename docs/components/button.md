@@ -38,7 +38,7 @@
 
 | 参数 | 说明 | 类型 | 可选值 | 默认值 |
 | --- | --- | --- | --- | --- |
-| type | 类型 | string | primary / default / warn | primary |
+| type | 类型 | string | primary / default / warn | default |
 | disabled | 是否禁用 | boolean | — | false |
 
 ## Events
