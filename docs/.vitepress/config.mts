@@ -33,6 +33,7 @@ const config: UserConfig = {
   description: '基于 uni-app 的 WeUI 组件库',
   lang: 'zh-CN',
   lastUpdated: true,
+  srcExclude: ['superpowers/**'],
   themeConfig: {
     nav,
     sidebar,
