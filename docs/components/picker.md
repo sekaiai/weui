@@ -2,17 +2,103 @@
 
 底部滑入式选择器组件，支持单列和多列选择。支持声明式和命令式两种调用方式。滚动列采用触摸交互，松手后自动归位到最近一项。
 
+<script setup lang="ts">
+import { ref } from 'vue'
+import { Picker, type PickerColumn } from 'weui-design-vue'
+
+const show1 = ref(false)
+const show2 = ref(false)
+const show3 = ref(false)
+const show4 = ref(false)
+const show5 = ref(false)
+const show6 = ref(false)
+const lastResult = ref('')
+
+const singleColumn: PickerColumn[] = [
+  {
+    options: [
+      { label: '选项一', value: 'a' },
+      { label: '选项二', value: 'b' },
+      { label: '选项三', value: 'c' },
+    ],
+  },
+]
+
+const dateColumns: PickerColumn[] = [
+  {
+    options: [
+      { label: '2024 年', value: 2024 },
+      { label: '2025 年', value: 2025 },
+      { label: '2026 年', value: 2026 },
+    ],
+  },
+  {
+    options: [
+      { label: '1 月', value: 1 },
+      { label: '2 月', value: 2 },
+      { label: '3 月', value: 3 },
+    ],
+  },
+  {
+    options: [
+      { label: '1 日', value: 1 },
+      { label: '15 日', value: 15 },
+      { label: '28 日', value: 28 },
+    ],
+    index: 1,
+  },
+]
+
+const initialColumn: PickerColumn[] = [
+  {
+    options: [
+      { label: '选项一', value: 'a' },
+      { label: '选项二', value: 'b' },
+      { label: '选项三', value: 'c' },
+      { label: '选项四', value: 'd' },
+    ],
+    index: 2,
+  },
+]
+
+const disabledColumn: PickerColumn[] = [
+  {
+    options: [
+      { label: '可选一', value: 'a' },
+      { label: '禁用项', value: 'b', disabled: true },
+      { label: '可选三', value: 'c' },
+    ],
+  },
+]
+
+const onConfirm = (indexes: number[], values: (string | number)[]) => {
+  lastResult.value = `选中索引：[${indexes.join(', ')}]，值：[${values.join(', ')}]`
+}
+
+const onImperative = async () => {
+  const result = await Picker.show({ title: '命令式选择', columns: singleColumn })
+  if (result.action === 'confirm') {
+    lastResult.value = `命令式确认：[${result.values.join(', ')}]`
+  } else {
+    lastResult.value = '命令式取消'
+  }
+}
+</script>
+
+<weui-overlay-host />
+
 ## 基础用法
 
 通过 `v-model:visible` 控制显示，`columns` 设置列配置，`title` 设置标题。点击确定触发 `confirm` 事件，回调参数为 `(indexes, values)`。
 
 <div class="demo-block">
   <weui-button type="primary" @click="show1 = true">显示 Picker</weui-button>
+  <p v-if="lastResult" style="margin-top: 8px; color: #07c160;">{{ lastResult }}</p>
   <weui-picker
     v-model:visible="show1"
     title="请选择"
-    :columns="columns1"
-    @confirm="onConfirm1"
+    :columns="singleColumn"
+    @confirm="onConfirm"
   />
 </div>
 
@@ -59,8 +145,8 @@ const onConfirm = (indexes: number[], values: (string | number)[]) => {
   <weui-picker
     v-model:visible="show2"
     title="请选择日期"
-    :columns="columns2"
-    @confirm="onConfirm2"
+    :columns="dateColumns"
+    @confirm="onConfirm"
   />
 </div>
 
@@ -105,10 +191,6 @@ const columns: PickerColumn[] = [
     index: 1,
   },
 ]
-
-const onConfirm = (indexes: number[], values: (string | number)[]) => {
-  console.log('选中', indexes, values)
-}
 </script>
 ```
 :::
@@ -122,8 +204,8 @@ const onConfirm = (indexes: number[], values: (string | number)[]) => {
   <weui-picker
     v-model:visible="show3"
     title="请选择"
-    :columns="columns3"
-    @confirm="onConfirm3"
+    :columns="initialColumn"
+    @confirm="onConfirm"
   />
 </div>
 
@@ -155,10 +237,50 @@ const columns: PickerColumn[] = [
     index: 2,
   },
 ]
+</script>
+```
+:::
 
-const onConfirm = (indexes: number[], values: (string | number)[]) => {
-  console.log('选中', indexes, values)
-}
+## 禁用选项
+
+通过 `PickerOption.disabled` 标记选项为禁用，渲染时添加 `weui-picker__item_disabled` 样式。
+
+<div class="demo-block">
+  <weui-button type="primary" @click="show4 = true">显示含禁用项 Picker</weui-button>
+  <weui-picker
+    v-model:visible="show4"
+    title="请选择"
+    :columns="disabledColumn"
+    @confirm="onConfirm"
+  />
+</div>
+
+::: details 查看代码
+```vue
+<template>
+  <weui-button type="primary" @click="show = true">显示含禁用项 Picker</weui-button>
+  <weui-picker
+    v-model:visible="show"
+    title="请选择"
+    :columns="columns"
+    @confirm="onConfirm"
+  />
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import type { PickerColumn } from 'weui-design-vue'
+
+const show = ref(false)
+const columns: PickerColumn[] = [
+  {
+    options: [
+      { label: '可选一', value: 'a' },
+      { label: '禁用项', value: 'b', disabled: true },
+      { label: '可选三', value: 'c' },
+    ],
+  },
+]
 </script>
 ```
 :::
@@ -168,13 +290,13 @@ const onConfirm = (indexes: number[], values: (string | number)[]) => {
 通过 `cancel-text` 和 `confirm-text` 自定义取消/确定按钮文字。
 
 <div class="demo-block">
-  <weui-button type="primary" @click="show4 = true">显示自定义按钮 Picker</weui-button>
+  <weui-button type="primary" @click="show5 = true">显示自定义按钮 Picker</weui-button>
   <weui-picker
-    v-model:visible="show4"
+    v-model:visible="show5"
     title="请选择"
     cancel-text="关闭"
     confirm-text="完成"
-    :columns="columns1"
+    :columns="singleColumn"
   />
 </div>
 
@@ -213,12 +335,12 @@ const columns: PickerColumn[] = [
 通过 `:mask-closable="false"` 禁用点击遮罩关闭，用户必须点击取消或确定。
 
 <div class="demo-block">
-  <weui-button type="primary" @click="show5 = true">显示 Picker</weui-button>
+  <weui-button type="primary" @click="show6 = true">显示 Picker</weui-button>
   <weui-picker
-    v-model:visible="show5"
+    v-model:visible="show6"
     title="点击遮罩不关闭"
     :mask-closable="false"
-    :columns="columns1"
+    :columns="singleColumn"
   />
 </div>
 
@@ -246,10 +368,11 @@ const columns: PickerColumn[] = [{ options: [{ label: '选项一', value: 'a' }]
 
 ## 命令式调用
 
-通过 `Picker.show(options)` 命令式调用，无需在模板中声明组件。调用前需在应用中挂载 `<weui-overlay-host />`。返回 Promise，确定时 resolve `{ action: 'confirm', indexes, values }`，取消/遮罩点击时 resolve `{ action: 'cancel', indexes: [], values: [] }`。
+通过 `Picker.show(options)` 命令式调用，无需在模板中声明组件。返回 Promise，确定时 resolve `{ action: 'confirm', indexes, values }`，取消/遮罩点击时 resolve `{ action: 'cancel', indexes: [], values: [] }`。
 
 <div class="demo-block">
-  <weui-button type="primary" @click="showImp">Picker.show</weui-button>
+  <weui-button type="primary" @click="onImperative">Picker.show</weui-button>
+  <p v-if="lastResult" style="margin-top: 8px; color: #07c160;">{{ lastResult }}</p>
 </div>
 
 ::: details 查看代码
@@ -321,7 +444,7 @@ const showImp = async () => {
 
 ## 命令式 API
 
-### Picker.show(options): Promise<PickerShowResult>
+### Picker.show(options): `Promise<PickerShowResult>`
 
 显示选择器。
 
