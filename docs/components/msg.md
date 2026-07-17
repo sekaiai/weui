@@ -1,11 +1,41 @@
+<script setup lang="ts">
+import { ref } from 'vue'
+import type { MsgButton } from 'weui-design-vue'
+
+const successButtons: MsgButton[] = [
+  { text: '推荐操作', type: 'primary' },
+  { text: '辅助操作', type: 'default' },
+]
+
+const lastTapped = ref('')
+
+const onTap = (btn: MsgButton, index: number) => {
+  lastTapped.value = `点击了「${btn.text}」（index=${index}）`
+}
+</script>
+
 # Msg 提示页
 
 用于展示操作结果或重要信息的整页提示，常出现在操作流程的终点（如提交成功、支付完成、审核失败等），由图标、标题、描述与操作按钮组成。
 
 ## 基础用法
 
-通过 `type` 指定图标类型（对应 `weui-icon-*`），`title` 与 `desc` 设置文案，`buttons` 配置操作按钮。
+通过 `type` 指定图标类型（对应 `weui-icon-*`），`title` 与 `desc` 设置文案，`buttons` 配置操作按钮。点击按钮触发 `buttontap` 事件。
 
+<div class="demo-block">
+  <div class="demo-mobile">
+    <weui-msg
+      type="success"
+      title="操作成功"
+      desc="内容详情，可根据实际需要安排"
+      :buttons="successButtons"
+      @buttontap="onTap"
+    />
+  </div>
+  <p style="margin-top: 8px; color: #576b95;">{{ lastTapped || '点击底部按钮试试' }}</p>
+</div>
+
+::: details 查看代码
 ```vue
 <template>
   <weui-msg
@@ -18,59 +48,123 @@
 </template>
 
 <script setup lang="ts">
-const buttons = [
+import type { MsgButton } from 'weui-design-vue'
+
+const buttons: MsgButton[] = [
   { text: '推荐操作', type: 'primary' },
   { text: '辅助操作', type: 'default' },
 ]
 
-const onButtonTap = (btn, index) => {
+const onButtonTap = (btn: MsgButton, index: number) => {
   console.log(btn, index)
 }
 </script>
 ```
+:::
 
 ## 图标类型
 
 `type` 对应 WeUI 内置图标：`success`（成功）、`info`（信息）、`warn`（警告）、`waiting`（等待）等。可通过 `iconSize` 调整图标尺寸（默认 64px）。
 
+<div class="demo-block">
+  <div class="demo-mobile">
+    <weui-msg type="success" title="操作成功" />
+  </div>
+</div>
+
+::: details 查看代码
+```vue
+<template>
+  <weui-msg type="success" title="操作成功" />
+</template>
+```
+:::
+
+<div class="demo-block">
+  <div class="demo-mobile">
+    <weui-msg type="warn" title="操作失败" desc="请稍后重试" />
+  </div>
+</div>
+
+::: details 查看代码
 ```vue
 <template>
   <weui-msg type="warn" title="操作失败" desc="请稍后重试" />
 </template>
 ```
+:::
 
-## 自定义图标
+<div class="demo-block">
+  <div class="demo-mobile">
+    <weui-msg type="info" title="提示" desc="用于展示普通信息" />
+  </div>
+</div>
 
-使用 `icon` 插槽替换默认图标。
-
+::: details 查看代码
 ```vue
 <template>
-  <weui-msg title="自定义图标">
-    <template #icon>
-      <image class="custom-icon" src="/static/custom.png" />
-    </template>
-  </weui-msg>
+  <weui-msg type="info" title="提示" desc="用于展示普通信息" />
 </template>
 ```
+:::
+
+<div class="demo-block">
+  <div class="demo-mobile">
+    <weui-msg type="waiting" title="等待中" desc="正在处理，请稍候" />
+  </div>
+</div>
+
+::: details 查看代码
+```vue
+<template>
+  <weui-msg type="waiting" title="等待中" desc="正在处理，请稍候" />
+</template>
+```
+:::
 
 ## 自定义内容
 
 使用默认插槽替换默认的图标 + 标题 + 描述区域，适用于完全自定义布局的场景。
 
+<div class="demo-block">
+  <div class="demo-mobile">
+    <weui-msg :buttons="[{ text: '返回', type: 'primary' }]">
+      <view style="padding: 24px 0; text-align: center;">
+        <text style="font-size: 16px; color: #353535;">完全自定义的内容</text>
+      </view>
+    </weui-msg>
+  </div>
+</div>
+
+::: details 查看代码
 ```vue
 <template>
   <weui-msg :buttons="[{ text: '返回', type: 'primary' }]">
-    <view class="custom-content">
-      <text>完全自定义的内容</text>
+    <view style="padding: 24px 0; text-align: center;">
+      <text style="font-size: 16px; color: #353535;">完全自定义的内容</text>
     </view>
   </weui-msg>
 </template>
 ```
+:::
 
 ## 底部额外区域
 
-使用 `footer` 插槽在操作按钮下方渲染额外内容（如版权信息、相关链接）。
+使用 `footer` 插槽在操作按钮下方渲染额外内容（如版权信息、相关链接），对应 `.weui-msg__extra-area`。
 
+<div class="demo-block">
+  <div class="demo-mobile">
+    <weui-msg type="success" title="操作成功">
+      <template #footer>
+        <view class="weui-footer">
+          <text class="weui-footer__text">Copyright © 2026</text>
+        </view>
+      </template>
+    </weui-msg>
+  </div>
+</div>
+
+::: details 查看代码
 ```vue
 <template>
   <weui-msg type="success" title="操作成功">
@@ -82,17 +176,18 @@ const onButtonTap = (btn, index) => {
   </weui-msg>
 </template>
 ```
+:::
 
 ## Attributes
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | type | 图标类型，对应 `weui-icon-*` 类（success/info/warn/waiting 等） | `string` | — |
-| iconSize | 图标尺寸 px | `number` | `64` |
+| icon-size | 图标尺寸 px | `number` | `64` |
 | title | 标题 | `string` | — |
 | desc | 描述文字 | `string` | — |
 | buttons | 操作按钮列表 | `MsgButton[]` | `[]` |
-| extClass | 附加在根元素上的扩展类名 | `string` | — |
+| ext-class | 附加在根元素上的扩展类名 | `string` | — |
 
 ### MsgButton
 
