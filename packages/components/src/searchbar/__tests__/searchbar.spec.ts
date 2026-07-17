@@ -102,6 +102,28 @@ describe('WeuiSearchbar', () => {
       expect(wrapper.classes()).toContain('weui-search-bar_focusing')
     })
 
+    it('blur 后再次点击 label 仍能进入聚焦状态（二次点击 label 聚焦）', async () => {
+      const wrapper = mount(WeuiSearchbar)
+      // 第一次点击 label 聚焦
+      await wrapper.find('.weui-search-bar__label').trigger('click')
+      expect(wrapper.classes()).toContain('weui-search-bar_focusing')
+      // blur 后聚焦被重置
+      await wrapper.find('input').trigger('blur')
+      expect(wrapper.classes()).not.toContain('weui-search-bar_focusing')
+      // 二次点击 label 仍能进入聚焦状态
+      await wrapper.find('.weui-search-bar__label').trigger('click')
+      expect(wrapper.classes()).toContain('weui-search-bar_focusing')
+    })
+
+    it('focus prop 变化时响应并切换聚焦状态', async () => {
+      const wrapper = mount(WeuiSearchbar, { props: { focus: false } })
+      expect(wrapper.classes()).not.toContain('weui-search-bar_focusing')
+      await wrapper.setProps({ focus: true })
+      expect(wrapper.classes()).toContain('weui-search-bar_focusing')
+      await wrapper.setProps({ focus: false })
+      expect(wrapper.classes()).not.toContain('weui-search-bar_focusing')
+    })
+
     it('focus 事件透传', async () => {
       const wrapper = mount(WeuiSearchbar)
       await wrapper.find('input').trigger('focus')

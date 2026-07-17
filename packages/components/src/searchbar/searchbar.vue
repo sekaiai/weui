@@ -49,7 +49,7 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 
 export interface WeuiSearchbarProps {
   /** v-model 绑定值 */
@@ -116,6 +116,7 @@ const handleFocus = (event: Event) => {
 
 const handleBlur = (event: Event) => {
   focused.value = false
+  inputFocus.value = false
   emit('blur', event)
 }
 
@@ -143,4 +144,9 @@ const handleLabelClick = () => {
   focused.value = true
   inputFocus.value = true
 }
+
+watch(() => props.focus, (val) => {
+  focused.value = val
+  inputFocus.value = val
+})
 </script>

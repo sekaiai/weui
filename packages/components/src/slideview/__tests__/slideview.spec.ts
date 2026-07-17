@@ -157,4 +157,113 @@ describe('WeuiSlideview', () => {
       expect(wrapper.emitted('update:show')![0]).toEqual([false])
     })
   })
+
+  describe('手势交互', () => {
+    it('左滑展开：从右向左滑动超过阈值触发 update:show(true)', async () => {
+      const wrapper = mount(WeuiSlideview)
+      const left = wrapper.find('.weui-slideview__left')
+      await left.trigger('touchstart', {
+        touches: [{ clientX: 100 }],
+      })
+      await left.trigger('touchmove', {
+        touches: [{ clientX: 50 }],
+      })
+      await left.trigger('touchend')
+      expect(wrapper.emitted('update:show')).toBeTruthy()
+      expect(wrapper.emitted('update:show')![0]).toEqual([true])
+    })
+
+    it('左滑展开后根元素追加 weui-slideview_show 类', async () => {
+      const wrapper = mount(WeuiSlideview)
+      const left = wrapper.find('.weui-slideview__left')
+      await left.trigger('touchstart', {
+        touches: [{ clientX: 100 }],
+      })
+      await left.trigger('touchmove', {
+        touches: [{ clientX: 40 }],
+      })
+      expect(wrapper.classes()).toContain('weui-slideview_show')
+    })
+
+    it('右滑收起：从左向右滑动超过阈值触发 update:show(false)', async () => {
+      const wrapper = mount(WeuiSlideview, { props: { show: true } })
+      const left = wrapper.find('.weui-slideview__left')
+      await left.trigger('touchstart', {
+        touches: [{ clientX: 50 }],
+      })
+      await left.trigger('touchmove', {
+        touches: [{ clientX: 100 }],
+      })
+      await left.trigger('touchend')
+      expect(wrapper.emitted('update:show')).toBeTruthy()
+      expect(wrapper.emitted('update:show')![0]).toEqual([false])
+    })
+
+    it('右滑收起后移除 weui-slideview_show 类', async () => {
+      const wrapper = mount(WeuiSlideview, { props: { show: true } })
+      const left = wrapper.find('.weui-slideview__left')
+      await left.trigger('touchstart', {
+        touches: [{ clientX: 50 }],
+      })
+      await left.trigger('touchmove', {
+        touches: [{ clientX: 110 }],
+      })
+      expect(wrapper.classes()).not.toContain('weui-slideview_show')
+    })
+
+    it('滑动距离不足 30 时不触发状态切换', async () => {
+      const wrapper = mount(WeuiSlideview)
+      const left = wrapper.find('.weui-slideview__left')
+      await left.trigger('touchstart', {
+        touches: [{ clientX: 100 }],
+      })
+      await left.trigger('touchmove', {
+        touches: [{ clientX: 80 }],
+      })
+      await left.trigger('touchend')
+      expect(wrapper.emitted('update:show')).toBeFalsy()
+    })
+
+    it('disabled=true 时不响应手势', async () => {
+      const wrapper = mount(WeuiSlideview, { props: { disabled: true } })
+      const left = wrapper.find('.weui-slideview__left')
+      await left.trigger('touchstart', {
+        touches: [{ clientX: 100 }],
+      })
+      await left.trigger('touchmove', {
+        touches: [{ clientX: 40 }],
+      })
+      await left.trigger('touchend')
+      expect(wrapper.emitted('update:show')).toBeFalsy()
+    })
+
+    it('已展开状态下再次左滑不重复触发 update:show(true)', async () => {
+      const wrapper = mount(WeuiSlideview, { props: { show: true } })
+      const left = wrapper.find('.weui-slideview__left')
+      await left.trigger('touchstart', {
+        touches: [{ clientX: 100 }],
+      })
+      await left.trigger('touchmove', {
+        touches: [{ clientX: 40 }],
+      })
+      await left.trigger('touchend')
+      // 已展开，左滑不触发 update:show(true)
+      const shows = wrapper.emitted('update:show') || []
+      expect(shows.some((s) => s[0] === true)).toBe(false)
+    })
+
+    it('未展开状态下右滑不触发 update:show(false)', async () => {
+      const wrapper = mount(WeuiSlideview)
+      const left = wrapper.find('.weui-slideview__left')
+      await left.trigger('touchstart', {
+        touches: [{ clientX: 50 }],
+      })
+      await left.trigger('touchmove', {
+        touches: [{ clientX: 110 }],
+      })
+      await left.trigger('touchend')
+      const shows = wrapper.emitted('update:show') || []
+      expect(shows.some((s) => s[0] === false)).toBe(false)
+    })
+  })
 })

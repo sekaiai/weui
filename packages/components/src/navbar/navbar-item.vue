@@ -37,7 +37,7 @@ const emit = defineEmits<WeuiNavbarItemEmits>()
 
 const rootClass = computed(() => {
   const classes: string[] = ['weui-navbar__item']
-  if (props.active) classes.push('weui-navbar__item_active')
+  if (props.active) classes.push('weui-bar__item_on')
   if (props.extClass) classes.push(props.extClass)
   return classes
 })

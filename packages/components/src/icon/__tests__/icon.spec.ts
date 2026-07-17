@@ -78,9 +78,9 @@ describe('WeuiIcon', () => {
   })
 
   describe('size', () => {
-    it('默认 size 为 23，输出 font-size: 23px', () => {
+    it('默认不传 size 时不输出 font-size，由 WeUI 默认样式决定', () => {
       const wrapper = mount(WeuiIcon, { props: { type: 'success' } })
-      expect(wrapper.attributes('style')).toContain('font-size: 23px')
+      expect(wrapper.attributes('style') || '').not.toContain('font-size')
     })
 
     it('自定义 size 为 32，输出 font-size: 32px', () => {
@@ -107,6 +107,29 @@ describe('WeuiIcon', () => {
     it('不传 color 时不输出 color 样式', () => {
       const wrapper = mount(WeuiIcon, { props: { type: 'success' } })
       expect(wrapper.attributes('style') || '').not.toContain('color:')
+    })
+  })
+
+  describe('extClass', () => {
+    it('传入 extClass 附加到根元素', () => {
+      const wrapper = mount(WeuiIcon, {
+        props: { type: 'success', extClass: 'weui-icon_msg' },
+      })
+      expect(wrapper.classes()).toContain('weui-icon-success')
+      expect(wrapper.classes()).toContain('weui-icon_msg')
+    })
+
+    it('不传 extClass 时仅含 weui-icon-{type} 类', () => {
+      const wrapper = mount(WeuiIcon, { props: { type: 'success' } })
+      expect(wrapper.classes()).toEqual(['weui-icon-success'])
+    })
+
+    it('extClass 与 size 搭配使用', () => {
+      const wrapper = mount(WeuiIcon, {
+        props: { type: 'success', extClass: 'weui-icon_msg', size: 32 },
+      })
+      expect(wrapper.classes()).toContain('weui-icon_msg')
+      expect(wrapper.attributes('style')).toContain('font-size: 32px')
     })
   })
 })

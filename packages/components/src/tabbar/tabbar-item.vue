@@ -76,7 +76,7 @@ const slots = useSlots()
 
 const rootClass = computed(() => {
   const classes: string[] = ['weui-tabbar__item']
-  if (props.active) classes.push('weui-tabbar__item_active')
+  if (props.active) classes.push('weui-bar__item_on')
   if (props.extClass) classes.push(props.extClass)
   return classes
 })

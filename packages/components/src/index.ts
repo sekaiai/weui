@@ -28,7 +28,7 @@ import { WeuiUploader } from './uploader'
 
 // 操作反馈
 import { WeuiOverlayHost } from './overlay-host'
-import { WeuiActionsheet } from './actionsheet'
+import { WeuiActionsheet, Actionsheet } from './actionsheet'
 import { WeuiDialog, Dialog } from './dialog'
 import { WeuiHalfScreenDialog, HalfScreenDialog } from './half-screen-dialog'
 import { WeuiToptips, Toptips } from './toptips'
@@ -71,7 +71,7 @@ import type { WeuiUploaderProps, WeuiUploaderEmits, UploaderFile } from './uploa
 
 // 类型导出 — 操作反馈
 import type { OverlayItem } from './overlay-host'
-import type { WeuiActionsheetProps, WeuiActionsheetEmits, ActionsheetItem } from './actionsheet'
+import type { WeuiActionsheetProps, WeuiActionsheetEmits, ActionsheetItem, ActionsheetShowOptions, ActionsheetShowResult } from './actionsheet'
 import type { WeuiDialogProps, WeuiDialogEmits, DialogButton, DialogShowOptions, DialogAlertOptions, DialogConfirmOptions, DialogShowResult } from './dialog'
 import type { WeuiHalfScreenDialogProps, WeuiHalfScreenDialogEmits, HalfScreenDialogButton, HalfScreenDialogShowOptions, HalfScreenDialogShowResult } from './half-screen-dialog'
 import type { WeuiToptipsProps, WeuiToptipsEmits, ToptipsType, ToptipsShowOptions } from './toptips'
@@ -118,7 +118,7 @@ export {
   // 表单输入
   WeuiInput, WeuiCheckbox, WeuiCheckboxGroup, WeuiSearchbar, WeuiUploader,
   // 操作反馈
-  WeuiOverlayHost, WeuiActionsheet, WeuiDialog, Dialog, WeuiHalfScreenDialog, HalfScreenDialog, WeuiToptips, Toptips, WeuiGallery, WeuiSlideview,
+  WeuiOverlayHost, WeuiActionsheet, Actionsheet, WeuiDialog, Dialog, WeuiHalfScreenDialog, HalfScreenDialog, WeuiToptips, Toptips, WeuiGallery, WeuiSlideview,
   // 导航
   WeuiNavbar, WeuiNavbarItem, WeuiTabbar, WeuiTabbarItem, WeuiSteps,
   // 展示
@@ -152,7 +152,7 @@ export type {
   WeuiUploaderProps, WeuiUploaderEmits, UploaderFile,
   // 操作反馈
   OverlayItem,
-  WeuiActionsheetProps, WeuiActionsheetEmits, ActionsheetItem,
+  WeuiActionsheetProps, WeuiActionsheetEmits, ActionsheetItem, ActionsheetShowOptions, ActionsheetShowResult,
   WeuiDialogProps, WeuiDialogEmits, DialogButton, DialogShowOptions, DialogAlertOptions, DialogConfirmOptions, DialogShowResult,
   WeuiHalfScreenDialogProps, WeuiHalfScreenDialogEmits, HalfScreenDialogButton, HalfScreenDialogShowOptions, HalfScreenDialogShowResult,
   WeuiToptipsProps, WeuiToptipsEmits, ToptipsType, ToptipsShowOptions,

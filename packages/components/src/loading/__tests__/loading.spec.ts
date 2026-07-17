@@ -105,12 +105,27 @@ describe('WeuiLoading', () => {
       expect(wrapper.find('.weui-loading').exists()).toBe(true)
     })
 
-    it('page 模式下渲染文字', () => {
+    it('page 模式下文字使用 weui-loadmore__tips 类（WeUI 实际类名）', () => {
       const wrapper = mount(WeuiLoading, {
         props: { type: 'page', text: '正在加载' },
       })
-      expect(wrapper.find('.weui-loading__text').exists()).toBe(true)
+      expect(wrapper.find('.weui-loadmore__tips').exists()).toBe(true)
       expect(wrapper.text()).toContain('正在加载')
+    })
+
+    it('default 模式下文字使用 weui-loading__text 类', () => {
+      const wrapper = mount(WeuiLoading, {
+        props: { type: 'default', text: '加载中' },
+      })
+      expect(wrapper.find('.weui-loading__text').exists()).toBe(true)
+    })
+
+    it('default 模式下文字显式设置 font-size 保证可见', () => {
+      const wrapper = mount(WeuiLoading, {
+        props: { type: 'default', text: '加载中' },
+      })
+      const style = wrapper.find('.weui-loading__text').attributes('style') || ''
+      expect(style).toContain('font-size: 14px')
     })
   })
 

@@ -1,6 +1,12 @@
 <template>
   <view :class="rootClass">
-    <view class="weui-slideview__left" @click="handleLeftClick">
+    <view
+      class="weui-slideview__left"
+      @click="handleLeftClick"
+      @touchstart="handleTouchStart"
+      @touchmove="handleTouchMove"
+      @touchend="handleTouchEnd"
+    >
       <slot />
     </view>
     <view class="weui-slideview__right">
@@ -27,7 +33,7 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
 
 export interface SlideButton {
   /** 按钮文字 */
@@ -62,9 +68,18 @@ const props = withDefaults(defineProps<WeuiSlideviewProps>(), {
 
 const emit = defineEmits<WeuiSlideviewEmits>()
 
+// 内部状态，与 props.show 双向同步，用于手势驱动的即时切换
+const innerShow = ref(props.show)
+watch(
+  () => props.show,
+  (val) => {
+    innerShow.value = val
+  },
+)
+
 const rootClass = computed(() => {
   const classes: string[] = ['weui-slideview']
-  if (props.show) classes.push('weui-slideview_show')
+  if (innerShow.value) classes.push('weui-slideview_show')
   if (props.extClass) classes.push(props.extClass)
   return classes
 })
@@ -76,13 +91,19 @@ const buttonClass = (btn: SlideButton) => {
 }
 
 const close = () => {
+  innerShow.value = false
   emit('update:show', false)
   emit('close')
 }
 
+const open = () => {
+  innerShow.value = true
+  emit('update:show', true)
+}
+
 const handleLeftClick = () => {
   if (props.disabled) return
-  if (props.show) {
+  if (innerShow.value) {
     close()
   }
 }
@@ -90,5 +111,32 @@ const handleLeftClick = () => {
 const handleButtonClick = (btn: SlideButton, index: number) => {
   emit('buttonclick', btn, index)
   close()
+}
+
+// 手势识别：左滑展开、右滑收起
+const startX = ref(0)
+const currentX = ref(0)
+const isMoving = ref(false)
+
+const handleTouchStart = (e: TouchEvent) => {
+  if (props.disabled) return
+  startX.value = e.touches[0].clientX
+  isMoving.value = true
+}
+
+const handleTouchMove = (e: TouchEvent) => {
+  if (!isMoving.value || props.disabled) return
+  currentX.value = e.touches[0].clientX
+  const diff = startX.value - currentX.value
+  // 左滑 diff > 0
+  if (diff > 30 && !innerShow.value) {
+    open()
+  } else if (diff < -30 && innerShow.value) {
+    close()
+  }
+}
+
+const handleTouchEnd = () => {
+  isMoving.value = false
 }
 </script>

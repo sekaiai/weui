@@ -1,5 +1,5 @@
 <template>
-  <view :class="rootClass">
+  <view :class="rootClass" :style="rootStyle">
     <slot />
   </view>
 </template>
@@ -58,22 +58,47 @@ const props = withDefaults(defineProps<WeuiFlexProps>(), {
 
 const rootClass = computed(() => {
   const classes: string[] = ['weui-flex']
-  if (props.direction === 'column') classes.push('weui-flex__direction-column')
-  if (props.direction === 'row-reverse')
-    classes.push('weui-flex__direction-row-reverse')
-  if (props.direction === 'column-reverse')
-    classes.push('weui-flex__direction-column-reverse')
-  if (props.wrap === 'wrap') classes.push('weui-flex__wrap-wrap')
-  if (props.wrap === 'wrap-reverse') classes.push('weui-flex__wrap-wrap-reverse')
-  if (props.justify === 'between') classes.push('weui-flex__justify-between')
-  if (props.justify === 'around') classes.push('weui-flex__justify-around')
-  if (props.justify === 'center') classes.push('weui-flex__justify-center')
-  if (props.justify === 'end') classes.push('weui-flex__justify-end')
-  if (props.align === 'start') classes.push('weui-flex__align-start')
-  if (props.align === 'end') classes.push('weui-flex__align-end')
-  if (props.align === 'baseline') classes.push('weui-flex__align-baseline')
-  if (props.align === 'stretch') classes.push('weui-flex__align-stretch')
   if (props.extClass) classes.push(props.extClass)
   return classes
+})
+
+// WeUI 仅提供 .weui-flex { display:flex } 与 .weui-flex__item { flex:1 }
+// direction/wrap/justify/align 无对应类名，统一通过内联 style 输出
+const mapMainAxis = (v: WeuiFlexJustify): string => {
+  switch (v) {
+    case 'start':
+      return 'flex-start'
+    case 'end':
+      return 'flex-end'
+    case 'between':
+      return 'space-between'
+    case 'around':
+      return 'space-around'
+    case 'evenly':
+      return 'space-evenly'
+    default:
+      return v
+  }
+}
+
+const mapCrossAxis = (v: WeuiFlexAlign): string => {
+  switch (v) {
+    case 'start':
+      return 'flex-start'
+    case 'end':
+      return 'flex-end'
+    default:
+      return v
+  }
+}
+
+const rootStyle = computed(() => {
+  const style: Record<string, string> = {
+    'flex-direction': props.direction,
+    'flex-wrap': props.wrap,
+    'justify-content': mapMainAxis(props.justify),
+    'align-items': mapCrossAxis(props.align),
+  }
+  return style
 })
 </script>

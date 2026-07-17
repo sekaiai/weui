@@ -46,20 +46,38 @@ describe('WeuiProgress', () => {
   })
 
   describe('showInfo', () => {
-    it('默认显示右侧百分比文字 .weui-progress__opr', () => {
+    it('默认显示右侧百分比文字 .weui-progress__info', () => {
       const wrapper = mount(WeuiProgress, { props: { percent: 30 } })
-      expect(wrapper.find('.weui-progress__opr').exists()).toBe(true)
+      expect(wrapper.find('.weui-progress__info').exists()).toBe(true)
     })
 
     it('百分比文字格式为 "X%"', () => {
       const wrapper = mount(WeuiProgress, { props: { percent: 60 } })
-      expect(wrapper.find('.weui-progress__opr').text()).toBe('60%')
+      expect(wrapper.find('.weui-progress__info').text()).toBe('60%')
     })
 
-    it('showInfo 为 false 时不渲染 .weui-progress__opr', () => {
+    it('百分比文字使用 Math.round 处理小数', () => {
+      const wrapper = mount(WeuiProgress, { props: { percent: 60.4 } })
+      expect(wrapper.find('.weui-progress__info').text()).toBe('60%')
+      const wrapper2 = mount(WeuiProgress, { props: { percent: 60.6 } })
+      expect(wrapper2.find('.weui-progress__info').text()).toBe('61%')
+    })
+
+    it('文字元素显式设置 font-size 覆盖父级 font-size:0', () => {
+      const wrapper = mount(WeuiProgress, { props: { percent: 30 } })
+      const style = wrapper.find('.weui-progress__info').attributes('style') || ''
+      expect(style).toContain('font-size: 14px')
+    })
+
+    it('showInfo 为 false 时不渲染 .weui-progress__info', () => {
       const wrapper = mount(WeuiProgress, {
         props: { percent: 30, showInfo: false },
       })
+      expect(wrapper.find('.weui-progress__info').exists()).toBe(false)
+    })
+
+    it('不再使用 .weui-progress__opr（该类 font-size:0 会导致文字不可见）', () => {
+      const wrapper = mount(WeuiProgress, { props: { percent: 30 } })
       expect(wrapper.find('.weui-progress__opr').exists()).toBe(false)
     })
   })

@@ -33,10 +33,20 @@ describe('WeuiMsg', () => {
       expect(wrapper.find('.weui-msg__icon-area').exists()).toBe(false)
     })
 
-    it('iconSize 传递给图标（默认 64px）', () => {
+    it('默认传递 weui-icon_msg 扩展类（让 WeUI 默认 font-size:10px 生效，渲染 64px）', () => {
       const wrapper = mount(WeuiMsg, { props: { type: 'success' } })
+      const icon = wrapper.find('.weui-icon-success')
+      expect(icon.classes()).toContain('weui-icon_msg')
+      // 不传 iconSize 时不输出 inline font-size，由 WeUI 默认 font-size:10px 决定
+      expect(icon.attributes('style') || '').not.toContain('font-size')
+    })
+
+    it('自定义 iconSize 传递给图标 font-size', () => {
+      const wrapper = mount(WeuiMsg, {
+        props: { type: 'success', iconSize: 48 },
+      })
       const style = wrapper.find('.weui-icon-success').attributes('style') || ''
-      expect(style).toContain('font-size: 64px')
+      expect(style).toContain('font-size: 48px')
     })
 
     it('icon slot 替代默认图标', () => {

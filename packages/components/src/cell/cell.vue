@@ -2,7 +2,7 @@
   <view
     :class="rootClass"
     :hover-class="hover ? 'weui-cell_active' : undefined"
-    :aria-role="ariaRole"
+    :role="ariaRole"
     @click="handleClick"
   >
     <view v-if="hasHeader" :class="['weui-cell__hd', iconClass]">
@@ -62,7 +62,7 @@ export interface WeuiCellProps {
   url?: string
   /** 是否启用按下态高亮 */
   hover?: boolean
-  /** true=左右布局，false=上下布局（追加 weui-cell_label-block） */
+  /** true=左右布局，false=上下布局（追加 weui-cell_vertical） */
   inline?: boolean
   /** 是否渲染 header 区域 */
   hasHeader?: boolean
@@ -127,14 +127,13 @@ const rootClass = computed(() => {
     classes.push('weui-cell_select', 'weui-cell_select-after')
   }
   if (props.variant === 'uploader') classes.push('weui-cell_uploader')
-  if (!props.inline) classes.push('weui-cell_label-block')
+  if (!props.inline) classes.push('weui-cell_vertical')
   if (props.extClass) classes.push(props.extClass)
   return classes
 })
 
 const footerClass = computed(() => {
   const classes: string[] = ['weui-cell__ft']
-  if (props.link || props.variant === 'access') classes.push('weui-cell__ft_in-access')
   if (props.footerClass) classes.push(props.footerClass)
   return classes
 })

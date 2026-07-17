@@ -5,7 +5,7 @@
       :class="{ 'weui-loading_transparent': transparent }"
       :style="iconStyle"
     />
-    <text v-if="hasText" class="weui-loading__text">
+    <text v-if="hasText" :class="textClass" :style="textStyle">
       <slot>{{ text }}</slot>
     </text>
   </view>
@@ -29,7 +29,12 @@ export interface WeuiLoadingProps {
   type?: 'default' | 'page'
   /** 加载图标尺寸 px */
   size?: number
-  /** 加载图标颜色 */
+  /**
+   * 加载图标/文字颜色
+   * 注意：WeUI 的 .weui-loading 使用内嵌 SVG 固定色，不响应 currentColor，
+   * 因此 color 仅影响文字颜色，不影响图标颜色。如需自定义图标颜色，
+   * 请使用 .weui-mask-loading（响应 currentColor）。
+   */
   color?: string
   /** 加载文字 */
   text?: string
@@ -63,7 +68,6 @@ const rootStyle = computed(() => {
   return {
     display: 'inline-flex',
     alignItems: 'center',
-    gap: '8px',
   }
 })
 
@@ -74,5 +78,18 @@ const iconStyle = computed(() => {
     color: props.color,
   }
   return style
+})
+
+const textClass = computed(() => {
+  // page 模式：使用 WeUI 的 .weui-loadmore__tips（font-size:14px 由 WeUI 提供）
+  // default 模式：weui-loading__text 在 WeUI 中不存在，用内联 style 保证可见
+  return props.type === 'page' ? 'weui-loadmore__tips' : 'weui-loading__text'
+})
+
+const textStyle = computed(() => {
+  if (props.type === 'default') {
+    return { 'font-size': '14px', 'margin-left': '8px', color: props.color }
+  }
+  return { color: props.color }
 })
 </script>

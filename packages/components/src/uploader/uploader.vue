@@ -9,7 +9,7 @@
       <view class="weui-uploader__files">
         <view
           v-for="(file, index) in files"
-          :key="index"
+          :key="file.url"
           :class="fileClass(file)"
           :style="fileStyle(file)"
           @click="handlePreview(file, index)"
@@ -22,13 +22,8 @@
         </view>
       </view>
 
-      <view v-if="canUpload" class="weui-uploader__input-box">
-        <input
-          class="weui-uploader__input"
-          type="file"
-          accept="image/*"
-          @change="handleSelect"
-        />
+      <view v-if="canUpload" class="weui-uploader__input-box" @click="handleChoose">
+        <view class="weui-uploader__input" />
       </view>
     </view>
 
@@ -75,10 +70,20 @@ export interface WeuiUploaderProps {
   showHeader?: boolean
   /** 附加在根元素上的扩展类名 */
   extClass?: string
+  /** 接受的文件类型：image 调用 uni.chooseImage，file 调用 uni.chooseFile */
+  accept?: 'image' | 'file'
+}
+
+export interface WeuiUploaderSelectEvent {
+  /** 选中文件的临时路径数组 */
+  tempFilePaths: string[]
+  /** 选中文件的详细信息数组 */
+  tempFiles?: Array<{ path: string; size: number }>
 }
 
 export interface WeuiUploaderEmits {
-  (e: 'select', event: Event): void
+  (e: 'select', event: WeuiUploaderSelectEvent): void
+  (e: 'select-fail', err: { errMsg: string }): void
   (e: 'preview', file: UploaderFile, index: number): void
   (e: 'delete', file: UploaderFile, index: number): void
   (e: 'exceed', count: number): void
@@ -92,6 +97,7 @@ const props = withDefaults(defineProps<WeuiUploaderProps>(), {
   maxSize: undefined,
   showHeader: true,
   extClass: undefined,
+  accept: 'image',
 })
 
 const emit = defineEmits<WeuiUploaderEmits>()
@@ -115,7 +121,7 @@ const fileClass = (file: UploaderFile) => {
 }
 
 const fileStyle = (file: UploaderFile) => ({
-  backgroundImage: `url(${file.url})`,
+  backgroundImage: `url("${file.url}")`,
 })
 
 const hasStatusOverlay = (file: UploaderFile) => {
@@ -129,14 +135,27 @@ const resolveStatusText = (file: UploaderFile) => {
   return ''
 }
 
-const handleSelect = (event: Event) => {
-  const target = event.target as HTMLInputElement
-  const selectedCount = target.files?.length ?? 1
-  if (props.files.length + selectedCount > props.count) {
+const handleChoose = () => {
+  const remaining = props.count - props.files.length
+  if (remaining <= 0) {
     emit('exceed', props.count)
     return
   }
-  emit('select', event)
+  const success = (res: { tempFilePaths: string[]; tempFiles?: Array<{ path: string; size: number }> }) => {
+    if (props.files.length + res.tempFilePaths.length > props.count) {
+      emit('exceed', props.count)
+      return
+    }
+    emit('select', { tempFilePaths: res.tempFilePaths, tempFiles: res.tempFiles })
+  }
+  const fail = (err: { errMsg: string }) => {
+    emit('select-fail', err)
+  }
+  if (props.accept === 'image') {
+    uni.chooseImage({ count: remaining, success, fail })
+  } else {
+    uni.chooseFile({ count: remaining, success, fail })
+  }
 }
 
 const handlePreview = (file: UploaderFile, index: number) => {

@@ -26,13 +26,22 @@ export interface HalfScreenDialogShowOptions {
 }
 
 export interface HalfScreenDialogShowResult {
-  /** 被点击的按钮 */
-  button: HalfScreenDialogButton
-  /** 被点击的按钮索引 */
+  /** 被点击的按钮；遮罩关闭时为 undefined */
+  button: HalfScreenDialogButton | undefined
+  /** 被点击的按钮索引；遮罩关闭时为 -1 */
   index: number
 }
 
-/** 构造传给 WeuiHalfScreenDialog 的 props + onButtontap 监听器 */
+/**
+ * 构造传给 WeuiHalfScreenDialog 的 props + onButtontap/onClose 监听器
+ *
+ * 关闭来源：
+ *  - 按钮点击：触发 buttontap → resolve { button, index }
+ *  - 遮罩点击（maskClosable）：触发 close → resolve { button: undefined, index: -1 }
+ *
+ * 由于按钮点击也会顺带触发 close 事件（见 half-screen-dialog.vue 的 handleButtonTap），
+ * 使用 settled 标志位保证 resolve 只调用一次。
+ */
 function showInternal(
   options: HalfScreenDialogShowOptions,
   resolve: (result: HalfScreenDialogShowResult) => void,
@@ -45,6 +54,13 @@ function showInternal(
 
   const buttons: HalfScreenDialogButton[] = options.buttons ?? []
 
+  let settled = false
+  const safeResolve = (result: HalfScreenDialogShowResult) => {
+    if (settled) return
+    settled = true
+    resolve(result)
+  }
+
   const props: Record<string, unknown> = {
     visible: true,
     title: options.title,
@@ -56,7 +72,11 @@ function showInternal(
     extClass: options.extClass,
     // Vue 3: onXxx 形式的 prop 会被当作事件监听器
     onButtontap: (btn: HalfScreenDialogButton, index: number) => {
-      resolve({ button: btn, index })
+      safeResolve({ button: btn, index })
+    },
+    onClose: () => {
+      // 遮罩关闭：无按钮点击，index 标记为 -1
+      safeResolve({ button: undefined, index: -1 })
     },
   }
 
@@ -66,7 +86,8 @@ function showInternal(
 export const HalfScreenDialog = {
   /**
    * 显示半屏弹窗
-   * 点击任意按钮后关闭并 resolve
+   * 点击任意按钮后 resolve { button, index }
+   * 点击遮罩关闭时 resolve { button: undefined, index: -1 }
    */
   show(options: HalfScreenDialogShowOptions): Promise<HalfScreenDialogShowResult> {
     return new Promise((resolve) => {

@@ -49,7 +49,7 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { ref, computed, watch, useSlots } from 'vue'
+import { ref, computed, watch, useSlots, onBeforeUnmount } from 'vue'
 
 export interface DialogButton {
   /** 按钮文字 */
@@ -106,6 +106,10 @@ const slots = useSlots()
 const wrapperShow = ref(false)
 /** 控制内部淡入淡出动画状态 */
 const innerShow = ref(false)
+/** 显示动画定时器引用，用于卸载前清理 */
+let showTimer: ReturnType<typeof setTimeout> | null = null
+/** 隐藏动画定时器引用，用于卸载前清理 */
+let hideTimer: ReturnType<typeof setTimeout> | null = null
 
 const hasHeader = computed(() => Boolean(props.title || slots.title))
 const hasFooter = computed(() => Boolean(props.buttons.length > 0 || slots.footer))
@@ -127,19 +131,26 @@ watch(
     if (val) {
       // 显示：先挂载外层，下一 tick 触发淡入
       wrapperShow.value = true
-      setTimeout(() => {
+      if (showTimer) clearTimeout(showTimer)
+      showTimer = setTimeout(() => {
         innerShow.value = true
       }, 16)
     } else if (wrapperShow.value) {
       // 隐藏：先触发淡出，动画结束后卸载外层
       innerShow.value = false
-      setTimeout(() => {
+      if (hideTimer) clearTimeout(hideTimer)
+      hideTimer = setTimeout(() => {
         wrapperShow.value = false
       }, 300)
     }
   },
   { immediate: true },
 )
+
+onBeforeUnmount(() => {
+  if (showTimer) clearTimeout(showTimer)
+  if (hideTimer) clearTimeout(hideTimer)
+})
 
 /** 按钮类名分配：未指定 type 时，单按钮→primary，多按钮→首个 default 其余 primary */
 const btnClassName = (btn: DialogButton, index: number): string => {

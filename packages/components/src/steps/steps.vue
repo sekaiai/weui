@@ -5,11 +5,10 @@
       :key="index"
       :class="itemClass(index)"
     >
-      <view class="weui-steps__icon">
-        <text>{{ index + 1 }}</text>
+      <view class="weui-steps__item__inner">
+        <view class="weui-steps__item__title">{{ step.title }}</view>
+        <view v-if="step.desc" class="weui-steps__item__desc">{{ step.desc }}</view>
       </view>
-      <view class="weui-steps__title">{{ step.title }}</view>
-      <view v-if="step.desc" class="weui-steps__desc">{{ step.desc }}</view>
     </view>
   </view>
 </template>
@@ -53,15 +52,18 @@ const props = withDefaults(defineProps<WeuiStepsProps>(), {
 
 const rootClass = computed(() => {
   const classes: string[] = ['weui-steps']
-  if (props.direction === 'vertical') classes.push('weui-steps_vertical')
+  if (props.direction === 'vertical') {
+    classes.push('weui-steps_vertical')
+  } else {
+    classes.push('weui-steps_horizonal')
+  }
   if (props.extClass) classes.push(props.extClass)
   return classes
 })
 
 const itemClass = (index: number) => {
   const classes: string[] = ['weui-steps__item']
-  if (index < props.current) classes.push('weui-steps__item_done')
-  else if (index === props.current) classes.push('weui-steps__item_current')
+  if (index < props.current) classes.push('weui-steps__item_success')
   return classes
 }
 </script>

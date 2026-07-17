@@ -1,12 +1,13 @@
 <template>
   <view
-    v-if="visible"
+    v-if="wrapperShow"
     class="weui-mask"
+    :style="maskStyle"
     @click="handleMaskClick"
     @touchmove.stop.prevent
   >
     <view
-      :class="['weui-actionsheet', { 'weui-actionsheet_toggle': showSheet }]"
+      :class="['weui-actionsheet', extClass, { 'weui-actionsheet_toggle': showSheet }]"
       @click.stop
     >
       <!-- 标题 -->
@@ -53,7 +54,7 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, computed, watch, onBeforeUnmount } from 'vue'
 
 export interface ActionsheetItem {
   /** 菜单项文字 */
@@ -75,6 +76,10 @@ export interface WeuiActionsheetProps {
   cancelText?: string
   /** 点击遮罩是否关闭，默认 true */
   maskClosable?: boolean
+  /** 自定义附加类名 */
+  extClass?: string
+  /** 由 overlay-host 注入的 z-index */
+  zIndex?: number
 }
 
 export interface WeuiActionsheetEmits {
@@ -82,6 +87,8 @@ export interface WeuiActionsheetEmits {
   (e: 'select', item: ActionsheetItem, index: number): void
   (e: 'cancel'): void
   (e: 'close'): void
+  /** overlay-host 命令式调用时用于通知卸载 */
+  (e: 'weui-close'): void
 }
 
 const props = withDefaults(defineProps<WeuiActionsheetProps>(), {
@@ -90,31 +97,72 @@ const props = withDefaults(defineProps<WeuiActionsheetProps>(), {
   items: () => [],
   cancelText: '取消',
   maskClosable: true,
+  extClass: undefined,
+  zIndex: undefined,
 })
 
 const emit = defineEmits<WeuiActionsheetEmits>()
 
-/** 控制滑出动画的内部状态 */
+/** 控制外层节点是否挂载 */
+const wrapperShow = ref(false)
+/** 控制滑入/滑出动画状态 */
 const showSheet = ref(false)
+
+/** setTimeout 引用，卸载时清理 */
+let showTimer: ReturnType<typeof setTimeout> | null = null
+let hideTimer: ReturnType<typeof setTimeout> | null = null
+
+const maskStyle = computed(() => {
+  const style: Record<string, string> = {}
+  if (props.zIndex !== undefined) {
+    style['z-index'] = String(props.zIndex)
+  }
+  return style
+})
 
 watch(
   () => props.visible,
   (val) => {
     if (val) {
-      // 显示时下一 tick 触发滑出动画
-      setTimeout(() => {
+      // 显示：先挂载外层，下一 tick 触发滑入动画
+      wrapperShow.value = true
+      if (hideTimer) {
+        clearTimeout(hideTimer)
+        hideTimer = null
+      }
+      showTimer = setTimeout(() => {
         showSheet.value = true
       }, 16)
-    } else {
+    } else if (wrapperShow.value) {
+      // 隐藏：先触发滑出动画，动画结束后卸载外层
       showSheet.value = false
+      if (showTimer) {
+        clearTimeout(showTimer)
+        showTimer = null
+      }
+      hideTimer = setTimeout(() => {
+        wrapperShow.value = false
+      }, 300)
     }
   },
   { immediate: true },
 )
 
+onBeforeUnmount(() => {
+  if (showTimer) {
+    clearTimeout(showTimer)
+    showTimer = null
+  }
+  if (hideTimer) {
+    clearTimeout(hideTimer)
+    hideTimer = null
+  }
+})
+
 const close = () => {
   emit('update:visible', false)
   emit('close')
+  emit('weui-close')
 }
 
 const handleMaskClick = () => {

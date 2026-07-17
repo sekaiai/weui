@@ -6,9 +6,11 @@
         :style="innerBarStyle"
       ></view>
     </view>
-    <view v-if="showInfo" class="weui-progress__opr">
-      <text>{{ percent }}%</text>
-    </view>
+    <text
+      v-if="showInfo"
+      class="weui-progress__info"
+      :style="infoStyle"
+    >{{ displayPercent }}%</text>
   </view>
 </template>
 
@@ -68,4 +70,11 @@ const innerBarStyle = computed(() => {
   if (props.activeColor) style['background-color'] = props.activeColor
   return style
 })
+
+const displayPercent = computed(() => Math.round(props.percent))
+
+const infoStyle = computed(() => ({
+  'font-size': '14px',
+  'margin-left': '15px',
+}))
 </script>

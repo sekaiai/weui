@@ -182,4 +182,51 @@ describe('WeuiCheckbox', () => {
       expect(wrapper.findAllComponents(WeuiCheckbox)).toHaveLength(2)
     })
   })
+
+  describe('独立使用交互', () => {
+    it('独立使用时点击切换 update:checked 事件', async () => {
+      const wrapper = mount(WeuiCheckbox, {
+        props: { value: '1', label: '选项', checked: false },
+      })
+      await wrapper.trigger('click')
+      expect(wrapper.emitted('update:checked')).toHaveLength(1)
+      expect(wrapper.emitted('update:checked')![0]).toEqual([true])
+    })
+
+    it('独立使用时点击触发 change 事件并携带新状态', async () => {
+      const wrapper = mount(WeuiCheckbox, {
+        props: { value: '1', label: '选项', checked: false },
+      })
+      await wrapper.trigger('click')
+      expect(wrapper.emitted('change')).toHaveLength(1)
+      expect(wrapper.emitted('change')![0]).toEqual([true])
+    })
+
+    it('独立使用时从 checked=true 点击切换为 false', async () => {
+      const wrapper = mount(WeuiCheckbox, {
+        props: { value: '1', label: '选项', checked: true },
+      })
+      await wrapper.trigger('click')
+      expect(wrapper.emitted('update:checked')![0]).toEqual([false])
+      expect(wrapper.emitted('change')![0]).toEqual([false])
+    })
+
+    it('在 group 中点击不触发独立 update:checked', async () => {
+      const wrapper = mount(WeuiCheckbox, {
+        props: { value: '1', label: '选项' },
+        global: {
+          provide: {
+            weuiCheckboxGroup: {
+              multi: { value: true },
+              modelValue: { value: [] },
+              disabled: { value: false },
+            },
+          },
+        },
+      })
+      await wrapper.trigger('click')
+      expect(wrapper.emitted('update:checked')).toBeUndefined()
+      expect(wrapper.emitted('change')).toBeUndefined()
+    })
+  })
 })

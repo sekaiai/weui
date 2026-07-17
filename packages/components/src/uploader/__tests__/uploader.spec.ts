@@ -1,9 +1,22 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { mount } from '@vue/test-utils'
 import WeuiUploader from '../uploader.vue'
 import type { UploaderFile } from '../uploader.vue'
 
+// mock uni API
+const mockChooseImage = vi.fn()
+const mockChooseFile = vi.fn()
+vi.stubGlobal('uni', {
+  chooseImage: mockChooseImage,
+  chooseFile: mockChooseFile,
+})
+
 describe('WeuiUploader', () => {
+  beforeEach(() => {
+    mockChooseImage.mockReset()
+    mockChooseFile.mockReset()
+  })
+
   describe('基础渲染', () => {
     it('根元素带 weui-uploader 类', () => {
       const wrapper = mount(WeuiUploader)
@@ -25,12 +38,14 @@ describe('WeuiUploader', () => {
       expect(wrapper.find('.weui-uploader__files').exists()).toBe(true)
     })
 
-    it('包含 weui-uploader__input-box 上传按钮区域及原生 input', () => {
+    it('包含 weui-uploader__input-box 上传按钮区域', () => {
       const wrapper = mount(WeuiUploader)
       expect(wrapper.find('.weui-uploader__input-box').exists()).toBe(true)
-      const input = wrapper.find('input')
-      expect(input.exists()).toBe(true)
-      expect(input.classes()).toContain('weui-uploader__input')
+    })
+
+    it('上传按钮区域不再渲染原生 input', () => {
+      const wrapper = mount(WeuiUploader)
+      expect(wrapper.find('input').exists()).toBe(false)
     })
   })
 
@@ -193,25 +208,81 @@ describe('WeuiUploader', () => {
   })
 
   describe('select 事件', () => {
-    it('input change 时触发 select 事件', async () => {
+    it('点击上传按钮调用 uni.chooseImage', async () => {
+      mockChooseImage.mockImplementation(({ success }: any) =>
+        success?.({ tempFilePaths: ['a.jpg'] }),
+      )
       const wrapper = mount(WeuiUploader, { props: { count: 9 } })
-      await wrapper.find('.weui-uploader__input').trigger('change')
+      await wrapper.find('.weui-uploader__input-box').trigger('click')
+      expect(mockChooseImage).toHaveBeenCalledWith(
+        expect.objectContaining({ count: 9 }),
+      )
+    })
+
+    it('chooseImage success 回调触发 select 事件并携带 tempFilePaths', async () => {
+      mockChooseImage.mockImplementation(({ success }: any) =>
+        success?.({ tempFilePaths: ['a.jpg', 'b.jpg'] }),
+      )
+      const wrapper = mount(WeuiUploader, { props: { count: 9 } })
+      await wrapper.find('.weui-uploader__input-box').trigger('click')
       expect(wrapper.emitted('select')).toBeTruthy()
       expect(wrapper.emitted('select')).toHaveLength(1)
+      expect(wrapper.emitted('select')![0]).toEqual([
+        { tempFilePaths: ['a.jpg', 'b.jpg'], tempFiles: undefined },
+      ])
+    })
+
+    it('accept=file 时调用 uni.chooseFile', async () => {
+      mockChooseFile.mockImplementation(({ success }: any) =>
+        success?.({ tempFilePaths: ['a.pdf'] }),
+      )
+      const wrapper = mount(WeuiUploader, {
+        props: { count: 9, accept: 'file' },
+      })
+      await wrapper.find('.weui-uploader__input-box').trigger('click')
+      expect(mockChooseFile).toHaveBeenCalledWith(
+        expect.objectContaining({ count: 9 }),
+      )
+      expect(mockChooseImage).not.toHaveBeenCalled()
+      expect(wrapper.emitted('select')).toBeTruthy()
+    })
+
+    it('chooseImage fail 回调触发 select-fail 事件', async () => {
+      mockChooseImage.mockImplementation(({ fail }: any) =>
+        fail?.({ errMsg: 'chooseImage:fail cancel' }),
+      )
+      const wrapper = mount(WeuiUploader, { props: { count: 9 } })
+      await wrapper.find('.weui-uploader__input-box').trigger('click')
+      expect(wrapper.emitted('select-fail')).toBeTruthy()
+      expect(wrapper.emitted('select-fail')![0]).toEqual([
+        { errMsg: 'chooseImage:fail cancel' },
+      ])
+      expect(wrapper.emitted('select')).toBeFalsy()
+    })
+
+    it('剩余数量不足时传入正确的 count', async () => {
+      mockChooseImage.mockImplementation(({ success }: any) =>
+        success?.({ tempFilePaths: ['c.jpg'] }),
+      )
+      const wrapper = mount(WeuiUploader, {
+        props: { count: 3, files: [{ url: 'a.jpg' }, { url: 'b.jpg' }] },
+      })
+      await wrapper.find('.weui-uploader__input-box').trigger('click')
+      expect(mockChooseImage).toHaveBeenCalledWith(
+        expect.objectContaining({ count: 1 }),
+      )
     })
   })
 
   describe('exceed 事件', () => {
-    it('选择文件数超出最大数量时触发 exceed 并携带 count', async () => {
+    it('chooseImage 返回文件数超出最大数量时触发 exceed 并携带 count', async () => {
+      mockChooseImage.mockImplementation(({ success }: any) =>
+        success?.({ tempFilePaths: ['b.jpg', 'c.jpg'] }),
+      )
       const wrapper = mount(WeuiUploader, {
         props: { count: 2, files: [{ url: 'a.jpg' }] },
       })
-      const input = wrapper.find('.weui-uploader__input')
-      Object.defineProperty(input.element, 'files', {
-        value: [{ name: 'b.jpg' }, { name: 'c.jpg' }],
-        configurable: true,
-      })
-      await input.trigger('change')
+      await wrapper.find('.weui-uploader__input-box').trigger('click')
       expect(wrapper.emitted('exceed')).toBeTruthy()
       expect(wrapper.emitted('exceed')![0]).toEqual([2])
       expect(wrapper.emitted('select')).toBeFalsy()

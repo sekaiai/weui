@@ -6,4 +6,6 @@ WeuiGallery.install = (app: App) => {
 }
 
 export { WeuiGallery }
+export { Gallery } from './gallery'
 export type { WeuiGalleryProps, WeuiGalleryEmits } from './gallery.vue'
+export type { GalleryShowOptions } from './gallery'

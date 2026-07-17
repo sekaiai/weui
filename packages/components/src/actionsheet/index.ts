@@ -6,4 +6,6 @@ WeuiActionsheet.install = (app: App) => {
 }
 
 export { WeuiActionsheet }
+export { Actionsheet } from './actionsheet'
 export type { WeuiActionsheetProps, WeuiActionsheetEmits, ActionsheetItem } from './actionsheet.vue'
+export type { ActionsheetShowOptions, ActionsheetShowResult } from './actionsheet'

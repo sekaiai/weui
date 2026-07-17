@@ -271,6 +271,32 @@ describe('HalfScreenDialog 命令式 API', () => {
       expect(result.index).toBe(1)
       expect(result.button).toEqual({ label: '确定' })
     })
+
+    it('遮罩点击关闭时 resolve { button: undefined, index: -1 }', async () => {
+      const promise = HalfScreenDialog.show({
+        buttons: [{ label: '确定' }],
+      })
+      const onClose = addedItems[0].props.onClose as () => void
+      onClose()
+      const result = await promise
+      expect(result.index).toBe(-1)
+      expect(result.button).toBeUndefined()
+    })
+
+    it('按钮点击后 close 接着触发时只 resolve 一次（settled 标志）', async () => {
+      const promise = HalfScreenDialog.show({
+        buttons: [{ label: '取消' }, { label: '确定' }],
+      })
+      const onButtontap = addedItems[0].props.onButtontap as (btn: HalfScreenDialogButton, index: number) => void
+      const onClose = addedItems[0].props.onClose as () => void
+      // 模拟真实按钮点击：buttontap 先触发，紧接着 close 触发
+      onButtontap({ label: '确定' }, 1)
+      onClose()
+      const result = await promise
+      // 应保留 buttontap 的值，不被 close 覆盖为 { button: undefined, index: -1 }
+      expect(result.index).toBe(1)
+      expect(result.button).toEqual({ label: '确定' })
+    })
   })
 
   describe('未挂载 overlay-host', () => {

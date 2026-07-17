@@ -32,4 +32,22 @@ declare const uni: {
   hideToast(): void
   showLoading(options: { title: string; mask?: boolean }): void
   hideLoading(): void
+  chooseImage(options: {
+    count?: number
+    success?: (res: {
+      tempFilePaths: string[]
+      tempFiles: Array<{ path: string; size: number }>
+    }) => void
+    fail?: (err: { errMsg: string }) => void
+    complete?: () => void
+  }): void
+  chooseFile(options: {
+    count?: number
+    success?: (res: {
+      tempFilePaths: string[]
+      tempFiles: Array<{ path: string; size: number }>
+    }) => void
+    fail?: (err: { errMsg: string }) => void
+    complete?: () => void
+  }): void
 }

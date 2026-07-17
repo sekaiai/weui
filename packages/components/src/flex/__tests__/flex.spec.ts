@@ -10,112 +10,165 @@ describe('WeuiFlex', () => {
       expect(wrapper.classes()).toContain('weui-flex')
     })
 
-    it('默认值不追加 direction/wrap/justify 类', () => {
+    it('不传 props 时仅带 weui-flex 类（无 direction/wrap/justify/align 类）', () => {
       const wrapper = mount(WeuiFlex)
-      // direction=row / wrap=nowrap / justify=start 均无额外类
       expect(wrapper.classes()).toEqual(['weui-flex'])
     })
 
-    it('默认 align=center 不追加 align 类', () => {
+    it('始终输出内联 style 包含 flex 布局属性', () => {
       const wrapper = mount(WeuiFlex)
-      expect(wrapper.classes()).not.toContain('weui-flex__align-center')
+      const style = (wrapper.element as HTMLElement).style
+      expect(style.flexDirection).toBe('row')
+      expect(style.flexWrap).toBe('nowrap')
+      expect(style.justifyContent).toBe('flex-start')
+      expect(style.alignItems).toBe('center')
+    })
+
+    it('默认 align=center 输出 align-items: center', () => {
+      const wrapper = mount(WeuiFlex)
+      expect((wrapper.element as HTMLElement).style.alignItems).toBe('center')
     })
   })
 
   describe('direction', () => {
-    it('column 追加 weui-flex__direction-column', () => {
+    it('column 输出 flex-direction: column', () => {
       const wrapper = mount(WeuiFlex, { props: { direction: 'column' } })
-      expect(wrapper.classes()).toContain('weui-flex__direction-column')
+      expect((wrapper.element as HTMLElement).style.flexDirection).toBe(
+        'column',
+      )
     })
 
-    it('row-reverse 追加 weui-flex__direction-row-reverse', () => {
+    it('row-reverse 输出 flex-direction: row-reverse', () => {
       const wrapper = mount(WeuiFlex, { props: { direction: 'row-reverse' } })
-      expect(wrapper.classes()).toContain('weui-flex__direction-row-reverse')
+      expect((wrapper.element as HTMLElement).style.flexDirection).toBe(
+        'row-reverse',
+      )
     })
 
-    it('column-reverse 追加 weui-flex__direction-column-reverse', () => {
-      const wrapper = mount(WeuiFlex, { props: { direction: 'column-reverse' } })
-      expect(wrapper.classes()).toContain('weui-flex__direction-column-reverse')
+    it('column-reverse 输出 flex-direction: column-reverse', () => {
+      const wrapper = mount(WeuiFlex, {
+        props: { direction: 'column-reverse' },
+      })
+      expect((wrapper.element as HTMLElement).style.flexDirection).toBe(
+        'column-reverse',
+      )
     })
 
-    it('row 不追加 direction 类', () => {
+    it('row 输出 flex-direction: row', () => {
       const wrapper = mount(WeuiFlex, { props: { direction: 'row' } })
-      expect(wrapper.classes()).not.toContain('weui-flex__direction-column')
-      expect(wrapper.classes()).not.toContain('weui-flex__direction-row-reverse')
+      expect((wrapper.element as HTMLElement).style.flexDirection).toBe('row')
+    })
+
+    it('direction 不追加任何类名', () => {
+      const wrapper = mount(WeuiFlex, { props: { direction: 'column' } })
+      expect(wrapper.classes()).toEqual(['weui-flex'])
     })
   })
 
   describe('wrap', () => {
-    it('wrap 追加 weui-flex__wrap-wrap', () => {
+    it('wrap 输出 flex-wrap: wrap', () => {
       const wrapper = mount(WeuiFlex, { props: { wrap: 'wrap' } })
-      expect(wrapper.classes()).toContain('weui-flex__wrap-wrap')
+      expect((wrapper.element as HTMLElement).style.flexWrap).toBe('wrap')
     })
 
-    it('wrap-reverse 追加 weui-flex__wrap-wrap-reverse', () => {
+    it('wrap-reverse 输出 flex-wrap: wrap-reverse', () => {
       const wrapper = mount(WeuiFlex, { props: { wrap: 'wrap-reverse' } })
-      expect(wrapper.classes()).toContain('weui-flex__wrap-wrap-reverse')
+      expect((wrapper.element as HTMLElement).style.flexWrap).toBe(
+        'wrap-reverse',
+      )
     })
 
-    it('nowrap 不追加 wrap 类', () => {
+    it('nowrap 输出 flex-wrap: nowrap', () => {
       const wrapper = mount(WeuiFlex, { props: { wrap: 'nowrap' } })
-      expect(wrapper.classes()).not.toContain('weui-flex__wrap-wrap')
-      expect(wrapper.classes()).not.toContain('weui-flex__wrap-wrap-reverse')
+      expect((wrapper.element as HTMLElement).style.flexWrap).toBe('nowrap')
+    })
+
+    it('wrap 不追加任何类名', () => {
+      const wrapper = mount(WeuiFlex, { props: { wrap: 'wrap' } })
+      expect(wrapper.classes()).toEqual(['weui-flex'])
     })
   })
 
   describe('justify', () => {
-    it('between 追加 weui-flex__justify-between', () => {
+    it('between 映射为 justify-content: space-between', () => {
       const wrapper = mount(WeuiFlex, { props: { justify: 'between' } })
-      expect(wrapper.classes()).toContain('weui-flex__justify-between')
+      expect((wrapper.element as HTMLElement).style.justifyContent).toBe(
+        'space-between',
+      )
     })
 
-    it('around 追加 weui-flex__justify-around', () => {
+    it('around 映射为 justify-content: space-around', () => {
       const wrapper = mount(WeuiFlex, { props: { justify: 'around' } })
-      expect(wrapper.classes()).toContain('weui-flex__justify-around')
+      expect((wrapper.element as HTMLElement).style.justifyContent).toBe(
+        'space-around',
+      )
     })
 
-    it('center 追加 weui-flex__justify-center', () => {
+    it('evenly 映射为 justify-content: space-evenly', () => {
+      const wrapper = mount(WeuiFlex, { props: { justify: 'evenly' } })
+      expect((wrapper.element as HTMLElement).style.justifyContent).toBe(
+        'space-evenly',
+      )
+    })
+
+    it('center 输出 justify-content: center', () => {
       const wrapper = mount(WeuiFlex, { props: { justify: 'center' } })
-      expect(wrapper.classes()).toContain('weui-flex__justify-center')
+      expect((wrapper.element as HTMLElement).style.justifyContent).toBe(
+        'center',
+      )
     })
 
-    it('end 追加 weui-flex__justify-end', () => {
+    it('end 映射为 justify-content: flex-end', () => {
       const wrapper = mount(WeuiFlex, { props: { justify: 'end' } })
-      expect(wrapper.classes()).toContain('weui-flex__justify-end')
+      expect((wrapper.element as HTMLElement).style.justifyContent).toBe(
+        'flex-end',
+      )
     })
 
-    it('start 不追加 justify 类', () => {
+    it('start 映射为 justify-content: flex-start', () => {
       const wrapper = mount(WeuiFlex, { props: { justify: 'start' } })
-      expect(wrapper.classes()).not.toContain('weui-flex__justify-between')
-      expect(wrapper.classes()).not.toContain('weui-flex__justify-center')
+      expect((wrapper.element as HTMLElement).style.justifyContent).toBe(
+        'flex-start',
+      )
+    })
+
+    it('justify 不追加任何类名', () => {
+      const wrapper = mount(WeuiFlex, { props: { justify: 'between' } })
+      expect(wrapper.classes()).toEqual(['weui-flex'])
     })
   })
 
   describe('align', () => {
-    it('start 追加 weui-flex__align-start', () => {
+    it('start 映射为 align-items: flex-start', () => {
       const wrapper = mount(WeuiFlex, { props: { align: 'start' } })
-      expect(wrapper.classes()).toContain('weui-flex__align-start')
+      expect((wrapper.element as HTMLElement).style.alignItems).toBe(
+        'flex-start',
+      )
     })
 
-    it('end 追加 weui-flex__align-end', () => {
+    it('end 映射为 align-items: flex-end', () => {
       const wrapper = mount(WeuiFlex, { props: { align: 'end' } })
-      expect(wrapper.classes()).toContain('weui-flex__align-end')
+      expect((wrapper.element as HTMLElement).style.alignItems).toBe('flex-end')
     })
 
-    it('baseline 追加 weui-flex__align-baseline', () => {
+    it('baseline 输出 align-items: baseline', () => {
       const wrapper = mount(WeuiFlex, { props: { align: 'baseline' } })
-      expect(wrapper.classes()).toContain('weui-flex__align-baseline')
+      expect((wrapper.element as HTMLElement).style.alignItems).toBe('baseline')
     })
 
-    it('stretch 追加 weui-flex__align-stretch', () => {
+    it('stretch 输出 align-items: stretch', () => {
       const wrapper = mount(WeuiFlex, { props: { align: 'stretch' } })
-      expect(wrapper.classes()).toContain('weui-flex__align-stretch')
+      expect((wrapper.element as HTMLElement).style.alignItems).toBe('stretch')
     })
 
-    it('center（默认）不追加 align 类', () => {
+    it('center 输出 align-items: center', () => {
       const wrapper = mount(WeuiFlex, { props: { align: 'center' } })
-      expect(wrapper.classes()).not.toContain('weui-flex__align-start')
-      expect(wrapper.classes()).not.toContain('weui-flex__align-end')
+      expect((wrapper.element as HTMLElement).style.alignItems).toBe('center')
+    })
+
+    it('align 不追加任何类名', () => {
+      const wrapper = mount(WeuiFlex, { props: { align: 'stretch' } })
+      expect(wrapper.classes()).toEqual(['weui-flex'])
     })
   })
 

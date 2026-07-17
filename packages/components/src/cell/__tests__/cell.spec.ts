@@ -95,9 +95,9 @@ describe('WeuiCell', () => {
       expect(wrapper.classes()).toContain('weui-cell_access')
     })
 
-    it('link=true 时 footer 追加 weui-cell__ft_in-access', () => {
+    it('link=true 时 footer 不追加 weui-cell__ft_in-access（access 模式靠父选择器接管）', () => {
       const wrapper = mount(WeuiCell, { props: { link: true } })
-      expect(wrapper.find('.weui-cell__ft').classes()).toContain('weui-cell__ft_in-access')
+      expect(wrapper.find('.weui-cell__ft').classes()).not.toContain('weui-cell__ft_in-access')
     })
 
     it('link=false 时不追加 access 类', () => {
@@ -156,14 +156,19 @@ describe('WeuiCell', () => {
   })
 
   describe('inline', () => {
-    it('inline=true（默认）不追加 weui-cell_label-block', () => {
+    it('inline=true（默认）不追加 weui-cell_vertical', () => {
       const wrapper = mount(WeuiCell)
-      expect(wrapper.classes()).not.toContain('weui-cell_label-block')
+      expect(wrapper.classes()).not.toContain('weui-cell_vertical')
     })
 
-    it('inline=false 追加 weui-cell_label-block', () => {
+    it('inline=false 追加 weui-cell_vertical', () => {
       const wrapper = mount(WeuiCell, { props: { inline: false } })
-      expect(wrapper.classes()).toContain('weui-cell_label-block')
+      expect(wrapper.classes()).toContain('weui-cell_vertical')
+    })
+
+    it('inline=false 不追加废弃的 weui-cell_label-block', () => {
+      const wrapper = mount(WeuiCell, { props: { inline: false } })
+      expect(wrapper.classes()).not.toContain('weui-cell_label-block')
     })
   })
 
@@ -217,9 +222,14 @@ describe('WeuiCell', () => {
   })
 
   describe('ariaRole', () => {
-    it('输出到 aria-role 属性', () => {
+    it('输出到 role 属性', () => {
       const wrapper = mount(WeuiCell, { props: { ariaRole: 'button' } })
-      expect(wrapper.attributes('aria-role')).toBe('button')
+      expect(wrapper.attributes('role')).toBe('button')
+    })
+
+    it('不输出到非法的 aria-role 属性', () => {
+      const wrapper = mount(WeuiCell, { props: { ariaRole: 'button' } })
+      expect(wrapper.attributes('aria-role')).toBeUndefined()
     })
   })
 

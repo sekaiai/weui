@@ -1,5 +1,5 @@
 <template>
-  <label :class="rootClass">
+  <label :class="rootClass" @click="handleClick">
     <view v-if="multi" class="weui-cell__hd">
       <checkbox class="weui-check" :value="value" :checked="isChecked" :disabled="isDisabled" />
       <view class="weui-icon-checked" />
@@ -40,12 +40,19 @@ export interface WeuiCheckboxProps {
   extClass?: string
 }
 
+export interface WeuiCheckboxEmits {
+  (e: 'update:checked', value: boolean): void
+  (e: 'change', value: boolean): void
+}
+
 const props = withDefaults(defineProps<WeuiCheckboxProps>(), {
   label: '',
   disabled: false,
   checked: false,
   extClass: undefined,
 })
+
+const emit = defineEmits<WeuiCheckboxEmits>()
 
 interface CheckboxGroupContext {
   multi: { value: boolean }
@@ -68,4 +75,12 @@ const rootClass = computed(() => {
   if (props.extClass) classes.push(props.extClass)
   return classes
 })
+
+const handleClick = () => {
+  // group 模式由 group 控制，不处理独立切换
+  if (group) return
+  const newChecked = !isChecked.value
+  emit('update:checked', newChecked)
+  emit('change', newChecked)
+}
 </script>

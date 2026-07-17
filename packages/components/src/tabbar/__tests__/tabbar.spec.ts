@@ -55,14 +55,14 @@ describe('WeuiTabbarItem', () => {
   })
 
   describe('active', () => {
-    it('active=true 追加 weui-tabbar__item_active 类', () => {
+    it('active=true 追加 weui-bar__item_on 类', () => {
       const wrapper = mount(WeuiTabbarItem, { props: { active: true } })
-      expect(wrapper.classes()).toContain('weui-tabbar__item_active')
+      expect(wrapper.classes()).toContain('weui-bar__item_on')
     })
 
     it('active=false 不追加 active 类', () => {
       const wrapper = mount(WeuiTabbarItem)
-      expect(wrapper.classes()).not.toContain('weui-tabbar__item_active')
+      expect(wrapper.classes()).not.toContain('weui-bar__item_on')
     })
 
     it('active=true 时 aria-selected 为 true', () => {
@@ -254,7 +254,7 @@ describe('WeuiTabbarItem', () => {
         `,
       })
       expect(wrapper.findAll('.weui-tabbar__item')).toHaveLength(3)
-      expect(wrapper.findAll('.weui-tabbar__item_active')).toHaveLength(1)
+      expect(wrapper.findAll('.weui-bar__item_on')).toHaveLength(1)
     })
 
     it('带图标和文字的组合渲染', () => {
@@ -269,7 +269,7 @@ describe('WeuiTabbarItem', () => {
       })
       expect(wrapper.findAll('.weui-tabbar__icon')).toHaveLength(2)
       expect(wrapper.findAll('.weui-tabbar__label')).toHaveLength(2)
-      expect(wrapper.findAll('.weui-tabbar__item_active')).toHaveLength(1)
+      expect(wrapper.findAll('.weui-bar__item_on')).toHaveLength(1)
     })
 
     it('点击 item 触发其 click 事件', async () => {

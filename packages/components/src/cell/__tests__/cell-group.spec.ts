@@ -12,7 +12,11 @@ describe('WeuiCellGroup', () => {
     it('内部包含 weui-cells 容器', () => {
       const wrapper = mount(WeuiCellGroup)
       expect(wrapper.find('.weui-cells').exists()).toBe(true)
-      expect(wrapper.find('.weui-cells').classes()).toContain('weui-cells_after-title')
+    })
+
+    it('weui-cells 容器不追加废弃的 weui-cells_after-title 类', () => {
+      const wrapper = mount(WeuiCellGroup)
+      expect(wrapper.find('.weui-cells').classes()).not.toContain('weui-cells_after-title')
     })
   })
 

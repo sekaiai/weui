@@ -3,7 +3,7 @@
     <slot>
       <view v-if="hasIcon" class="weui-msg__icon-area">
         <slot name="icon">
-          <weui-icon :type="type" :size="iconSize" />
+          <weui-icon :type="type" :size="iconSize" ext-class="weui-icon_msg" />
         </slot>
       </view>
       <view v-if="hasText" class="weui-msg__text-area">
@@ -69,7 +69,7 @@ export interface WeuiMsgEmits {
 
 const props = withDefaults(defineProps<WeuiMsgProps>(), {
   type: undefined,
-  iconSize: 64,
+  iconSize: undefined,
   title: undefined,
   desc: undefined,
   buttons: () => [],

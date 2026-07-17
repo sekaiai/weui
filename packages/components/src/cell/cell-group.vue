@@ -1,5 +1,5 @@
 <template>
-  <view :class="groupClass" :aria-role="ariaRole">
+  <view :class="groupClass" :role="ariaRole">
     <view v-if="title" class="weui-cells__title">{{ title }}</view>
     <slot v-else name="title" />
     <view :class="cellsClass">
@@ -57,7 +57,7 @@ const groupClass = computed(() => {
 })
 
 const cellsClass = computed(() => {
-  const classes: string[] = ['weui-cells', 'weui-cells_after-title']
+  const classes: string[] = ['weui-cells']
   if (props.variant === 'radio') classes.push('weui-cells_radio')
   if (props.variant === 'checkbox') classes.push('weui-cells_checkbox')
   if (props.variant === 'form' || props.form) classes.push('weui-cells_form')
