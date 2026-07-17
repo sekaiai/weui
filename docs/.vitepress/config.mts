@@ -63,6 +63,8 @@ const sidebar = {
         { text: 'Dialog 对话框', link: '/components/dialog' },
         { text: 'HalfScreenDialog 半屏弹窗', link: '/components/half-screen-dialog' },
         { text: 'Toptips 顶部提示', link: '/components/toptips' },
+        { text: 'Toast 轻提示', link: '/components/toast' },
+        { text: 'Picker 选择器', link: '/components/picker' },
         { text: 'Gallery 画廊', link: '/components/gallery' },
         { text: 'Slideview 滑动视图', link: '/components/slideview' },
         { text: 'Loadmore 加载更多', link: '/components/loadmore' },

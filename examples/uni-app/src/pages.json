@@ -8,6 +8,7 @@
       "^weui-grid-item$": "weui-design-vue/src/grid/grid-item.vue",
       "^weui-navbar-item$": "weui-design-vue/src/navbar/navbar-item.vue",
       "^weui-tabbar-item$": "weui-design-vue/src/tabbar/tabbar-item.vue",
+      "^weui-picker-group$": "weui-design-vue/src/picker/picker-group.vue",
       "^weui-(.*)": "weui-design-vue/src/$1/$1.vue"
     }
   },
@@ -190,6 +191,18 @@
       "path": "pages/toptips/toptips",
       "style": {
         "navigationBarTitleText": "Toptips 顶部提示"
+      }
+    },
+    {
+      "path": "pages/toast/toast",
+      "style": {
+        "navigationBarTitleText": "Toast 轻提示"
+      }
+    },
+    {
+      "path": "pages/picker/picker",
+      "style": {
+        "navigationBarTitleText": "Picker 选择器"
       }
     }
   ],

@@ -32,6 +32,8 @@ import { WeuiActionsheet, Actionsheet } from './actionsheet'
 import { WeuiDialog, Dialog } from './dialog'
 import { WeuiHalfScreenDialog, HalfScreenDialog } from './half-screen-dialog'
 import { WeuiToptips, Toptips } from './toptips'
+import { WeuiToast, Toast } from './toast'
+import { WeuiPicker, Picker } from './picker'
 import { WeuiGallery } from './gallery'
 import { WeuiSlideview } from './slideview'
 
@@ -75,6 +77,8 @@ import type { WeuiActionsheetProps, WeuiActionsheetEmits, ActionsheetItem, Actio
 import type { WeuiDialogProps, WeuiDialogEmits, DialogButton, DialogShowOptions, DialogAlertOptions, DialogConfirmOptions, DialogShowResult } from './dialog'
 import type { WeuiHalfScreenDialogProps, WeuiHalfScreenDialogEmits, HalfScreenDialogButton, HalfScreenDialogShowOptions, HalfScreenDialogShowResult } from './half-screen-dialog'
 import type { WeuiToptipsProps, WeuiToptipsEmits, ToptipsType, ToptipsShowOptions } from './toptips'
+import type { WeuiToastProps, WeuiToastEmits, ToastType, ToastShowOptions } from './toast'
+import type { WeuiPickerProps, WeuiPickerEmits, PickerColumn, PickerOption, PickerShowOptions, PickerShowResult } from './picker'
 import type { WeuiGalleryProps, WeuiGalleryEmits } from './gallery'
 import type { WeuiSlideviewProps, WeuiSlideviewEmits, SlideButton } from './slideview'
 
@@ -94,7 +98,7 @@ const components = [
   // 表单输入
   WeuiInput, WeuiCheckbox, WeuiCheckboxGroup, WeuiSearchbar, WeuiUploader,
   // 操作反馈
-  WeuiOverlayHost, WeuiActionsheet, WeuiDialog, WeuiHalfScreenDialog, WeuiToptips, WeuiGallery, WeuiSlideview,
+  WeuiOverlayHost, WeuiActionsheet, WeuiDialog, WeuiHalfScreenDialog, WeuiToptips, WeuiToast, WeuiPicker, WeuiGallery, WeuiSlideview,
   // 导航
   WeuiNavbar, WeuiNavbarItem, WeuiTabbar, WeuiTabbarItem, WeuiSteps,
   // 展示
@@ -118,7 +122,7 @@ export {
   // 表单输入
   WeuiInput, WeuiCheckbox, WeuiCheckboxGroup, WeuiSearchbar, WeuiUploader,
   // 操作反馈
-  WeuiOverlayHost, WeuiActionsheet, Actionsheet, WeuiDialog, Dialog, WeuiHalfScreenDialog, HalfScreenDialog, WeuiToptips, Toptips, WeuiGallery, WeuiSlideview,
+  WeuiOverlayHost, WeuiActionsheet, Actionsheet, WeuiDialog, Dialog, WeuiHalfScreenDialog, HalfScreenDialog, WeuiToptips, Toptips, WeuiToast, Toast, WeuiPicker, Picker, WeuiGallery, WeuiSlideview,
   // 导航
   WeuiNavbar, WeuiNavbarItem, WeuiTabbar, WeuiTabbarItem, WeuiSteps,
   // 展示
@@ -156,6 +160,8 @@ export type {
   WeuiDialogProps, WeuiDialogEmits, DialogButton, DialogShowOptions, DialogAlertOptions, DialogConfirmOptions, DialogShowResult,
   WeuiHalfScreenDialogProps, WeuiHalfScreenDialogEmits, HalfScreenDialogButton, HalfScreenDialogShowOptions, HalfScreenDialogShowResult,
   WeuiToptipsProps, WeuiToptipsEmits, ToptipsType, ToptipsShowOptions,
+  WeuiToastProps, WeuiToastEmits, ToastType, ToastShowOptions,
+  WeuiPickerProps, WeuiPickerEmits, PickerColumn, PickerOption, PickerShowOptions, PickerShowResult,
   WeuiGalleryProps, WeuiGalleryEmits,
   WeuiSlideviewProps, WeuiSlideviewEmits, SlideButton,
   // 导航
