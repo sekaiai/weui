@@ -78,7 +78,10 @@ let hideTimer: ReturnType<typeof setTimeout> | null = null
 const hasOpr = computed(() => Boolean(props.showDelete || slots.default))
 
 const maskStyle = computed(() => {
-  const style: Record<string, string> = {}
+  const style: Record<string, string> = {
+    // WeUI CSS 默认 .weui-gallery { display: none }，挂载时需覆盖为 block
+    display: 'block',
+  }
   if (props.zIndex !== undefined) {
     style['z-index'] = String(props.zIndex)
   }

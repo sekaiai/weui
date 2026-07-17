@@ -71,7 +71,10 @@ const typeClass = computed(() => {
 })
 
 const toptipsStyle = computed(() => {
-  const style: Record<string, string> = {}
+  const style: Record<string, string> = {
+    // WeUI CSS 默认 .weui-toptips { display: none }，挂载时需覆盖为 block
+    display: 'block',
+  }
   if (props.zIndex !== undefined) {
     style['z-index'] = String(props.zIndex)
   }
