@@ -94,6 +94,11 @@ const config: UserConfig = {
     sidebar,
     smoothScroll: true,
   },
+  vite: {
+    optimizeDeps: {
+      exclude: ['weui-design-vue'],
+    },
+  },
 }
 
 export default config

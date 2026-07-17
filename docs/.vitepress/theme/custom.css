@@ -1,13 +1,20 @@
 /* 文档站私有样式 */
-.vp-doc .weui-btn {
-  margin-right: 8px;
-  margin-bottom: 8px;
-}
-
-/* demo 容器 */
 .vp-doc .demo-block {
   padding: 16px;
   margin: 16px 0;
   border: 1px solid #eee;
   border-radius: 4px;
+}
+
+/* 多按钮横排容器：用 flex + gap 控制间距，不干预 weui 组件本身 */
+.vp-doc .demo-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+/* 模拟移动端宽度（用于 cell/input 等需要宽度约束的组件） */
+.vp-doc .demo-mobile {
+  max-width: 375px;
 }
