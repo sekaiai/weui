@@ -2,6 +2,12 @@
   "easycom": {
     "autoscan": true,
     "custom": {
+      "^weui-cell-group$": "weui-design-vue/src/cell/cell-group.vue",
+      "^weui-checkbox-group$": "weui-design-vue/src/checkbox/checkbox-group.vue",
+      "^weui-flex-item$": "weui-design-vue/src/flex/flex-item.vue",
+      "^weui-grid-item$": "weui-design-vue/src/grid/grid-item.vue",
+      "^weui-navbar-item$": "weui-design-vue/src/navbar/navbar-item.vue",
+      "^weui-tabbar-item$": "weui-design-vue/src/tabbar/tabbar-item.vue",
       "^weui-(.*)": "weui-design-vue/src/$1/$1.vue"
     }
   },

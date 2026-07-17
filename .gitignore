@@ -13,3 +13,5 @@ coverage/
 *.tgz
 *.tsbuildinfo
 .eslintcache
+test-results/
+playwright-report/

@@ -9,9 +9,12 @@
     "dev:example:mp": "pnpm --filter weui-design-vue-example dev:mp-weixin",
     "dev:example:h5": "pnpm --filter weui-design-vue-example dev:h5",
     "test": "pnpm --filter weui-design-vue test",
-    "typecheck": "pnpm -r typecheck"
+    "typecheck": "pnpm -r typecheck",
+    "e2e": "npx playwright test",
+    "e2e:ui": "npx playwright test --ui"
   },
   "devDependencies": {
+    "@playwright/test": "^1.61.1",
     "typescript": "^5.4.0",
     "vitest": "^1.6.0",
     "vue-tsc": "^2.0.0"
