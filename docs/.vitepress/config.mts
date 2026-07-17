@@ -94,6 +94,22 @@ const config: UserConfig = {
     sidebar,
     smoothScroll: true,
   },
+  // @vitejs/plugin-vue 选项（顶层）：用于把 uni-app 内置标签编译为自定义元素，
+  // 避免在浏览器环境（VitePress 文档站）中被 Vue 解析为组件
+  vue: {
+    template: {
+      compilerOptions: {
+        isCustomElement: (tag: string) =>
+          [
+            'view', 'text', 'image', 'checkbox', 'radio',
+            'checkbox-group', 'radio-group', 'navigator',
+            'swiper', 'swiper-item', 'scroll-view',
+            'movable-area', 'movable-view',
+            'picker-view', 'picker-view-column', 'rich-text',
+          ].includes(tag),
+      },
+    },
+  },
   vite: {
     optimizeDeps: {
       exclude: ['weui-design-vue'],
