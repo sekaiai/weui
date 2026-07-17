@@ -34,7 +34,7 @@ import { WeuiHalfScreenDialog, HalfScreenDialog } from './half-screen-dialog'
 import { WeuiToptips, Toptips } from './toptips'
 import { WeuiToast, Toast } from './toast'
 import { WeuiPicker, Picker } from './picker'
-import { WeuiGallery } from './gallery'
+import { WeuiGallery, Gallery } from './gallery'
 import { WeuiSlideview } from './slideview'
 
 // 导航
@@ -79,7 +79,7 @@ import type { WeuiHalfScreenDialogProps, WeuiHalfScreenDialogEmits, HalfScreenDi
 import type { WeuiToptipsProps, WeuiToptipsEmits, ToptipsType, ToptipsShowOptions } from './toptips'
 import type { WeuiToastProps, WeuiToastEmits, ToastType, ToastShowOptions } from './toast'
 import type { WeuiPickerProps, WeuiPickerEmits, PickerColumn, PickerOption, PickerShowOptions, PickerShowResult } from './picker'
-import type { WeuiGalleryProps, WeuiGalleryEmits } from './gallery'
+import type { WeuiGalleryProps, WeuiGalleryEmits, GalleryShowOptions } from './gallery'
 import type { WeuiSlideviewProps, WeuiSlideviewEmits, SlideButton } from './slideview'
 
 // 类型导出 — 导航
@@ -122,7 +122,7 @@ export {
   // 表单输入
   WeuiInput, WeuiCheckbox, WeuiCheckboxGroup, WeuiSearchbar, WeuiUploader,
   // 操作反馈
-  WeuiOverlayHost, WeuiActionsheet, Actionsheet, WeuiDialog, Dialog, WeuiHalfScreenDialog, HalfScreenDialog, WeuiToptips, Toptips, WeuiToast, Toast, WeuiPicker, Picker, WeuiGallery, WeuiSlideview,
+  WeuiOverlayHost, WeuiActionsheet, Actionsheet, WeuiDialog, Dialog, WeuiHalfScreenDialog, HalfScreenDialog, WeuiToptips, Toptips, WeuiToast, Toast, WeuiPicker, Picker, WeuiGallery, Gallery, WeuiSlideview,
   // 导航
   WeuiNavbar, WeuiNavbarItem, WeuiTabbar, WeuiTabbarItem, WeuiSteps,
   // 展示
@@ -162,7 +162,7 @@ export type {
   WeuiToptipsProps, WeuiToptipsEmits, ToptipsType, ToptipsShowOptions,
   WeuiToastProps, WeuiToastEmits, ToastType, ToastShowOptions,
   WeuiPickerProps, WeuiPickerEmits, PickerColumn, PickerOption, PickerShowOptions, PickerShowResult,
-  WeuiGalleryProps, WeuiGalleryEmits,
+  WeuiGalleryProps, WeuiGalleryEmits, GalleryShowOptions,
   WeuiSlideviewProps, WeuiSlideviewEmits, SlideButton,
   // 导航
   WeuiNavbarProps, WeuiNavbarItemProps, WeuiNavbarItemEmits,
