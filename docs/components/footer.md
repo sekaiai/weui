@@ -1,84 +1,151 @@
+<script setup lang="ts">
+const links = [
+  { text: '首页' },
+  { text: '关于' },
+  { text: '联系' },
+]
+const linksWithUrl = [
+  { text: 'WeUI', url: 'https://weui.io' },
+  { text: 'Vue', url: 'https://vuejs.org' },
+]
+</script>
+
 # Footer 页脚
 
-用于页面底部展示链接和文字，常用于版权声明、底部导航等场景。
+用于页面底部展示版权信息、链接或自定义内容。
 
 ## 基础用法
 
 通过 `text` 属性设置底部文字。
 
+<div class="demo-block">
+  <weui-footer text="Copyright © 2026 weui.design" />
+</div>
+
+::: details 查看代码
 ```vue
 <template>
-  <weui-footer text="Copyright © 2026 weui.io" />
+  <weui-footer text="Copyright © 2026 weui.design" />
 </template>
 ```
+:::
 
-## 底部链接
+## 带链接
 
-通过 `links` 属性配置链接列表，链接之间会自动显示分隔线。
+通过 `links` 属性设置链接列表（`FooterLink[]`）。未提供 `url` 的链接渲染为纯文本。
 
+<div class="demo-block">
+  <weui-footer :links="links" text="Copyright © 2026 weui.design" />
+</div>
+
+::: details 查看代码
 ```vue
 <template>
-  <weui-footer
-    :links="[
-      { text: '底部链接' },
-      { text: '底部链接' },
-    ]"
-    text="Copyright © 2026 weui.io"
-  />
+  <weui-footer :links="links" text="Copyright © 2026 weui.design" />
 </template>
+
+<script setup lang="ts">
+const links = [
+  { text: '首页' },
+  { text: '关于' },
+  { text: '联系' },
+]
+</script>
 ```
+:::
 
-## 带跳转地址的链接
+## 链接带 URL
 
-当链接对象提供 `url` 时，会渲染为 `navigator` 以支持页面跳转。
+当 `FooterLink` 提供 `url` 时，链接渲染为 `navigator`（在小程序中可跳转）。
 
+<div class="demo-block">
+  <weui-footer :links="linksWithUrl" text="Copyright © 2026 weui.design" />
+</div>
+
+::: details 查看代码
 ```vue
 <template>
-  <weui-footer
-    :links="[
-      { text: 'WeUI 首页', url: '/pages/index/index' },
-    ]"
-    text="Copyright © 2026 weui.io"
-  />
+  <weui-footer :links="linksWithUrl" text="Copyright © 2026 weui.design" />
 </template>
+
+<script setup lang="ts">
+const linksWithUrl = [
+  { text: 'WeUI', url: 'https://weui.io' },
+  { text: 'Vue', url: 'https://vuejs.org' },
+]
+</script>
 ```
+:::
 
-## 固定在底部
+## 仅链接
 
-通过 `fixed` 属性将页脚固定在视口底部，自动适配安全区域。
+不传 `text` 时仅展示链接。
 
+<div class="demo-block">
+  <weui-footer :links="links" />
+</div>
+
+::: details 查看代码
 ```vue
 <template>
-  <weui-footer
-    fixed
-    :links="[{ text: 'WeUI 首页', url: '/pages/index/index' }]"
-    text="Copyright © 2026 weui.io"
-  />
+  <weui-footer :links="links" />
 </template>
 ```
+:::
+
+## 固定底部
+
+通过 `fixed` 属性将页脚固定在视口底部（追加 `weui-footer_fixed-bottom` 类）。
+
+<div class="demo-block">
+  <weui-footer fixed text="固定在底部的页脚" />
+</div>
+
+::: details 查看代码
+```vue
+<template>
+  <weui-footer fixed text="固定在底部的页脚" />
+</template>
+```
+:::
 
 ## 自定义内容
 
-通过默认插槽替代 `text` 和 `links`，渲染完全自定义的内容。
+通过默认插槽传入自定义内容，覆盖 `text` 与 `links` 属性。
 
+<div class="demo-block">
+  <weui-footer>
+    <view class="weui-footer__text">这是通过插槽传入的自定义内容</view>
+  </weui-footer>
+</div>
+
+::: details 查看代码
 ```vue
 <template>
   <weui-footer>
-    <view class="weui-footer__text">自定义底部内容</view>
+    <view class="weui-footer__text">这是通过插槽传入的自定义内容</view>
   </weui-footer>
 </template>
 ```
+:::
 
 ## Attributes
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | text | 底部文字 | `string` | — |
-| links | 链接列表 | `Array<{ text: string; url?: string }>` | — |
+| links | 链接列表 | `FooterLink[]` | — |
 | fixed | 是否固定在底部 | `boolean` | `false` |
+
+## FooterLink
+
+| 参数 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| text | 链接文字 | `string` | — |
+| url | 链接地址，提供时渲染为 `navigator` | `string` | — |
 
 ## Slots
 
-| 名称 | 说明 | 参数 |
-| --- | --- | --- |
-| default | 自定义内容，替代 text 和 links | — |
+| 名称 | 说明 |
+| --- | --- |
+| default | 自定义页脚内容，传入后覆盖 `text` 与 `links` |
