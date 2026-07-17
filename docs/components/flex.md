@@ -1,172 +1,261 @@
 # Flex 弹性布局
 
-用于构建灵活的弹性布局结构。`weui-flex` 作为容器，`weui-flex-item` 作为子项，配合 `direction`、`wrap`、`justify`、`align` 等属性可快速实现常见的布局需求。
+基于 `display: flex` 的弹性布局容器，支持主轴方向、换行、主轴对齐、交叉轴对齐等配置。`weui-flex` 提供容器，`weui-flex-item` 提供 `flex: 1` 的子项。
 
 ## 基础用法
 
-使用 `weui-flex` 包裹多个 `weui-flex-item`，子项默认等分容器宽度（`flex: 1`）。
+`weui-flex` 默认主轴为 `row`，子项使用 `weui-flex-item`（默认 `flex: 1`）等分宽度。
 
+<div class="demo-block">
+  <weui-flex>
+    <weui-flex-item ext-class="flex-demo-item">1</weui-flex-item>
+    <weui-flex-item ext-class="flex-demo-item">2</weui-flex-item>
+    <weui-flex-item ext-class="flex-demo-item">3</weui-flex-item>
+  </weui-flex>
+</div>
+
+::: details 查看代码
 ```vue
 <template>
   <weui-flex>
-    <weui-flex-item>
-      <view class="placeholder">A</view>
-    </weui-flex-item>
-    <weui-flex-item>
-      <view class="placeholder">B</view>
-    </weui-flex-item>
-    <weui-flex-item>
-      <view class="placeholder">C</view>
-    </weui-flex-item>
+    <weui-flex-item>1</weui-flex-item>
+    <weui-flex-item>2</weui-flex-item>
+    <weui-flex-item>3</weui-flex-item>
   </weui-flex>
 </template>
 ```
-
-## 自定义 flex 比例
-
-通过 `weui-flex-item` 的 `flex` 属性设置子项的伸缩比例。不设置时使用默认的 `flex: 1`。
-
-```vue
-<template>
-  <weui-flex>
-    <weui-flex-item :flex="2">
-      <view class="placeholder">2</view>
-    </weui-flex-item>
-    <weui-flex-item :flex="1">
-      <view class="placeholder">1</view>
-    </weui-flex-item>
-    <weui-flex-item :flex="1">
-      <view class="placeholder">1</view>
-    </weui-flex-item>
-  </weui-flex>
-</template>
-```
-
-## 主轴方向
-
-通过 `direction` 属性设置主轴方向：`row`（默认）、`column`、`row-reverse`、`column-reverse`。
-
-```vue
-<template>
-  <weui-flex direction="column">
-    <weui-flex-item>
-      <view class="placeholder">A</view>
-    </weui-flex-item>
-    <weui-flex-item>
-      <view class="placeholder">B</view>
-    </weui-flex-item>
-  </weui-flex>
-</template>
-```
+:::
 
 ## 主轴对齐
 
-通过 `justify` 属性设置主轴对齐方式：`start`（默认）、`end`、`center`、`between`、`around`、`evenly`。
+通过 `justify` 属性设置主轴对齐方式：`start`/`center`/`end`/`between`/`around`/`evenly`。此时子项使用固定宽度（非 `flex:1`）以体现间距差异。
 
+<div class="demo-block">
+  <div class="flex-demo-stack">
+    <weui-flex justify="start" ext-class="flex-demo-row">
+      <view class="flex-demo-box">start</view>
+      <view class="flex-demo-box">B</view>
+      <view class="flex-demo-box">C</view>
+    </weui-flex>
+    <weui-flex justify="center" ext-class="flex-demo-row">
+      <view class="flex-demo-box">center</view>
+      <view class="flex-demo-box">B</view>
+      <view class="flex-demo-box">C</view>
+    </weui-flex>
+    <weui-flex justify="end" ext-class="flex-demo-row">
+      <view class="flex-demo-box">end</view>
+      <view class="flex-demo-box">B</view>
+      <view class="flex-demo-box">C</view>
+    </weui-flex>
+    <weui-flex justify="between" ext-class="flex-demo-row">
+      <view class="flex-demo-box">between</view>
+      <view class="flex-demo-box">B</view>
+      <view class="flex-demo-box">C</view>
+    </weui-flex>
+    <weui-flex justify="around" ext-class="flex-demo-row">
+      <view class="flex-demo-box">around</view>
+      <view class="flex-demo-box">B</view>
+      <view class="flex-demo-box">C</view>
+    </weui-flex>
+  </div>
+</div>
+
+::: details 查看代码
 ```vue
 <template>
   <weui-flex justify="center">
-    <weui-flex-item>
-      <view class="placeholder">居中</view>
-    </weui-flex-item>
+    <view class="box">A</view>
+    <view class="box">B</view>
+    <view class="box">C</view>
   </weui-flex>
 </template>
 ```
+:::
 
 ## 交叉轴对齐
 
-通过 `align` 属性设置交叉轴对齐方式：`center`（默认）、`start`、`end`、`baseline`、`stretch`。
+通过 `align` 属性设置交叉轴对齐方式：`start`/`center`/`end`/`baseline`/`stretch`。需为容器设置高度以体现差异。
 
+<div class="demo-block">
+  <div class="flex-demo-stack">
+    <weui-flex align="start" ext-class="flex-demo-tall">
+      <view class="flex-demo-box">start</view>
+      <view class="flex-demo-box flex-demo-box-tall">高</view>
+      <view class="flex-demo-box">C</view>
+    </weui-flex>
+    <weui-flex align="center" ext-class="flex-demo-tall">
+      <view class="flex-demo-box">center</view>
+      <view class="flex-demo-box flex-demo-box-tall">高</view>
+      <view class="flex-demo-box">C</view>
+    </weui-flex>
+    <weui-flex align="end" ext-class="flex-demo-tall">
+      <view class="flex-demo-box">end</view>
+      <view class="flex-demo-box flex-demo-box-tall">高</view>
+      <view class="flex-demo-box">C</view>
+    </weui-flex>
+  </div>
+</div>
+
+::: details 查看代码
 ```vue
 <template>
-  <weui-flex align="start">
-    <weui-flex-item>
-      <view class="placeholder">顶部对齐</view>
-    </weui-flex-item>
-    <weui-flex-item>
-      <view class="placeholder">B</view>
-    </weui-flex-item>
+  <weui-flex align="center" style="height: 80px;">
+    <view class="box">A</view>
+    <view class="box" style="height:60px;">高</view>
+    <view class="box">C</view>
   </weui-flex>
 </template>
 ```
+:::
 
-## 换行方式
+## 换行
 
-通过 `wrap` 属性设置换行方式：`nowrap`（默认）、`wrap`、`wrap-reverse`。
+通过 `wrap` 属性设置换行方式：`nowrap`（默认）/`wrap`/`wrap-reverse`。子项总宽超过容器时换行。
 
+<div class="demo-block">
+  <weui-flex wrap="wrap" ext-class="flex-demo-wrap">
+    <view class="flex-demo-box">1</view>
+    <view class="flex-demo-box">2</view>
+    <view class="flex-demo-box">3</view>
+    <view class="flex-demo-box">4</view>
+    <view class="flex-demo-box">5</view>
+    <view class="flex-demo-box">6</view>
+  </weui-flex>
+</div>
+
+::: details 查看代码
 ```vue
 <template>
   <weui-flex wrap="wrap">
-    <weui-flex-item v-for="i in 6" :key="i">
-      <view class="placeholder">{{ i }}</view>
-    </weui-flex-item>
+    <view class="box">1</view>
+    <view class="box">2</view>
+    <view class="box">3</view>
+    <view class="box">4</view>
+    <view class="box">5</view>
+    <view class="box">6</view>
   </weui-flex>
 </template>
 ```
+:::
 
-## 扩展类名
+## 垂直布局
 
-通过 `extClass` 属性追加自定义类名，用于自定义样式覆盖。
+通过 `direction` 属性设置主轴方向：`row`（默认）/`column`/`row-reverse`/`column-reverse`。
 
+<div class="demo-block">
+  <weui-flex direction="column" ext-class="flex-demo-col">
+    <view class="flex-demo-box">第一行</view>
+    <view class="flex-demo-box">第二行</view>
+    <view class="flex-demo-box">第三行</view>
+  </weui-flex>
+</div>
+
+::: details 查看代码
 ```vue
 <template>
-  <weui-flex ext-class="my-flex">
-    <weui-flex-item ext-class="my-item">
-      <view class="placeholder">自定义</view>
-    </weui-flex-item>
+  <weui-flex direction="column">
+    <view class="box">第一行</view>
+    <view class="box">第二行</view>
+    <view class="box">第三行</view>
   </weui-flex>
 </template>
 ```
+:::
 
-## Attributes
+## 子项比例
 
-### Flex
+通过 `weui-flex-item` 的 `flex` 属性自定义子项的 `flex` 值（不传时为 `flex:1`）。
+
+<div class="demo-block">
+  <weui-flex>
+    <weui-flex-item :flex="1" ext-class="flex-demo-item">flex 1</weui-flex-item>
+    <weui-flex-item :flex="2" ext-class="flex-demo-item">flex 2</weui-flex-item>
+    <weui-flex-item :flex="3" ext-class="flex-demo-item">flex 3</weui-flex-item>
+  </weui-flex>
+</div>
+
+::: details 查看代码
+```vue
+<template>
+  <weui-flex>
+    <weui-flex-item :flex="1">flex 1</weui-flex-item>
+    <weui-flex-item :flex="2">flex 2</weui-flex-item>
+    <weui-flex-item :flex="3">flex 3</weui-flex-item>
+  </weui-flex>
+</template>
+```
+:::
+
+## Flex Attributes
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | direction | 主轴方向 | `'row' \| 'column' \| 'row-reverse' \| 'column-reverse'` | `'row'` |
 | wrap | 换行方式 | `'nowrap' \| 'wrap' \| 'wrap-reverse'` | `'nowrap'` |
-| justify | 主轴对齐方式 | `'start' \| 'end' \| 'center' \| 'between' \| 'around' \| 'evenly'` | `'start'` |
-| align | 交叉轴对齐方式 | `'start' \| 'end' \| 'center' \| 'baseline' \| 'stretch'` | `'center'` |
-| extClass | 根元素扩展类名 | `string` | — |
+| justify | 主轴对齐 | `'start' \| 'end' \| 'center' \| 'between' \| 'around' \| 'evenly'` | `'start'` |
+| align | 交叉轴对齐 | `'start' \| 'end' \| 'center' \| 'baseline' \| 'stretch'` | `'center'` |
+| extClass | 附加在根元素上的扩展类名 | `string` | — |
 
-### FlexItem
+## FlexItem Attributes
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
-| flex | 自定义 flex 值；不设置时使用 `weui-flex__item` 的 `flex:1` | `number` | — |
-| extClass | 根元素扩展类名 | `string` | — |
+| flex | 自定义 flex 值，不传时使用 weui-flex__item 的 `flex:1` | `number` | — |
+| extClass | 附加在根元素上的扩展类名 | `string` | — |
 
-## Slots
+## Flex Slots
 
-### Flex
-
-| 插槽名 | 说明 |
+| 名称 | 说明 |
 | --- | --- |
-| default | flex 子项内容 |
+| default | 子项内容，可包含 `weui-flex-item` 或任意元素 |
 
-### FlexItem
-
-| 插槽名 | 说明 |
-| --- | --- |
-| default | 子项内容 |
-
-## CSS 类映射
-
-| 属性值 | 追加的 CSS 类 |
-| --- | --- |
-| `direction="column"` | `weui-flex__direction-column` |
-| `direction="row-reverse"` | `weui-flex__direction-row-reverse` |
-| `direction="column-reverse"` | `weui-flex__direction-column-reverse` |
-| `wrap="wrap"` | `weui-flex__wrap-wrap` |
-| `wrap="wrap-reverse"` | `weui-flex__wrap-wrap-reverse` |
-| `justify="between"` | `weui-flex__justify-between` |
-| `justify="around"` | `weui-flex__justify-around` |
-| `justify="center"` | `weui-flex__justify-center` |
-| `justify="end"` | `weui-flex__justify-end` |
-| `align="start"` | `weui-flex__align-start` |
-| `align="end"` | `weui-flex__align-end` |
-| `align="baseline"` | `weui-flex__align-baseline` |
-| `align="stretch"` | `weui-flex__align-stretch` |
-
-> `direction="row"`、`wrap="nowrap"`、`justify="start"`、`align="center"` 为默认值，不追加额外类名。
+<style>
+.flex-demo-item {
+  background: #07c160;
+  color: #fff;
+  text-align: center;
+  line-height: 40px;
+  border-radius: 4px;
+  margin: 2px;
+}
+.flex-demo-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.flex-demo-row {
+  background: #f5f5f5;
+  border-radius: 4px;
+  padding: 4px;
+}
+.flex-demo-box {
+  width: 64px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  background: #10aeff;
+  color: #fff;
+  border-radius: 4px;
+  font-size: 13px;
+}
+.flex-demo-box-tall {
+  height: 60px;
+  line-height: 60px;
+}
+.flex-demo-tall {
+  height: 80px;
+  background: #f5f5f5;
+  border-radius: 4px;
+  padding: 4px;
+}
+.flex-demo-wrap {
+  background: #f5f5f5;
+  border-radius: 4px;
+  padding: 4px;
+}
+.flex-demo-col {
+  background: #f5f5f5;
+  border-radius: 4px;
+  padding: 4px;
+}
+</style>
