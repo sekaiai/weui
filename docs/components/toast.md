@@ -2,6 +2,48 @@
 
 轻提示组件，用于短暂展示操作反馈。支持声明式和命令式两种调用方式，提供 success / loading / warning / text 四种类型。多次命令式调用会通过内部队列排队，前一个关闭后才显示下一个。
 
+<script setup lang="ts">
+import { ref } from 'vue'
+import { Toast } from 'weui-design-vue'
+
+const show1 = ref(false)
+const showLoading = ref(false)
+const showWarning = ref(false)
+const showText = ref(false)
+const showSuccess = ref(false)
+const show3 = ref(false)
+const show4 = ref(false)
+const show5 = ref(false)
+const lastResult = ref('')
+
+const onImpSuccess = () => {
+  Toast.success('操作成功')
+  lastResult.value = 'Toast.success 已调用'
+}
+
+const onImpWarning = () => {
+  Toast.warning('请注意警告')
+  lastResult.value = 'Toast.warning 已调用'
+}
+
+const onImpText = () => {
+  Toast.text('纯文本提示')
+  lastResult.value = 'Toast.text 已调用'
+}
+
+const onImpLoading = () => {
+  Toast.loading('加载中...')
+  lastResult.value = 'Toast.loading 已调用，点击 hide 关闭'
+}
+
+const onImpHide = () => {
+  Toast.hide()
+  lastResult.value = 'Toast.hide 已调用'
+}
+</script>
+
+<weui-overlay-host />
+
 ## 基础用法
 
 通过 `v-model:visible` 控制显示，`content` 设置提示文字，`type` 设置类型，`duration` 控制显示时长（默认 2000ms，到期自动关闭）。
@@ -41,17 +83,26 @@ const show = ref(false)
 通过 `type` 设置四种类型：`success`（成功，默认）、`loading`（加载，默认不自动关闭）、`warning`（警告）、`text`（纯文本，无图标）。
 
 <div class="demo-block">
-  <weui-button type="default" @click="showLoading">loading</weui-button>
-  <weui-button type="default" @click="showWarning">warning</weui-button>
-  <weui-button type="default" @click="showText">text</weui-button>
+  <div class="demo-row">
+    <weui-button type="default" @click="showSuccess = true">success</weui-button>
+    <weui-button type="default" @click="showLoading = true">loading</weui-button>
+    <weui-button type="default" @click="showWarning = true">warning</weui-button>
+    <weui-button type="default" @click="showText = true">text</weui-button>
+  </div>
+  <weui-toast v-model:visible="showSuccess" content="操作成功" type="success" />
+  <weui-toast v-model:visible="showLoading" content="加载中" type="loading" :duration="2000" />
+  <weui-toast v-model:visible="showWarning" content="警告提示" type="warning" />
+  <weui-toast v-model:visible="showText" content="纯文本提示" type="text" />
 </div>
 
 ::: details 查看代码
 ```vue
 <template>
+  <weui-button type="default" @click="vSuccess = true">success</weui-button>
   <weui-button type="default" @click="vLoading = true">loading</weui-button>
   <weui-button type="default" @click="vWarning = true">warning</weui-button>
   <weui-button type="default" @click="vText = true">text</weui-button>
+  <weui-toast v-model:visible="vSuccess" content="操作成功" type="success" />
   <weui-toast v-model:visible="vLoading" content="加载中" type="loading" :duration="2000" />
   <weui-toast v-model:visible="vWarning" content="警告提示" type="warning" />
   <weui-toast v-model:visible="vText" content="纯文本提示" type="text" />
@@ -60,6 +111,7 @@ const show = ref(false)
 <script setup lang="ts">
 import { ref } from 'vue'
 
+const vSuccess = ref(false)
 const vLoading = ref(false)
 const vWarning = ref(false)
 const vText = ref(false)
@@ -72,8 +124,10 @@ const vText = ref(false)
 通过 `:duration="0"` 设置不自动关闭，需手动控制 `visible`。`loading` 类型默认即为不自动关闭。
 
 <div class="demo-block">
-  <weui-button type="primary" @click="show3 = true">常驻提示</weui-button>
-  <weui-button type="default" @click="show3 = false">手动关闭</weui-button>
+  <div class="demo-row">
+    <weui-button type="primary" @click="show3 = true">常驻提示</weui-button>
+    <weui-button type="default" @click="show3 = false">手动关闭</weui-button>
+  </div>
   <weui-toast
     v-model:visible="show3"
     content="此提示不会自动关闭"
@@ -103,14 +157,48 @@ const show = ref(false)
 ```
 :::
 
+## 自定义时长
+
+通过 `:duration="4000"` 自定义显示时长（毫秒）。
+
+<div class="demo-block">
+  <weui-button type="primary" @click="show4 = true">显示 4 秒 Toast</weui-button>
+  <weui-toast
+    v-model:visible="show4"
+    content="此提示显示 4 秒后自动关闭"
+    type="success"
+    :duration="4000"
+  />
+</div>
+
+::: details 查看代码
+```vue
+<template>
+  <weui-button type="primary" @click="show = true">显示 4 秒 Toast</weui-button>
+  <weui-toast
+    v-model:visible="show"
+    content="此提示显示 4 秒后自动关闭"
+    type="success"
+    :duration="4000"
+  />
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const show = ref(false)
+</script>
+```
+:::
+
 ## 无遮罩
 
 通过 `:mask="false"` 取消透明遮罩，允许背景交互（点击穿透）。
 
 <div class="demo-block">
-  <weui-button type="primary" @click="show4 = true">无遮罩 Toast</weui-button>
+  <weui-button type="primary" @click="show5 = true">无遮罩 Toast</weui-button>
   <weui-toast
-    v-model:visible="show4"
+    v-model:visible="show5"
     content="无遮罩提示"
     type="success"
     :mask="false"
@@ -137,14 +225,17 @@ const show = ref(false)
 ```
 :::
 
-## 命令式调用
+## 命令式：success / warning / text
 
-通过 `Toast.show / success / loading / warning / text / hide` 命令式调用，无需在模板中声明组件。调用前需在应用中挂载 `<weui-overlay-host />`。多次调用会通过内部队列排队，前一个关闭后才显示下一个。`Toast.show` 返回 Promise，关闭时（自动或 `hide()`）resolve。
+通过 `Toast.success / warning / text` 命令式调用，无需在模板中声明组件。调用前需在应用中挂载 `<weui-overlay-host />`。多次调用会通过内部队列排队，前一个关闭后才显示下一个。
 
 <div class="demo-block">
-  <weui-button type="primary" @click="showImpSuccess">Toast.success</weui-button>
-  <weui-button type="primary" @click="showImpLoading">Toast.loading</weui-button>
-  <weui-button type="primary" @click="showImpHide">Toast.hide</weui-button>
+  <div class="demo-row">
+    <weui-button type="primary" @click="onImpSuccess">Toast.success</weui-button>
+    <weui-button type="primary" @click="onImpWarning">Toast.warning</weui-button>
+    <weui-button type="primary" @click="onImpText">Toast.text</weui-button>
+  </div>
+  <p v-if="lastResult" style="margin-top: 8px; color: #07c160;">{{ lastResult }}</p>
 </div>
 
 ::: details 查看代码
@@ -152,15 +243,44 @@ const show = ref(false)
 <template>
   <weui-overlay-host />
   <weui-button type="primary" @click="showImpSuccess">Toast.success</weui-button>
-  <weui-button type="primary" @click="showImpLoading">Toast.loading</weui-button>
-  <weui-button type="primary" @click="showImpHide">Toast.hide</weui-button>
+  <weui-button type="primary" @click="showImpWarning">Toast.warning</weui-button>
+  <weui-button type="primary" @click="showImpText">Toast.text</weui-button>
 </template>
 
 <script setup lang="ts">
 import { Toast } from 'weui-design-vue'
 
-const showImpSuccess = () => Toast.success('已完成')
-const showImpLoading = () => Toast.loading('加载中')
+const showImpSuccess = () => Toast.success('操作成功')
+const showImpWarning = () => Toast.warning('请注意警告')
+const showImpText = () => Toast.text('纯文本提示')
+</script>
+```
+:::
+
+## 命令式：loading + hide
+
+`Toast.loading` 默认 `duration=0`（不自动关闭），需手动调用 `Toast.hide()` 关闭。
+
+<div class="demo-block">
+  <div class="demo-row">
+    <weui-button type="primary" @click="onImpLoading">Toast.loading</weui-button>
+    <weui-button type="default" @click="onImpHide">Toast.hide</weui-button>
+  </div>
+  <p v-if="lastResult" style="margin-top: 8px; color: #07c160;">{{ lastResult }}</p>
+</div>
+
+::: details 查看代码
+```vue
+<template>
+  <weui-overlay-host />
+  <weui-button type="primary" @click="showImpLoading">Toast.loading</weui-button>
+  <weui-button type="default" @click="showImpHide">Toast.hide</weui-button>
+</template>
+
+<script setup lang="ts">
+import { Toast } from 'weui-design-vue'
+
+const showImpLoading = () => Toast.loading('加载中...')
 const showImpHide = () => Toast.hide()
 </script>
 ```
@@ -187,7 +307,7 @@ const showImpHide = () => Toast.hide()
 
 ## 命令式 API
 
-### Toast.show(options): Promise<void>
+### Toast.show(options): `Promise<void>`
 
 显示 toast，关闭时（自动或 `hide()`）resolve。多次调用会排队。
 
@@ -199,7 +319,7 @@ const showImpHide = () => Toast.hide()
 | mask | 是否显示透明遮罩 | boolean | true |
 | extClass | 自定义附加类名 | string | — |
 
-### Toast.success(content, duration?): Promise<void>
+### Toast.success(content, duration?): `Promise<void>`
 
 成功提示快捷方法。默认 duration=2000。
 
@@ -208,15 +328,15 @@ const showImpHide = () => Toast.hide()
 | content | 提示文字 | string | — |
 | duration | 显示时长 ms | number | 2000 |
 
-### Toast.loading(content, duration?): Promise<void>
+### Toast.loading(content, duration?): `Promise<void>`
 
 加载提示快捷方法。默认 duration=0（不自动关闭），需手动 `Toast.hide()` 关闭。参数同 `success`。
 
-### Toast.warning(content, duration?): Promise<void>
+### Toast.warning(content, duration?): `Promise<void>`
 
 警告提示快捷方法。参数同 `success`。
 
-### Toast.text(content, duration?): Promise<void>
+### Toast.text(content, duration?): `Promise<void>`
 
 纯文本提示快捷方法（无图标）。参数同 `success`。
 
