@@ -4,77 +4,127 @@
 
 ## 基础用法
 
-默认 `type` 为 `default`，渲染加载图标和文字，文字默认为"正在加载"。
+默认 `type` 为 `default`，渲染加载图标（`.weui-loading`）和文字，文字默认为"正在加载"。
 
+<div class="demo-block">
+  <weui-loadmore />
+</div>
+
+::: details 查看代码
 ```vue
 <template>
   <weui-loadmore />
-  <weui-loadmore text="加载中..." />
 </template>
 ```
+:::
 
 ## 分割线样式
 
 设置 `type` 为 `line`，渲染分割线和文字，常用于"暂无数据"分隔场景。
 
+<div class="demo-block">
+  <weui-loadmore type="line" text="暂无数据" />
+</div>
+
+::: details 查看代码
 ```vue
 <template>
   <weui-loadmore type="line" text="暂无数据" />
 </template>
 ```
+:::
 
 ## 点点样式
 
 设置 `type` 为 `dot`，渲染点点样式，常用于列表底部"已无更多数据"的视觉提示。
 
+<div class="demo-block">
+  <weui-loadmore type="dot" />
+</div>
+
+::: details 查看代码
 ```vue
 <template>
   <weui-loadmore type="dot" />
 </template>
 ```
+:::
 
 ## 自定义文字
 
 通过 `text` 属性自定义文字内容，适用于不同业务场景的加载提示。
 
+<div class="demo-block">
+  <weui-loadmore text="正在加载更多" />
+  <weui-loadmore type="line" text="没有更多了" />
+</div>
+
+::: details 查看代码
 ```vue
 <template>
   <weui-loadmore text="正在加载更多" />
   <weui-loadmore type="line" text="没有更多了" />
 </template>
 ```
+:::
 
 ## 隐藏文字
 
 通过 `showText` 属性控制是否显示文字，设为 `false` 时仅保留加载图标或点点视觉。
 
+<div class="demo-block">
+  <weui-loadmore :show-text="false" />
+  <weui-loadmore type="dot" :show-text="false" />
+</div>
+
+::: details 查看代码
 ```vue
 <template>
   <weui-loadmore :show-text="false" />
   <weui-loadmore type="dot" :show-text="false" />
 </template>
 ```
+:::
+
+## 三种样式对比
+
+<div class="demo-block">
+  <weui-loadmore text="加载中" />
+  <weui-loadmore type="line" text="暂无数据" />
+  <weui-loadmore type="dot" text="已无更多" />
+</div>
+
+::: details 查看代码
+```vue
+<template>
+  <weui-loadmore text="加载中" />
+  <weui-loadmore type="line" text="暂无数据" />
+  <weui-loadmore type="dot" text="已无更多" />
+</template>
+```
+:::
 
 ## 扩展类名
 
 通过 `extClass` 属性追加自定义类名，用于在父容器中定制样式（如调整间距）。
 
+<div class="demo-block">
+  <weui-loadmore ext-class="my-loadmore" />
+</div>
+
+::: details 查看代码
 ```vue
 <template>
   <weui-loadmore ext-class="my-loadmore" />
 </template>
-
-<style>
-.my-loadmore {
-  margin-top: 40px;
-}
-</style>
 ```
+:::
 
 ## 列表加载场景
 
 加载更多组件常配合列表使用，放在列表底部作为加载或结束提示：
 
+::: details 查看代码
 ```vue
 <template>
   <view class="weui-cells">
@@ -85,7 +135,15 @@
   <weui-loadmore v-if="loading" text="正在加载" />
   <weui-loadmore v-else-if="finished" type="line" text="暂无更多数据" />
 </template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+const loading = ref(false)
+const finished = ref(true)
+const list = ref([{ id: 1, text: '列表项一' }, { id: 2, text: '列表项二' }])
+</script>
 ```
+:::
 
 ## Attributes
 
