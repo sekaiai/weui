@@ -6,7 +6,7 @@
 pnpm add weui-design-vue
 ```
 
-WeUI Design Vue 支持三种使用场景：**uni-app（小程序/H5）** 和 **纯 Vue 3 项目**。组件库一套代码同时服务三端，各端的样式与标签处理方式不同。
+WeUI Design Vue 支持两类使用场景：**uni-app（小程序/H5）** 和 **纯 Vue 3 项目**。组件库一套代码同时服务三个端，各端的样式与标签处理方式不同。
 
 ## 在 uni-app 项目中使用（小程序 / H5）
 

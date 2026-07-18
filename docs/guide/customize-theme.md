@@ -41,4 +41,3 @@ WeUI Design Vue 通过 CSS 变量提供主题定制能力。`weui.css` 已内置
 | --weui-ORANGE | 橙色 | #fa9d3b |
 | --weui-BLUE | 蓝色 | #10aeff |
 | --weui-LINK | 链接色 | #576b95 |
-| --weui-BORDER | 边框色 | rgba(0,0,0,0.1) |
