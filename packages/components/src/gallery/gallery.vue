@@ -91,18 +91,34 @@ const maskStyle = computed(() => {
 watch(
   () => props.visible,
   (val) => {
-    if (val) {
-      // 显示：先挂载外层，下一 tick 触发淡入
-      wrapperShow.value = true
-      showTimer = setTimeout(() => {
-        innerShow.value = true
-      }, 16)
-    } else if (wrapperShow.value) {
-      // 隐藏：先触发淡出，动画结束后卸载外层
-      innerShow.value = false
-      hideTimer = setTimeout(() => {
-        wrapperShow.value = false
-      }, 300)
+    if (__IS_H5__) {
+      // H5 端：渲染 UI + 淡入淡出动画
+      if (val) {
+        // 显示：先挂载外层，下一 tick 触发淡入
+        wrapperShow.value = true
+        showTimer = setTimeout(() => {
+          innerShow.value = true
+        }, 16)
+      } else if (wrapperShow.value) {
+        // 隐藏：先触发淡出，动画结束后卸载外层
+        innerShow.value = false
+        hideTimer = setTimeout(() => {
+          wrapperShow.value = false
+        }, 300)
+      }
+    } else {
+      // 非 H5 端：调用 uni.previewImage 系统预览，不渲染自定义 UI
+      // wrapperShow 始终为 false，模板 v-if="wrapperShow" 自然不渲染
+      if (val) {
+        uni.previewImage({
+          urls: props.src ? [props.src] : [],
+          complete: () => {
+            emit('update:visible', false)
+            emit('hide')
+            emit('weui-close')
+          },
+        })
+      }
     }
   },
   { immediate: true },

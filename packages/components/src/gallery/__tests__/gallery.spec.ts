@@ -5,6 +5,12 @@ import { Gallery } from '../gallery'
 import { setOverlayHost } from '../../utils/overlay-host-ref'
 import { overlayManager } from '../../utils/overlay'
 
+// mock uni.previewImage（gallery 非 H5 端调用）
+const mockPreviewImage = vi.fn()
+vi.stubGlobal('uni', {
+  previewImage: mockPreviewImage,
+})
+
 describe('WeuiGallery', () => {
   describe('visible', () => {
     it('visible=false 时不渲染', () => {
@@ -148,6 +154,20 @@ describe('WeuiGallery', () => {
       expect(wrapper.find('.weui-gallery__opr').exists()).toBe(true)
       expect(wrapper.find('.custom-opr').exists()).toBe(true)
       expect(wrapper.find('.weui-gallery__del').exists()).toBe(false)
+    })
+  })
+
+  describe('小程序端适配（非 H5）', () => {
+    // 注：vitest 中 __IS_H5__ = true，无法直接测试非 H5 路径
+    // 非 H5 路径由 build-plugin 在构建时处理，单元测试不覆盖
+    // 此处仅验证 H5 端不调用 uni.previewImage
+    it('H5 端 visible=true 时不调用 uni.previewImage', async () => {
+      mockPreviewImage.mockReset()
+      const wrapper = mount(WeuiGallery, {
+        props: { visible: false, src: 'test.jpg' },
+      })
+      await wrapper.setProps({ visible: true })
+      expect(mockPreviewImage).not.toHaveBeenCalled()
     })
   })
 })

@@ -50,4 +50,11 @@ declare const uni: {
     fail?: (err: { errMsg: string }) => void
     complete?: () => void
   }): void
+  previewImage(options: {
+    urls: string[]
+    current?: string | number
+    success?: (res: unknown) => void
+    fail?: (err: unknown) => void
+    complete?: () => void
+  }): void
 }
