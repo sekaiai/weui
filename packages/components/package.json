@@ -14,7 +14,8 @@
       "default": "./dist/uni-app/index.ts"
     },
     "./styles/*": "./dist/vue3/styles/*",
-    "./uni-app/styles/*": "./dist/uni-app/styles/*"
+    "./uni-app/styles/*": "./dist/uni-app/styles/*",
+    "./dist/uni-app/*": "./dist/uni-app/*"
   },
   "files": [
     "dist"

@@ -15,7 +15,7 @@ test.describe('Icon 组件', () => {
     await gotoPage('icon')
 
     const section = page.locator('.demo-section').filter({ hasText: '所有图标类型' })
-    const icons = section.locator('i')
+    const icons = section.locator('[class*="weui-icon-"]')
     await expect(icons).toHaveCount(13)
 
     const types = [
@@ -42,7 +42,7 @@ test.describe('Icon 组件', () => {
     await gotoPage('icon')
 
     const section = page.locator('.demo-section').filter({ hasText: '自定义尺寸' })
-    const icons = section.locator('i')
+    const icons = section.locator('[class*="weui-icon-"]')
     await expect(icons).toHaveCount(4)
     await expect(icons.nth(0)).toHaveCSS('font-size', '16px')
     await expect(icons.nth(1)).toHaveCSS('font-size', '23px')
@@ -54,7 +54,7 @@ test.describe('Icon 组件', () => {
     await gotoPage('icon')
 
     const section = page.locator('.demo-section').filter({ hasText: '自定义颜色' })
-    const icons = section.locator('i')
+    const icons = section.locator('[class*="weui-icon-"]')
     await expect(icons).toHaveCount(4)
     await expect(icons.nth(0)).toHaveCSS('color', 'rgb(7, 193, 96)')   // #07C160
     await expect(icons.nth(1)).toHaveCSS('color', 'rgb(16, 174, 255)') // #10AEFF
@@ -66,7 +66,7 @@ test.describe('Icon 组件', () => {
     await gotoPage('icon')
 
     const section = page.locator('.demo-section').filter({ hasText: '字符串 size' })
-    const icons = section.locator('i')
+    const icons = section.locator('[class*="weui-icon-"]')
     await expect(icons).toHaveCount(2)
     await expect(icons.nth(0)).toHaveCSS('font-size', '28px')
     await expect(icons.nth(1)).toHaveCSS('font-size', '28px')
@@ -76,7 +76,7 @@ test.describe('Icon 组件', () => {
     await gotoPage('icon')
 
     const section = page.locator('.demo-section').filter({ hasText: '自定义尺寸' })
-    const icon = section.locator('i').first()
+    const icon = section.locator('[class*="weui-icon-"]').first()
     await expect(icon).toBeVisible()
     const style = await icon.getAttribute('style')
     expect(style).not.toContain('color:')

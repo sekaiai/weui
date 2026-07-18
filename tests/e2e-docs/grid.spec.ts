@@ -27,7 +27,7 @@ test.describe('Grid 文档', () => {
     await expect(firstDemo.locator('.weui-grid__icon')).toHaveCount(9)
     await expect(firstDemo.locator('.weui-grid__label')).toHaveCount(9)
     // icon 插槽渲染了 weui-icon
-    await expect(firstDemo.locator('.weui-grid__icon i[class^="weui-icon-"]')).toHaveCount(9)
+    await expect(firstDemo.locator('.weui-grid__icon [class^="weui-icon-"]')).toHaveCount(9)
     await expect(firstDemo.locator('.weui-grid__label').first()).toContainText('成功')
   })
 

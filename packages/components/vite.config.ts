@@ -2,6 +2,19 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { platformTransform } from './build-plugin'
 
+// uni-app 原生标签：在 Vue3 产物中作为自定义元素渲染
+// 这些标签在 uni-app 产物中由 uni-app 编译器处理，但在 Vue3 产物中
+// 必须配置为 isCustomElement，否则 @vitejs/plugin-vue 会编译为
+// resolveComponent 调用，运行时因组件未注册而报错
+const UNI_NATIVE_TAGS = [
+  'checkbox', 'radio',
+  'checkbox-group', 'radio-group',
+  'navigator',
+  'swiper', 'swiper-item', 'scroll-view',
+  'movable-area', 'movable-view',
+  'picker-view', 'picker-view-column', 'rich-text',
+]
+
 export default defineConfig(({ mode, command }) => {
   const isUniApp = mode === 'uni-app'
   const isBuild = command === 'build'
@@ -19,7 +32,13 @@ export default defineConfig(({ mode, command }) => {
             },
           ]
         : []),
-      vue(),
+      vue({
+        template: {
+          compilerOptions: {
+            isCustomElement: (tag: string) => UNI_NATIVE_TAGS.includes(tag),
+          },
+        },
+      }),
     ],
     build: isBuild ? {
       outDir: `dist/${isUniApp ? 'uni-app' : 'vue3'}`,

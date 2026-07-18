@@ -31,14 +31,14 @@ test.describe('Icon 文档', () => {
     const items = gridDemo.locator('.icon-grid__item')
     await expect(items).toHaveCount(14)
     // 每项都渲染了图标
-    await expect(gridDemo.locator('i[class^="weui-icon-"]')).toHaveCount(14)
+    await expect(gridDemo.locator('[class^="weui-icon-"]')).toHaveCount(14)
   })
 
   test('图标类型：点击图标显示对应类型名', async ({ page, gotoDocsPage }) => {
     await gotoDocsPage('icon')
     const gridDemo = page.locator('.demo-block').nth(1)
-    // 点击第一项内的 <i>（真实元素），事件冒泡到 view 的 @click
-    const firstIcon = gridDemo.locator('.icon-grid__item').first().locator('i')
+    // 点击第一项内的图标元素，事件冒泡到父级 div 的 @click
+    const firstIcon = gridDemo.locator('.icon-grid__item').first().locator('[class^="weui-icon-"]')
     await firstIcon.click()
     await expect(gridDemo.locator('p')).toContainText('已点击：success')
   })
@@ -57,7 +57,7 @@ test.describe('Icon 文档', () => {
   test('自定义颜色：color 生效', async ({ page, gotoDocsPage }) => {
     await gotoDocsPage('icon')
     const colorDemo = page.locator('.demo-block').nth(3)
-    const icons = colorDemo.locator('i[class^="weui-icon-"]')
+    const icons = colorDemo.locator('[class^="weui-icon-"]')
     await expect(icons).toHaveCount(4)
     await expect(icons.nth(0)).toHaveCSS('color', 'rgb(7, 193, 96)')
     await expect(icons.nth(1)).toHaveCSS('color', 'rgb(250, 157, 59)')
