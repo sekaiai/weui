@@ -19,6 +19,11 @@
             v-if="hasStatusOverlay(file)"
             class="weui-uploader__file-content"
           >{{ resolveStatusText(file) }}</div>
+          <div
+            v-if="__IS_H5__"
+            class="weui-uploader__file-delete"
+            @click.stop="handleDelete(file, index)"
+          >×</div>
         </div>
       </div>
 
@@ -37,6 +42,7 @@
     </div>
 
     <div v-if="tips" class="weui-uploader__tips">{{ tips }}</div>
+    <div v-else-if="!__IS_H5__ && files.length > 0" class="weui-uploader__tips">长按图片可删除</div>
 
     <slot />
   </div>
