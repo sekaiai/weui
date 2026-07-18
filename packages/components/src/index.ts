@@ -45,9 +45,6 @@ import { WeuiSteps } from './steps'
 // 展示
 import { WeuiMsg } from './msg'
 
-// Vue 3 适配层（纯 Vue 3 环境使用，如 VitePress 文档站）
-import { Vue3Adapter } from './vue3-adapter'
-
 // 类型导出 — 基础组件
 import type { WeuiButtonProps, WeuiButtonEmits } from './button'
 import type { WeuiBadgeProps } from './badge'
@@ -130,8 +127,6 @@ export {
   WeuiNavbar, WeuiNavbarItem, WeuiTabbar, WeuiTabbarItem, WeuiSteps,
   // 展示
   WeuiMsg,
-  // Vue 3 适配层
-  Vue3Adapter,
 }
 
 // 类型导出
