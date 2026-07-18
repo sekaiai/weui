@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import WeuiInput from '../input.vue'
 
@@ -64,20 +64,20 @@ describe('WeuiInput', () => {
       expect(wrapper.find('input').attributes('type')).toBe('number')
     })
 
-    it('type=idcard', () => {
-      const wrapper = mount(WeuiInput, { props: { type: 'idcard' } })
-      expect(wrapper.find('input').attributes('type')).toBe('idcard')
-    })
-
-    it('type=digit', () => {
-      const wrapper = mount(WeuiInput, { props: { type: 'digit' } })
-      expect(wrapper.find('input').attributes('type')).toBe('digit')
-    })
-
-    it('type=password 时 input type 为 text 且带 password 属性', () => {
+    it('type=password 时 H5 端 input type 为 password（无 password 属性）', () => {
       const wrapper = mount(WeuiInput, { props: { type: 'password' } })
+      expect(wrapper.find('input').attributes('type')).toBe('password')
+      expect(wrapper.find('input').attributes('password')).toBeUndefined()
+    })
+
+    it('type=idcard 时 H5 端降级为 text', () => {
+      const wrapper = mount(WeuiInput, { props: { type: 'idcard' } })
       expect(wrapper.find('input').attributes('type')).toBe('text')
-      expect(wrapper.find('input').attributes('password')).toBe('true')
+    })
+
+    it('type=digit 时 H5 端降级为 text', () => {
+      const wrapper = mount(WeuiInput, { props: { type: 'digit' } })
+      expect(wrapper.find('input').attributes('type')).toBe('text')
     })
 
     it('非 password 类型时不渲染 password 属性', () => {
@@ -163,6 +163,22 @@ describe('WeuiInput', () => {
       const wrapper = mount(WeuiInput)
       expect(wrapper.find('input').exists()).toBe(true)
     })
+
+    it('focus=true 时 H5 端调用 DOM focus()', async () => {
+      const wrapper = mount(WeuiInput, { props: { focus: false } })
+      const inputEl = wrapper.find('input').element as HTMLInputElement
+      const focusSpy = vi.spyOn(inputEl, 'focus')
+      await wrapper.setProps({ focus: true })
+      expect(focusSpy).toHaveBeenCalledTimes(1)
+    })
+
+    it('focus 从 true 变 false 时调用 DOM blur()', async () => {
+      const wrapper = mount(WeuiInput, { props: { focus: true } })
+      const inputEl = wrapper.find('input').element as HTMLInputElement
+      const blurSpy = vi.spyOn(inputEl, 'blur')
+      await wrapper.setProps({ focus: false })
+      expect(blurSpy).toHaveBeenCalledTimes(1)
+    })
   })
 
   describe('extClass', () => {
@@ -190,9 +206,9 @@ describe('WeuiInput', () => {
       expect(wrapper.emitted('blur')).toHaveLength(1)
     })
 
-    it('confirm 事件透传', async () => {
+    it('H5 端按 Enter 触发 confirm 事件', async () => {
       const wrapper = mount(WeuiInput)
-      await wrapper.find('input').trigger('confirm')
+      await wrapper.find('input').trigger('keydown', { key: 'Enter' })
       expect(wrapper.emitted('confirm')).toHaveLength(1)
     })
   })
