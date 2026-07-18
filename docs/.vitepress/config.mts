@@ -101,7 +101,7 @@ const config: UserConfig = {
       compilerOptions: {
         isCustomElement: (tag: string) =>
           [
-            'view', 'text', 'image', 'checkbox', 'radio',
+            'checkbox', 'radio',
             'checkbox-group', 'radio-group', 'navigator',
             'swiper', 'swiper-item', 'scroll-view',
             'movable-area', 'movable-view',

@@ -1,6 +1,6 @@
 import DefaultTheme from 'vitepress/theme'
 import type { Theme } from 'vitepress'
-import WeuiDesignVue from 'weui-design-vue'
+import WeuiDesignVue, { Vue3Adapter } from 'weui-design-vue'
 
 // 全局引入 weui 基础样式
 import 'weui/dist/style/weui.css'
@@ -14,6 +14,9 @@ const theme: Theme = {
   enhanceApp(ctx) {
     DefaultTheme.enhanceApp(ctx)
     ctx.app.use(WeuiDesignVue)
+    // 注册 Vue3Adapter：在纯 Vue 3 环境（VitePress）中将 view/text/image
+    // 映射为 div/span/img，使 uni-app 标签在浏览器中正确渲染
+    ctx.app.use(Vue3Adapter)
   },
 }
 
