@@ -31,8 +31,8 @@ test.describe('Input 文档', () => {
     const typeDemo = page.locator('.demo-block').nth(1)
     // 验证有 4 个 input（number/idcard/digit/password）
     await expect(typeDemo.locator('input')).toHaveCount(4)
-    // 验证密码输入框存在
-    const pwdInput = typeDemo.locator('input[password]')
+    // 验证密码输入框存在（H5 端用原生 type="password"）
+    const pwdInput = typeDemo.locator('input[type="password"]')
     await expect(pwdInput).toHaveCount(1)
   })
 
@@ -76,6 +76,16 @@ test.describe('Input 文档', () => {
     const input = focusDemo.locator('input')
     // 点击 input 使其聚焦（浏览器中 focus prop 由 uni-app 框架处理，此处验证原生聚焦行为）
     await input.click()
+    await expect(input).toBeFocused()
+  })
+
+  test('自动聚焦：点击按钮触发 focus prop 切换', async ({ page, gotoDocsPage }) => {
+    await gotoDocsPage('input')
+    const focusDemo = page.locator('.demo-block').nth(5)
+    const input = focusDemo.locator('input')
+    // 点击「聚焦输入框」按钮触发 focus prop 变化
+    await focusDemo.locator('.weui-btn').click()
+    // 验证 input 获得焦点（H5 端 watch focus 调 inputRef.focus()）
     await expect(input).toBeFocused()
   })
 })

@@ -95,4 +95,33 @@ test.describe('Uploader 文档', () => {
     // 验证 preview 事件被触发
     await expect(firstDemo.locator('p')).toContainText('preview: 预览第 1 个文件')
   })
+
+  test('H5 端 × 删除按钮：点击触发 delete 事件且不触发 preview', async ({ page, gotoDocsPage }) => {
+    await gotoDocsPage('uploader')
+    // 文件预览与删除是第 6 个 demo-block（index 5）
+    const previewDemo = page.locator('.demo-block').nth(5)
+    // 验证有 × 删除按钮（H5 端专属）
+    await expect(previewDemo.locator('.weui-uploader__file-delete')).toHaveCount(2)
+    // 点击第一个 × 按钮
+    await previewDemo.locator('.weui-uploader__file-delete').first().click()
+    // 验证 delete 事件被触发
+    await expect(previewDemo.locator('p')).toContainText('delete: 删除第 1 个文件')
+    // 验证 preview 未被触发（× 按钮 @click.stop 阻止冒泡）
+    await expect(previewDemo.locator('p')).not.toContainText('preview:')
+  })
+
+  test('H5 端 preview 触发 gallery 显示', async ({ page, gotoDocsPage }) => {
+    await gotoDocsPage('uploader')
+    // 基础用法 demo-block（index 0）含 onPreview 调用 Gallery.show
+    const firstDemo = page.locator('.demo-block').first()
+    // 初始状态 gallery 不可见
+    await expect(page.locator('.weui-gallery')).toHaveCount(0)
+    // 点击第一个文件触发 preview
+    await firstDemo.locator('.weui-uploader__file').first().evaluate((el) => (el as HTMLElement).click())
+    // 验证 gallery 可见（task 7 改造后 onPreview 调 Gallery.show）
+    await expect(page.locator('.weui-gallery')).toBeVisible({ timeout: 5_000 })
+    // 点击遮罩关闭 gallery
+    await page.locator('.weui-gallery').click({ position: { x: 10, y: 10 } })
+    await expect(page.locator('.weui-gallery')).toHaveCount(0)
+  })
 })

@@ -107,4 +107,32 @@ test.describe('Searchbar 文档', () => {
     // 验证 cancel 事件被记录
     await expect(eventDemo.locator('p', { hasText: 'cancel 事件' })).toBeVisible()
   })
+
+  test('搜索按钮：点击搜索按钮后 input 获得焦点', async ({ page, gotoDocsPage }) => {
+    await gotoDocsPage('searchbar')
+    // 搜索按钮是第 4 个 demo-block（index 3）
+    const searchDemo = page.locator('.demo-block').nth(3)
+    // 先输入值（searchbar 需要值才能稳定显示搜索按钮区）
+    await searchDemo.locator('.weui-search-bar__label').click()
+    await searchDemo.locator('.weui-search-bar__input').fill('keyword')
+    // 点击搜索按钮
+    await searchDemo.locator('.weui-search-bar__btn').click()
+    // 验证 input 获得焦点（H5 端 handleSearch 调 inputRef.focus()）
+    await expect(searchDemo.locator('.weui-search-bar__input')).toBeFocused()
+    // 验证 focusing 类保留
+    await expect(searchDemo.locator('.weui-search-bar')).toHaveClass(/weui-search-bar_focusing/)
+  })
+
+  test('有值时 blur 保持聚焦态', async ({ page, gotoDocsPage }) => {
+    await gotoDocsPage('searchbar')
+    const firstDemo = page.locator('.demo-block').first()
+    // 点击进入聚焦
+    await firstDemo.locator('.weui-search-bar__label').click()
+    // 输入文字
+    await firstDemo.locator('.weui-search-bar__input').fill('有内容')
+    // 触发 blur（点击搜索栏外部）
+    await page.locator('h1').click()
+    // 验证有值时保留 focusing 类（task 4 改造点）
+    await expect(firstDemo.locator('.weui-search-bar')).toHaveClass(/weui-search-bar_focusing/)
+  })
 })
