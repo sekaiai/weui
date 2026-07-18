@@ -115,7 +115,7 @@ const linksWithUrl = [
 
 <div class="demo-block">
   <weui-footer>
-    <view class="weui-footer__text">这是通过插槽传入的自定义内容</view>
+    <div class="weui-footer__text">这是通过插槽传入的自定义内容</div>
   </weui-footer>
 </div>
 
@@ -123,7 +123,7 @@ const linksWithUrl = [
 ```vue
 <template>
   <weui-footer>
-    <view class="weui-footer__text">这是通过插槽传入的自定义内容</view>
+    <div class="weui-footer__text">这是通过插槽传入的自定义内容</div>
   </weui-footer>
 </template>
 ```

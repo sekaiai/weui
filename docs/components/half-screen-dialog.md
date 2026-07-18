@@ -232,14 +232,14 @@ const threeButtons: HalfScreenDialogButton[] = [
   <weui-button type="primary" @click="show6 = true">自定义内容</weui-button>
   <weui-half-screen-dialog v-model:visible="show6">
     <template #title>
-      <text>自定义标题</text>
+      <span>自定义标题</span>
     </template>
-    <view style="text-align: center; padding: 16px 0;">
-      <text style="color: #fa5151; font-size: 16px;">⚠️</text>
-      <text>这是一个带图标的提示内容，可以放置更丰富的内容。</text>
-    </view>
+    <div style="text-align: center; padding: 16px 0;">
+      <span style="color: #fa5151; font-size: 16px;">⚠️</span>
+      <span>这是一个带图标的提示内容，可以放置更丰富的内容。</span>
+    </div>
     <template #footer>
-      <view class="weui-half-screen-dialog__btn weui-half-screen-dialog__btn_primary" @click="show6 = false">知道了</view>
+      <div class="weui-half-screen-dialog__btn weui-half-screen-dialog__btn_primary" @click="show6 = false">知道了</div>
     </template>
   </weui-half-screen-dialog>
 </div>
@@ -249,14 +249,14 @@ const threeButtons: HalfScreenDialogButton[] = [
 <template>
   <weui-half-screen-dialog v-model:visible="show">
     <template #title>
-      <text>自定义标题</text>
+      <span>自定义标题</span>
     </template>
-    <view style="text-align: center; padding: 16px 0;">
-      <text style="color: #fa5151; font-size: 16px;">⚠️</text>
-      <text>这是一个带图标的提示内容，可以放置更丰富的内容。</text>
-    </view>
+    <div style="text-align: center; padding: 16px 0;">
+      <span style="color: #fa5151; font-size: 16px;">⚠️</span>
+      <span>这是一个带图标的提示内容，可以放置更丰富的内容。</span>
+    </div>
     <template #footer>
-      <view class="weui-half-screen-dialog__btn weui-half-screen-dialog__btn_primary" @click="show = false">知道了</view>
+      <div class="weui-half-screen-dialog__btn weui-half-screen-dialog__btn_primary" @click="show = false">知道了</div>
     </template>
   </weui-half-screen-dialog>
 </template>

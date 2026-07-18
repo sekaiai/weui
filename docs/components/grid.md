@@ -97,19 +97,19 @@ const gridList = [
 <div class="demo-block demo-mobile">
   <weui-grid>
     <weui-grid-item>
-      <view style="text-align:center;padding:16px 0;">
-        <text style="font-size:24px;color:#07c160;">A</text>
-      </view>
+      <div style="text-align:center;padding:16px 0;">
+        <span style="font-size:24px;color:#07c160;">A</span>
+      </div>
     </weui-grid-item>
     <weui-grid-item>
-      <view style="text-align:center;padding:16px 0;">
-        <text style="font-size:24px;color:#10aeff;">B</text>
-      </view>
+      <div style="text-align:center;padding:16px 0;">
+        <span style="font-size:24px;color:#10aeff;">B</span>
+      </div>
     </weui-grid-item>
     <weui-grid-item>
-      <view style="text-align:center;padding:16px 0;">
-        <text style="font-size:24px;color:#fa5151;">C</text>
-      </view>
+      <div style="text-align:center;padding:16px 0;">
+        <span style="font-size:24px;color:#fa5151;">C</span>
+      </div>
     </weui-grid-item>
   </weui-grid>
 </div>
@@ -119,19 +119,19 @@ const gridList = [
 <template>
   <weui-grid>
     <weui-grid-item>
-      <view style="text-align:center;padding:16px 0;">
-        <text style="font-size:24px;color:#07c160;">A</text>
-      </view>
+      <div style="text-align:center;padding:16px 0;">
+        <span style="font-size:24px;color:#07c160;">A</span>
+      </div>
     </weui-grid-item>
     <weui-grid-item>
-      <view style="text-align:center;padding:16px 0;">
-        <text style="font-size:24px;color:#10aeff;">B</text>
-      </view>
+      <div style="text-align:center;padding:16px 0;">
+        <span style="font-size:24px;color:#10aeff;">B</span>
+      </div>
     </weui-grid-item>
     <weui-grid-item>
-      <view style="text-align:center;padding:16px 0;">
-        <text style="font-size:24px;color:#fa5151;">C</text>
-      </view>
+      <div style="text-align:center;padding:16px 0;">
+        <span style="font-size:24px;color:#fa5151;">C</span>
+      </div>
     </weui-grid-item>
   </weui-grid>
 </template>

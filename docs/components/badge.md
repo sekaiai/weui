@@ -103,10 +103,10 @@
 通过 `extClass` 属性追加自定义类名，常配合父容器定位（如绝对定位到头像右上角）。
 
 <div class="demo-block">
-  <view class="badge-avatar-wrap">
-    <view class="badge-avatar"></view>
+  <div class="badge-avatar-wrap">
+    <div class="badge-avatar"></div>
     <weui-badge content="8" ext-class="badge-avatar-dot" />
-  </view>
+  </div>
 </div>
 
 <style>
@@ -130,10 +130,10 @@
 ::: details 查看代码
 ```vue
 <template>
-  <view class="badge-avatar-wrap">
-    <view class="badge-avatar"></view>
+  <div class="badge-avatar-wrap">
+    <div class="badge-avatar"></div>
     <weui-badge content="8" ext-class="badge-avatar-dot" />
-  </view>
+  </div>
 </template>
 
 <style>
@@ -161,25 +161,25 @@
 徽章常配合列表使用，放在 `weui-cell__ft` 中作为右侧提示。
 
 <div class="demo-block demo-mobile">
-  <view class="weui-cell weui-cell_access">
-    <view class="weui-cell__bd">单行列表</view>
-    <view class="weui-cell__ft">
-      <text>详细信息</text>
+  <div class="weui-cell weui-cell_access">
+    <div class="weui-cell__bd">单行列表</div>
+    <div class="weui-cell__ft">
+      <span>详细信息</span>
       <weui-badge aria-label="有更新" />
-    </view>
-  </view>
+    </div>
+  </div>
 </div>
 
 ::: details 查看代码
 ```vue
 <template>
-  <view class="weui-cell weui-cell_access">
-    <view class="weui-cell__bd">单行列表</view>
-    <view class="weui-cell__ft">
-      <text>详细信息</text>
+  <div class="weui-cell weui-cell_access">
+    <div class="weui-cell__bd">单行列表</div>
+    <div class="weui-cell__ft">
+      <span>详细信息</span>
       <weui-badge aria-label="有更新" />
-    </view>
-  </view>
+    </div>
+  </div>
 </template>
 ```
 :::

@@ -129,9 +129,9 @@ const onButtonTap = (btn: MsgButton, index: number) => {
 <div class="demo-block">
   <div class="demo-mobile">
     <weui-msg :buttons="[{ text: '返回', type: 'primary' }]">
-      <view style="padding: 24px 0; text-align: center;">
-        <text style="font-size: 16px; color: #353535;">完全自定义的内容</text>
-      </view>
+      <div style="padding: 24px 0; text-align: center;">
+        <span style="font-size: 16px; color: #353535;">完全自定义的内容</span>
+      </div>
     </weui-msg>
   </div>
 </div>
@@ -140,9 +140,9 @@ const onButtonTap = (btn: MsgButton, index: number) => {
 ```vue
 <template>
   <weui-msg :buttons="[{ text: '返回', type: 'primary' }]">
-    <view style="padding: 24px 0; text-align: center;">
-      <text style="font-size: 16px; color: #353535;">完全自定义的内容</text>
-    </view>
+    <div style="padding: 24px 0; text-align: center;">
+      <span style="font-size: 16px; color: #353535;">完全自定义的内容</span>
+    </div>
   </weui-msg>
 </template>
 ```
@@ -156,9 +156,9 @@ const onButtonTap = (btn: MsgButton, index: number) => {
   <div class="demo-mobile">
     <weui-msg type="success" title="操作成功">
       <template #footer>
-        <view class="weui-footer">
-          <text class="weui-footer__text">Copyright © 2026</text>
-        </view>
+        <div class="weui-footer">
+          <span class="weui-footer__text">Copyright © 2026</span>
+        </div>
       </template>
     </weui-msg>
   </div>
@@ -169,9 +169,9 @@ const onButtonTap = (btn: MsgButton, index: number) => {
 <template>
   <weui-msg type="success" title="操作成功">
     <template #footer>
-      <view class="weui-footer">
-        <text class="weui-footer__text">Copyright © 2026</text>
-      </view>
+      <div class="weui-footer">
+        <span class="weui-footer__text">Copyright © 2026</span>
+      </div>
     </template>
   </weui-msg>
 </template>

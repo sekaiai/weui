@@ -189,8 +189,8 @@ const radioValue = ref(['1'])
 <template>
   <weui-checkbox-group v-model="values" title="自定义内容">
     <weui-checkbox value="1">
-      <view>标题文字</view>
-      <view class="weui-cell__desc">副标题</view>
+      <div>标题文字</div>
+      <div class="weui-cell__desc">副标题</div>
     </weui-checkbox>
   </weui-checkbox-group>
 </template>

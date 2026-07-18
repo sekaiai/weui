@@ -54,10 +54,10 @@ const onClickIcon = (t: string) => {
 
 <div class="demo-block">
   <div class="icon-grid">
-    <view v-for="item in iconTypes" :key="item.type" class="icon-grid__item" @click="onClickIcon(item.type)">
+    <div v-for="item in iconTypes" :key="item.type" class="icon-grid__item" @click="onClickIcon(item.type)">
       <weui-icon :type="item.type" :size="28" />
-      <text class="icon-grid__label">{{ item.label }}</text>
-    </view>
+      <span class="icon-grid__label">{{ item.label }}</span>
+    </div>
   </div>
   <p v-if="clickType" style="margin-top:12px;color:#07c160;">已点击：{{ clickType }}</p>
 </div>
@@ -66,10 +66,10 @@ const onClickIcon = (t: string) => {
 ```vue
 <template>
   <div class="icon-grid">
-    <view v-for="item in iconTypes" :key="item.type" class="icon-grid__item" @click="onClickIcon(item.type)">
+    <div v-for="item in iconTypes" :key="item.type" class="icon-grid__item" @click="onClickIcon(item.type)">
       <weui-icon :type="item.type" :size="28" />
-      <text class="icon-grid__label">{{ item.label }}</text>
-    </view>
+      <span class="icon-grid__label">{{ item.label }}</span>
+    </div>
   </div>
 </template>
 

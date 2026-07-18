@@ -9,16 +9,16 @@
 <div class="demo-block">
   <div class="demo-mobile">
     <weui-list>
-      <view class="weui-cells">
-        <view class="weui-cell">
-          <view class="weui-cell__bd">标题文字</view>
-          <view class="weui-cell__ft">说明文字</view>
-        </view>
-        <view class="weui-cell">
-          <view class="weui-cell__bd">标题文字</view>
-          <view class="weui-cell__ft">说明文字</view>
-        </view>
-      </view>
+      <div class="weui-cells">
+        <div class="weui-cell">
+          <div class="weui-cell__bd">标题文字</div>
+          <div class="weui-cell__ft">说明文字</div>
+        </div>
+        <div class="weui-cell">
+          <div class="weui-cell__bd">标题文字</div>
+          <div class="weui-cell__ft">说明文字</div>
+        </div>
+      </div>
     </weui-list>
   </div>
 </div>
@@ -27,16 +27,16 @@
 ```vue
 <template>
   <weui-list>
-    <view class="weui-cells">
-      <view class="weui-cell">
-        <view class="weui-cell__bd">标题文字</view>
-        <view class="weui-cell__ft">说明文字</view>
-      </view>
-      <view class="weui-cell">
-        <view class="weui-cell__bd">标题文字</view>
-        <view class="weui-cell__ft">说明文字</view>
-      </view>
-    </view>
+    <div class="weui-cells">
+      <div class="weui-cell">
+        <div class="weui-cell__bd">标题文字</div>
+        <div class="weui-cell__ft">说明文字</div>
+      </div>
+      <div class="weui-cell">
+        <div class="weui-cell__bd">标题文字</div>
+        <div class="weui-cell__ft">说明文字</div>
+      </div>
+    </div>
   </weui-list>
 </template>
 ```
@@ -49,12 +49,12 @@
 <div class="demo-block">
   <div class="demo-mobile">
     <weui-list title="列表标题">
-      <view class="weui-cells">
-        <view class="weui-cell">
-          <view class="weui-cell__bd">标题文字</view>
-          <view class="weui-cell__ft">说明文字</view>
-        </view>
-      </view>
+      <div class="weui-cells">
+        <div class="weui-cell">
+          <div class="weui-cell__bd">标题文字</div>
+          <div class="weui-cell__ft">说明文字</div>
+        </div>
+      </div>
     </weui-list>
   </div>
 </div>
@@ -63,12 +63,12 @@
 ```vue
 <template>
   <weui-list title="列表标题">
-    <view class="weui-cells">
-      <view class="weui-cell">
-        <view class="weui-cell__bd">标题文字</view>
-        <view class="weui-cell__ft">说明文字</view>
-      </view>
-    </view>
+    <div class="weui-cells">
+      <div class="weui-cell">
+        <div class="weui-cell__bd">标题文字</div>
+        <div class="weui-cell__ft">说明文字</div>
+      </div>
+    </div>
   </weui-list>
 </template>
 ```
@@ -81,12 +81,12 @@
 <div class="demo-block">
   <div class="demo-mobile">
     <weui-list tips="底部提示文字">
-      <view class="weui-cells">
-        <view class="weui-cell">
-          <view class="weui-cell__bd">标题文字</view>
-          <view class="weui-cell__ft">说明文字</view>
-        </view>
-      </view>
+      <div class="weui-cells">
+        <div class="weui-cell">
+          <div class="weui-cell__bd">标题文字</div>
+          <div class="weui-cell__ft">说明文字</div>
+        </div>
+      </div>
     </weui-list>
   </div>
 </div>
@@ -95,12 +95,12 @@
 ```vue
 <template>
   <weui-list tips="底部提示文字">
-    <view class="weui-cells">
-      <view class="weui-cell">
-        <view class="weui-cell__bd">标题文字</view>
-        <view class="weui-cell__ft">说明文字</view>
-      </view>
-    </view>
+    <div class="weui-cells">
+      <div class="weui-cell">
+        <div class="weui-cell__bd">标题文字</div>
+        <div class="weui-cell__ft">说明文字</div>
+      </div>
+    </div>
   </weui-list>
 </template>
 ```
@@ -113,16 +113,16 @@
 <div class="demo-block">
   <div class="demo-mobile">
     <weui-list title="列表标题" tips="底部提示文字">
-      <view class="weui-cells">
-        <view class="weui-cell">
-          <view class="weui-cell__bd">标题文字</view>
-          <view class="weui-cell__ft">说明文字</view>
-        </view>
-        <view class="weui-cell">
-          <view class="weui-cell__bd">标题文字</view>
-          <view class="weui-cell__ft">说明文字</view>
-        </view>
-      </view>
+      <div class="weui-cells">
+        <div class="weui-cell">
+          <div class="weui-cell__bd">标题文字</div>
+          <div class="weui-cell__ft">说明文字</div>
+        </div>
+        <div class="weui-cell">
+          <div class="weui-cell__bd">标题文字</div>
+          <div class="weui-cell__ft">说明文字</div>
+        </div>
+      </div>
     </weui-list>
   </div>
 </div>
@@ -131,16 +131,16 @@
 ```vue
 <template>
   <weui-list title="列表标题" tips="底部提示文字">
-    <view class="weui-cells">
-      <view class="weui-cell">
-        <view class="weui-cell__bd">标题文字</view>
-        <view class="weui-cell__ft">说明文字</view>
-      </view>
-      <view class="weui-cell">
-        <view class="weui-cell__bd">标题文字</view>
-        <view class="weui-cell__ft">说明文字</view>
-      </view>
-    </view>
+    <div class="weui-cells">
+      <div class="weui-cell">
+        <div class="weui-cell__bd">标题文字</div>
+        <div class="weui-cell__ft">说明文字</div>
+      </div>
+      <div class="weui-cell">
+        <div class="weui-cell__bd">标题文字</div>
+        <div class="weui-cell__ft">说明文字</div>
+      </div>
+    </div>
   </weui-list>
 </template>
 ```

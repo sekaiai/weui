@@ -9,16 +9,16 @@
 <div class="demo-block">
   <div class="demo-mobile">
     <weui-panel title="标题">
-      <view class="weui-cells">
-        <view class="weui-cell">
-          <view class="weui-cell__bd">标题文字</view>
-          <view class="weui-cell__ft">说明文字</view>
-        </view>
-        <view class="weui-cell">
-          <view class="weui-cell__bd">标题文字</view>
-          <view class="weui-cell__ft">说明文字</view>
-        </view>
-      </view>
+      <div class="weui-cells">
+        <div class="weui-cell">
+          <div class="weui-cell__bd">标题文字</div>
+          <div class="weui-cell__ft">说明文字</div>
+        </div>
+        <div class="weui-cell">
+          <div class="weui-cell__bd">标题文字</div>
+          <div class="weui-cell__ft">说明文字</div>
+        </div>
+      </div>
     </weui-panel>
   </div>
 </div>
@@ -27,12 +27,12 @@
 ```vue
 <template>
   <weui-panel title="标题">
-    <view class="weui-cells">
-      <view class="weui-cell">
-        <view class="weui-cell__bd">标题文字</view>
-        <view class="weui-cell__ft">说明文字</view>
-      </view>
-    </view>
+    <div class="weui-cells">
+      <div class="weui-cell">
+        <div class="weui-cell__bd">标题文字</div>
+        <div class="weui-cell__ft">说明文字</div>
+      </div>
+    </div>
   </weui-panel>
 </template>
 ```
@@ -45,12 +45,12 @@
 <div class="demo-block">
   <div class="demo-mobile">
     <weui-panel>
-      <view class="weui-cells">
-        <view class="weui-cell">
-          <view class="weui-cell__bd">标题文字</view>
-          <view class="weui-cell__ft">说明文字</view>
-        </view>
-      </view>
+      <div class="weui-cells">
+        <div class="weui-cell">
+          <div class="weui-cell__bd">标题文字</div>
+          <div class="weui-cell__ft">说明文字</div>
+        </div>
+      </div>
     </weui-panel>
   </div>
 </div>
@@ -59,12 +59,12 @@
 ```vue
 <template>
   <weui-panel>
-    <view class="weui-cells">
-      <view class="weui-cell">
-        <view class="weui-cell__bd">标题文字</view>
-        <view class="weui-cell__ft">说明文字</view>
-      </view>
-    </view>
+    <div class="weui-cells">
+      <div class="weui-cell">
+        <div class="weui-cell__bd">标题文字</div>
+        <div class="weui-cell__ft">说明文字</div>
+      </div>
+    </div>
   </weui-panel>
 </template>
 ```
@@ -77,15 +77,15 @@
 <div class="demo-block">
   <div class="demo-mobile">
     <weui-panel type="access" title="图文组合列表">
-      <view class="weui-media-box weui-media-box_appmsg">
-        <view class="weui-media-box__hd">
-          <image class="weui-media-box__thumb" src="https://weui.io/images/pic_160.png" />
-        </view>
-        <view class="weui-media-box__bd">
-          <view class="weui-media-box__title">标题一</view>
-          <view class="weui-media-box__desc">由各种物质组成的巨型球状天体</view>
-        </view>
-      </view>
+      <div class="weui-media-box weui-media-box_appmsg">
+        <div class="weui-media-box__hd">
+          <img class="weui-media-box__thumb" src="https://weui.io/images/pic_160.png" />
+        </div>
+        <div class="weui-media-box__bd">
+          <div class="weui-media-box__title">标题一</div>
+          <div class="weui-media-box__desc">由各种物质组成的巨型球状天体</div>
+        </div>
+      </div>
     </weui-panel>
   </div>
 </div>
@@ -94,15 +94,15 @@
 ```vue
 <template>
   <weui-panel type="access" title="图文组合列表">
-    <view class="weui-media-box weui-media-box_appmsg">
-      <view class="weui-media-box__hd">
-        <image class="weui-media-box__thumb" src="https://weui.io/images/pic_160.png" />
-      </view>
-      <view class="weui-media-box__bd">
-        <view class="weui-media-box__title">标题一</view>
-        <view class="weui-media-box__desc">由各种物质组成的巨型球状天体</view>
-      </view>
-    </view>
+    <div class="weui-media-box weui-media-box_appmsg">
+      <div class="weui-media-box__hd">
+        <img class="weui-media-box__thumb" src="https://weui.io/images/pic_160.png" />
+      </div>
+      <div class="weui-media-box__bd">
+        <div class="weui-media-box__title">标题一</div>
+        <div class="weui-media-box__desc">由各种物质组成的巨型球状天体</div>
+      </div>
+    </div>
   </weui-panel>
 </template>
 ```
@@ -116,13 +116,13 @@
   <div class="demo-mobile">
     <weui-panel>
       <template #header>
-        <view style="font-weight: bold; color: #576b95;">自定义头部</view>
+        <div style="font-weight: bold; color: #576b95;">自定义头部</div>
       </template>
-      <view class="weui-cells">
-        <view class="weui-cell">
-          <view class="weui-cell__bd">主体内容</view>
-        </view>
-      </view>
+      <div class="weui-cells">
+        <div class="weui-cell">
+          <div class="weui-cell__bd">主体内容</div>
+        </div>
+      </div>
     </weui-panel>
   </div>
 </div>
@@ -132,13 +132,13 @@
 <template>
   <weui-panel>
     <template #header>
-      <view style="font-weight: bold; color: #576b95;">自定义头部</view>
+      <div style="font-weight: bold; color: #576b95;">自定义头部</div>
     </template>
-    <view class="weui-cells">
-      <view class="weui-cell">
-        <view class="weui-cell__bd">主体内容</view>
-      </view>
-    </view>
+    <div class="weui-cells">
+      <div class="weui-cell">
+        <div class="weui-cell__bd">主体内容</div>
+      </div>
+    </div>
   </weui-panel>
 </template>
 ```
@@ -151,17 +151,17 @@
 <div class="demo-block">
   <div class="demo-mobile">
     <weui-panel title="标题">
-      <view class="weui-cells">
-        <view class="weui-cell">
-          <view class="weui-cell__bd">标题文字</view>
-          <view class="weui-cell__ft">说明文字</view>
-        </view>
-      </view>
+      <div class="weui-cells">
+        <div class="weui-cell">
+          <div class="weui-cell__bd">标题文字</div>
+          <div class="weui-cell__ft">说明文字</div>
+        </div>
+      </div>
       <template #footer>
-        <view class="weui-cell weui-cell_access weui-cell_link">
-          <view class="weui-cell__bd">查看更多</view>
-          <view class="weui-cell__ft" />
-        </view>
+        <div class="weui-cell weui-cell_access weui-cell_link">
+          <div class="weui-cell__bd">查看更多</div>
+          <div class="weui-cell__ft" />
+        </div>
       </template>
     </weui-panel>
   </div>
@@ -171,17 +171,17 @@
 ```vue
 <template>
   <weui-panel title="标题">
-    <view class="weui-cells">
-      <view class="weui-cell">
-        <view class="weui-cell__bd">标题文字</view>
-        <view class="weui-cell__ft">说明文字</view>
-      </view>
-    </view>
+    <div class="weui-cells">
+      <div class="weui-cell">
+        <div class="weui-cell__bd">标题文字</div>
+        <div class="weui-cell__ft">说明文字</div>
+      </div>
+    </div>
     <template #footer>
-      <view class="weui-cell weui-cell_access weui-cell_link">
-        <view class="weui-cell__bd">查看更多</view>
-        <view class="weui-cell__ft" />
-      </view>
+      <div class="weui-cell weui-cell_access weui-cell_link">
+        <div class="weui-cell__bd">查看更多</div>
+        <div class="weui-cell__ft" />
+      </div>
     </template>
   </weui-panel>
 </template>

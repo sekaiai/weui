@@ -9,14 +9,14 @@
 <div class="demo-block">
   <div class="demo-mobile">
     <weui-form title="表单标题">
-      <view class="weui-cells weui-cells_form">
-        <view class="weui-cell">
-          <view class="weui-cell__hd"><label class="weui-label">姓名</label></view>
-          <view class="weui-cell__bd">
+      <div class="weui-cells weui-cells_form">
+        <div class="weui-cell">
+          <div class="weui-cell__hd"><label class="weui-label">姓名</label></div>
+          <div class="weui-cell__bd">
             <input class="weui-input" placeholder="请输入姓名" />
-          </view>
-        </view>
-      </view>
+          </div>
+        </div>
+      </div>
     </weui-form>
   </div>
 </div>
@@ -25,14 +25,14 @@
 ```vue
 <template>
   <weui-form title="表单标题">
-    <view class="weui-cells weui-cells_form">
-      <view class="weui-cell">
-        <view class="weui-cell__hd"><label class="weui-label">姓名</label></view>
-        <view class="weui-cell__bd">
+    <div class="weui-cells weui-cells_form">
+      <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">姓名</label></div>
+        <div class="weui-cell__bd">
           <input class="weui-input" placeholder="请输入姓名" />
-        </view>
-      </view>
-    </view>
+        </div>
+      </div>
+    </div>
   </weui-form>
 </template>
 ```
@@ -45,11 +45,11 @@
 <div class="demo-block">
   <div class="demo-mobile">
     <weui-form title="表单标题" desc="表单描述文字">
-      <view class="weui-cells weui-cells_form">
-        <view class="weui-cell">
-          <view class="weui-cell__bd">控件内容</view>
-        </view>
-      </view>
+      <div class="weui-cells weui-cells_form">
+        <div class="weui-cell">
+          <div class="weui-cell__bd">控件内容</div>
+        </div>
+      </div>
     </weui-form>
   </div>
 </div>
@@ -58,11 +58,11 @@
 ```vue
 <template>
   <weui-form title="表单标题" desc="表单描述文字">
-    <view class="weui-cells weui-cells_form">
-      <view class="weui-cell">
-        <view class="weui-cell__bd">控件内容</view>
-      </view>
-    </view>
+    <div class="weui-cells weui-cells_form">
+      <div class="weui-cell">
+        <div class="weui-cell__bd">控件内容</div>
+      </div>
+    </div>
   </weui-form>
 </template>
 ```
@@ -75,11 +75,11 @@
 <div class="demo-block">
   <div class="demo-mobile">
     <weui-form title="表单标题" tips="底部提示文字">
-      <view class="weui-cells weui-cells_form">
-        <view class="weui-cell">
-          <view class="weui-cell__bd">控件内容</view>
-        </view>
-      </view>
+      <div class="weui-cells weui-cells_form">
+        <div class="weui-cell">
+          <div class="weui-cell__bd">控件内容</div>
+        </div>
+      </div>
     </weui-form>
   </div>
 </div>
@@ -88,11 +88,11 @@
 ```vue
 <template>
   <weui-form title="表单标题" tips="底部提示文字">
-    <view class="weui-cells weui-cells_form">
-      <view class="weui-cell">
-        <view class="weui-cell__bd">控件内容</view>
-      </view>
-    </view>
+    <div class="weui-cells weui-cells_form">
+      <div class="weui-cell">
+        <div class="weui-cell__bd">控件内容</div>
+      </div>
+    </div>
   </weui-form>
 </template>
 ```
@@ -105,15 +105,15 @@
 <div class="demo-block">
   <div class="demo-mobile">
     <weui-form title="表单标题">
-      <view class="weui-cells weui-cells_form">
-        <view class="weui-cell">
-          <view class="weui-cell__bd">控件内容</view>
-        </view>
-      </view>
+      <div class="weui-cells weui-cells_form">
+        <div class="weui-cell">
+          <div class="weui-cell__bd">控件内容</div>
+        </div>
+      </div>
       <template #footer>
-        <view class="weui-btn-area">
+        <div class="weui-btn-area">
           <weui-button type="primary">确定</weui-button>
-        </view>
+        </div>
       </template>
     </weui-form>
   </div>
@@ -123,15 +123,15 @@
 ```vue
 <template>
   <weui-form title="表单标题">
-    <view class="weui-cells weui-cells_form">
-      <view class="weui-cell">
-        <view class="weui-cell__bd">控件内容</view>
-      </view>
-    </view>
+    <div class="weui-cells weui-cells_form">
+      <div class="weui-cell">
+        <div class="weui-cell__bd">控件内容</div>
+      </div>
+    </div>
     <template #footer>
-      <view class="weui-btn-area">
+      <div class="weui-btn-area">
         <weui-button type="primary">确定</weui-button>
-      </view>
+      </div>
     </template>
   </weui-form>
 </template>
@@ -146,14 +146,14 @@
   <div class="demo-mobile">
     <weui-form>
       <template #title>
-        <view class="weui-form__title">自定义标题</view>
-        <view class="weui-form__desc">通过 title 插槽自定义整段标题区域</view>
+        <div class="weui-form__title">自定义标题</div>
+        <div class="weui-form__desc">通过 title 插槽自定义整段标题区域</div>
       </template>
-      <view class="weui-cells weui-cells_form">
-        <view class="weui-cell">
-          <view class="weui-cell__bd">控件内容</view>
-        </view>
-      </view>
+      <div class="weui-cells weui-cells_form">
+        <div class="weui-cell">
+          <div class="weui-cell__bd">控件内容</div>
+        </div>
+      </div>
     </weui-form>
   </div>
 </div>
@@ -163,14 +163,14 @@
 <template>
   <weui-form>
     <template #title>
-      <view class="weui-form__title">自定义标题</view>
-      <view class="weui-form__desc">通过 title 插槽自定义整段标题区域</view>
+      <div class="weui-form__title">自定义标题</div>
+      <div class="weui-form__desc">通过 title 插槽自定义整段标题区域</div>
     </template>
-    <view class="weui-cells weui-cells_form">
-      <view class="weui-cell">
-        <view class="weui-cell__bd">控件内容</view>
-      </view>
-    </view>
+    <div class="weui-cells weui-cells_form">
+      <div class="weui-cell">
+        <div class="weui-cell__bd">控件内容</div>
+      </div>
+    </div>
   </weui-form>
 </template>
 ```

@@ -33,29 +33,29 @@
 <div class="demo-block">
   <div class="flex-demo-stack">
     <weui-flex justify="start" ext-class="flex-demo-row">
-      <view class="flex-demo-box">start</view>
-      <view class="flex-demo-box">B</view>
-      <view class="flex-demo-box">C</view>
+      <div class="flex-demo-box">start</div>
+      <div class="flex-demo-box">B</div>
+      <div class="flex-demo-box">C</div>
     </weui-flex>
     <weui-flex justify="center" ext-class="flex-demo-row">
-      <view class="flex-demo-box">center</view>
-      <view class="flex-demo-box">B</view>
-      <view class="flex-demo-box">C</view>
+      <div class="flex-demo-box">center</div>
+      <div class="flex-demo-box">B</div>
+      <div class="flex-demo-box">C</div>
     </weui-flex>
     <weui-flex justify="end" ext-class="flex-demo-row">
-      <view class="flex-demo-box">end</view>
-      <view class="flex-demo-box">B</view>
-      <view class="flex-demo-box">C</view>
+      <div class="flex-demo-box">end</div>
+      <div class="flex-demo-box">B</div>
+      <div class="flex-demo-box">C</div>
     </weui-flex>
     <weui-flex justify="between" ext-class="flex-demo-row">
-      <view class="flex-demo-box">between</view>
-      <view class="flex-demo-box">B</view>
-      <view class="flex-demo-box">C</view>
+      <div class="flex-demo-box">between</div>
+      <div class="flex-demo-box">B</div>
+      <div class="flex-demo-box">C</div>
     </weui-flex>
     <weui-flex justify="around" ext-class="flex-demo-row">
-      <view class="flex-demo-box">around</view>
-      <view class="flex-demo-box">B</view>
-      <view class="flex-demo-box">C</view>
+      <div class="flex-demo-box">around</div>
+      <div class="flex-demo-box">B</div>
+      <div class="flex-demo-box">C</div>
     </weui-flex>
   </div>
 </div>
@@ -64,9 +64,9 @@
 ```vue
 <template>
   <weui-flex justify="center">
-    <view class="box">A</view>
-    <view class="box">B</view>
-    <view class="box">C</view>
+    <div class="box">A</div>
+    <div class="box">B</div>
+    <div class="box">C</div>
   </weui-flex>
 </template>
 ```
@@ -79,19 +79,19 @@
 <div class="demo-block">
   <div class="flex-demo-stack">
     <weui-flex align="start" ext-class="flex-demo-tall">
-      <view class="flex-demo-box">start</view>
-      <view class="flex-demo-box flex-demo-box-tall">高</view>
-      <view class="flex-demo-box">C</view>
+      <div class="flex-demo-box">start</div>
+      <div class="flex-demo-box flex-demo-box-tall">高</div>
+      <div class="flex-demo-box">C</div>
     </weui-flex>
     <weui-flex align="center" ext-class="flex-demo-tall">
-      <view class="flex-demo-box">center</view>
-      <view class="flex-demo-box flex-demo-box-tall">高</view>
-      <view class="flex-demo-box">C</view>
+      <div class="flex-demo-box">center</div>
+      <div class="flex-demo-box flex-demo-box-tall">高</div>
+      <div class="flex-demo-box">C</div>
     </weui-flex>
     <weui-flex align="end" ext-class="flex-demo-tall">
-      <view class="flex-demo-box">end</view>
-      <view class="flex-demo-box flex-demo-box-tall">高</view>
-      <view class="flex-demo-box">C</view>
+      <div class="flex-demo-box">end</div>
+      <div class="flex-demo-box flex-demo-box-tall">高</div>
+      <div class="flex-demo-box">C</div>
     </weui-flex>
   </div>
 </div>
@@ -100,9 +100,9 @@
 ```vue
 <template>
   <weui-flex align="center" style="height: 80px;">
-    <view class="box">A</view>
-    <view class="box" style="height:60px;">高</view>
-    <view class="box">C</view>
+    <div class="box">A</div>
+    <div class="box" style="height:60px;">高</div>
+    <div class="box">C</div>
   </weui-flex>
 </template>
 ```
@@ -114,12 +114,12 @@
 
 <div class="demo-block">
   <weui-flex wrap="wrap" ext-class="flex-demo-wrap">
-    <view class="flex-demo-box">1</view>
-    <view class="flex-demo-box">2</view>
-    <view class="flex-demo-box">3</view>
-    <view class="flex-demo-box">4</view>
-    <view class="flex-demo-box">5</view>
-    <view class="flex-demo-box">6</view>
+    <div class="flex-demo-box">1</div>
+    <div class="flex-demo-box">2</div>
+    <div class="flex-demo-box">3</div>
+    <div class="flex-demo-box">4</div>
+    <div class="flex-demo-box">5</div>
+    <div class="flex-demo-box">6</div>
   </weui-flex>
 </div>
 
@@ -127,12 +127,12 @@
 ```vue
 <template>
   <weui-flex wrap="wrap">
-    <view class="box">1</view>
-    <view class="box">2</view>
-    <view class="box">3</view>
-    <view class="box">4</view>
-    <view class="box">5</view>
-    <view class="box">6</view>
+    <div class="box">1</div>
+    <div class="box">2</div>
+    <div class="box">3</div>
+    <div class="box">4</div>
+    <div class="box">5</div>
+    <div class="box">6</div>
   </weui-flex>
 </template>
 ```
@@ -144,9 +144,9 @@
 
 <div class="demo-block">
   <weui-flex direction="column" ext-class="flex-demo-col">
-    <view class="flex-demo-box">第一行</view>
-    <view class="flex-demo-box">第二行</view>
-    <view class="flex-demo-box">第三行</view>
+    <div class="flex-demo-box">第一行</div>
+    <div class="flex-demo-box">第二行</div>
+    <div class="flex-demo-box">第三行</div>
   </weui-flex>
 </div>
 
@@ -154,9 +154,9 @@
 ```vue
 <template>
   <weui-flex direction="column">
-    <view class="box">第一行</view>
-    <view class="box">第二行</view>
-    <view class="box">第三行</view>
+    <div class="box">第一行</div>
+    <div class="box">第二行</div>
+    <div class="box">第三行</div>
   </weui-flex>
 </template>
 ```

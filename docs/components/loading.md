@@ -63,9 +63,9 @@
 通过 `transparent` 属性切换为透明背景模式（追加 `weui-loading_transparent` 类），适用于深色容器。
 
 <div class="demo-block">
-  <view class="loading-dark-bg">
+  <div class="loading-dark-bg">
     <weui-loading :transparent="true" :size="32" />
-  </view>
+  </div>
 </div>
 
 <style>
@@ -83,9 +83,9 @@
 ::: details 查看代码
 ```vue
 <template>
-  <view class="loading-dark-bg">
+  <div class="loading-dark-bg">
     <weui-loading :transparent="true" :size="32" />
-  </view>
+  </div>
 </template>
 
 <style>

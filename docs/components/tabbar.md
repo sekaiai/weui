@@ -23,16 +23,16 @@ const onTabText = (i: number) => {
 <div class="demo-block">
   <weui-tabbar>
     <weui-tabbar-item text="微信" :active="active === 0" @click="onTab(0)">
-      <template #icon><text style="font-size:20px;">💬</text></template>
+      <template #icon><span style="font-size:20px;">💬</span></template>
     </weui-tabbar-item>
     <weui-tabbar-item text="通讯录" :active="active === 1" @click="onTab(1)">
-      <template #icon><text style="font-size:20px;">👥</text></template>
+      <template #icon><span style="font-size:20px;">👥</span></template>
     </weui-tabbar-item>
     <weui-tabbar-item text="发现" :active="active === 2" @click="onTab(2)">
-      <template #icon><text style="font-size:20px;">🔍</text></template>
+      <template #icon><span style="font-size:20px;">🔍</span></template>
     </weui-tabbar-item>
     <weui-tabbar-item text="我" :active="active === 3" @click="onTab(3)">
-      <template #icon><text style="font-size:20px;">👤</text></template>
+      <template #icon><span style="font-size:20px;">👤</span></template>
     </weui-tabbar-item>
   </weui-tabbar>
   <p style="margin-top: 12px; color: #07c160;">当前选中：{{ ['微信', '通讯录', '发现', '我'][active] }}</p>
@@ -43,16 +43,16 @@ const onTabText = (i: number) => {
 <template>
   <weui-tabbar>
     <weui-tabbar-item text="微信" :active="active === 0" @click="onTab(0)">
-      <template #icon><text style="font-size:20px;">💬</text></template>
+      <template #icon><span style="font-size:20px;">💬</span></template>
     </weui-tabbar-item>
     <weui-tabbar-item text="通讯录" :active="active === 1" @click="onTab(1)">
-      <template #icon><text style="font-size:20px;">👥</text></template>
+      <template #icon><span style="font-size:20px;">👥</span></template>
     </weui-tabbar-item>
     <weui-tabbar-item text="发现" :active="active === 2" @click="onTab(2)">
-      <template #icon><text style="font-size:20px;">🔍</text></template>
+      <template #icon><span style="font-size:20px;">🔍</span></template>
     </weui-tabbar-item>
     <weui-tabbar-item text="我" :active="active === 3" @click="onTab(3)">
-      <template #icon><text style="font-size:20px;">👤</text></template>
+      <template #icon><span style="font-size:20px;">👤</span></template>
     </weui-tabbar-item>
   </weui-tabbar>
 </template>
@@ -107,16 +107,16 @@ const onTabText = (i: number) => {
 <div class="demo-block">
   <weui-tabbar>
     <weui-tabbar-item text="微信" badge="8">
-      <template #icon><text style="font-size:20px;">💬</text></template>
+      <template #icon><span style="font-size:20px;">💬</span></template>
     </weui-tabbar-item>
     <weui-tabbar-item text="通讯录" :badge="99">
-      <template #icon><text style="font-size:20px;">👥</text></template>
+      <template #icon><span style="font-size:20px;">👥</span></template>
     </weui-tabbar-item>
     <weui-tabbar-item text="发现">
-      <template #icon><text style="font-size:20px;">🔍</text></template>
+      <template #icon><span style="font-size:20px;">🔍</span></template>
     </weui-tabbar-item>
     <weui-tabbar-item text="我">
-      <template #icon><text style="font-size:20px;">👤</text></template>
+      <template #icon><span style="font-size:20px;">👤</span></template>
     </weui-tabbar-item>
   </weui-tabbar>
 </div>
@@ -126,16 +126,16 @@ const onTabText = (i: number) => {
 <template>
   <weui-tabbar>
     <weui-tabbar-item text="微信" badge="8">
-      <template #icon><text style="font-size:20px;">💬</text></template>
+      <template #icon><span style="font-size:20px;">💬</span></template>
     </weui-tabbar-item>
     <weui-tabbar-item text="通讯录" :badge="99">
-      <template #icon><text style="font-size:20px;">👥</text></template>
+      <template #icon><span style="font-size:20px;">👥</span></template>
     </weui-tabbar-item>
     <weui-tabbar-item text="发现">
-      <template #icon><text style="font-size:20px;">🔍</text></template>
+      <template #icon><span style="font-size:20px;">🔍</span></template>
     </weui-tabbar-item>
     <weui-tabbar-item text="我">
-      <template #icon><text style="font-size:20px;">👤</text></template>
+      <template #icon><span style="font-size:20px;">👤</span></template>
     </weui-tabbar-item>
   </weui-tabbar>
 </template>
@@ -149,16 +149,16 @@ const onTabText = (i: number) => {
 <div class="demo-block">
   <weui-tabbar>
     <weui-tabbar-item text="微信" badge="8">
-      <template #icon><text style="font-size:20px;">💬</text></template>
+      <template #icon><span style="font-size:20px;">💬</span></template>
     </weui-tabbar-item>
     <weui-tabbar-item text="通讯录">
-      <template #icon><text style="font-size:20px;">👥</text></template>
+      <template #icon><span style="font-size:20px;">👥</span></template>
     </weui-tabbar-item>
     <weui-tabbar-item text="发现" show-dot>
-      <template #icon><text style="font-size:20px;">🔍</text></template>
+      <template #icon><span style="font-size:20px;">🔍</span></template>
     </weui-tabbar-item>
     <weui-tabbar-item text="我">
-      <template #icon><text style="font-size:20px;">👤</text></template>
+      <template #icon><span style="font-size:20px;">👤</span></template>
     </weui-tabbar-item>
   </weui-tabbar>
 </div>
@@ -168,16 +168,16 @@ const onTabText = (i: number) => {
 <template>
   <weui-tabbar>
     <weui-tabbar-item text="微信" badge="8">
-      <template #icon><text style="font-size:20px;">💬</text></template>
+      <template #icon><span style="font-size:20px;">💬</span></template>
     </weui-tabbar-item>
     <weui-tabbar-item text="通讯录">
-      <template #icon><text style="font-size:20px;">👥</text></template>
+      <template #icon><span style="font-size:20px;">👥</span></template>
     </weui-tabbar-item>
     <weui-tabbar-item text="发现" show-dot>
-      <template #icon><text style="font-size:20px;">🔍</text></template>
+      <template #icon><span style="font-size:20px;">🔍</span></template>
     </weui-tabbar-item>
     <weui-tabbar-item text="我">
-      <template #icon><text style="font-size:20px;">👤</text></template>
+      <template #icon><span style="font-size:20px;">👤</span></template>
     </weui-tabbar-item>
   </weui-tabbar>
 </template>
@@ -191,10 +191,10 @@ const onTabText = (i: number) => {
 <div class="demo-block">
   <weui-tabbar>
     <weui-tabbar-item text="未选中">
-      <template #icon><text style="font-size:20px;">💬</text></template>
+      <template #icon><span style="font-size:20px;">💬</span></template>
     </weui-tabbar-item>
     <weui-tabbar-item text="选中" active>
-      <template #icon><text style="font-size:20px;">💬</text></template>
+      <template #icon><span style="font-size:20px;">💬</span></template>
     </weui-tabbar-item>
   </weui-tabbar>
 </div>
@@ -204,10 +204,10 @@ const onTabText = (i: number) => {
 <template>
   <weui-tabbar>
     <weui-tabbar-item text="未选中">
-      <template #icon><text style="font-size:20px;">💬</text></template>
+      <template #icon><span style="font-size:20px;">💬</span></template>
     </weui-tabbar-item>
     <weui-tabbar-item text="选中" active>
-      <template #icon><text style="font-size:20px;">💬</text></template>
+      <template #icon><span style="font-size:20px;">💬</span></template>
     </weui-tabbar-item>
   </weui-tabbar>
 </template>
@@ -221,11 +221,11 @@ const onTabText = (i: number) => {
 <div class="demo-block">
   <weui-tabbar>
     <weui-tabbar-item active>
-      <template #icon><text style="font-size:20px;">🏠</text></template>
+      <template #icon><span style="font-size:20px;">🏠</span></template>
       <span style="color: #07c160;">首页</span>
     </weui-tabbar-item>
     <weui-tabbar-item>
-      <template #icon><text style="font-size:20px;">⚙️</text></template>
+      <template #icon><span style="font-size:20px;">⚙️</span></template>
       <span>设置</span>
     </weui-tabbar-item>
   </weui-tabbar>
@@ -236,11 +236,11 @@ const onTabText = (i: number) => {
 <template>
   <weui-tabbar>
     <weui-tabbar-item active>
-      <template #icon><text style="font-size:20px;">🏠</text></template>
+      <template #icon><span style="font-size:20px;">🏠</span></template>
       <span style="color: #07c160;">首页</span>
     </weui-tabbar-item>
     <weui-tabbar-item>
-      <template #icon><text style="font-size:20px;">⚙️</text></template>
+      <template #icon><span style="font-size:20px;">⚙️</span></template>
       <span>设置</span>
     </weui-tabbar-item>
   </weui-tabbar>
@@ -256,13 +256,13 @@ const onTabText = (i: number) => {
   <p style="color: #888;">下方 tabbar 使用 fixed 固定在视口底部。</p>
   <weui-tabbar fixed>
     <weui-tabbar-item text="首页" active>
-      <template #icon><text style="font-size:20px;">🏠</text></template>
+      <template #icon><span style="font-size:20px;">🏠</span></template>
     </weui-tabbar-item>
     <weui-tabbar-item text="分类">
-      <template #icon><text style="font-size:20px;">📋</text></template>
+      <template #icon><span style="font-size:20px;">📋</span></template>
     </weui-tabbar-item>
     <weui-tabbar-item text="我的">
-      <template #icon><text style="font-size:20px;">👤</text></template>
+      <template #icon><span style="font-size:20px;">👤</span></template>
     </weui-tabbar-item>
   </weui-tabbar>
 </div>
@@ -272,13 +272,13 @@ const onTabText = (i: number) => {
 <template>
   <weui-tabbar fixed>
     <weui-tabbar-item text="首页" active>
-      <template #icon><text style="font-size:20px;">🏠</text></template>
+      <template #icon><span style="font-size:20px;">🏠</span></template>
     </weui-tabbar-item>
     <weui-tabbar-item text="分类">
-      <template #icon><text style="font-size:20px;">📋</text></template>
+      <template #icon><span style="font-size:20px;">📋</span></template>
     </weui-tabbar-item>
     <weui-tabbar-item text="我的">
-      <template #icon><text style="font-size:20px;">👤</text></template>
+      <template #icon><span style="font-size:20px;">👤</span></template>
     </weui-tabbar-item>
   </weui-tabbar>
 </template>

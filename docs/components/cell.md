@@ -101,8 +101,8 @@ const onCellClick = () => {
   <div class="demo-mobile">
     <weui-cell-group title="带副标题的列表项">
       <weui-cell link>
-        <view>标题文字</view>
-        <view style="font-size: 13px; color: #888;">副标题</view>
+        <div>标题文字</div>
+        <div style="font-size: 13px; color: #888;">副标题</div>
       </weui-cell>
     </weui-cell-group>
   </div>
@@ -113,8 +113,8 @@ const onCellClick = () => {
 <template>
   <weui-cell-group title="带副标题的列表项">
     <weui-cell link>
-      <view>标题文字</view>
-      <view style="font-size: 13px; color: #888;">副标题</view>
+      <div>标题文字</div>
+      <div style="font-size: 13px; color: #888;">副标题</div>
     </weui-cell>
   </weui-cell-group>
 </template>
@@ -204,7 +204,7 @@ const onCellClick = () => {
     <weui-cell-group title="变体示例">
       <weui-cell variant="warn" title="警告项" value="说明文字" />
       <weui-cell variant="switch" title="开关项">
-        <template #footer><text style="color: #888;">关</text></template>
+        <template #footer><span style="color: #888;">关</span></template>
       </weui-cell>
       <weui-cell variant="vcode" title="验证码">
         <template #footer><weui-button type="primary" size="mini">获取验证码</weui-button></template>
@@ -220,7 +220,7 @@ const onCellClick = () => {
   <weui-cell-group title="变体示例">
     <weui-cell variant="warn" title="警告项" value="说明文字" />
     <weui-cell variant="switch" title="开关项">
-      <template #footer><text style="color: #888;">关</text></template>
+      <template #footer><span style="color: #888;">关</span></template>
     </weui-cell>
     <weui-cell variant="vcode" title="验证码">
       <template #footer><weui-button type="primary" size="mini">获取验证码</weui-button></template>

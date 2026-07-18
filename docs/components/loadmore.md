@@ -127,11 +127,11 @@
 ::: details 查看代码
 ```vue
 <template>
-  <view class="weui-cells">
-    <view class="weui-cell" v-for="item in list" :key="item.id">
-      <view class="weui-cell__bd">{{ item.text }}</view>
-    </view>
-  </view>
+  <div class="weui-cells">
+    <div class="weui-cell" v-for="item in list" :key="item.id">
+      <div class="weui-cell__bd">{{ item.text }}</div>
+    </div>
+  </div>
   <weui-loadmore v-if="loading" text="正在加载" />
   <weui-loadmore v-else-if="finished" type="line" text="暂无更多数据" />
 </template>
