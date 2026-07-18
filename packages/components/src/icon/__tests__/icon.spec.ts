@@ -4,9 +4,9 @@ import WeuiIcon from '../icon.vue'
 
 describe('WeuiIcon', () => {
   describe('根元素', () => {
-    it('根元素为 i', () => {
+    it('根元素为 span', () => {
       const wrapper = mount(WeuiIcon, { props: { type: 'success' } })
-      expect(wrapper.element.tagName.toLowerCase()).toBe('i')
+      expect(wrapper.element.tagName.toLowerCase()).toBe('span')
     })
   })
 

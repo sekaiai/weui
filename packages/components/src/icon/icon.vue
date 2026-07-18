@@ -1,5 +1,5 @@
 <template>
-  <i :class="rootClass" :style="rootStyle" />
+  <span :class="rootClass" :style="rootStyle" />
 </template>
 
 <script lang="ts">
