@@ -3,6 +3,31 @@
 // 这些类属于 weui-miniprogram 仓库，weui npm 包不含
 // 由使用方在 App.vue 全局引入（与 weui.css 一起）
 
+// ============================================================================
+// 章节 1：weui.css 规则补丁
+// weui.css 中存在但规则不全的类，补全后让组件在 H5 端正常显示
+// weui 升级后若已修复，可删除对应补丁
+// ============================================================================
+
+// input 清除按钮：weui.css 仅提供 mask-image + color，缺尺寸/背景
+.weui-icon-clear {
+  width: 16px;
+  height: 16px;
+  background-color: currentColor;
+  // mask-image 已由 weui.css 提供
+}
+
+// searchbar 搜索按钮：weui.css 未设 flex 居中
+.weui-search-bar__btn {
+  display: flex;
+  align-items: center;
+}
+
+// ============================================================================
+// 章节 2：weui.css 不含的自定义类
+// 属于 weui-miniprogram 仓库，weui npm 包不含
+// ============================================================================
+
 // ---------------------------------------------------------------------------
 // cell 组件
 // WeUI 源码中未定义 weui-cell__icon，但 cell 组件的 image 图标需要默认尺寸
@@ -109,4 +134,34 @@
 }
 .weui-slideview_show .weui-slideview__left {
   transform: translateX(-100%);
+}
+
+// ---------------------------------------------------------------------------
+// uploader 组件
+// WeUI npm 包不含 weui-uploader__tips（仅 weui-miniprogram 仓库有）
+// ---------------------------------------------------------------------------
+.weui-uploader__tips {
+  margin-top: 8px;
+  padding: 0 16px;
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+// uploader 文件删除按钮（仅 H5 端渲染，小程序端用长按）
+.weui-uploader__file-delete {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  font-size: 14px;
+  line-height: 1;
+  border-radius: 50%;
+  z-index: 2;
 }
