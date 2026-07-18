@@ -22,10 +22,6 @@ const onFocus = () => logEvent('触发 focus 事件')
 const onBlur = () => logEvent('触发 blur 事件')
 </script>
 
-::: tip 浏览器环境说明
-`Searchbar` 依赖 uni-app 原生 `input` 的 `confirm-type="search"` 实现键盘搜索键，浏览器中仅展示 UI 与基本交互，键盘确认键行为请在 uni-app 环境中体验。
-:::
-
 ## 基础用法
 
 通过 `v-model` 绑定搜索关键词，`placeholder` 设置占位提示。点击搜索栏进入聚焦状态并展示输入框与取消按钮。

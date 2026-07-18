@@ -248,6 +248,11 @@ const onImperative = async () => {
 ```
 :::
 
+## 跨端说明
+
+- **H5 端**：组件渲染完整 UI（图片 + 删除按钮），通过 `visible` / `src` / `showDelete` 控制，支持淡入淡出动画与命令式 `Gallery.show` 调用
+- **小程序端**：调用 `uni.previewImage` 系统预览，**`showDelete` / `deleteText` / 默认 slot 能力不生效**（uni.previewImage 不支持自定义操作）。如需删除，请在调用方（如 uploader）使用长按交互
+
 ## Attributes
 
 | 参数 | 说明 | 类型 | 默认值 |

@@ -4,6 +4,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { Gallery } from 'weui-design-vue'
 import type { UploaderFile } from 'weui-design-vue'
 
 const basicFiles = ref<UploaderFile[]>([
@@ -32,6 +33,14 @@ const onSelect = (event: { tempFilePaths: string[]; tempFiles?: Array<{ path: st
 }
 const onPreview = (file: UploaderFile, index: number) => {
   lastEvent.value = `preview: 预览第 ${index + 1} 个文件`
+  Gallery.show({
+    src: file.url,
+    showDelete: true,
+  }).promise.then((result) => {
+    if (result === 'delete') {
+      onDelete(file, index)
+    }
+  })
 }
 const onDelete = (file: UploaderFile, index: number) => {
   lastEvent.value = `delete: 删除第 ${index + 1} 个文件`
@@ -41,9 +50,7 @@ const onExceed = (count: number) => {
 }
 </script>
 
-::: tip 浏览器环境说明
-`Uploader` 的 `select` 事件依赖 `uni.chooseImage`/`uni.chooseFile`，在浏览器中文档演示不会触发真实选图。点击上传按钮会调用 uni API（浏览器中 API 不存在时静默失败），交互请在 uni-app 环境中体验。
-:::
+<weui-overlay-host />
 
 ## 基础用法
 
@@ -216,7 +223,7 @@ const files = ref<UploaderFile[]>([
 
 ## 文件预览与删除
 
-点击文件触发 `preview` 事件，长按文件触发 `delete` 事件。以下示例展示事件回调。
+点击文件触发 `preview` 事件。H5 端文件右上角显示 × 删除按钮，点击触发 `delete` 事件；小程序端长按文件触发 `delete` 事件。以下示例展示事件回调。
 
 <div class="demo-block">
   <div class="demo-mobile">
@@ -227,7 +234,7 @@ const files = ref<UploaderFile[]>([
       @delete="onDelete"
     />
   </div>
-  <p style="margin-top: 8px; color: #576b95;">{{ lastEvent }}（长按文件可触发删除）</p>
+  <p style="margin-top: 8px; color: #576b95;">{{ lastEvent }}（H5 端点击 × / 小程序端长按可触发删除）</p>
 </div>
 
 ::: details 查看代码
@@ -287,7 +294,7 @@ const onDelete = (file: UploaderFile, index: number) => {
 | select | 选择文件时触发 | `(event: WeuiUploaderSelectEvent)` |
 | select-fail | 选择文件失败时触发 | `(err: { errMsg: string })` |
 | preview | 点击文件预览时触发 | `(file: UploaderFile, index: number)` |
-| delete | 长按文件删除时触发 | `(file: UploaderFile, index: number)` |
+| delete | H5 端点击 × 按钮 / 小程序端长按文件时触发 | `(file: UploaderFile, index: number)` |
 | exceed | 选择文件数超出最大数量时触发 | `(count: number)` |
 
 ## Slots

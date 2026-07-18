@@ -12,10 +12,6 @@ const radioValues = ref(['1'])
 const formValues = ref(['1', '3'])
 </script>
 
-::: tip 浏览器环境说明
-`CheckboxGroup` 依赖 uni-app 的原生 `checkbox-group`/`radio-group` 组件实现选中联动，在浏览器中文档演示仅展示初始渲染状态，交互请在 uni-app 环境中体验。`Checkbox` 独立使用时在浏览器中可正常交互。
-:::
-
 ## 基础用法
 
 `Checkbox` 独立使用时，通过 `v-model:checked` 绑定选中状态，点击切换。
