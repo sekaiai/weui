@@ -2,12 +2,17 @@
   <div :class="groupClass" :aria-role="ariaRole">
     <div v-if="title" class="weui-cells__title">{{ title }}</div>
     <div :class="cellsClass">
-      <checkbox-group v-if="multi" @change="onChange">
+      <template v-if="__IS_H5__">
         <slot />
-      </checkbox-group>
-      <radio-group v-else @change="onChange">
-        <slot />
-      </radio-group>
+      </template>
+      <template v-else>
+        <checkbox-group v-if="multi" @change="onChange">
+          <slot />
+        </checkbox-group>
+        <radio-group v-else @change="onChange">
+          <slot />
+        </radio-group>
+      </template>
     </div>
     <div v-if="footer" class="weui-cells__tips">{{ footer }}</div>
   </div>
@@ -78,6 +83,7 @@ const cellsClass = computed(() => {
   return classes
 })
 
+// 非 H5 端：checkbox-group/radio-group 原生 change 事件处理
 const onChange = (event: { detail?: { value?: string | string[] } }) => {
   const raw = event.detail?.value ?? []
   const arr = Array.isArray(raw) ? raw : [raw]
@@ -85,9 +91,27 @@ const onChange = (event: { detail?: { value?: string | string[] } }) => {
   emit('change', arr)
 }
 
+// H5 端：group 自身管理子项选中（无原生 group 联动）
+// 非 H5 端：toggle 始终为 undefined（由原生 checkbox-group/radio-group change 事件驱动）
+const toggle = (value: string) => {
+  if (props.multi) {
+    const set = new Set(props.modelValue)
+    if (set.has(value)) set.delete(value)
+    else set.add(value)
+    const arr = Array.from(set)
+    emit('update:modelValue', arr)
+    emit('change', arr)
+  } else {
+    emit('update:modelValue', [value])
+    emit('change', [value])
+  }
+}
+
 provide('weuiCheckboxGroup', {
   multi: computed(() => props.multi),
   modelValue: computed(() => props.modelValue),
   disabled: computed(() => props.disabled),
+  // H5 端独有：toggle 方法（非 H5 端通过原生 checkbox-group/radio-group change 事件联动）
+  toggle: __IS_H5__ ? toggle : undefined,
 })
 </script>

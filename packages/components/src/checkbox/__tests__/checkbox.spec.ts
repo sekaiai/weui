@@ -30,13 +30,15 @@ describe('WeuiCheckbox', () => {
   })
 
   describe('多选模式（multi=true，默认）', () => {
-    it('checkbox 图标在 header 区域', () => {
+    it('H5 端 checkbox 渲染为 input[type=checkbox] 在 header 区域', () => {
       const wrapper = mount(WeuiCheckbox, {
         props: { value: '1', label: '选项' },
       })
       const hd = wrapper.find('.weui-cell__hd')
       expect(hd.exists()).toBe(true)
-      expect(hd.find('checkbox').exists()).toBe(true)
+      const checkboxEl = hd.find('input[type="checkbox"]')
+      expect(checkboxEl.exists()).toBe(true)
+      expect(checkboxEl.classes()).toContain('weui-check')
       expect(hd.find('.weui-icon-checked').exists()).toBe(true)
     })
 
@@ -57,14 +59,16 @@ describe('WeuiCheckbox', () => {
       },
     }
 
-    it('radio 图标在 footer 区域', () => {
+    it('H5 端 radio 渲染为 input[type=radio] 在 footer 区域', () => {
       const wrapper = mount(WeuiCheckbox, {
         props: { value: '1', label: '选项' },
         global: { provide: groupProvide },
       })
       const ft = wrapper.find('.weui-cell__ft')
       expect(ft.exists()).toBe(true)
-      expect(ft.find('radio').exists()).toBe(true)
+      const radioEl = ft.find('input[type="radio"]')
+      expect(radioEl.exists()).toBe(true)
+      expect(radioEl.classes()).toContain('weui-check')
       expect(ft.find('.weui-icon-checked').exists()).toBe(true)
     })
 
@@ -82,14 +86,15 @@ describe('WeuiCheckbox', () => {
       const wrapper = mount(WeuiCheckbox, {
         props: { value: '1', label: '选项', checked: true },
       })
-      expect(wrapper.find('checkbox').attributes('checked')).toBe('true')
+      expect(wrapper.find('input[type="checkbox"]').attributes('checked')).toBeDefined()
     })
 
     it('独立使用时 checked=false（默认）', () => {
       const wrapper = mount(WeuiCheckbox, {
         props: { value: '1', label: '选项' },
       })
-      expect(wrapper.find('checkbox').attributes('checked')).toBe('false')
+      // input[type=checkbox] 的 checked 属性绑定 false 时不存在该属性
+      expect(wrapper.find('input[type="checkbox"]').attributes('checked')).toBeUndefined()
     })
 
     it('在 group 中根据 modelValue 判断选中', () => {
@@ -105,7 +110,7 @@ describe('WeuiCheckbox', () => {
           },
         },
       })
-      expect(wrapper.find('checkbox').attributes('checked')).toBe('true')
+      expect(wrapper.find('input[type="checkbox"]').attributes('checked')).toBeDefined()
     })
 
     it('在 group 中 value 不在 modelValue 中时未选中', () => {
@@ -121,7 +126,7 @@ describe('WeuiCheckbox', () => {
           },
         },
       })
-      expect(wrapper.find('checkbox').attributes('checked')).toBe('false')
+      expect(wrapper.find('input[type="checkbox"]').attributes('checked')).toBeUndefined()
     })
   })
 
@@ -137,7 +142,7 @@ describe('WeuiCheckbox', () => {
       const wrapper = mount(WeuiCheckbox, {
         props: { value: '1', label: '选项', disabled: true },
       })
-      expect(wrapper.find('checkbox').attributes('disabled')).toBe('true')
+      expect(wrapper.find('input[type="checkbox"]').attributes('disabled')).toBeDefined()
     })
 
     it('group disabled=true 时子项也禁用', () => {
@@ -154,7 +159,7 @@ describe('WeuiCheckbox', () => {
         },
       })
       expect(wrapper.classes()).toContain('weui-cell_disabled')
-      expect(wrapper.find('checkbox').attributes('disabled')).toBe('true')
+      expect(wrapper.find('input[type="checkbox"]').attributes('disabled')).toBeDefined()
     })
   })
 

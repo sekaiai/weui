@@ -1,14 +1,46 @@
 <template>
   <label :class="rootClass" @click="handleClick">
     <div v-if="multi" class="weui-cell__hd">
-      <checkbox class="weui-check" :value="value" :checked="isChecked" :disabled="isDisabled" />
+      <input
+        v-if="__IS_H5__"
+        type="checkbox"
+        class="weui-check"
+        :value="value"
+        :checked="isChecked"
+        :disabled="isDisabled"
+        @click.stop
+        @change.stop="onH5Change"
+      />
+      <checkbox
+        v-else
+        class="weui-check"
+        :value="value"
+        :checked="isChecked"
+        :disabled="isDisabled"
+      />
       <div class="weui-icon-checked" />
     </div>
     <div class="weui-cell__bd">
       <slot>{{ label }}</slot>
     </div>
     <div v-if="!multi" class="weui-cell__ft">
-      <radio class="weui-check" :value="value" :checked="isChecked" :disabled="isDisabled" />
+      <input
+        v-if="__IS_H5__"
+        type="radio"
+        class="weui-check"
+        :value="value"
+        :checked="isChecked"
+        :disabled="isDisabled"
+        @click.stop
+        @change.stop="onH5Change"
+      />
+      <radio
+        v-else
+        class="weui-check"
+        :value="value"
+        :checked="isChecked"
+        :disabled="isDisabled"
+      />
       <div class="weui-icon-checked" />
     </div>
   </label>
@@ -58,6 +90,8 @@ interface CheckboxGroupContext {
   multi: { value: boolean }
   modelValue: { value: string[] }
   disabled: { value: boolean }
+  // H5 端独有：toggle 方法（非 H5 端为 undefined）
+  toggle?: (value: string) => void
 }
 
 const group = inject<CheckboxGroupContext | null>('weuiCheckboxGroup', null)
@@ -82,5 +116,11 @@ const handleClick = () => {
   const newChecked = !isChecked.value
   emit('update:checked', newChecked)
   emit('change', newChecked)
+}
+
+// H5 端：input change 事件触发 group.toggle 联动
+// 非 H5 端：此函数不绑定（template 用 v-else 渲染 checkbox/radio 无 @change），保留无害
+const onH5Change = () => {
+  if (group?.toggle) group.toggle(props.value)
 }
 </script>

@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
 import WeuiCheckboxGroup from '../checkbox-group.vue'
+import WeuiCheckbox from '../checkbox.vue'
 
 describe('WeuiCheckboxGroup', () => {
   describe('基础渲染', () => {
@@ -17,18 +18,18 @@ describe('WeuiCheckboxGroup', () => {
   })
 
   describe('multi', () => {
-    it('multi=true（默认）渲染 checkbox-group + weui-cells_checkbox', () => {
+    it('multi=true（默认）H5 端不渲染 checkbox-group 标签 + weui-cells_checkbox', () => {
       const wrapper = mount(WeuiCheckboxGroup)
-      expect(wrapper.find('checkbox-group').exists()).toBe(true)
+      expect(wrapper.find('checkbox-group').exists()).toBe(false)
       expect(wrapper.find('.weui-cells').classes()).toContain('weui-cells_checkbox')
       expect(wrapper.find('.weui-cells').classes()).not.toContain('weui-cells_radio')
     })
 
-    it('multi=false 渲染 radio-group + weui-cells_radio', () => {
+    it('multi=false H5 端不渲染 radio-group 标签 + weui-cells_radio', () => {
       const wrapper = mount(WeuiCheckboxGroup, {
         props: { multi: false },
       })
-      expect(wrapper.find('radio-group').exists()).toBe(true)
+      expect(wrapper.find('radio-group').exists()).toBe(false)
       expect(wrapper.find('.weui-cells').classes()).toContain('weui-cells_radio')
       expect(wrapper.find('.weui-cells').classes()).not.toContain('weui-cells_checkbox')
     })
@@ -85,30 +86,52 @@ describe('WeuiCheckboxGroup', () => {
     })
   })
 
-  describe('change 事件', () => {
-    it('checkbox-group change 时触发 update:modelValue 和 change', () => {
+  describe('H5 端 toggle 联动', () => {
+    it('multi 模式下子项 toggle 调用更新 modelValue', async () => {
       const wrapper = mount(WeuiCheckboxGroup, {
         props: { modelValue: [] },
+        slots: {
+          default: '<weui-checkbox value="1" label="A" /><weui-checkbox value="2" label="B" />',
+        },
+        global: {
+          components: { 'weui-checkbox': WeuiCheckbox },
+        },
       })
-      // 模拟 checkbox-group 原生组件的 change 事件
-      wrapper.find('checkbox-group').element.dispatchEvent(
-        new CustomEvent('change', { detail: { value: ['1', '2'] } }),
-      )
-      expect(wrapper.emitted('update:modelValue')).toHaveLength(1)
-      expect(wrapper.emitted('update:modelValue')![0]).toEqual([['1', '2']])
-      expect(wrapper.emitted('change')).toHaveLength(1)
-      expect(wrapper.emitted('change')![0]).toEqual([['1', '2']])
+      // 点击第一个 checkbox 的 input
+      const checkboxes = wrapper.findAll('input[type="checkbox"]')
+      await checkboxes[0].trigger('change')
+      expect(wrapper.emitted('update:modelValue')).toBeTruthy()
+      expect(wrapper.emitted('update:modelValue')![0]).toEqual([['1']])
+      expect(wrapper.emitted('change')![0]).toEqual([['1']])
     })
 
-    it('radio-group change 时将单值转为数组', () => {
+    it('multi 模式下再次点击同一项取消选中', async () => {
+      const wrapper = mount(WeuiCheckboxGroup, {
+        props: { modelValue: ['1'] },
+        slots: {
+          default: '<weui-checkbox value="1" label="A" />',
+        },
+        global: {
+          components: { 'weui-checkbox': WeuiCheckbox },
+        },
+      })
+      await wrapper.find('input[type="checkbox"]').trigger('change')
+      expect(wrapper.emitted('update:modelValue')![0]).toEqual([[]])
+    })
+
+    it('单选模式下 toggle 替换为单值数组', async () => {
       const wrapper = mount(WeuiCheckboxGroup, {
         props: { multi: false, modelValue: [] },
+        slots: {
+          default: '<weui-checkbox value="1" label="A" /><weui-checkbox value="2" label="B" />',
+        },
+        global: {
+          components: { 'weui-checkbox': WeuiCheckbox },
+        },
       })
-      wrapper.find('radio-group').element.dispatchEvent(
-        new CustomEvent('change', { detail: { value: '1' } }),
-      )
-      expect(wrapper.emitted('update:modelValue')).toHaveLength(1)
-      expect(wrapper.emitted('update:modelValue')![0]).toEqual([['1']])
+      const radios = wrapper.findAll('input[type="radio"]')
+      await radios[1].trigger('change')
+      expect(wrapper.emitted('update:modelValue')![0]).toEqual([['2']])
     })
   })
 
