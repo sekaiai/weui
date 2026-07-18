@@ -1,15 +1,30 @@
 {
   "name": "weui-design-vue",
-  "version": "0.1.0",
-  "description": "基于 uni-app 的 WeUI 组件库",
-  "main": "src/index.ts",
-  "module": "src/index.ts",
-  "types": "types/index.d.ts",
+  "version": "0.2.0",
+  "description": "支持 uni-app 的 WeUI Vue 3 组件库",
+  "main": "dist/vue3/index.mjs",
+  "module": "dist/vue3/index.mjs",
+  "types": "dist/vue3/types/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/vue3/index.mjs",
+      "types": "./dist/vue3/types/index.d.ts"
+    },
+    "./uni-app": {
+      "default": "./dist/uni-app/index.ts"
+    },
+    "./styles/*": "./dist/vue3/styles/*",
+    "./uni-app/styles/*": "./dist/uni-app/styles/*"
+  },
   "files": [
-    "src",
-    "types"
+    "dist"
   ],
   "scripts": {
+    "build": "pnpm build:vue3 && pnpm build:uni-app",
+    "build:vue3": "vite build --mode vue3 && pnpm build:types && pnpm build:copy-styles",
+    "build:uni-app": "tsx scripts/copy-uniapp-sfc.ts",
+    "build:types": "vue-tsc -p tsconfig.build.json",
+    "build:copy-styles": "node -e \"require('fs').cpSync('src/styles', '../../dist/vue3/styles', {recursive: true})\"",
     "test": "vitest run",
     "typecheck": "vue-tsc --noEmit -p tsconfig.json"
   },
@@ -20,11 +35,12 @@
     "weui": "^2.4.3"
   },
   "devDependencies": {
-    "vue": "^3.4.0",
-    "vue-tsc": "^2.0.0",
-    "vitest": "^1.6.0",
+    "@vitejs/plugin-vue": "^5.0.0",
     "@vue/test-utils": "^2.4.0",
     "happy-dom": "^14.0.0",
-    "@vitejs/plugin-vue": "^5.0.0"
+    "tsx": "^4.23.1",
+    "vitest": "^1.6.0",
+    "vue": "^3.4.0",
+    "vue-tsc": "^2.0.0"
   }
 }
