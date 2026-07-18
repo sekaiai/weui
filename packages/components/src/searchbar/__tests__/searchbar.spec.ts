@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import WeuiSearchbar from '../searchbar.vue'
 
@@ -83,12 +83,20 @@ describe('WeuiSearchbar', () => {
       expect(wrapper.classes()).toContain('weui-search-bar_focusing')
     })
 
-    it('blur 事件移除 weui-search-bar_focusing 类', async () => {
+    it('blur 事件移除 weui-search-bar_focusing 类（无值时）', async () => {
       const wrapper = mount(WeuiSearchbar)
       await wrapper.find('input').trigger('focus')
       expect(wrapper.classes()).toContain('weui-search-bar_focusing')
       await wrapper.find('input').trigger('blur')
       expect(wrapper.classes()).not.toContain('weui-search-bar_focusing')
+    })
+
+    it('有值时 blur 保持 weui-search-bar_focusing 类', async () => {
+      const wrapper = mount(WeuiSearchbar, { props: { modelValue: 'hello' } })
+      await wrapper.find('input').trigger('focus')
+      expect(wrapper.classes()).toContain('weui-search-bar_focusing')
+      await wrapper.find('input').trigger('blur')
+      expect(wrapper.classes()).toContain('weui-search-bar_focusing')
     })
 
     it('focus prop 为 true 时初始状态为聚焦', () => {
@@ -102,12 +110,12 @@ describe('WeuiSearchbar', () => {
       expect(wrapper.classes()).toContain('weui-search-bar_focusing')
     })
 
-    it('blur 后再次点击 label 仍能进入聚焦状态（二次点击 label 聚焦）', async () => {
+    it('无值 blur 后再次点击 label 仍能进入聚焦状态', async () => {
       const wrapper = mount(WeuiSearchbar)
       // 第一次点击 label 聚焦
       await wrapper.find('.weui-search-bar__label').trigger('click')
       expect(wrapper.classes()).toContain('weui-search-bar_focusing')
-      // blur 后聚焦被重置
+      // blur 后聚焦被重置（无值时）
       await wrapper.find('input').trigger('blur')
       expect(wrapper.classes()).not.toContain('weui-search-bar_focusing')
       // 二次点击 label 仍能进入聚焦状态
@@ -216,18 +224,36 @@ describe('WeuiSearchbar', () => {
       expect(wrapper.emitted('search')).toHaveLength(1)
       expect(wrapper.emitted('search')![0]).toEqual(['keyword'])
     })
+
+    it('点击搜索按钮后进入聚焦状态', async () => {
+      const wrapper = mount(WeuiSearchbar, {
+        props: { modelValue: 'keyword', searchButtonText: '搜索' },
+      })
+      await wrapper.find('.weui-search-bar__btn').trigger('click')
+      expect(wrapper.classes()).toContain('weui-search-bar_focusing')
+    })
+
+    it('点击搜索按钮后调用 input DOM focus()', async () => {
+      const wrapper = mount(WeuiSearchbar, {
+        props: { modelValue: 'keyword', searchButtonText: '搜索' },
+      })
+      const inputEl = wrapper.find('input').element as HTMLInputElement
+      const focusSpy = vi.spyOn(inputEl, 'focus')
+      await wrapper.find('.weui-search-bar__btn').trigger('click')
+      expect(focusSpy).toHaveBeenCalledTimes(1)
+    })
   })
 
   describe('confirm 与 search 事件', () => {
-    it('confirm 事件透传', async () => {
+    it('H5 端按 Enter 触发 confirm 事件', async () => {
       const wrapper = mount(WeuiSearchbar)
-      await wrapper.find('input').trigger('confirm')
+      await wrapper.find('input').trigger('keydown', { key: 'Enter' })
       expect(wrapper.emitted('confirm')).toHaveLength(1)
     })
 
-    it('confirm 时同时触发 search 事件并携带当前值', async () => {
+    it('H5 端按 Enter 同时触发 search 事件并携带当前值', async () => {
       const wrapper = mount(WeuiSearchbar, { props: { modelValue: 'hello' } })
-      await wrapper.find('input').trigger('confirm')
+      await wrapper.find('input').trigger('keydown', { key: 'Enter' })
       expect(wrapper.emitted('search')).toHaveLength(1)
       expect(wrapper.emitted('search')![0]).toEqual(['hello'])
     })

@@ -4,14 +4,15 @@
       <div class="weui-search-bar__box">
         <div class="weui-icon-search" />
         <input
+          ref="inputRef"
           class="weui-search-bar__input"
           :value="modelValue"
-          :focus="inputFocus || undefined"
           :placeholder="placeholder"
-          confirm-type="search"
+          v-bind="uniOnlyAttrs"
           @input="handleInput"
           @focus="handleFocus"
           @blur="handleBlur"
+          @keydown.enter="handleConfirm"
           @confirm="handleConfirm"
         />
         <div
@@ -58,7 +59,7 @@ export interface WeuiSearchbarProps {
   placeholder?: string
   /** 取消按钮文字 */
   cancelText?: string
-  /** 是否自动聚焦 */
+  /** 是否自动聚焦（H5 端通过 ref.focus() 实现；小程序端通过 :focus 属性） */
   focus?: boolean
   /** 搜索按钮文字，不设置则不显示搜索按钮，只显示取消按钮 */
   searchButtonText?: string
@@ -87,10 +88,10 @@ const props = withDefaults(defineProps<WeuiSearchbarProps>(), {
 
 const emit = defineEmits<WeuiSearchbarEmits>()
 
-/** 输入框是否聚焦 */
+const inputRef = ref<HTMLInputElement | null>(null)
+
+/** 输入框是否聚焦（视觉状态，有值时 blur 后保持 true） */
 const focused = ref(props.focus)
-/** 控制原生 input 的 focus 属性 */
-const inputFocus = ref(props.focus)
 
 const rootClass = computed(() => {
   const classes: string[] = ['weui-search-bar']
@@ -100,8 +101,26 @@ const rootClass = computed(() => {
 })
 
 const showClear = computed(() => !!props.modelValue)
-
 const showCancelButton = computed(() => focused.value && !props.searchButtonText)
+
+// 非 H5 端专属属性（H5 端浏览器忽略 confirm-type）
+// H5 端 focus 由 watch + ref.focus() 处理，不绑 :focus 属性
+const uniOnlyAttrs = computed(() => {
+  if (__IS_H5__) return {}
+  return { 'confirm-type': 'search' }
+})
+
+// H5 端：focus prop 变化时调用 DOM focus()/blur()
+// 非 H5 端：仅同步 focused 视觉状态（:focus 属性由 uni 原生组件处理，但本组件模板不绑 :focus，
+// 由 uniOnlyAttrs 控制是否绑——当前 uniOnlyAttrs 不含 focus，意味着非 H5 端也不绑 :focus。
+// 若非 H5 端需要 :focus 属性，应在 uniOnlyAttrs 中加入 focus: props.focus || undefined）
+watch(() => props.focus, (val) => {
+  focused.value = val
+  if (__IS_H5__) {
+    if (val) inputRef.value?.focus()
+    else inputRef.value?.blur()
+  }
+}, { immediate: true })
 
 const handleInput = (event: Event) => {
   const e = event as Event & { detail?: { value?: string } }
@@ -115,11 +134,15 @@ const handleFocus = (event: Event) => {
 }
 
 const handleBlur = (event: Event) => {
-  focused.value = false
-  inputFocus.value = false
+  // 有值时保持聚焦态外观（不"回复原样"）
+  if (!props.modelValue) {
+    focused.value = false
+  }
   emit('blur', event)
 }
 
+// H5 端：keydown.enter 触发 confirm
+// 非 H5 端：@confirm 事件触发（uni-app 键盘完成键，confirm-type="search"）
 const handleConfirm = (event: Event) => {
   emit('confirm', event)
   emit('search', props.modelValue)
@@ -132,21 +155,18 @@ const handleClear = () => {
 
 const handleCancel = () => {
   focused.value = false
-  inputFocus.value = false
   emit('cancel')
 }
 
 const handleSearch = () => {
   emit('search', props.modelValue)
+  // 点击搜索按钮后聚焦输入框（让用户能继续输入新关键词）
+  focused.value = true
+  if (__IS_H5__) inputRef.value?.focus()
 }
 
 const handleLabelClick = () => {
   focused.value = true
-  inputFocus.value = true
+  if (__IS_H5__) inputRef.value?.focus()
 }
-
-watch(() => props.focus, (val) => {
-  focused.value = val
-  inputFocus.value = val
-})
 </script>
