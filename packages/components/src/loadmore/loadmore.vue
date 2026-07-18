@@ -1,8 +1,8 @@
 <template>
-  <view :class="rootClass">
-    <view v-if="type === 'default'" class="weui-loading" />
-    <text v-if="showText" class="weui-loadmore__tips">{{ text }}</text>
-  </view>
+  <div :class="rootClass">
+    <div v-if="type === 'default'" class="weui-loading" />
+    <span v-if="showText" class="weui-loadmore__tips">{{ text }}</span>
+  </div>
 </template>
 
 <script lang="ts">

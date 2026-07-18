@@ -6,7 +6,7 @@ describe('WeuiInput', () => {
   describe('基础渲染', () => {
     it('根元素为 view', () => {
       const wrapper = mount(WeuiInput)
-      expect(wrapper.element.tagName.toLowerCase()).toBe('view')
+      expect(wrapper.element.tagName.toLowerCase()).toBe('div')
     })
 
     it('根元素带 weui-input 类', () => {

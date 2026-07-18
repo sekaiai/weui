@@ -11,7 +11,7 @@ describe('WeuiProgress', () => {
 
     it('根元素为 view', () => {
       const wrapper = mount(WeuiProgress, { props: { percent: 30 } })
-      expect(wrapper.element.tagName.toLowerCase()).toBe('view')
+      expect(wrapper.element.tagName.toLowerCase()).toBe('div')
     })
 
     it('渲染 .weui-progress__bar 作为进度条背景容器', () => {

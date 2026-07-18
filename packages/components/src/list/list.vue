@@ -1,14 +1,14 @@
 <template>
-  <view :class="rootClass">
+  <div :class="rootClass">
     <!-- 标题 -->
-    <view v-if="title" class="weui-list__title">{{ title }}</view>
+    <div v-if="title" class="weui-list__title">{{ title }}</div>
 
     <!-- 主体 -->
     <slot />
 
     <!-- 底部提示 -->
-    <view v-if="tips" class="weui-list__tips">{{ tips }}</view>
-  </view>
+    <div v-if="tips" class="weui-list__tips">{{ tips }}</div>
+  </div>
 </template>
 
 <script lang="ts">

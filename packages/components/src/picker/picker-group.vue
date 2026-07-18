@@ -1,21 +1,21 @@
 <template>
-  <view
+  <div
     class="weui-picker__group"
     @touchstart="handleTouchStart"
     @touchmove="handleTouchMove"
     @touchend="handleTouchEnd"
     @touchcancel="handleTouchEnd"
   >
-    <view class="weui-picker__mask" />
-    <view class="weui-picker__indicator" />
-    <view class="weui-picker__content" :style="contentStyle">
-      <view
+    <div class="weui-picker__mask" />
+    <div class="weui-picker__indicator" />
+    <div class="weui-picker__content" :style="contentStyle">
+      <div
         v-for="(option, i) in options"
         :key="i"
         :class="['weui-picker__item', { 'weui-picker__item_disabled': option.disabled }]"
-      >{{ option.label }}</view>
-    </view>
-  </view>
+      >{{ option.label }}</div>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">

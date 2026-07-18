@@ -1,14 +1,14 @@
 <template>
-  <view :class="rootClass" :style="rootStyle">
-    <view
+  <div :class="rootClass" :style="rootStyle">
+    <div
       class="weui-loading"
       :class="{ 'weui-loading_transparent': transparent }"
       :style="iconStyle"
     />
-    <text v-if="hasText" :class="textClass" :style="textStyle">
+    <span v-if="hasText" :class="textClass" :style="textStyle">
       <slot>{{ text }}</slot>
-    </text>
-  </view>
+    </span>
+  </div>
 </template>
 
 <script lang="ts">

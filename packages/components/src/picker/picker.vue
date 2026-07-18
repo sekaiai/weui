@@ -1,32 +1,32 @@
 <template>
-  <view
+  <div
     v-if="wrapperShow"
     class="weui-mask"
     :style="maskStyle"
     @click="handleMaskClick"
     @touchmove.stop.prevent
   >
-    <view
+    <div
       class="weui-picker"
       :class="extClass"
       :style="pickerStyle"
       @click.stop
     >
       <!-- 头部：取消 / 标题 / 确定 -->
-      <view class="weui-picker__hd">
-        <view
+      <div class="weui-picker__hd">
+        <div
           class="weui-picker__action weui-picker__action_cancel"
           @click="handleCancel"
-        >{{ cancelText }}</view>
-        <view v-if="title" class="weui-picker__title">{{ title }}</view>
-        <view
+        >{{ cancelText }}</div>
+        <div v-if="title" class="weui-picker__title">{{ title }}</div>
+        <div
           class="weui-picker__action weui-picker__action_confirm"
           @click="handleConfirm"
-        >{{ confirmText }}</view>
-      </view>
+        >{{ confirmText }}</div>
+      </div>
 
       <!-- 主体：多列 -->
-      <view class="weui-picker__bd">
+      <div class="weui-picker__bd">
         <weui-picker-group
           v-for="(col, colIndex) in columns"
           :key="colIndex"
@@ -34,9 +34,9 @@
           :index="currentIndexes[colIndex] ?? 0"
           @change="(idx) => handleChange(colIndex, idx)"
         />
-      </view>
-    </view>
-  </view>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">

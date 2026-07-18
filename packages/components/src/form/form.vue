@@ -1,28 +1,28 @@
 <template>
-  <view :class="rootClass">
+  <div :class="rootClass">
     <!-- 文字区域：title/desc 或 title slot -->
-    <view v-if="hasText" class="weui-form__text-area">
+    <div v-if="hasText" class="weui-form__text-area">
       <slot name="title">
-        <view v-if="title" class="weui-form__title">{{ title }}</view>
-        <view v-if="desc" class="weui-form__desc">{{ desc }}</view>
+        <div v-if="title" class="weui-form__title">{{ title }}</div>
+        <div v-if="desc" class="weui-form__desc">{{ desc }}</div>
       </slot>
-    </view>
+    </div>
 
     <!-- 控件区域 -->
-    <view class="weui-form__control-area">
+    <div class="weui-form__control-area">
       <slot />
-    </view>
+    </div>
 
     <!-- 提示区域：tips 或 tips slot -->
-    <view v-if="hasTips" class="weui-form__tips-area">
+    <div v-if="hasTips" class="weui-form__tips-area">
       <slot name="tips">{{ tips }}</slot>
-    </view>
+    </div>
 
     <!-- 操作按钮区域：footer slot -->
-    <view v-if="hasFooter" class="weui-form__opr-area">
+    <div v-if="hasFooter" class="weui-form__opr-area">
       <slot name="footer" />
-    </view>
-  </view>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">

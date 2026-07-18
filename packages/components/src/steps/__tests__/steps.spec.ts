@@ -17,7 +17,7 @@ describe('WeuiSteps', () => {
 
     it('根元素为 view', () => {
       const wrapper = mount(WeuiSteps, { props: { steps: sampleSteps } })
-      expect(wrapper.element.tagName.toLowerCase()).toBe('view')
+      expect(wrapper.element.tagName.toLowerCase()).toBe('div')
     })
 
     it('根据 steps 数组长度渲染对应数量的步骤项', () => {

@@ -11,7 +11,7 @@ describe('WeuiArticle', () => {
 
     it('根元素为 view', () => {
       const wrapper = mount(WeuiArticle)
-      expect(wrapper.element.tagName.toLowerCase()).toBe('view')
+      expect(wrapper.element.tagName.toLowerCase()).toBe('div')
     })
   })
 
@@ -69,7 +69,7 @@ describe('WeuiArticle', () => {
     it('无任何 props 时正常渲染且仅含 weui-article 类', () => {
       const wrapper = mount(WeuiArticle)
       expect(wrapper.classes()).toEqual(['weui-article'])
-      expect(wrapper.element.tagName.toLowerCase()).toBe('view')
+      expect(wrapper.element.tagName.toLowerCase()).toBe('div')
     })
   })
 })

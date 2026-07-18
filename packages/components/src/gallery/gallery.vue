@@ -1,18 +1,18 @@
 <template>
-  <view
+  <div
     v-if="wrapperShow"
     :class="['weui-gallery', extClass, { 'weui-animate-fade-in': innerShow, 'weui-animate-fade-out': !innerShow }]"
     :style="maskStyle"
     @click="handleClick"
     @touchmove.stop.prevent
   >
-    <image class="weui-gallery__img" :src="src" mode="aspectFit" />
-    <view v-if="hasOpr" class="weui-gallery__opr" @click.stop>
+    <img class="weui-gallery__img" :src="src" mode="aspectFit" />
+    <div v-if="hasOpr" class="weui-gallery__opr" @click.stop>
       <slot>
-        <view class="weui-gallery__del" @click="handleDelete">{{ deleteText }}</view>
+        <div class="weui-gallery__del" @click="handleDelete">{{ deleteText }}</div>
       </slot>
-    </view>
-  </view>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">

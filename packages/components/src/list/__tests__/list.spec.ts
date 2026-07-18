@@ -11,7 +11,7 @@ describe('WeuiList', () => {
 
     it('根元素为 view', () => {
       const wrapper = mount(WeuiList)
-      expect(wrapper.element.tagName.toLowerCase()).toBe('view')
+      expect(wrapper.element.tagName.toLowerCase()).toBe('div')
     })
 
     it('不传任何 props 时仅带 weui-list 类', () => {

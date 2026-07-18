@@ -1,15 +1,15 @@
 <template>
   <template v-if="visible">
-    <view
+    <div
       v-if="mask"
       class="weui-mask_transparent"
       :style="maskStyle"
       @touchmove.stop.prevent
     />
-    <view :class="toastClass">
-      <view v-if="type !== 'text'" :class="iconClass" />
-      <view class="weui-toast__content">{{ content }}</view>
-    </view>
+    <div :class="toastClass">
+      <div v-if="type !== 'text'" :class="iconClass" />
+      <div class="weui-toast__content">{{ content }}</div>
+    </div>
   </template>
 </template>
 

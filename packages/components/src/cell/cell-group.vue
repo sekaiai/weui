@@ -1,13 +1,13 @@
 <template>
-  <view :class="groupClass" :role="ariaRole">
-    <view v-if="title" class="weui-cells__title">{{ title }}</view>
+  <div :class="groupClass" :role="ariaRole">
+    <div v-if="title" class="weui-cells__title">{{ title }}</div>
     <slot v-else name="title" />
-    <view :class="cellsClass">
+    <div :class="cellsClass">
       <slot />
-    </view>
-    <view v-if="footer" class="weui-cells__tips">{{ footer }}</view>
+    </div>
+    <div v-if="footer" class="weui-cells__tips">{{ footer }}</div>
     <slot v-else name="footer" />
-  </view>
+  </div>
 </template>
 
 <script lang="ts">

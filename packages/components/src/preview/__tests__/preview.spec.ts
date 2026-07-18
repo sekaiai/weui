@@ -7,7 +7,7 @@ describe('WeuiPreview', () => {
   describe('根元素', () => {
     it('根元素为 view 且始终带 weui-form-preview 类', () => {
       const wrapper = mount(WeuiPreview)
-      expect(wrapper.element.tagName.toLowerCase()).toBe('view')
+      expect(wrapper.element.tagName.toLowerCase()).toBe('div')
       expect(wrapper.classes()).toContain('weui-form-preview')
     })
 

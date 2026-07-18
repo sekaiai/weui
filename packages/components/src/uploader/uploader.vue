@@ -1,13 +1,13 @@
 <template>
-  <view :class="rootClass">
-    <view v-if="showHeader" class="weui-uploader__hd">
-      <view v-if="title" class="weui-uploader__title">{{ title }}</view>
-      <view class="weui-uploader__info">{{ infoText }}</view>
-    </view>
+  <div :class="rootClass">
+    <div v-if="showHeader" class="weui-uploader__hd">
+      <div v-if="title" class="weui-uploader__title">{{ title }}</div>
+      <div class="weui-uploader__info">{{ infoText }}</div>
+    </div>
 
-    <view class="weui-uploader__bd">
-      <view class="weui-uploader__files">
-        <view
+    <div class="weui-uploader__bd">
+      <div class="weui-uploader__files">
+        <div
           v-for="(file, index) in files"
           :key="file.url"
           :class="fileClass(file)"
@@ -15,22 +15,22 @@
           @click="handlePreview(file, index)"
           @longpress="handleDelete(file, index)"
         >
-          <view
+          <div
             v-if="hasStatusOverlay(file)"
             class="weui-uploader__file-content"
-          >{{ resolveStatusText(file) }}</view>
-        </view>
-      </view>
+          >{{ resolveStatusText(file) }}</div>
+        </div>
+      </div>
 
-      <view v-if="canUpload" class="weui-uploader__input-box" @click="handleChoose">
-        <view class="weui-uploader__input" />
-      </view>
-    </view>
+      <div v-if="canUpload" class="weui-uploader__input-box" @click="handleChoose">
+        <div class="weui-uploader__input" />
+      </div>
+    </div>
 
-    <view v-if="tips" class="weui-uploader__tips">{{ tips }}</view>
+    <div v-if="tips" class="weui-uploader__tips">{{ tips }}</div>
 
     <slot />
-  </view>
+  </div>
 </template>
 
 <script lang="ts">

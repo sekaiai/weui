@@ -84,7 +84,7 @@ describe('WeuiBadge', () => {
   describe('根元素', () => {
     it('根元素为 text', () => {
       const wrapper = mount(WeuiBadge, { props: { content: '8' } })
-      expect(wrapper.element.tagName.toLowerCase()).toBe('text')
+      expect(wrapper.element.tagName.toLowerCase()).toBe('span')
     })
   })
 })

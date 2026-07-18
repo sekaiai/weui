@@ -1,40 +1,40 @@
 <template>
-  <view :class="rootClass">
+  <div :class="rootClass">
     <!-- 头部：title 或 header slot -->
-    <view v-if="hasHeader" class="weui-form-preview__hd">
+    <div v-if="hasHeader" class="weui-form-preview__hd">
       <slot name="header">
-        <view class="weui-form-preview__value">{{ title }}</view>
+        <div class="weui-form-preview__value">{{ title }}</div>
       </slot>
-    </view>
+    </div>
 
     <!-- 主体：items 或 default slot -->
-    <view v-if="hasBody" class="weui-form-preview__bd">
+    <div v-if="hasBody" class="weui-form-preview__bd">
       <slot>
-        <view
+        <div
           v-for="(item, index) in items"
           :key="index"
           class="weui-form-preview__item"
         >
-          <text class="weui-form-preview__label">{{ item.label }}</text>
-          <text class="weui-form-preview__value">{{ item.value }}</text>
-        </view>
+          <span class="weui-form-preview__label">{{ item.label }}</span>
+          <span class="weui-form-preview__value">{{ item.value }}</span>
+        </div>
       </slot>
-    </view>
+    </div>
 
     <!-- 底部：buttons 或 footer slot -->
-    <view v-if="hasFooter" class="weui-form-preview__ft">
+    <div v-if="hasFooter" class="weui-form-preview__ft">
       <slot name="footer">
-        <view
+        <div
           v-for="(btn, index) in buttons"
           :key="index"
           :class="['weui-form-preview__btn', btnClass(btn)]"
           @click="handleButtonTap(btn, index)"
         >
           {{ btn.text }}
-        </view>
+        </div>
       </slot>
-    </view>
-  </view>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">

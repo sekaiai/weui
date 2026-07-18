@@ -1,6 +1,6 @@
 <template>
-  <view :class="rootClass">
-    <view
+  <div :class="rootClass">
+    <div
       class="weui-slideview__left"
       @click="handleLeftClick"
       @touchstart="handleTouchStart"
@@ -8,18 +8,18 @@
       @touchend="handleTouchEnd"
     >
       <slot />
-    </view>
-    <view class="weui-slideview__right">
-      <view
+    </div>
+    <div class="weui-slideview__right">
+      <div
         v-for="(btn, index) in buttons"
         :key="index"
         :class="buttonClass(btn)"
         @click="handleButtonClick(btn, index)"
       >
         {{ btn.text }}
-      </view>
-    </view>
-  </view>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">

@@ -1,5 +1,5 @@
 <template>
-  <view class="weui-overlay-host">
+  <div class="weui-overlay-host">
     <!-- 命令式弹层在此渲染 -->
     <component
       :is="item.component"
@@ -8,7 +8,7 @@
       v-bind="item.props"
       @weui-close="handleClose(item.id)"
     />
-  </view>
+  </div>
 </template>
 
 <script lang="ts">

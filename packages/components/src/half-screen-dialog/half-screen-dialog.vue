@@ -1,5 +1,5 @@
 <template>
-  <view
+  <div
     v-if="wrapperShow"
     class="weui-mask"
     :class="{ 'weui-animate-fade-in': innerShow, 'weui-animate-fade-out': !innerShow }"
@@ -7,38 +7,38 @@
     @click="handleMaskClick"
     @touchmove.stop.prevent
   >
-    <view
+    <div
       :class="['weui-half-screen-dialog', { 'weui-animate-slide-up': innerShow, 'weui-animate-slide-down': !innerShow }, extClass]"
       @click.stop
     >
       <!-- 头部区域：优先使用 title slot -->
-      <view v-if="hasHeader" class="weui-half-screen-dialog__hd">
+      <div v-if="hasHeader" class="weui-half-screen-dialog__hd">
         <slot name="title">
-          <text v-if="title" class="weui-half-screen-dialog__title">{{ title }}</text>
-          <text v-if="subtitle" class="weui-half-screen-dialog__subtitle">{{ subtitle }}</text>
+          <span v-if="title" class="weui-half-screen-dialog__title">{{ title }}</span>
+          <span v-if="subtitle" class="weui-half-screen-dialog__subtitle">{{ subtitle }}</span>
         </slot>
-      </view>
+      </div>
 
       <!-- 内容区域 -->
-      <view class="weui-half-screen-dialog__bd">
+      <div class="weui-half-screen-dialog__bd">
         <slot>{{ content }}</slot>
-      </view>
+      </div>
 
       <!-- 底部按钮区域 -->
-      <view v-if="hasFooter" class="weui-half-screen-dialog__ft">
+      <div v-if="hasFooter" class="weui-half-screen-dialog__ft">
         <slot name="footer">
-          <view
+          <div
             v-for="(btn, index) in buttons"
             :key="index"
             :class="['weui-half-screen-dialog__btn', btnClassName(btn, index)]"
             @click="handleButtonTap(btn, index)"
           >
             {{ btn.label }}
-          </view>
+          </div>
         </slot>
-      </view>
-    </view>
-  </view>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">

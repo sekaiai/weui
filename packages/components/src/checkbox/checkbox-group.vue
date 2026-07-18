@@ -1,16 +1,16 @@
 <template>
-  <view :class="groupClass" :aria-role="ariaRole">
-    <view v-if="title" class="weui-cells__title">{{ title }}</view>
-    <view :class="cellsClass">
+  <div :class="groupClass" :aria-role="ariaRole">
+    <div v-if="title" class="weui-cells__title">{{ title }}</div>
+    <div :class="cellsClass">
       <checkbox-group v-if="multi" @change="onChange">
         <slot />
       </checkbox-group>
       <radio-group v-else @change="onChange">
         <slot />
       </radio-group>
-    </view>
-    <view v-if="footer" class="weui-cells__tips">{{ footer }}</view>
-  </view>
+    </div>
+    <div v-if="footer" class="weui-cells__tips">{{ footer }}</div>
+  </div>
 </template>
 
 <script lang="ts">

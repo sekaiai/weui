@@ -1,30 +1,30 @@
 <template>
-  <view :class="rootClass">
+  <div :class="rootClass">
     <slot>
-      <view v-if="hasIcon" class="weui-msg__icon-area">
+      <div v-if="hasIcon" class="weui-msg__icon-area">
         <slot name="icon">
           <weui-icon :type="type" :size="iconSize" ext-class="weui-icon_msg" />
         </slot>
-      </view>
-      <view v-if="hasText" class="weui-msg__text-area">
-        <view v-if="title" class="weui-msg__title">{{ title }}</view>
-        <view v-if="desc" class="weui-msg__desc">{{ desc }}</view>
-      </view>
+      </div>
+      <div v-if="hasText" class="weui-msg__text-area">
+        <div v-if="title" class="weui-msg__title">{{ title }}</div>
+        <div v-if="desc" class="weui-msg__desc">{{ desc }}</div>
+      </div>
     </slot>
-    <view v-if="hasOpr" class="weui-msg__opr-area">
-      <view class="weui-btn-area">
-        <view
+    <div v-if="hasOpr" class="weui-msg__opr-area">
+      <div class="weui-btn-area">
+        <div
           v-for="(btn, index) in buttons"
           :key="index"
           :class="buttonClass(btn)"
           @click="handleButtonTap(btn, index)"
-        >{{ btn.text }}</view>
-      </view>
-    </view>
-    <view v-if="$slots.footer" class="weui-msg__extra-area">
+        >{{ btn.text }}</div>
+      </div>
+    </div>
+    <div v-if="$slots.footer" class="weui-msg__extra-area">
       <slot name="footer" />
-    </view>
-  </view>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">

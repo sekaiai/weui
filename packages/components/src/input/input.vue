@@ -1,5 +1,5 @@
 <template>
-  <view :class="rootClass">
+  <div :class="rootClass">
     <input
       class="weui-input"
       :value="modelValue"
@@ -14,12 +14,12 @@
       @blur="handleBlur"
       @confirm="handleConfirm"
     />
-    <view
+    <div
       v-if="showClear"
       class="weui-icon-clear"
       @click="handleClear"
     />
-  </view>
+  </div>
 </template>
 
 <script lang="ts">

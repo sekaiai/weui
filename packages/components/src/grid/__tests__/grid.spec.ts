@@ -63,7 +63,7 @@ describe('WeuiGridItem', () => {
       const wrapper = mount(WeuiGridItem, {
         props: { icon: '/static/icon.png', label: 'G' },
       })
-      const img = wrapper.find('.weui-grid__icon image')
+      const img = wrapper.find('.weui-grid__icon img')
       expect(img.exists()).toBe(true)
       expect(img.attributes('src')).toBe('/static/icon.png')
     })

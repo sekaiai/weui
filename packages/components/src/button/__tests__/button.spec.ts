@@ -112,8 +112,8 @@ describe('WeuiButton', () => {
       const wrapper = mount(WeuiButton, {
         props: { icon: '/assets/icon.png' },
       })
-      expect(wrapper.find('image.weui-btn_cell__icon').exists()).toBe(true)
-      expect(wrapper.find('image.weui-btn_cell__icon').attributes('src')).toBe(
+      expect(wrapper.find('img.weui-btn_cell__icon').exists()).toBe(true)
+      expect(wrapper.find('img.weui-btn_cell__icon').attributes('src')).toBe(
         '/assets/icon.png',
       )
     })
@@ -151,7 +151,7 @@ describe('WeuiButton', () => {
       const wrapper = mount(WeuiButton, {
         props: { cell: true, icon: '/assets/icon.png' },
       })
-      expect(wrapper.find('image.weui-btn_cell__icon').exists()).toBe(true)
+      expect(wrapper.find('img.weui-btn_cell__icon').exists()).toBe(true)
     })
 
     it('cell 模式下 disabled 添加 weui-btn_disabled', () => {

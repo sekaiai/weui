@@ -11,7 +11,7 @@ describe('WeuiForm', () => {
 
     it('根元素为 view', () => {
       const wrapper = mount(WeuiForm)
-      expect(wrapper.element.tagName.toLowerCase()).toBe('view')
+      expect(wrapper.element.tagName.toLowerCase()).toBe('div')
     })
   })
 

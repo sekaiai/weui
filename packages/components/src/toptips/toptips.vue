@@ -1,12 +1,12 @@
 <template>
-  <view
+  <div
     v-if="visible"
     class="weui-toptips"
     :class="[typeClass, extClass]"
     :style="toptipsStyle"
   >
     {{ content }}
-  </view>
+  </div>
 </template>
 
 <script lang="ts">

@@ -1,8 +1,8 @@
 <template>
-  <text
+  <span
     :class="rootClass"
     :aria-label="ariaLabel"
-  >{{ content }}</text>
+  >{{ content }}</span>
 </template>
 
 <script lang="ts">

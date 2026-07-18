@@ -1,7 +1,7 @@
 <template>
-  <view :class="rootClass" @click="handleClick">
+  <div :class="rootClass" @click="handleClick">
     <slot />
-  </view>
+  </div>
 </template>
 
 <script lang="ts">

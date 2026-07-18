@@ -1,8 +1,8 @@
 <template>
-  <view :class="rootClass">
-    <view class="weui-search-bar__form">
-      <view class="weui-search-bar__box">
-        <view class="weui-icon-search" />
+  <div :class="rootClass">
+    <div class="weui-search-bar__form">
+      <div class="weui-search-bar__box">
+        <div class="weui-icon-search" />
         <input
           class="weui-search-bar__input"
           :value="modelValue"
@@ -14,28 +14,28 @@
           @blur="handleBlur"
           @confirm="handleConfirm"
         />
-        <view
+        <div
           v-if="showClear"
           class="weui-icon-clear"
           @click="handleClear"
         />
-      </view>
-      <view class="weui-search-bar__label" @click="handleLabelClick">
-        <view class="weui-icon-search" />
-        <text>{{ placeholder }}</text>
-      </view>
-    </view>
-    <view
+      </div>
+      <div class="weui-search-bar__label" @click="handleLabelClick">
+        <div class="weui-icon-search" />
+        <span>{{ placeholder }}</span>
+      </div>
+    </div>
+    <div
       v-if="showCancelButton"
       class="weui-search-bar__cancel-btn"
       @click="handleCancel"
-    >{{ cancelText }}</view>
-    <view
+    >{{ cancelText }}</div>
+    <div
       v-if="searchButtonText"
       class="weui-search-bar__btn"
       @click="handleSearch"
-    >{{ searchButtonText }}</view>
-  </view>
+    >{{ searchButtonText }}</div>
+  </div>
 </template>
 
 <script lang="ts">

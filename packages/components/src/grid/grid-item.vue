@@ -1,21 +1,21 @@
 <template>
-  <view
+  <div
     :class="rootClass"
     :hover-class="'weui-grid_active'"
     @click="handleClick"
   >
     <slot v-if="hasDefault" />
     <template v-else>
-      <view v-if="icon || hasIconSlot" class="weui-grid__icon">
-        <image v-if="icon" :src="icon" />
+      <div v-if="icon || hasIconSlot" class="weui-grid__icon">
+        <img v-if="icon" :src="icon" />
         <slot v-else name="icon" />
-      </view>
-      <view v-if="label || hasLabelSlot" class="weui-grid__label">
+      </div>
+      <div v-if="label || hasLabelSlot" class="weui-grid__label">
         <template v-if="label">{{ label }}</template>
         <slot v-else name="label" />
-      </view>
+      </div>
     </template>
-  </view>
+  </div>
 </template>
 
 <script lang="ts">

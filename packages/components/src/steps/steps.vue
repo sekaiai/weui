@@ -1,16 +1,16 @@
 <template>
-  <view :class="rootClass">
-    <view
+  <div :class="rootClass">
+    <div
       v-for="(step, index) in steps"
       :key="index"
       :class="itemClass(index)"
     >
-      <view class="weui-steps__item__inner">
-        <view class="weui-steps__item__title">{{ step.title }}</view>
-        <view v-if="step.desc" class="weui-steps__item__desc">{{ step.desc }}</view>
-      </view>
-    </view>
-  </view>
+      <div class="weui-steps__item__inner">
+        <div class="weui-steps__item__title">{{ step.title }}</div>
+        <div v-if="step.desc" class="weui-steps__item__desc">{{ step.desc }}</div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">

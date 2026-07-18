@@ -1,25 +1,25 @@
 <template>
-  <view
+  <div
     :class="rootClass"
     :hover-class="hover ? 'weui-cell_active' : undefined"
     :role="ariaRole"
     @click="handleClick"
   >
-    <view v-if="hasHeader" :class="['weui-cell__hd', iconClass]">
-      <image v-if="icon" :src="icon" class="weui-cell__icon" mode="aspectFit" />
+    <div v-if="hasHeader" :class="['weui-cell__hd', iconClass]">
+      <img v-if="icon" :src="icon" class="weui-cell__icon" mode="aspectFit" />
       <slot v-else name="icon" />
       <template v-if="title">{{ title }}</template>
       <slot v-else name="title" />
-    </view>
-    <view v-if="hasBody" :class="['weui-cell__bd', bodyClass]">
+    </div>
+    <div v-if="hasBody" :class="['weui-cell__bd', bodyClass]">
       <template v-if="value">{{ value }}</template>
       <slot v-else />
-    </view>
-    <view v-if="hasFooter" :class="footerClass">
+    </div>
+    <div v-if="hasFooter" :class="footerClass">
       <template v-if="footer">{{ footer }}</template>
       <slot v-else name="footer" />
-    </view>
-  </view>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">

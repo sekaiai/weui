@@ -1,22 +1,22 @@
 <template>
-  <view :class="rootClass">
+  <div :class="rootClass">
     <slot>
-      <view v-if="hasLinks" class="weui-footer__links">
+      <div v-if="hasLinks" class="weui-footer__links">
         <template v-for="(link, index) in links" :key="index">
           <navigator
             v-if="link.url"
             class="weui-footer__link"
             :url="link.url"
           >{{ link.text }}</navigator>
-          <text
+          <span
             v-else
             class="weui-footer__link"
-          >{{ link.text }}</text>
+          >{{ link.text }}</span>
         </template>
-      </view>
-      <view v-if="text" class="weui-footer__text">{{ text }}</view>
+      </div>
+      <div v-if="text" class="weui-footer__text">{{ text }}</div>
     </slot>
-  </view>
+  </div>
 </template>
 
 <script lang="ts">

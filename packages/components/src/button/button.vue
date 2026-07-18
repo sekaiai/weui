@@ -5,13 +5,13 @@
     :open-type="!vcode && !cell ? openType : undefined"
     @click="handleClick"
   >
-    <view
+    <div
       v-if="loading && !vcode"
       class="weui-primary-loading weui-primary-loading_transparent"
     >
-      <view class="weui-primary-loading__dot" />
-    </view>
-    <image v-if="icon" :src="icon" class="weui-btn_cell__icon" />
+      <div class="weui-primary-loading__dot" />
+    </div>
+    <img v-if="icon" :src="icon" class="weui-btn_cell__icon" />
     <slot />
   </button>
 </template>

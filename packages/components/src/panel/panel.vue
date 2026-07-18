@@ -1,20 +1,20 @@
 <template>
-  <view :class="rootClass">
+  <div :class="rootClass">
     <!-- 头部：title 或 header slot -->
-    <view v-if="hasHeader" class="weui-panel__hd">
+    <div v-if="hasHeader" class="weui-panel__hd">
       <slot name="header">{{ title }}</slot>
-    </view>
+    </div>
 
     <!-- 主体 -->
-    <view class="weui-panel__bd">
+    <div class="weui-panel__bd">
       <slot />
-    </view>
+    </div>
 
     <!-- 底部：footer slot -->
-    <view v-if="hasFooter" class="weui-panel__ft">
+    <div v-if="hasFooter" class="weui-panel__ft">
       <slot name="footer" />
-    </view>
-  </view>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">

@@ -132,7 +132,7 @@ describe('WeuiLoading', () => {
   describe('根元素', () => {
     it('根元素为 view', () => {
       const wrapper = mount(WeuiLoading)
-      expect(wrapper.element.tagName.toLowerCase()).toBe('view')
+      expect(wrapper.element.tagName.toLowerCase()).toBe('div')
     })
   })
 })

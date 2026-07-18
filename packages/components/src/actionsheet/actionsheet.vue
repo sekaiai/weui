@@ -1,46 +1,46 @@
 <template>
-  <view
+  <div
     v-if="wrapperShow"
     class="weui-mask"
     :style="maskStyle"
     @click="handleMaskClick"
     @touchmove.stop.prevent
   >
-    <view
+    <div
       :class="['weui-actionsheet', extClass, { 'weui-actionsheet_toggle': showSheet }]"
       @click.stop
     >
       <!-- 标题 -->
-      <view v-if="title" class="weui-actionsheet__title">
-        <text class="weui-actionsheet__title-text">{{ title }}</text>
-      </view>
+      <div v-if="title" class="weui-actionsheet__title">
+        <span class="weui-actionsheet__title-text">{{ title }}</span>
+      </div>
 
       <!-- 菜单项 -->
-      <view class="weui-actionsheet__menu">
-        <view
+      <div class="weui-actionsheet__menu">
+        <div
           v-for="(item, index) in items"
           :key="index"
           :class="cellClass(item)"
           @click="handleSelect(item, index)"
         >
-          <text>{{ item.label }}</text>
-          <text v-if="item.tips" class="weui-actionsheet__cell__tips">
+          <span>{{ item.label }}</span>
+          <span v-if="item.tips" class="weui-actionsheet__cell__tips">
             {{ item.tips }}
-          </text>
-        </view>
-      </view>
+          </span>
+        </div>
+      </div>
 
       <!-- 操作区（取消按钮） -->
-      <view v-if="cancelText" class="weui-actionsheet__action">
-        <view
+      <div v-if="cancelText" class="weui-actionsheet__action">
+        <div
           class="weui-actionsheet__cell"
           @click="handleCancel"
         >
-          <text>{{ cancelText }}</text>
-        </view>
-      </view>
-    </view>
-  </view>
+          <span>{{ cancelText }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">

@@ -1,16 +1,16 @@
 <template>
   <label :class="rootClass" @click="handleClick">
-    <view v-if="multi" class="weui-cell__hd">
+    <div v-if="multi" class="weui-cell__hd">
       <checkbox class="weui-check" :value="value" :checked="isChecked" :disabled="isDisabled" />
-      <view class="weui-icon-checked" />
-    </view>
-    <view class="weui-cell__bd">
+      <div class="weui-icon-checked" />
+    </div>
+    <div class="weui-cell__bd">
       <slot>{{ label }}</slot>
-    </view>
-    <view v-if="!multi" class="weui-cell__ft">
+    </div>
+    <div v-if="!multi" class="weui-cell__ft">
       <radio class="weui-check" :value="value" :checked="isChecked" :disabled="isDisabled" />
-      <view class="weui-icon-checked" />
-    </view>
+      <div class="weui-icon-checked" />
+    </div>
   </label>
 </template>
 

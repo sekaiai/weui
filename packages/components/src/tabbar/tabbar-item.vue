@@ -1,30 +1,30 @@
 <template>
-  <view :class="rootClass" :aria-selected="active" @click="handleClick">
-    <view v-if="hasIcon" :class="iconWrapClass" :style="iconWrapStyle">
+  <div :class="rootClass" :aria-selected="active" @click="handleClick">
+    <div v-if="hasIcon" :class="iconWrapClass" :style="iconWrapStyle">
       <slot name="icon">
-        <image
+        <img
           v-if="displayIcon"
           :src="displayIcon"
           class="weui-tabbar__icon"
           mode="aspectFit"
         />
       </slot>
-      <text
+      <span
         v-if="showDot"
         class="weui-badge weui-badge_dot"
         :style="badgeStyle"
       />
-      <text
+      <span
         v-else-if="hasBadge"
         class="weui-badge"
         :style="badgeStyle"
-      >{{ badge }}</text>
-    </view>
-    <view v-if="hasLabel" class="weui-tabbar__label">
+      >{{ badge }}</span>
+    </div>
+    <div v-if="hasLabel" class="weui-tabbar__label">
       <template v-if="text">{{ text }}</template>
       <slot v-else />
-    </view>
-  </view>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">

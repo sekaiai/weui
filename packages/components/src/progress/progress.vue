@@ -1,17 +1,17 @@
 <template>
-  <view :class="rootClass">
-    <view class="weui-progress__bar" :style="barStyle">
-      <view
+  <div :class="rootClass">
+    <div class="weui-progress__bar" :style="barStyle">
+      <div
         class="weui-progress__inner-bar"
         :style="innerBarStyle"
-      ></view>
-    </view>
-    <text
+      ></div>
+    </div>
+    <span
       v-if="showInfo"
       class="weui-progress__info"
       :style="infoStyle"
-    >{{ displayPercent }}%</text>
-  </view>
+    >{{ displayPercent }}%</span>
+  </div>
 </template>
 
 <script lang="ts">
