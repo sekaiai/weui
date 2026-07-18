@@ -103,17 +103,19 @@ const rootClass = computed(() => {
 const showClear = computed(() => !!props.modelValue)
 const showCancelButton = computed(() => focused.value && !props.searchButtonText)
 
-// 非 H5 端专属属性（H5 端浏览器忽略 confirm-type）
+// 非 H5 端专属属性（H5 端浏览器忽略 confirm-type / :focus）
 // H5 端 focus 由 watch + ref.focus() 处理，不绑 :focus 属性
+// 非 H5 端通过 :focus 属性驱动 uni input 原生聚焦
 const uniOnlyAttrs = computed(() => {
   if (__IS_H5__) return {}
-  return { 'confirm-type': 'search' }
+  return {
+    'confirm-type': 'search',
+    focus: props.focus || undefined,
+  }
 })
 
 // H5 端：focus prop 变化时调用 DOM focus()/blur()
-// 非 H5 端：仅同步 focused 视觉状态（:focus 属性由 uni 原生组件处理，但本组件模板不绑 :focus，
-// 由 uniOnlyAttrs 控制是否绑——当前 uniOnlyAttrs 不含 focus，意味着非 H5 端也不绑 :focus。
-// 若非 H5 端需要 :focus 属性，应在 uniOnlyAttrs 中加入 focus: props.focus || undefined）
+// 非 H5 端：仅同步 focused 视觉状态（:focus 属性由 uniOnlyAttrs 绑定，uni 原生组件处理）
 watch(() => props.focus, (val) => {
   focused.value = val
   if (__IS_H5__) {
