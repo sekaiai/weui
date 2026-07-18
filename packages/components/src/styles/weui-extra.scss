@@ -1,36 +1,7 @@
-// weui-adapter.scss
-// 将 weui 原始标签选择器的视觉规则，映射到 uni-app 标签
-// 本文件由使用方在 App.vue 全局引入（与 weui.css 一起）
-
-// uni-app 的 view 对应 div，补齐 weui 中 div 的盒模型默认值
-view {
-  box-sizing: border-box;
-}
-
-// uni-app 的 text 对应 span/a/i，继承 weui 中行内元素的默认值
-text {
-  box-sizing: border-box;
-}
-
-// uni-app 的 image 对应 img，补齐 weui 中 img 的默认值
-image {
-  box-sizing: border-box;
-  vertical-align: middle;
-}
-
-// uni-app 的 button 已有默认样式，需重置以承接 weui-btn
-// 注意：小程序 button 有默认 border 与 padding，需重置
-button {
-  &::after {
-    border: none;
-  }
-}
-
-// weui 中 a 标签的样式映射到 view.weui-link
-// 业务侧用 <view class="weui-link"> 替代 <a>
-view.weui-link {
-  text-decoration: none;
-}
+// weui-extra.scss
+// weui.css 不包含的自定义类样式
+// 这些类属于 weui-miniprogram 仓库，weui npm 包不含
+// 由使用方在 App.vue 全局引入（与 weui.css 一起）
 
 // ---------------------------------------------------------------------------
 // cell 组件
