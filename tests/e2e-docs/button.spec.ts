@@ -21,7 +21,6 @@ test.describe('Button 文档', () => {
     await gotoDocsPage('button')
     const firstDemo = page.locator('.demo-block').first()
     await firstDemo.locator('.weui-btn').first().click()
-    // 验证结果显示
     await expect(firstDemo.locator('p')).toContainText('点击了按钮')
   })
 
@@ -29,21 +28,16 @@ test.describe('Button 文档', () => {
     await gotoDocsPage('button')
     const firstDemo = page.locator('.demo-block').first()
     const buttons = firstDemo.locator('.weui-btn')
-    // 点击第二个按钮（default）
     await buttons.nth(1).click()
     await expect(firstDemo.locator('p')).toContainText('点击了按钮')
   })
 
   test('禁用按钮不触发 click', async ({ page, gotoDocsPage }) => {
     await gotoDocsPage('button')
-    // 禁用状态是第 4 个 demo-block
     const disabledDemo = page.locator('.demo-block').nth(3)
     const disabledBtn = disabledDemo.locator('.weui-btn').first()
-    // 确认按钮确实禁用
     await expect(disabledBtn).toBeDisabled()
-    // 尝试点击（Playwright 对 disabled button 会跳过实际点击）
     await disabledBtn.click({ force: true }).catch(() => {})
-    // 验证第一个 demo-block 中没有出现结果（clickResult 未变化）
     const firstDemo = page.locator('.demo-block').first()
     await expect(firstDemo.locator('p')).toHaveCount(0)
   })
@@ -51,21 +45,86 @@ test.describe('Button 文档', () => {
   test('加载状态按钮渲染 loading 图标', async ({ page, gotoDocsPage }) => {
     await gotoDocsPage('button')
     const loadingDemo = page.locator('.demo-block').nth(4)
-    // 验证 loading 图标存在
     await expect(loadingDemo.locator('.weui-primary-loading')).toHaveCount(2)
   })
 
-  test('Cell 样式按钮渲染正确类名', async ({ page, gotoDocsPage }) => {
+  test('Cell 样式按钮：配合 weui-cell-group 渲染通栏操作', async ({ page, gotoDocsPage }) => {
     await gotoDocsPage('button')
-    const cellDemo = page.locator('.demo-block').nth(6)
-    await expect(cellDemo.locator('.weui-btn_cell')).toHaveCount(3)
-    await expect(cellDemo.locator('.weui-btn_cell-primary')).toHaveCount(1)
-    await expect(cellDemo.locator('.weui-btn_cell-warn')).toHaveCount(1)
+    // 定位包含"添加成员"文本的 demo-block
+    const demo = page.locator('.demo-block').filter({ hasText: '添加成员' })
+    await expect(demo).toBeVisible()
+    // 验证 weui-cell 结构存在
+    await expect(demo.locator('.weui-cell')).toHaveCount(2)
+    // 验证通栏 cell 按钮存在
+    await expect(demo.locator('.weui-btn_cell')).toHaveCount(1)
+    await expect(demo.locator('.weui-btn_cell-primary')).toHaveCount(1)
   })
 
-  test('验证码按钮渲染正确类名', async ({ page, gotoDocsPage }) => {
+  test('Cell 样式按钮：cell 右侧操作按钮（mini）', async ({ page, gotoDocsPage }) => {
     await gotoDocsPage('button')
-    const vcodeDemo = page.locator('.demo-block').nth(7)
-    await expect(vcodeDemo.locator('.weui-vcode-btn')).toHaveCount(1)
+    // 定位包含"编辑"和"开启"的 demo-block
+    const demo = page.locator('.demo-block').filter({ hasText: '编辑' }).filter({ hasText: '开启' })
+    await expect(demo).toBeVisible()
+    // 验证 weui-cell 结构存在
+    await expect(demo.locator('.weui-cell')).toHaveCount(2)
+    // 验证 mini 按钮存在（非 cell 模式）
+    await expect(demo.locator('.weui-btn_mini')).toHaveCount(2)
+  })
+
+  test('Cell 样式按钮：通栏按钮三种类型', async ({ page, gotoDocsPage }) => {
+    await gotoDocsPage('button')
+    // 定位包含 "Cell Primary" 的 demo-block
+    const demo = page.locator('.demo-block').filter({ hasText: 'Cell Primary' })
+    await expect(demo).toBeVisible()
+    await expect(demo.locator('.weui-btn_cell')).toHaveCount(3)
+    await expect(demo.locator('.weui-btn_cell-primary')).toHaveCount(1)
+    await expect(demo.locator('.weui-btn_cell-warn')).toHaveCount(1)
+  })
+
+  test('验证码按钮：点击后启动倒计时', async ({ page, gotoDocsPage }) => {
+    await gotoDocsPage('button')
+    // 定位验证码 demo-block（cell 标题"验证码"在点击前后都存在，作为稳定锚点）
+    const vcodeDemo = page.locator('.demo-block').filter({ hasText: '验证码' })
+    await expect(vcodeDemo).toBeVisible()
+    const vcodeBtn = vcodeDemo.locator('.weui-vcode-btn')
+    await expect(vcodeBtn).toHaveCount(1)
+    // 初始文本
+    await expect(vcodeBtn).toContainText('获取验证码')
+    // 点击启动倒计时
+    await vcodeBtn.click()
+    // 验证倒计时启动（按钮变为禁用，显示倒计时文本）
+    await expect(vcodeBtn).toBeDisabled()
+    await expect(vcodeBtn).toContainText('后重发')
+    // 验证发送提示出现
+    await expect(vcodeDemo.locator('p')).toContainText('验证码已发送')
+  })
+
+  test('半透明样式：点击显示遮罩层', async ({ page, gotoDocsPage }) => {
+    await gotoDocsPage('button')
+    // 定位半透明章节的触发 demo-block（包含"显示遮罩层"文本）
+    const overlayDemo = page.locator('.demo-block').filter({ hasText: '显示遮罩层' })
+    await expect(overlayDemo).toBeVisible()
+    const triggerBtn = overlayDemo.locator('.weui-btn').first()
+    // 初始遮罩层不存在
+    await expect(page.locator('.weui-btn_overlay')).toHaveCount(0)
+    // 点击触发遮罩层
+    await triggerBtn.click()
+    // 验证遮罩层出现，包含两个半透明按钮
+    await expect(page.locator('.weui-btn_overlay')).toHaveCount(2)
+    await expect(page.locator('.weui-btn_overlay').filter({ hasText: '取消' })).toBeVisible()
+    await expect(page.locator('.weui-btn_overlay').filter({ hasText: '确定' })).toBeVisible()
+  })
+
+  test('半透明样式：点击取消隐藏遮罩层', async ({ page, gotoDocsPage }) => {
+    await gotoDocsPage('button')
+    const overlayDemo = page.locator('.demo-block').filter({ hasText: '显示遮罩层' })
+    const triggerBtn = overlayDemo.locator('.weui-btn').first()
+    await triggerBtn.click()
+    // 点击取消
+    await page.locator('.weui-btn_overlay').filter({ hasText: '取消' }).click()
+    // 验证遮罩层消失
+    await expect(page.locator('.weui-btn_overlay')).toHaveCount(0)
+    // 验证结果显示
+    await expect(overlayDemo.locator('p')).toContainText('取消了半透明按钮操作')
   })
 })
