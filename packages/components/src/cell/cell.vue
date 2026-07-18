@@ -141,11 +141,18 @@ const footerClass = computed(() => {
 const handleClick = (event: Event) => {
   emit('click', event)
   if (props.link && props.url) {
+    // #ifdef H5
+    // Vue 3 / H5：不自动跳转，emit navigate 事件让用户处理
+    emit('navigate', { url: props.url })
+    // #endif
+    // #ifndef H5
+    // 小程序/App：用 uni.navigateTo
     uni.navigateTo({
       url: props.url,
       success: (res) => emit('navigate', res),
       fail: (err) => emit('navigate-error', err),
     })
+    // #endif
   }
 }
 </script>

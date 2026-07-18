@@ -23,7 +23,16 @@
       </div>
 
       <div v-if="canUpload" class="weui-uploader__input-box" @click="handleChoose">
-        <div class="weui-uploader__input" />
+        <!-- H5：input[type=file]，由 fileInput ref 触发 -->
+        <input
+          v-if="__IS_H5__"
+          ref="fileInput"
+          type="file"
+          class="weui-uploader__input"
+          @change="handleFileChange"
+        />
+        <!-- 非 H5：空 div，点击触发 uni API -->
+        <div v-else class="weui-uploader__input" />
       </div>
     </div>
 
@@ -44,7 +53,7 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 
 export interface UploaderFile {
   /** 文件 URL（图片地址） */
@@ -102,6 +111,8 @@ const props = withDefaults(defineProps<WeuiUploaderProps>(), {
 
 const emit = defineEmits<WeuiUploaderEmits>()
 
+const fileInput = ref<HTMLInputElement | null>(null)
+
 const rootClass = computed(() => {
   const classes: string[] = ['weui-uploader']
   if (props.extClass) classes.push(props.extClass)
@@ -141,6 +152,12 @@ const handleChoose = () => {
     emit('exceed', props.count)
     return
   }
+  // #ifdef H5
+  // Vue 3 / H5：触发 input[type=file] 点击
+  fileInput.value?.click()
+  // #endif
+  // #ifndef H5
+  // 小程序/App：用 uni API
   const success = (res: { tempFilePaths: string[]; tempFiles?: Array<{ path: string; size: number }> }) => {
     if (props.files.length + res.tempFilePaths.length > props.count) {
       emit('exceed', props.count)
@@ -156,7 +173,32 @@ const handleChoose = () => {
   } else {
     uni.chooseFile({ count: remaining, success, fail })
   }
+  // #endif
 }
+
+// #ifdef H5
+const handleFileChange = (event: Event) => {
+  const target = event.target as HTMLInputElement
+  const files = target.files
+  if (!files || files.length === 0) return
+
+  const remaining = props.count - props.files.length
+  if (files.length > remaining) {
+    emit('exceed', props.count)
+    target.value = ''
+    return
+  }
+
+  const tempFilePaths: string[] = []
+  const tempFiles: Array<{ path: string; size: number }> = []
+  for (let i = 0; i < files.length; i++) {
+    tempFilePaths.push(URL.createObjectURL(files[i]))
+    tempFiles.push({ path: tempFilePaths[i], size: files[i].size })
+  }
+  emit('select', { tempFilePaths, tempFiles })
+  target.value = ''
+}
+// #endif
 
 const handlePreview = (file: UploaderFile, index: number) => {
   emit('preview', file, index)

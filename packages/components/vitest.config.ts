@@ -21,6 +21,9 @@ export default defineConfig({
       },
     }),
   ],
+  define: {
+    __IS_H5__: true,
+  },
   test: {
     globals: true,
     environment: 'happy-dom',

@@ -44,6 +44,7 @@ export interface WeuiGridItemProps {
 
 export interface WeuiGridItemEmits {
   (e: 'click', event: Event): void
+  (e: 'navigate', payload: { url: string }): void
 }
 
 const props = withDefaults(defineProps<WeuiGridItemProps>(), {
@@ -69,7 +70,14 @@ const rootClass = computed(() => {
 const handleClick = (event: Event) => {
   emit('click', event)
   if (props.url) {
+    // #ifdef H5
+    // Vue 3 / H5：不自动跳转，emit navigate 事件让用户处理
+    emit('navigate', { url: props.url })
+    // #endif
+    // #ifndef H5
+    // 小程序/App：用 uni.navigateTo
     uni.navigateTo({ url: props.url })
+    // #endif
   }
 }
 </script>
