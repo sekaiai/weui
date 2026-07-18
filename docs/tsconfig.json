@@ -12,6 +12,7 @@
     ".vitepress/**/*.mts",
     ".vitepress/**/*.vue",
     "../packages/components/types/uni.d.ts",
-    "../packages/components/types/vue-global-properties.d.ts"
+    "../packages/components/types/vue-global-properties.d.ts",
+    "../packages/components/src/globals.d.ts"
   ]
 }
