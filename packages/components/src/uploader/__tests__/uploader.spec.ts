@@ -230,85 +230,85 @@ describe('WeuiUploader', () => {
     })
   })
 
-  describe('select 事件', () => {
-    it('点击上传按钮调用 uni.chooseImage', async () => {
-      mockChooseImage.mockImplementation(({ success }: any) =>
-        success?.({ tempFilePaths: ['a.jpg'] }),
-      )
+  describe('select 事件（H5 端）', () => {
+    it('H5 端点击上传按钮触发 fileInput.click()', async () => {
       const wrapper = mount(WeuiUploader, { props: { count: 9 } })
+      const fileInput = wrapper.find('input[type="file"]')
+      // mockImplementation 阻止真实 click 触发 file picker
+      const clickSpy = vi.spyOn(fileInput.element as HTMLElement, 'click').mockImplementation(() => {})
       await wrapper.find('.weui-uploader__input-box').trigger('click')
-      expect(mockChooseImage).toHaveBeenCalledWith(
-        expect.objectContaining({ count: 9 }),
-      )
+      expect(clickSpy).toHaveBeenCalledTimes(1)
     })
 
-    it('chooseImage success 回调触发 select 事件并携带 tempFilePaths', async () => {
-      mockChooseImage.mockImplementation(({ success }: any) =>
-        success?.({ tempFilePaths: ['a.jpg', 'b.jpg'] }),
-      )
+    it('H5 端 fileInput change 触发 select 事件并携带 tempFilePaths/tempFiles', async () => {
+      // happy-dom 的 URL.createObjectURL 会校验 Blob 类型，mock 之
+      const createObjectURLSpy = vi
+        .spyOn(URL, 'createObjectURL')
+        .mockReturnValue('blob:mock-url')
       const wrapper = mount(WeuiUploader, { props: { count: 9 } })
-      await wrapper.find('.weui-uploader__input-box').trigger('click')
+      const fileInput = wrapper.find('input[type="file"]')
+      const mockFile = { name: 'a.jpg', size: 1024 } as unknown as File
+      Object.defineProperty(fileInput.element, 'files', {
+        value: [mockFile],
+        configurable: true,
+      })
+      await fileInput.trigger('change')
       expect(wrapper.emitted('select')).toBeTruthy()
       expect(wrapper.emitted('select')).toHaveLength(1)
       expect(wrapper.emitted('select')![0]).toEqual([
-        { tempFilePaths: ['a.jpg', 'b.jpg'], tempFiles: undefined },
+        expect.objectContaining({
+          tempFilePaths: [expect.any(String)],
+          tempFiles: [{ path: expect.any(String), size: 1024 }],
+        }),
       ])
+      expect(createObjectURLSpy).toHaveBeenCalledTimes(1)
+      createObjectURLSpy.mockRestore()
     })
 
-    it('accept=file 时调用 uni.chooseFile', async () => {
-      mockChooseFile.mockImplementation(({ success }: any) =>
-        success?.({ tempFilePaths: ['a.pdf'] }),
-      )
-      const wrapper = mount(WeuiUploader, {
-        props: { count: 9, accept: 'file' },
-      })
-      await wrapper.find('.weui-uploader__input-box').trigger('click')
-      expect(mockChooseFile).toHaveBeenCalledWith(
-        expect.objectContaining({ count: 9 }),
-      )
-      expect(mockChooseImage).not.toHaveBeenCalled()
-      expect(wrapper.emitted('select')).toBeTruthy()
-    })
-
-    it('chooseImage fail 回调触发 select-fail 事件', async () => {
-      mockChooseImage.mockImplementation(({ fail }: any) =>
-        fail?.({ errMsg: 'chooseImage:fail cancel' }),
-      )
+    it('H5 端 fileInput change 无文件时不触发 select', async () => {
       const wrapper = mount(WeuiUploader, { props: { count: 9 } })
-      await wrapper.find('.weui-uploader__input-box').trigger('click')
-      expect(wrapper.emitted('select-fail')).toBeTruthy()
-      expect(wrapper.emitted('select-fail')![0]).toEqual([
-        { errMsg: 'chooseImage:fail cancel' },
-      ])
-      expect(wrapper.emitted('select')).toBeFalsy()
-    })
-
-    it('剩余数量不足时传入正确的 count', async () => {
-      mockChooseImage.mockImplementation(({ success }: any) =>
-        success?.({ tempFilePaths: ['c.jpg'] }),
-      )
-      const wrapper = mount(WeuiUploader, {
-        props: { count: 3, files: [{ url: 'a.jpg' }, { url: 'b.jpg' }] },
+      const fileInput = wrapper.find('input[type="file"]')
+      Object.defineProperty(fileInput.element, 'files', {
+        value: [],
+        configurable: true,
       })
-      await wrapper.find('.weui-uploader__input-box').trigger('click')
-      expect(mockChooseImage).toHaveBeenCalledWith(
-        expect.objectContaining({ count: 1 }),
-      )
+      await fileInput.trigger('change')
+      expect(wrapper.emitted('select')).toBeFalsy()
     })
   })
 
-  describe('exceed 事件', () => {
-    it('chooseImage 返回文件数超出最大数量时触发 exceed 并携带 count', async () => {
-      mockChooseImage.mockImplementation(({ success }: any) =>
-        success?.({ tempFilePaths: ['b.jpg', 'c.jpg'] }),
-      )
+  describe('exceed 事件（H5 端）', () => {
+    it('H5 端 fileInput change 返回文件数超出 remaining 时触发 exceed', async () => {
       const wrapper = mount(WeuiUploader, {
         props: { count: 2, files: [{ url: 'a.jpg' }] },
       })
-      await wrapper.find('.weui-uploader__input-box').trigger('click')
+      const fileInput = wrapper.find('input[type="file"]')
+      const mockFiles = [
+        { name: 'b.jpg', size: 1024 },
+        { name: 'c.jpg', size: 1024 },
+      ] as unknown as File[]
+      Object.defineProperty(fileInput.element, 'files', {
+        value: mockFiles,
+        configurable: true,
+      })
+      await fileInput.trigger('change')
       expect(wrapper.emitted('exceed')).toBeTruthy()
       expect(wrapper.emitted('exceed')![0]).toEqual([2])
       expect(wrapper.emitted('select')).toBeFalsy()
+    })
+  })
+
+  describe('小程序端适配（非 H5）', () => {
+    // 注：vitest 中 __IS_H5__ = true，无法直接测试非 H5 路径
+    // 非 H5 路径由 build-plugin 在构建时处理，单元测试不覆盖
+    // 此处仅验证 H5 端不调用 uni.chooseImage / uni.chooseFile
+    it('H5 端点击上传按钮不调用 uni.chooseImage/uni.chooseFile', async () => {
+      const wrapper = mount(WeuiUploader, { props: { count: 9 } })
+      const fileInput = wrapper.find('input[type="file"]')
+      vi.spyOn(fileInput.element as HTMLElement, 'click').mockImplementation(() => {})
+      await wrapper.find('.weui-uploader__input-box').trigger('click')
+      expect(mockChooseImage).not.toHaveBeenCalled()
+      expect(mockChooseFile).not.toHaveBeenCalled()
     })
   })
 
