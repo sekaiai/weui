@@ -2,14 +2,14 @@
   "easycom": {
     "autoscan": true,
     "custom": {
-      "^weui-cell-group$": "weui-design-vue/src/cell/cell-group.vue",
-      "^weui-checkbox-group$": "weui-design-vue/src/checkbox/checkbox-group.vue",
-      "^weui-flex-item$": "weui-design-vue/src/flex/flex-item.vue",
-      "^weui-grid-item$": "weui-design-vue/src/grid/grid-item.vue",
-      "^weui-navbar-item$": "weui-design-vue/src/navbar/navbar-item.vue",
-      "^weui-tabbar-item$": "weui-design-vue/src/tabbar/tabbar-item.vue",
-      "^weui-picker-group$": "weui-design-vue/src/picker/picker-group.vue",
-      "^weui-(.*)": "weui-design-vue/src/$1/$1.vue"
+      "^weui-cell-group$": "weui-design-vue/dist/uni-app/src/cell/cell-group.vue",
+      "^weui-checkbox-group$": "weui-design-vue/dist/uni-app/src/checkbox/checkbox-group.vue",
+      "^weui-flex-item$": "weui-design-vue/dist/uni-app/src/flex/flex-item.vue",
+      "^weui-grid-item$": "weui-design-vue/dist/uni-app/src/grid/grid-item.vue",
+      "^weui-navbar-item$": "weui-design-vue/dist/uni-app/src/navbar/navbar-item.vue",
+      "^weui-tabbar-item$": "weui-design-vue/dist/uni-app/src/tabbar/tabbar-item.vue",
+      "^weui-picker-group$": "weui-design-vue/dist/uni-app/src/picker/picker-group.vue",
+      "^weui-(.*)": "weui-design-vue/dist/uni-app/src/$1/$1.vue"
     }
   },
   "pages": [

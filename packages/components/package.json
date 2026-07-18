@@ -24,7 +24,7 @@
     "build:vue3": "vite build --mode vue3 && pnpm build:types && pnpm build:copy-styles",
     "build:uni-app": "tsx scripts/copy-uniapp-sfc.ts",
     "build:types": "vue-tsc -p tsconfig.build.json",
-    "build:copy-styles": "node -e \"require('fs').cpSync('src/styles', '../../dist/vue3/styles', {recursive: true})\"",
+    "build:copy-styles": "node -e \"require('fs').cpSync('src/styles', 'dist/vue3/styles', {recursive: true})\"",
     "test": "vitest run",
     "typecheck": "vue-tsc --noEmit -p tsconfig.json"
   },

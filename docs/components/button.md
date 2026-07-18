@@ -56,11 +56,9 @@ const onOverlayConfirm = () => {
 通过 `type` 设置按钮类型：`primary` 主操作、`default` 次要操作、`warn` 警告操作。
 
 <div class="demo-block">
-  <div class="demo-row">
-    <weui-button type="primary" @click="onClick">页面主操作</weui-button>
-    <weui-button type="default" @click="onClick">页面次要操作</weui-button>
-    <weui-button type="warn" @click="onClick">警告类操作</weui-button>
-  </div>
+  <weui-button type="primary" @click="onClick">页面主操作</weui-button>
+  <weui-button type="default" @click="onClick">页面次要操作</weui-button>
+  <weui-button type="warn" @click="onClick">警告类操作</weui-button>
   <p v-if="clickResult" style="margin-top: 8px; color: #07c160;">{{ clickResult }}</p>
 </div>
 
@@ -88,12 +86,10 @@ const onClick = () => {
 通过 `size` 设置按钮尺寸，提供 `default`、`medium`、`mini`、`xmini` 四种尺寸。
 
 <div class="demo-block">
-  <div class="demo-row">
-    <weui-button type="primary" size="default">默认</weui-button>
-    <weui-button type="primary" size="medium">中等</weui-button>
-    <weui-button type="primary" size="mini">迷你</weui-button>
-    <weui-button type="primary" size="xmini">超小</weui-button>
-  </div>
+  <weui-button type="primary" size="default">默认</weui-button>
+  <weui-button type="primary" size="medium">中等</weui-button>
+  <weui-button type="primary" size="mini">迷你</weui-button>
+  <weui-button type="primary" size="xmini">超小</weui-button>
 </div>
 
 ::: details 查看代码
@@ -134,10 +130,8 @@ const onClick = () => {
 `disabled` 为 `true` 时按钮不可点击，不会触发 `click` 事件。
 
 <div class="demo-block">
-  <div class="demo-row">
-    <weui-button type="primary" disabled @click="onClick">禁用</weui-button>
-    <weui-button type="default" disabled @click="onClick">禁用</weui-button>
-  </div>
+  <weui-button type="primary" disabled @click="onClick">禁用</weui-button>
+  <weui-button type="default" disabled @click="onClick">禁用</weui-button>
 </div>
 
 ::: details 查看代码
@@ -154,10 +148,8 @@ const onClick = () => {
 `loading` 为 `true` 时显示旋转加载图标，按钮仍可点击。
 
 <div class="demo-block">
-  <div class="demo-row">
-    <weui-button type="primary" loading @click="onClick">加载中</weui-button>
-    <weui-button type="default" loading @click="onClick">加载中</weui-button>
-  </div>
+  <weui-button type="primary" loading @click="onClick">加载中</weui-button>
+  <weui-button type="default" loading @click="onClick">加载中</weui-button>
 </div>
 
 ::: details 查看代码
@@ -348,9 +340,7 @@ onUnmounted(() => {
 `overlay` 为 `true` 时使用半透明样式（`weui-btn_overlay`），常用于弹层（遮罩层）底部的操作按钮。
 
 <div class="demo-block">
-  <div class="demo-row">
-    <weui-button type="primary" @click="overlayVisible = true">显示遮罩层</weui-button>
-  </div>
+  <weui-button type="primary" @click="overlayVisible = true">显示遮罩层</weui-button>
   <p v-if="clickResult" style="margin-top: 8px; color: #07c160;">{{ clickResult }}</p>
 </div>
 

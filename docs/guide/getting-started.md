@@ -6,11 +6,56 @@
 pnpm add weui-design-vue
 ```
 
-WeUI Design Vue 支持两类使用场景：**uni-app（小程序/H5）** 和 **纯 Vue 3 项目**。组件库一套代码同时服务三个端，各端的样式与标签处理方式不同。
+WeUI Design Vue 提供两套独立产物，覆盖三类使用场景：
 
-## 在 uni-app 项目中使用（小程序 / H5）
+| 产物 | 适用场景 | 引入方式 |
+| --- | --- | --- |
+| Vue 3 产物（预打包 ESM） | 纯 Vue 3 项目（VitePress / Nuxt / SPA / H5） | npm 安装，按需 import |
+| uni-app 产物（SFC 源码） | uni-app 项目（小程序 / App / uni-app H5） | easycom 自动引入 |
 
-uni-app 编译器会自动处理 `view`/`text`/`image` 等内置标签，无需额外适配。
+两套产物来自同一套源码（使用 `div`/`span`/`img` 标签），uni-app 产物在打包时已将标签转换为 `view`/`text`/`image`，并按平台保留对应的条件编译代码。
+
+## 在纯 Vue 3 项目中使用
+
+Vue 3 产物为预打包 ESM（类似 Element Plus / Arco），支持全量注册与按需引入。
+
+### 1. 全量注册
+
+```ts
+import { createApp } from 'vue'
+import WeuiDesignVue from 'weui-design-vue'
+import 'weui/dist/style/weui.css'
+import 'weui-design-vue/styles/weui-extra.scss'
+import App from './App.vue'
+
+const app = createApp(App)
+app.use(WeuiDesignVue)
+app.mount('#app')
+```
+
+### 2. 按需引入（推荐）
+
+只需引入用到的组件，Tree-shaking 自动裁剪未使用部分：
+
+```ts
+import { WeuiButton, WeuiCell, WeuiCellGroup } from 'weui-design-vue'
+import 'weui/dist/style/weui.css'
+import 'weui-design-vue/styles/weui-extra.scss'
+```
+
+### 3. 使用组件
+
+```vue
+<template>
+  <weui-button type="primary">页面主操作</weui-button>
+</template>
+```
+
+> **说明：** `weui.css` 提供所有 `.weui-*` 类的基础样式与 CSS 变量；`weui-extra.scss` 提供 `weui.css` 不含的自定义类（如 `.weui-list`、`.weui-slideview`、`.weui-cell__icon`）。
+
+## 在 uni-app 项目中使用（小程序 / App / uni-app H5）
+
+uni-app 产物为 SFC 源码形式（位于 `weui-design-vue/dist/uni-app/`），通过 easycom 自动引入，无需手动 import。
 
 ### 1. 配置 easycom
 
@@ -21,11 +66,20 @@ uni-app 编译器会自动处理 `view`/`text`/`image` 等内置标签，无需�
   "easycom": {
     "autoscan": true,
     "custom": {
-      "^weui-(.*)": "weui-design-vue/src/$1/$1.vue"
+      "^weui-cell-group$": "weui-design-vue/dist/uni-app/src/cell/cell-group.vue",
+      "^weui-checkbox-group$": "weui-design-vue/dist/uni-app/src/checkbox/checkbox-group.vue",
+      "^weui-flex-item$": "weui-design-vue/dist/uni-app/src/flex/flex-item.vue",
+      "^weui-grid-item$": "weui-design-vue/dist/uni-app/src/grid/grid-item.vue",
+      "^weui-navbar-item$": "weui-design-vue/dist/uni-app/src/navbar/navbar-item.vue",
+      "^weui-tabbar-item$": "weui-design-vue/dist/uni-app/src/tabbar/tabbar-item.vue",
+      "^weui-picker-group$": "weui-design-vue/dist/uni-app/src/picker/picker-group.vue",
+      "^weui-(.*)": "weui-design-vue/dist/uni-app/src/$1/$1.vue"
     }
   }
 }
 ```
+
+> **前置条件：** 使用前需先运行 `pnpm build:uni-app`（或在 monorepo 中通过 workspace 链接）生成 `dist/uni-app/` 产物。
 
 ### 2. 全局引入样式
 
@@ -34,11 +88,9 @@ uni-app 编译器会自动处理 `view`/`text`/`image` 等内置标签，无需�
 ```vue
 <style lang="scss">
 @import 'weui/dist/style/weui.css';
-@import 'weui-design-vue/src/styles/weui-extra.scss';
+@import 'weui-design-vue/dist/uni-app/styles/weui-extra.scss';
 </style>
 ```
-
-> **说明：** `weui.css` 提供所有 `.weui-*` 类的基础样式与 CSS 变量；`weui-extra.scss` 提供 `weui.css` 不含的自定义类（如 `.weui-list`、`.weui-slideview`、`.weui-cell__icon`）。`theme.scss` 已删除，因 `weui.css` 已内置全部 `--weui-*` CSS 变量（含暗色模式）。
 
 ### 3. 使用组件
 
@@ -54,36 +106,13 @@ easycom 会自动引入组件，无需手动 import。
 
 小程序端也可通过微信小程序的 `useExtendedLib` 引入 `weui-wxss`（与 `weui.css` 类名一致，但适配 WXML 标签）。两种方式二选一即可，不要同时引入。若使用 `weui-wxss`，则无需引入 `weui.css`，但 `weui-extra.scss` 中的自定义类仍需引入。
 
-## 在纯 Vue 3 项目中使用（如 VitePress、Nuxt、SPA）
+## 平台差异说明
 
-纯 Vue 3 环境下浏览器不识别 `view`/`text`/`image` 标签，需通过 `Vue3Adapter` 插件将其映射为 `div`/`span`/`img`。
+组件库源码统一使用 `div`/`span`/`img` 标签，并在 3 处不通用点（uploader 选文件、cell 跳转、grid-item 跳转）通过条件编译注释处理：
 
-### 1. 引入样式
-
-```ts
-import 'weui/dist/style/weui.css'
-import 'weui-design-vue/src/styles/weui-extra.scss'
-```
-
-### 2. 注册插件与组件库
-
-```ts
-import { createApp } from 'vue'
-import WeuiDesignVue, { Vue3Adapter } from 'weui-design-vue'
-import App from './App.vue'
-
-const app = createApp(App)
-app.use(WeuiDesignVue)
-app.use(Vue3Adapter)
-app.mount('#app')
-```
-
-### 3. 使用组件
-
-```vue
-<template>
-  <weui-button type="primary">页面主操作</weui-button>
-</template>
-```
-
-> **说明：** `Vue3Adapter` 仅在纯 Vue 3 环境使用。uni-app 环境下 uni-app 编译器会自动处理标签，无需注册此插件。
+- **Vue 3 产物**：保留 `#ifdef H5` 块，移除 `#ifndef H5` 块；`__IS_H5__` 常量替换为 `true`
+  - uploader 使用 `<input type="file">` 选文件
+  - cell / grid-item 不自动跳转，emit `navigate` 事件由用户处理
+- **uni-app 产物**：移除 `#ifdef H5` 块，保留 `#ifndef H5` 块；`__IS_H5__` 常量替换为 `false`；标签转换为 `view`/`text`/`image`
+  - uploader 使用 `uni.chooseImage` / `uni.chooseFile`
+  - cell / grid-item 调用 `uni.navigateTo` 自动跳转

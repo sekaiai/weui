@@ -99,7 +99,7 @@ export default {
 </script>
 
 <script setup lang="ts">
-import type { MsgButton } from 'weui-design-vue/src/msg/msg.vue'
+import type { MsgButton } from 'weui-design-vue'
 
 const successButtons: MsgButton[] = [
   { text: '辅助操作', type: 'default' },

@@ -83,12 +83,10 @@ const show = ref(false)
 通过 `type` 设置四种类型：`success`（成功，默认）、`loading`（加载，默认不自动关闭）、`warning`（警告）、`text`（纯文本，无图标）。
 
 <div class="demo-block">
-  <div class="demo-row">
-    <weui-button type="default" @click="showSuccess = true">success</weui-button>
-    <weui-button type="default" @click="showLoading = true">loading</weui-button>
-    <weui-button type="default" @click="showWarning = true">warning</weui-button>
-    <weui-button type="default" @click="showText = true">text</weui-button>
-  </div>
+  <weui-button type="default" @click="showSuccess = true">success</weui-button>
+  <weui-button type="default" @click="showLoading = true">loading</weui-button>
+  <weui-button type="default" @click="showWarning = true">warning</weui-button>
+  <weui-button type="default" @click="showText = true">text</weui-button>
   <weui-toast v-model:visible="showSuccess" content="操作成功" type="success" />
   <weui-toast v-model:visible="showLoading" content="加载中" type="loading" :duration="2000" />
   <weui-toast v-model:visible="showWarning" content="警告提示" type="warning" />
@@ -124,10 +122,8 @@ const vText = ref(false)
 通过 `:duration="0"` 设置不自动关闭，需手动控制 `visible`。`loading` 类型默认即为不自动关闭。
 
 <div class="demo-block">
-  <div class="demo-row">
-    <weui-button type="primary" @click="show3 = true">常驻提示</weui-button>
-    <weui-button type="default" @click="show3 = false">手动关闭</weui-button>
-  </div>
+  <weui-button type="primary" @click="show3 = true">常驻提示</weui-button>
+  <weui-button type="default" @click="show3 = false">手动关闭</weui-button>
   <weui-toast
     v-model:visible="show3"
     content="此提示不会自动关闭"
@@ -230,11 +226,9 @@ const show = ref(false)
 通过 `Toast.success / warning / text` 命令式调用，无需在模板中声明组件。调用前需在应用中挂载 `<weui-overlay-host />`。多次调用会通过内部队列排队，前一个关闭后才显示下一个。
 
 <div class="demo-block">
-  <div class="demo-row">
-    <weui-button type="primary" @click="onImpSuccess">Toast.success</weui-button>
-    <weui-button type="primary" @click="onImpWarning">Toast.warning</weui-button>
-    <weui-button type="primary" @click="onImpText">Toast.text</weui-button>
-  </div>
+  <weui-button type="primary" @click="onImpSuccess">Toast.success</weui-button>
+  <weui-button type="primary" @click="onImpWarning">Toast.warning</weui-button>
+  <weui-button type="primary" @click="onImpText">Toast.text</weui-button>
   <p v-if="lastResult" style="margin-top: 8px; color: #07c160;">{{ lastResult }}</p>
 </div>
 
@@ -262,10 +256,8 @@ const showImpText = () => Toast.text('纯文本提示')
 `Toast.loading` 默认 `duration=0`（不自动关闭），需手动调用 `Toast.hide()` 关闭。
 
 <div class="demo-block">
-  <div class="demo-row">
-    <weui-button type="primary" @click="onImpLoading">Toast.loading</weui-button>
-    <weui-button type="default" @click="onImpHide">Toast.hide</weui-button>
-  </div>
+  <weui-button type="primary" @click="onImpLoading">Toast.loading</weui-button>
+  <weui-button type="default" @click="onImpHide">Toast.hide</weui-button>
   <p v-if="lastResult" style="margin-top: 8px; color: #07c160;">{{ lastResult }}</p>
 </div>
 

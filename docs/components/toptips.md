@@ -77,12 +77,10 @@ const show = ref(false)
 通过 `type` 设置四种类型：`info`（信息）、`success`（成功）、`warn`（警告）、`error`（错误）。
 
 <div class="demo-block">
-  <div class="demo-row">
-    <weui-button type="default" @click="showInfo = true">info</weui-button>
-    <weui-button type="default" @click="showSuccess = true">success</weui-button>
-    <weui-button type="default" @click="showWarn = true">warn</weui-button>
-    <weui-button type="default" @click="showError = true">error</weui-button>
-  </div>
+  <weui-button type="default" @click="showInfo = true">info</weui-button>
+  <weui-button type="default" @click="showSuccess = true">success</weui-button>
+  <weui-button type="default" @click="showWarn = true">warn</weui-button>
+  <weui-button type="default" @click="showError = true">error</weui-button>
   <weui-toptips v-model:visible="showInfo" content="信息提示" type="info" />
   <weui-toptips v-model:visible="showSuccess" content="操作成功" type="success" />
   <weui-toptips v-model:visible="showWarn" content="请注意警告" type="warn" />
@@ -118,10 +116,8 @@ const vError = ref(false)
 通过 `:duration="0"` 设置不自动关闭，需手动控制 `visible`。
 
 <div class="demo-block">
-  <div class="demo-row">
-    <weui-button type="primary" @click="show3 = true">常驻提示</weui-button>
-    <weui-button type="default" @click="show3 = false">手动关闭</weui-button>
-  </div>
+  <weui-button type="primary" @click="show3 = true">常驻提示</weui-button>
+  <weui-button type="default" @click="show3 = false">手动关闭</weui-button>
   <weui-toptips
     v-model:visible="show3"
     content="此提示不会自动关闭"
@@ -190,10 +186,8 @@ const show = ref(false)
 通过 `Toptips.info / success` 命令式调用，无需在模板中声明组件。调用前需在应用中挂载 `<weui-overlay-host />`。命令式调用会在 `duration` 后自动通过 overlay-host 卸载。
 
 <div class="demo-block">
-  <div class="demo-row">
-    <weui-button type="primary" @click="onImpInfo">Toptips.info</weui-button>
-    <weui-button type="primary" @click="onImpSuccess">Toptips.success</weui-button>
-  </div>
+  <weui-button type="primary" @click="onImpInfo">Toptips.info</weui-button>
+  <weui-button type="primary" @click="onImpSuccess">Toptips.success</weui-button>
   <p v-if="lastResult" style="margin-top: 8px; color: #07c160;">{{ lastResult }}</p>
 </div>
 
@@ -219,10 +213,8 @@ const showImpSuccess = () => Toptips.success('操作成功')
 通过 `Toptips.warn / error` 命令式调用警告与错误提示。
 
 <div class="demo-block">
-  <div class="demo-row">
-    <weui-button type="primary" @click="onImpWarn">Toptips.warn</weui-button>
-    <weui-button type="primary" @click="onImpError">Toptips.error</weui-button>
-  </div>
+  <weui-button type="primary" @click="onImpWarn">Toptips.warn</weui-button>
+  <weui-button type="primary" @click="onImpError">Toptips.error</weui-button>
   <p v-if="lastResult" style="margin-top: 8px; color: #07c160;">{{ lastResult }}</p>
 </div>
 

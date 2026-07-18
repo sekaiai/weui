@@ -22,7 +22,7 @@ export default defineConfig(({ mode, command }) => {
       vue(),
     ],
     build: isBuild ? {
-      outDir: `../../dist/${isUniApp ? 'uni-app' : 'vue3'}`,
+      outDir: `dist/${isUniApp ? 'uni-app' : 'vue3'}`,
       // Vue 3 产物：用库模式打包为 ESM
       // uni-app 产物：vite build 不实际打包（emptyOutDir: false 避免删除），由 copy-uniapp-sfc.ts 输出 SFC
       lib: isUniApp

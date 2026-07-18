@@ -82,7 +82,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { ActionsheetItem } from 'weui-design-vue/src/actionsheet/actionsheet.vue'
+import type { ActionsheetItem } from 'weui-design-vue'
 
 defineOptions({
   name: 'PageActionsheet',

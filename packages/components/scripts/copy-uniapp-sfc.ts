@@ -9,7 +9,7 @@ import { stripConditionalCompile, transformTemplateTags, replacePlatformConstant
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const srcDir = join(__dirname, '..', 'src')
-const outBase = join(__dirname, '..', '..', '..', 'dist', 'uni-app')
+const outBase = join(__dirname, '..', 'dist', 'uni-app')
 const outSrcDir = join(outBase, 'src')
 const outStylesDir = join(outBase, 'styles')
 
