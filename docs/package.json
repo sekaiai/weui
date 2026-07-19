@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "predev": "pnpm --filter weui-design-vue build:vue3",
     "dev": "vitepress dev --port 5174",
+    "prebuild": "pnpm --filter weui-design-vue build:vue3",
     "build": "vitepress build",
     "serve": "vitepress serve",
     "typecheck": "vue-tsc --noEmit"

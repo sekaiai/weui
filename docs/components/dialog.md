@@ -12,6 +12,7 @@ const show3 = ref(false)
 const show4 = ref(false)
 const show5 = ref(false)
 const show6 = ref(false)
+const show7 = ref(false)
 const lastResult = ref('')
 
 const twoButtons: DialogButton[] = [
@@ -303,8 +304,8 @@ const onConfirm = async () => {
 通过 `title` 和 `default` 插槽自定义标题和内容。
 
 <div class="demo-block">
-  <weui-button type="primary" @click="show1 = true">查看插槽 Dialog</weui-button>
-  <weui-dialog v-model:visible="show1" :buttons="twoButtons">
+  <weui-button type="primary" @click="show7 = true">查看插槽 Dialog</weui-button>
+  <weui-dialog v-model:visible="show7" :buttons="twoButtons">
     <template #title>自定义标题</template>
     <template #default>
       <p style="margin: 0;">这是自定义内容，可以包含 <strong>HTML</strong>。</p>
@@ -315,6 +316,7 @@ const onConfirm = async () => {
 ::: details 查看代码
 ```vue
 <template>
+  <weui-button type="primary" @click="show = true">查看插槽 Dialog</weui-button>
   <weui-dialog v-model:visible="show" :buttons="buttons">
     <template #title>自定义标题</template>
     <template #default>
@@ -322,6 +324,12 @@ const onConfirm = async () => {
     </template>
   </weui-dialog>
 </template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const show = ref(false)
+</script>
 ```
 :::
 

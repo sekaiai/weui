@@ -4,6 +4,7 @@
   margin: 16px 0;
   border: 1px solid #eee;
   border-radius: 4px;
+  background: var(--weui-BG-1);
 }
 
 /* 多按钮横排容器：用 flex + gap 控制间距，不干预 weui 组件本身 */
