@@ -27,6 +27,7 @@ export default {
 
 <script setup lang="ts">
 import { ref, computed, watch, useSlots, onBeforeUnmount } from 'vue'
+import { isMiniProgram } from '../utils/platform'
 
 export interface WeuiGalleryProps {
   /** 是否显示 */
@@ -91,8 +92,21 @@ const maskStyle = computed(() => {
 watch(
   () => props.visible,
   (val) => {
-    if (__IS_H5__) {
-      // H5 端：渲染 UI + 淡入淡出动画
+    if (isMiniProgram()) {
+      // 小程序端：调用 uni.previewImage 系统预览，不渲染自定义 UI
+      // wrapperShow 始终为 false，模板 v-if="wrapperShow" 自然不渲染
+      if (val) {
+        uni.previewImage({
+          urls: props.src ? [props.src] : [],
+          complete: () => {
+            emit('update:visible', false)
+            emit('hide')
+            emit('weui-close')
+          },
+        })
+      }
+    } else {
+      // H5 端（含 vue3 产物与 uni-app H5 产物）：渲染 UI + 淡入淡出动画
       if (val) {
         // 显示：先挂载外层，下一 tick 触发淡入
         wrapperShow.value = true
@@ -105,19 +119,6 @@ watch(
         hideTimer = setTimeout(() => {
           wrapperShow.value = false
         }, 300)
-      }
-    } else {
-      // 非 H5 端：调用 uni.previewImage 系统预览，不渲染自定义 UI
-      // wrapperShow 始终为 false，模板 v-if="wrapperShow" 自然不渲染
-      if (val) {
-        uni.previewImage({
-          urls: props.src ? [props.src] : [],
-          complete: () => {
-            emit('update:visible', false)
-            emit('hide')
-            emit('weui-close')
-          },
-        })
       }
     }
   },
