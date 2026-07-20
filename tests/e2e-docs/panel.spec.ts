@@ -23,7 +23,6 @@ test.describe('Panel 文档', () => {
     await expect(demo.locator('.weui-panel_access')).toHaveCount(1)
     await expect(demo.locator('.weui-media-box_appmsg')).toHaveCount(2)
     await expect(demo.locator('.weui-media-box__thumb')).toHaveCount(2)
-    // footer-text 自动渲染为 link cell
     await expect(demo.locator('.weui-cell_access.weui-cell_link')).toHaveCount(1)
     await expect(demo.locator('.weui-cell__bd')).toContainText('查看更多')
   })
@@ -33,17 +32,20 @@ test.describe('Panel 文档', () => {
     const demo = page.locator('.demo-block').nth(1)
     await expect(demo.locator('.weui-media-box_text')).toHaveCount(2)
     await expect(demo.locator('.weui-media-box__thumb')).toHaveCount(0)
-    // 语义标签：strong.weui-media-box__title / p.weui-media-box__desc
     await expect(demo.locator('strong.weui-media-box__title')).toHaveCount(2)
     await expect(demo.locator('p.weui-media-box__desc')).toHaveCount(2)
   })
 
-  test('小图文组合：small-appmsg 包裹 weui-cells，无两条分割线', async ({ page, gotoDocsPage }) => {
+  test('小图文组合：small-appmsg + CellGroup + Cell', async ({ page, gotoDocsPage }) => {
     await gotoDocsPage('panel')
     const demo = page.locator('.demo-block').nth(2)
     await expect(demo.locator('.weui-media-box_small-appmsg')).toHaveCount(1)
+    // CellGroup 渲染 weui-cells
     await expect(demo.locator('.weui-cells')).toHaveCount(1)
-    await expect(demo.locator('.weui-cell_example')).toHaveCount(2)
+    // 2 个 Cell
+    await expect(demo.locator('.weui-cell_access')).toHaveCount(2)
+    // Cell icon 渲染
+    await expect(demo.locator('.weui-cell__icon')).toHaveCount(2)
   })
 
   test('文字列表附来源：渲染 weui-media-box__info', async ({ page, gotoDocsPage }) => {
@@ -51,19 +53,15 @@ test.describe('Panel 文档', () => {
     const demo = page.locator('.demo-block').nth(3)
     await expect(demo.locator('.weui-media-box__info')).toHaveCount(1)
     await expect(demo.locator('.weui-media-box__info__meta')).toHaveCount(3)
-    // 最后一项有 meta_extra 类
     await expect(demo.locator('.weui-media-box__info__meta_extra')).toHaveCount(1)
   })
 
   test('footerText 点击触发 footer-click 事件', async ({ page, gotoDocsPage }) => {
     await gotoDocsPage('panel')
     const demo = page.locator('.demo-block').nth(4)
-    // 初始显示提示文字（demo-block 直接子级 <p>，排除 media-box__desc）
     const tip = demo.locator('> p')
     await expect(tip).toContainText('点击下方')
-    // 点击 footer link
     await demo.locator('.weui-cell_link').click()
-    // 显示已点击
     await expect(tip).toContainText('已点击')
   })
 
@@ -71,7 +69,7 @@ test.describe('Panel 文档', () => {
     await gotoDocsPage('panel')
     const demo = page.locator('.demo-block').nth(5)
     await expect(demo.locator('.weui-panel__hd')).toContainText('自定义头部')
-    await expect(demo.locator('.weui-media-box_small-appmsg')).toHaveCount(1)
-    await expect(demo.locator('.weui-cell_example')).toHaveCount(1)
+    await expect(demo.locator('.weui-media-box_text')).toHaveCount(1)
+    await expect(demo.locator('.weui-media-box__info')).toHaveCount(1)
   })
 })
