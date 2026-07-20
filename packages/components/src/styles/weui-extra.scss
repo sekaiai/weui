@@ -165,3 +165,12 @@
   border-radius: 50%;
   z-index: 2;
 }
+
+// ---------------------------------------------------------------------------
+// media-box 组件
+// 小图文组合列表（small-appmsg）中 cell 头部图标需要右间距
+// weui.css 中 weui-cell__hd 仅在 checkbox/form 上下文有 padding-right
+// ---------------------------------------------------------------------------
+.weui-media-box_small-appmsg .weui-cell__hd {
+  padding-right: 16px;
+}

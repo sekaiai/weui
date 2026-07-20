@@ -44,8 +44,3 @@
   gap: 8px;
   align-items: center;
 }
-
-/* 模拟移动端宽度（用于 cell/input 等需要宽度约束的组件） */
-.vp-doc .demo-mobile {
-  max-width: 375px;
-}

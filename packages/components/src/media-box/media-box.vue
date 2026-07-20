@@ -32,7 +32,9 @@
     </template>
 
     <template v-else>
-      <slot />
+      <weui-cell-group>
+        <slot />
+      </weui-cell-group>
     </template>
   </div>
 </template>
@@ -49,6 +51,7 @@ export default {
 
 <script setup lang="ts">
 import { computed, useSlots } from 'vue'
+import WeuiCellGroup from '../cell/cell-group.vue'
 
 export type WeuiMediaBoxType = 'appmsg' | 'text' | 'small-appmsg'
 
