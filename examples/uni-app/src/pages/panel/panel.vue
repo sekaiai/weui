@@ -1,130 +1,66 @@
 <template>
-  <view class="page">
-    <view class="page__hd">
-      <text class="page__title">Panel</text>
-      <text class="page__desc">面板组件验证页</text>
-    </view>
+  <div class="page">
+    <div class="page__hd">
+      <span class="page__title">Panel</span>
+      <span class="page__desc">面板组件验证页</span>
+    </div>
 
-    <view class="page__bd">
-      <!-- 基础用法 -->
-      <view class="demo-section">
-        <view class="demo-section__title">基础用法</view>
-        <weui-panel title="标题">
-          <view class="weui-cells">
-            <view class="weui-cell">
-              <view class="weui-cell__bd">标题文字</view>
-              <view class="weui-cell__ft">说明文字</view>
-            </view>
-            <view class="weui-cell">
-              <view class="weui-cell__bd">标题文字</view>
-              <view class="weui-cell__ft">说明文字</view>
-            </view>
-          </view>
-        </weui-panel>
-      </view>
+    <div class="page__bd">
+      <!-- ① 图文组合列表 -->
+      <div class="demo-section">
+        <div class="demo-section__title">图文组合列表</div>
+        <weui-panel
+          type="access"
+          title="图文组合列表"
+          :items="appmsgItems"
+          footer-text="查看更多"
+          @footer-click="onFooterClick"
+        />
+      </div>
 
-      <!-- 无标题面板 -->
-      <view class="demo-section">
-        <view class="demo-section__title">无标题面板</view>
-        <weui-panel>
-          <view class="weui-cells">
-            <view class="weui-cell">
-              <view class="weui-cell__bd">标题文字</view>
-              <view class="weui-cell__ft">说明文字</view>
-            </view>
-            <view class="weui-cell">
-              <view class="weui-cell__bd">标题文字</view>
-              <view class="weui-cell__ft">说明文字</view>
-            </view>
-          </view>
-        </weui-panel>
-      </view>
+      <!-- ② 文字组合列表 -->
+      <div class="demo-section">
+        <div class="demo-section__title">文字组合列表</div>
+        <weui-panel
+          type="access"
+          title="文字组合列表"
+          :items="textItems"
+          footer-text="查看更多"
+        />
+      </div>
 
-      <!-- Access 模式 -->
-      <view class="demo-section">
-        <view class="demo-section__title">Access 模式</view>
-        <weui-panel type="access" title="图文组合列表">
-          <view class="weui-media-box weui-media-box_appmsg">
-            <view class="weui-media-box__hd">
-              <image
-                class="weui-media-box__thumb"
-                src="https://weui.io/images/pic_160.png"
-              />
-            </view>
-            <view class="weui-media-box__bd">
-              <view class="weui-media-box__title">标题一</view>
-              <view class="weui-media-box__desc">
-                由各种物质组成的巨型球状天体，由于本身会发光，所以不被天文学家定义为行星
-              </view>
-            </view>
-          </view>
-          <view class="weui-media-box weui-media-box_appmsg">
-            <view class="weui-media-box__hd">
-              <image
-                class="weui-media-box__thumb"
-                src="https://weui.io/images/pic_160.png"
-              />
-            </view>
-            <view class="weui-media-box__bd">
-              <view class="weui-media-box__title">标题二</view>
-              <view class="weui-media-box__desc">
-                由各种物质组成的巨型球状天体，由于本身会发光，所以不被天文学家定义为行星
-              </view>
-            </view>
-          </view>
-        </weui-panel>
-      </view>
+      <!-- ③ 小图文组合列表 -->
+      <div class="demo-section">
+        <div class="demo-section__title">小图文组合列表</div>
+        <weui-panel title="小图文组合列表" :items="cellItems" item-type="cell" />
+      </div>
 
-      <!-- 自定义头部 -->
-      <view class="demo-section">
-        <view class="demo-section__title">自定义头部</view>
+      <!-- ④ 文字列表附来源 -->
+      <div class="demo-section">
+        <div class="demo-section__title">文字列表附来源</div>
+        <weui-panel title="文字列表附来源" :items="infoItems" />
+      </div>
+
+      <!-- ⑤ 自定义内容 -->
+      <div class="demo-section">
+        <div class="demo-section__title">自定义内容</div>
         <weui-panel>
           <template #header>
-            <view class="weui-panel__title">自定义头部</view>
+            <div style="font-weight: bold; color: #576b95;">自定义头部</div>
           </template>
-          <view class="weui-cells">
-            <view class="weui-cell">
-              <view class="weui-cell__bd">标题文字</view>
-              <view class="weui-cell__ft">说明文字</view>
-            </view>
-          </view>
+          <weui-media-box type="small-appmsg">
+            <div class="weui-cells">
+              <a class="weui-cell weui-cell_active weui-cell_access weui-cell_example" href="javascript:void(0);">
+                <div class="weui-cell__hd"><img src="https://weui.io/images/pic_160.png" style="width:20px;height:20px;display:block" /></div>
+                <div class="weui-cell__bd weui-cell_primary"><p>文字标题</p></div>
+                <div class="weui-cell__ft" />
+              </a>
+            </div>
+          </weui-media-box>
         </weui-panel>
-      </view>
-
-      <!-- 底部内容 -->
-      <view class="demo-section">
-        <view class="demo-section__title">底部内容</view>
-        <weui-panel title="标题">
-          <view class="weui-cells">
-            <view class="weui-cell">
-              <view class="weui-cell__bd">标题文字</view>
-              <view class="weui-cell__ft">说明文字</view>
-            </view>
-            <view class="weui-cell">
-              <view class="weui-cell__bd">标题文字</view>
-              <view class="weui-cell__ft">说明文字</view>
-            </view>
-          </view>
-          <template #footer>
-            <view class="weui-panel__ft">查看更多</view>
-          </template>
-        </weui-panel>
-      </view>
-
-      <!-- 扩展类名 -->
-      <view class="demo-section">
-        <view class="demo-section__title">扩展类名</view>
-        <weui-panel title="标题" ext-class="custom-panel">
-          <view class="weui-cells">
-            <view class="weui-cell">
-              <view class="weui-cell__bd">标题文字</view>
-              <view class="weui-cell__ft">说明文字</view>
-            </view>
-          </view>
-        </weui-panel>
-      </view>
-    </view>
-  </view>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -137,9 +73,39 @@ export default {
 </script>
 
 <script setup lang="ts">
+import { ref } from 'vue'
+
 defineOptions({
   name: 'PagePanel',
 })
+
+const appmsgItems = ref([
+  { id: 1, thumb: 'https://weui.io/images/pic_160.png', title: '标题一', desc: '由各种物质组成的巨型球状天体，由于本身会发光，所以不被天文学家定义为行星', href: 'javascript:void(0);' },
+  { id: 2, thumb: 'https://weui.io/images/pic_160.png', title: '标题二', desc: '由各种物质组成的巨型球状天体，由于本身会发光，所以不被天文学家定义为行星', href: 'javascript:void(0);' },
+])
+
+const textItems = ref([
+  { id: 1, title: '标题一', desc: '由各种物质组成的巨型球状天体，由于本身会发光，所以不被天文学家定义为行星' },
+  { id: 2, title: '标题二', desc: '由各种物质组成的巨型球状天体，由于本身会发光，所以不被天文学家定义为行星' },
+])
+
+const cellItems = ref([
+  { id: 1, thumb: 'https://weui.io/images/pic_160.png', title: '文字标题', href: 'javascript:void(0);' },
+  { id: 2, thumb: 'https://weui.io/images/pic_160.png', title: '文字标题', href: 'javascript:void(0);' },
+])
+
+const infoItems = ref([
+  {
+    id: 1,
+    title: '标题一',
+    desc: '由各种物质组成的巨型球状天体，由于本身会发光，所以不被天文学家定义为行星',
+    info: ['文字来源', '时间', '其它信息'],
+  },
+])
+
+const onFooterClick = () => {
+  uni.showToast({ title: '点击查看更多', icon: 'none' })
+}
 </script>
 
 <style scoped>
