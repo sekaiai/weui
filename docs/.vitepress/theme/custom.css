@@ -7,6 +7,36 @@
   background: var(--weui-BG-1);
 }
 
+/* 重置 .vp-doc 对 demo-block 内语义标签的样式污染
+   VitePress 默认给 a/p/ul/li 注入文档样式（链接颜色、下划线、段落间距、列表 padding），
+   会影响 WeUI 组件中的 <a>/<p>/<ul>/<li> 语义标签，需在 demo-block 范围内重置 */
+.vp-doc .demo-block a {
+  color: inherit;
+  text-decoration: none;
+  font-weight: inherit;
+  transition: none;
+}
+
+.vp-doc .demo-block p {
+  margin: 0;
+  line-height: inherit;
+}
+
+.vp-doc .demo-block ul,
+.vp-doc .demo-block ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vp-doc .demo-block li {
+  margin: 0;
+}
+
+.vp-doc .demo-block li + li {
+  margin-top: 0;
+}
+
 /* 多按钮横排容器：用 flex + gap 控制间距，不干预 weui 组件本身 */
 .vp-doc .demo-row {
   display: flex;
