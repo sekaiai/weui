@@ -9,36 +9,41 @@
       <!-- ① 图文组合列表 -->
       <div class="demo-section">
         <div class="demo-section__title">图文组合列表</div>
-        <weui-panel
-          type="access"
-          title="图文组合列表"
-          :items="appmsgItems"
-          footer-text="查看更多"
-          @footer-click="onFooterClick"
-        />
+        <weui-panel type="access" title="图文组合列表" footer-text="查看更多" @footer-click="onFooterClick">
+          <weui-media-list :items="appmsgItems" />
+        </weui-panel>
       </div>
 
       <!-- ② 文字组合列表 -->
       <div class="demo-section">
         <div class="demo-section__title">文字组合列表</div>
-        <weui-panel
-          type="access"
-          title="文字组合列表"
-          :items="textItems"
-          footer-text="查看更多"
-        />
+        <weui-panel type="access" title="文字组合列表" footer-text="查看更多">
+          <weui-media-list :items="textItems" />
+        </weui-panel>
       </div>
 
       <!-- ③ 小图文组合列表 -->
       <div class="demo-section">
         <div class="demo-section__title">小图文组合列表</div>
-        <weui-panel title="小图文组合列表" :items="cellItems" item-type="cell" />
+        <weui-panel title="小图文组合列表">
+          <weui-media-box type="small-appmsg">
+            <weui-cell
+              v-for="item in cellItems"
+              :key="item.id"
+              variant="access"
+              :icon="item.thumb"
+              :value="item.title"
+            />
+          </weui-media-box>
+        </weui-panel>
       </div>
 
       <!-- ④ 文字列表附来源 -->
       <div class="demo-section">
         <div class="demo-section__title">文字列表附来源</div>
-        <weui-panel title="文字列表附来源" :items="infoItems" />
+        <weui-panel title="文字列表附来源">
+          <weui-media-list :items="infoItems" />
+        </weui-panel>
       </div>
 
       <!-- ⑤ 自定义内容 -->
@@ -48,14 +53,12 @@
           <template #header>
             <div style="font-weight: bold; color: #576b95;">自定义头部</div>
           </template>
-          <weui-media-box type="small-appmsg">
-            <div class="weui-cells">
-              <a class="weui-cell weui-cell_active weui-cell_access weui-cell_example" href="javascript:void(0);">
-                <div class="weui-cell__hd"><img src="https://weui.io/images/pic_160.png" style="width:20px;height:20px;display:block" /></div>
-                <div class="weui-cell__bd weui-cell_primary"><p>文字标题</p></div>
-                <div class="weui-cell__ft" />
-              </a>
-            </div>
+          <weui-media-box type="text" title="标题一" desc="由各种物质组成的巨型球状天体，由于本身会发光，所以不被天文学家定义为行星">
+            <ul class="weui-media-box__info">
+              <li class="weui-media-box__info__meta">文字来源</li>
+              <li class="weui-media-box__info__meta">时间</li>
+              <li class="weui-media-box__info__meta weui-media-box__info__meta_extra">其它信息</li>
+            </ul>
           </weui-media-box>
         </weui-panel>
       </div>
