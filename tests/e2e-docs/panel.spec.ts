@@ -58,12 +58,13 @@ test.describe('Panel 文档', () => {
   test('footerText 点击触发 footer-click 事件', async ({ page, gotoDocsPage }) => {
     await gotoDocsPage('panel')
     const demo = page.locator('.demo-block').nth(4)
-    // 初始显示提示文字
-    await expect(demo.locator('p')).toContainText('点击下方')
+    // 初始显示提示文字（demo-block 直接子级 <p>，排除 media-box__desc）
+    const tip = demo.locator('> p')
+    await expect(tip).toContainText('点击下方')
     // 点击 footer link
     await demo.locator('.weui-cell_link').click()
     // 显示已点击
-    await expect(demo.locator('p')).toContainText('已点击')
+    await expect(tip).toContainText('已点击')
   })
 
   test('自定义内容：header slot + MediaBox 手动组合', async ({ page, gotoDocsPage }) => {
