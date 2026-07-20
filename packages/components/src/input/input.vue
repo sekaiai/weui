@@ -137,3 +137,12 @@ const handleClear = () => {
   emit('clear')
 }
 </script>
+
+<style lang="scss">
+/* weui.css 仅提供 mask-image + color，缺尺寸/背景 */
+.weui-icon-clear {
+  width: 16px;
+  height: 16px;
+  background-color: currentColor;
+}
+</style>

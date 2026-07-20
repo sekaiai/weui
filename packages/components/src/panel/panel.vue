@@ -38,7 +38,7 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { computed, useSlots } from 'vue'
+import { computed } from 'vue'
 
 export interface WeuiPanelProps {
   /** 头部标题 */
@@ -66,8 +66,6 @@ const props = withDefaults(defineProps<WeuiPanelProps>(), {
 })
 
 const emit = defineEmits<WeuiPanelEmits>()
-
-const slots = useSlots()
 
 const rootClass = computed(() => {
   const classes: string[] = ['weui-panel']

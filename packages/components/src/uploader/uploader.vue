@@ -214,3 +214,32 @@ const handleDelete = (file: UploaderFile, index: number) => {
   emit('delete', file, index)
 }
 </script>
+
+<style lang="scss">
+/* WeUI npm 包不含 weui-uploader__tips（仅 weui-miniprogram 仓库有） */
+.weui-uploader__tips {
+  margin-top: 8px;
+  padding: 0 16px;
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+/* uploader 文件删除按钮（仅 H5 端渲染，小程序端用长按） */
+.weui-uploader__file-delete {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  font-size: 14px;
+  line-height: 1;
+  border-radius: 50%;
+  z-index: 2;
+}
+</style>

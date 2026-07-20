@@ -3,10 +3,10 @@ import { mount } from '@vue/test-utils'
 import WeuiMediaBox from '../media-box.vue'
 
 describe('WeuiMediaBox', () => {
-  describe('type=appmsg', () => {
+  describe('type=flex', () => {
     it('渲染 weui-media-box_appmsg 类名', () => {
       const wrapper = mount(WeuiMediaBox, {
-        props: { type: 'appmsg', title: '标题', desc: '描述' },
+        props: { type: 'flex', title: '标题', desc: '描述' },
       })
       expect(wrapper.classes()).toContain('weui-media-box')
       expect(wrapper.classes()).toContain('weui-media-box_appmsg')
@@ -14,14 +14,14 @@ describe('WeuiMediaBox', () => {
 
     it('根元素为 div（无 href 时）', () => {
       const wrapper = mount(WeuiMediaBox, {
-        props: { type: 'appmsg', title: '标题' },
+        props: { type: 'flex', title: '标题' },
       })
       expect(wrapper.element.tagName.toLowerCase()).toBe('div')
     })
 
     it('根元素为 a（有 href 时）', () => {
       const wrapper = mount(WeuiMediaBox, {
-        props: { type: 'appmsg', title: '标题', href: '/detail/1' },
+        props: { type: 'flex', title: '标题', href: '/detail/1' },
       })
       expect(wrapper.element.tagName.toLowerCase()).toBe('a')
       expect(wrapper.attributes('href')).toBe('/detail/1')
@@ -29,7 +29,7 @@ describe('WeuiMediaBox', () => {
 
     it('渲染 __hd + __thumb（有 thumb 时）', () => {
       const wrapper = mount(WeuiMediaBox, {
-        props: { type: 'appmsg', thumb: 'https://example.com/x.png' },
+        props: { type: 'flex', thumb: 'https://example.com/x.png' },
       })
       expect(wrapper.find('.weui-media-box__hd').exists()).toBe(true)
       expect(wrapper.find('.weui-media-box__thumb').exists()).toBe(true)
@@ -38,14 +38,14 @@ describe('WeuiMediaBox', () => {
 
     it('不渲染 __hd（无 thumb 且无 hd slot 时）', () => {
       const wrapper = mount(WeuiMediaBox, {
-        props: { type: 'appmsg', title: '标题' },
+        props: { type: 'flex', title: '标题' },
       })
       expect(wrapper.find('.weui-media-box__hd').exists()).toBe(false)
     })
 
     it('title 渲染为 <strong class="weui-media-box__title">', () => {
       const wrapper = mount(WeuiMediaBox, {
-        props: { type: 'appmsg', title: '标题一' },
+        props: { type: 'flex', title: '标题一' },
       })
       const title = wrapper.find('.weui-media-box__title')
       expect(title.exists()).toBe(true)
@@ -55,7 +55,7 @@ describe('WeuiMediaBox', () => {
 
     it('desc 渲染为 <p class="weui-media-box__desc">', () => {
       const wrapper = mount(WeuiMediaBox, {
-        props: { type: 'appmsg', desc: '描述文字' },
+        props: { type: 'flex', desc: '描述文字' },
       })
       const desc = wrapper.find('.weui-media-box__desc')
       expect(desc.exists()).toBe(true)
@@ -87,36 +87,38 @@ describe('WeuiMediaBox', () => {
     })
   })
 
-  describe('type=small-appmsg', () => {
+  describe('type=cells', () => {
     it('渲染 weui-media-box_small-appmsg 类名', () => {
       const wrapper = mount(WeuiMediaBox, {
-        props: { type: 'small-appmsg' },
-        slots: { default: '<div class="weui-cells" />' },
+        props: { type: 'cells' },
+        slots: { default: '<div class="weui-cell" />' },
       })
       expect(wrapper.classes()).toContain('weui-media-box_small-appmsg')
     })
 
     it('根元素为 div', () => {
       const wrapper = mount(WeuiMediaBox, {
-        props: { type: 'small-appmsg' },
+        props: { type: 'cells' },
       })
       expect(wrapper.element.tagName.toLowerCase()).toBe('div')
     })
 
-    it('default slot 渲染到根元素内', () => {
+    it('内部渲染 weui-cells 容器（不嵌套 weui-cells__group）', () => {
       const wrapper = mount(WeuiMediaBox, {
-        props: { type: 'small-appmsg' },
-        slots: { default: '<div class="weui-cells">cells</div>' },
+        props: { type: 'cells' },
+        slots: { default: '<div class="weui-cell">cell</div>' },
       })
       expect(wrapper.find('.weui-cells').exists()).toBe(true)
-      expect(wrapper.text()).toContain('cells')
+      expect(wrapper.find('.weui-cells__group').exists()).toBe(false)
+      expect(wrapper.find('.weui-cell').exists()).toBe(true)
+      expect(wrapper.text()).toContain('cell')
     })
   })
 
   describe('extClass', () => {
     it('附加扩展类名到根元素', () => {
       const wrapper = mount(WeuiMediaBox, {
-        props: { type: 'appmsg', extClass: 'my-box' },
+        props: { type: 'flex', extClass: 'my-box' },
       })
       expect(wrapper.classes()).toContain('my-box')
     })
@@ -125,7 +127,7 @@ describe('WeuiMediaBox', () => {
   describe('click 事件', () => {
     it('无 href 时点击触发 click 事件', async () => {
       const wrapper = mount(WeuiMediaBox, {
-        props: { type: 'appmsg', title: '标题' },
+        props: { type: 'flex', title: '标题' },
       })
       await wrapper.trigger('click')
       expect(wrapper.emitted('click')).toBeTruthy()
@@ -134,7 +136,7 @@ describe('WeuiMediaBox', () => {
 
     it('有 href 时不触发 click 事件（由原生 a 处理）', async () => {
       const wrapper = mount(WeuiMediaBox, {
-        props: { type: 'appmsg', title: '标题', href: '/detail' },
+        props: { type: 'flex', title: '标题', href: '/detail' },
       })
       await wrapper.trigger('click')
       expect(wrapper.emitted('click')).toBeFalsy()
@@ -142,9 +144,9 @@ describe('WeuiMediaBox', () => {
   })
 
   describe('slots', () => {
-    it('default slot 放在 __bd 末尾（appmsg 模式）', () => {
+    it('default slot 放在 __bd 末尾（flex 模式）', () => {
       const wrapper = mount(WeuiMediaBox, {
-        props: { type: 'appmsg', title: '标题' },
+        props: { type: 'flex', title: '标题' },
         slots: { default: '<ul class="weui-media-box__info" />' },
       })
       const bd = wrapper.find('.weui-media-box__bd')
@@ -153,7 +155,7 @@ describe('WeuiMediaBox', () => {
 
     it('hd slot 替代 thumb prop', () => {
       const wrapper = mount(WeuiMediaBox, {
-        props: { type: 'appmsg' },
+        props: { type: 'flex' },
         slots: { hd: '<div class="custom-hd" />' },
       })
       expect(wrapper.find('.weui-media-box__hd').exists()).toBe(true)

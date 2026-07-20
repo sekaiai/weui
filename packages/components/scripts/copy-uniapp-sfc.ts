@@ -11,7 +11,6 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 const srcDir = join(__dirname, '..', 'src')
 const outBase = join(__dirname, '..', 'dist', 'uni-app')
 const outSrcDir = join(outBase, 'src')
-const outStylesDir = join(outBase, 'styles')
 
 async function copyAndTransform(srcPath: string, outPath: string): Promise<void> {
   const ext = extname(srcPath)
@@ -59,11 +58,8 @@ async function main(): Promise<void> {
   // 清空并重建 outBase 目录
   await mkdir(outBase, { recursive: true })
 
-  // 复制 src/ 到 dist/uni-app/src/
+  // 复制 src/ 到 dist/uni-app/src/（含组件 SFC 内联样式，无需独立 styles 目录）
   await walkDir(srcDir, outSrcDir)
-
-  // 复制 styles 目录到 dist/uni-app/styles/
-  await walkDir(join(srcDir, 'styles'), outStylesDir)
 
   // 复制 index.ts 到 dist/uni-app/index.ts（如果 index.ts 在 src/ 下，上一步已复制到 src/index.ts）
   // 这里额外创建一个 dist/uni-app/index.ts 作为入口，re-export src/index

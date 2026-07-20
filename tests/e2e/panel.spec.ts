@@ -29,10 +29,12 @@ test.describe('Panel 组件', () => {
     await expect(section.locator('.weui-media-box__thumb')).toHaveCount(0)
   })
 
-  test('小图文组合列表渲染 CellGroup + Cell', async ({ page, gotoPage }) => {
+  test('小图文组合列表渲染 cells + Cell（不嵌套 weui-cells__group）', async ({ page, gotoPage }) => {
     await gotoPage('panel')
     const section = page.locator('.demo-section').filter({ hasText: '小图文组合列表' }).first()
     await expect(section.locator('.weui-media-box_small-appmsg')).toHaveCount(1)
+    await expect(section.locator('.weui-cells')).toHaveCount(1)
+    await expect(section.locator('.weui-cells__group')).toHaveCount(0)
     await expect(section.locator('.weui-cell_access')).toHaveCount(2)
     await expect(section.locator('.weui-cell__icon')).toHaveCount(2)
   })

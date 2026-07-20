@@ -140,3 +140,41 @@ const handleTouchEnd = () => {
   isMoving.value = false
 }
 </script>
+
+<style lang="scss">
+/* WeUI npm 包不含 slideview 样式（属 weui-miniprogram 仓库），在此补充自定义实现 */
+.weui-slideview {
+  position: relative;
+  overflow: hidden;
+}
+.weui-slideview__left {
+  position: relative;
+  z-index: 2;
+  transition: transform 0.3s ease;
+}
+.weui-slideview__right {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  z-index: 1;
+}
+.weui-slideview__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  height: 100%;
+  color: #fff;
+  font-size: 14px;
+  background: #c7c7cc;
+}
+.weui-slideview__btn_warn {
+  background: #fa5151;
+}
+.weui-slideview_show .weui-slideview__left {
+  transform: translateX(-100%);
+}
+</style>

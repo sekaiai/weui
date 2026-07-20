@@ -36,12 +36,13 @@ test.describe('Panel 文档', () => {
     await expect(demo.locator('p.weui-media-box__desc')).toHaveCount(2)
   })
 
-  test('小图文组合：small-appmsg + CellGroup + Cell', async ({ page, gotoDocsPage }) => {
+  test('小图文组合：cells + Cell 直接渲染（不嵌套 weui-cells__group）', async ({ page, gotoDocsPage }) => {
     await gotoDocsPage('panel')
     const demo = page.locator('.demo-block').nth(2)
     await expect(demo.locator('.weui-media-box_small-appmsg')).toHaveCount(1)
-    // CellGroup 渲染 weui-cells
+    // type=cells 直接渲染 weui-cells 容器，不嵌套 weui-cells__group
     await expect(demo.locator('.weui-cells')).toHaveCount(1)
+    await expect(demo.locator('.weui-cells__group')).toHaveCount(0)
     // 2 个 Cell
     await expect(demo.locator('.weui-cell_access')).toHaveCount(2)
     // Cell icon 渲染

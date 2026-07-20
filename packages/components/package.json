@@ -10,11 +10,10 @@
       "import": "./dist/vue3/index.mjs",
       "types": "./dist/vue3/types/index.d.ts"
     },
+    "./dist/vue3/style.css": "./dist/vue3/style.css",
     "./uni-app": {
       "default": "./dist/uni-app/index.ts"
     },
-    "./styles/*": "./dist/vue3/styles/*",
-    "./uni-app/styles/*": "./dist/uni-app/styles/*",
     "./dist/uni-app/*": "./dist/uni-app/*"
   },
   "files": [
@@ -22,10 +21,9 @@
   ],
   "scripts": {
     "build": "pnpm build:vue3 && pnpm build:uni-app",
-    "build:vue3": "vite build --mode vue3 && pnpm build:types && pnpm build:copy-styles",
+    "build:vue3": "vite build --mode vue3 && pnpm build:types",
     "build:uni-app": "tsx scripts/copy-uniapp-sfc.ts",
     "build:types": "vue-tsc -p tsconfig.build.json",
-    "build:copy-styles": "node -e \"require('fs').cpSync('src/styles', 'dist/vue3/styles', {recursive: true})\"",
     "test": "vitest run",
     "typecheck": "vue-tsc --noEmit -p tsconfig.json"
   },

@@ -156,3 +156,13 @@ const handleClick = (event: Event) => {
   }
 }
 </script>
+
+<style lang="scss">
+/* WeUI 源码未定义 weui-cell__icon，cell 组件的 image 图标需要默认尺寸
+   不设 margin-right：__hd 在 small-appmsg 等上下文中已有 padding-right */
+.weui-cell__icon {
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+}
+</style>

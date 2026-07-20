@@ -10,7 +10,15 @@
       <div class="demo-section">
         <div class="demo-section__title">图文组合列表</div>
         <weui-panel type="access" title="图文组合列表" footer-text="查看更多" @footer-click="onFooterClick">
-          <weui-media-list :items="appmsgItems" />
+          <weui-media-box
+            v-for="item in appmsgItems"
+            :key="item.id"
+            type="flex"
+            :thumb="item.thumb"
+            :title="item.title"
+            :desc="item.desc"
+            :href="item.href"
+          />
         </weui-panel>
       </div>
 
@@ -18,7 +26,13 @@
       <div class="demo-section">
         <div class="demo-section__title">文字组合列表</div>
         <weui-panel type="access" title="文字组合列表" footer-text="查看更多">
-          <weui-media-list :items="textItems" />
+          <weui-media-box
+            v-for="item in textItems"
+            :key="item.id"
+            type="text"
+            :title="item.title"
+            :desc="item.desc"
+          />
         </weui-panel>
       </div>
 
@@ -26,7 +40,7 @@
       <div class="demo-section">
         <div class="demo-section__title">小图文组合列表</div>
         <weui-panel title="小图文组合列表">
-          <weui-media-box type="small-appmsg">
+          <weui-media-box type="cells">
             <weui-cell
               v-for="item in cellItems"
               :key="item.id"
@@ -42,7 +56,13 @@
       <div class="demo-section">
         <div class="demo-section__title">文字列表附来源</div>
         <weui-panel title="文字列表附来源">
-          <weui-media-list :items="infoItems" />
+          <weui-media-box type="text" :title="infoItem.title" :desc="infoItem.desc">
+            <ul class="weui-media-box__info">
+              <li class="weui-media-box__info__meta">文字来源</li>
+              <li class="weui-media-box__info__meta">时间</li>
+              <li class="weui-media-box__info__meta weui-media-box__info__meta_extra">其它信息</li>
+            </ul>
+          </weui-media-box>
         </weui-panel>
       </div>
 
@@ -53,7 +73,7 @@
           <template #header>
             <div style="font-weight: bold; color: #576b95;">自定义头部</div>
           </template>
-          <weui-media-box type="text" title="标题一" desc="由各种物质组成的巨型球状天体，由于本身会发光，所以不被天文学家定义为行星">
+          <weui-media-box type="text" :title="infoItem.title" :desc="infoItem.desc">
             <ul class="weui-media-box__info">
               <li class="weui-media-box__info__meta">文字来源</li>
               <li class="weui-media-box__info__meta">时间</li>
@@ -97,14 +117,11 @@ const cellItems = ref([
   { id: 2, thumb: 'https://weui.io/images/pic_160.png', title: '文字标题', href: 'javascript:void(0);' },
 ])
 
-const infoItems = ref([
-  {
-    id: 1,
-    title: '标题一',
-    desc: '由各种物质组成的巨型球状天体，由于本身会发光，所以不被天文学家定义为行星',
-    info: ['文字来源', '时间', '其它信息'],
-  },
-])
+const infoItem = ref({
+  title: '标题一',
+  desc: '由各种物质组成的巨型球状天体，由于本身会发光，所以不被天文学家定义为行星',
+  info: ['文字来源', '时间', '其它信息'],
+})
 
 const onFooterClick = () => {
   uni.showToast({ title: '点击查看更多', icon: 'none' })

@@ -25,7 +25,7 @@ Vue 3 产物为预打包 ESM（类似 Element Plus / Arco），支持全量注�
 import { createApp } from 'vue'
 import WeuiDesignVue from 'weui-design-vue'
 import 'weui/dist/style/weui.css'
-import 'weui-design-vue/styles/weui-extra.scss'
+import 'weui-design-vue/dist/vue3/style.css'
 import App from './App.vue'
 
 const app = createApp(App)
@@ -40,7 +40,7 @@ app.mount('#app')
 ```ts
 import { WeuiButton, WeuiCell, WeuiCellGroup } from 'weui-design-vue'
 import 'weui/dist/style/weui.css'
-import 'weui-design-vue/styles/weui-extra.scss'
+import 'weui-design-vue/dist/vue3/style.css'
 ```
 
 ### 3. 使用组件
@@ -51,7 +51,7 @@ import 'weui-design-vue/styles/weui-extra.scss'
 </template>
 ```
 
-> **说明：** `weui.css` 提供所有 `.weui-*` 类的基础样式与 CSS 变量；`weui-extra.scss` 提供 `weui.css` 不含的自定义类（如 `.weui-list`、`.weui-slideview`、`.weui-cell__icon`）。
+> **说明：** `weui.css` 提供所有 `.weui-*` 类的基础样式与 CSS 变量；`style.css` 提供 `weui.css` 不含的自定义类（如 `.weui-list`、`.weui-slideview`、`.weui-cell__icon`），这些样式已随各组件 SFC 内联并打包。
 
 ## 在 uni-app 项目中使用（小程序 / App / uni-app H5）
 
@@ -88,7 +88,6 @@ uni-app 产物为 SFC 源码形式（位于 `weui-design-vue/dist/uni-app/`）�
 ```vue
 <style lang="scss">
 @import 'weui/dist/style/weui.css';
-@import 'weui-design-vue/dist/uni-app/styles/weui-extra.scss';
 </style>
 ```
 
@@ -104,7 +103,7 @@ easycom 会自动引入组件，无需手动 import。
 
 ### 小程序端 weui-wxss 说明
 
-小程序端也可通过微信小程序的 `useExtendedLib` 引入 `weui-wxss`（与 `weui.css` 类名一致，但适配 WXML 标签）。两种方式二选一即可，不要同时引入。若使用 `weui-wxss`，则无需引入 `weui.css`，但 `weui-extra.scss` 中的自定义类仍需引入。
+小程序端也可通过微信小程序的 `useExtendedLib` 引入 `weui-wxss`（与 `weui.css` 类名一致，但适配 WXML 标签）。两种方式二选一即可，不要同时引入。若使用 `weui-wxss`，则无需引入 `weui.css`。组件 SFC 内联的自定义样式随 easycom 自动加载。
 
 ## 平台差异说明
 
