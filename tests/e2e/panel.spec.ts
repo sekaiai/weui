@@ -2,7 +2,7 @@ import { test, expect, expectNoErrors } from './helpers'
 
 /**
  * Panel 组件 E2E 测试
- * 验证：页面可访问性 + WeUI 类名 + 头部/主体/底部结构 + access 模式 + 自定义插槽
+ * 验证：图文组合、文字组合、小图文组合、文字列表附来源、自定义内容
  */
 test.describe('Panel 组件', () => {
   test('页面正常加载，无 console 错误', async ({ page, gotoPage, consoleErrors, pageErrors }) => {
@@ -11,95 +11,43 @@ test.describe('Panel 组件', () => {
     expectNoErrors(consoleErrors, pageErrors)
   })
 
-  test('基础用法渲染 weui-panel 与三段结构', async ({ page, gotoPage }) => {
+  test('5 个 demo-section 渲染', async ({ page, gotoPage }) => {
     await gotoPage('panel')
-
-    const section = page.locator('.demo-section').filter({ hasText: '基础用法' })
-    const panel = section.locator('.weui-panel').first()
-    await expect(panel).toBeVisible()
-
-    // 头部、主体均存在
-    await expect(panel.locator('.weui-panel__hd')).toBeVisible()
-    await expect(panel.locator('.weui-panel__bd')).toBeVisible()
-
-    // 头部标题
-    await expect(panel.locator('.weui-panel__hd')).toContainText('标题')
-
-    // 主体内 2 个 weui-cell
-    await expect(panel.locator('.weui-panel__bd .weui-cell')).toHaveCount(2)
+    const sections = page.locator('.demo-section')
+    await expect(sections).toHaveCount(5)
   })
 
-  test('无标题面板不渲染头部', async ({ page, gotoPage }) => {
+  test('图文组合列表渲染 media-box_appmsg', async ({ page, gotoPage }) => {
     await gotoPage('panel')
-
-    const section = page.locator('.demo-section').filter({ hasText: '无标题面板' })
-    const panel = section.locator('.weui-panel').first()
-    await expect(panel).toBeVisible()
-
-    // 无 hd
-    await expect(panel.locator('.weui-panel__hd')).toHaveCount(0)
-    // 主体始终渲染
-    await expect(panel.locator('.weui-panel__bd')).toBeVisible()
+    const section = page.locator('.demo-section').filter({ hasText: '图文组合列表' }).first()
+    await expect(section.locator('.weui-panel_access')).toHaveCount(1)
+    await expect(section.locator('.weui-media-box_appmsg')).toHaveCount(2)
+    await expect(section.locator('.weui-media-box__thumb')).toHaveCount(2)
+    // footer-text 自动渲染 link cell
+    await expect(section.locator('.weui-cell_link')).toHaveCount(1)
   })
 
-  test('Access 模式渲染 weui-panel_access 与图文组合', async ({ page, gotoPage }) => {
+  test('文字组合列表渲染 media-box_text', async ({ page, gotoPage }) => {
     await gotoPage('panel')
-
-    const section = page.locator('.demo-section').filter({ hasText: 'Access' })
-    const panel = section.locator('.weui-panel').first()
-    await expect(panel).toBeVisible()
-    await expect(panel).toHaveClass(/weui-panel_access/)
-
-    // 头部标题
-    await expect(panel.locator('.weui-panel__hd')).toContainText('图文组合列表')
-
-    // 2 个 media-box
-    const boxes = panel.locator('.weui-media-box.weui-media-box_appmsg')
-    await expect(boxes).toHaveCount(2)
-
-    // 第一个 media-box 结构验证
-    const first = boxes.first()
-    await expect(first.locator('.weui-media-box__hd')).toBeVisible()
-    await expect(first.locator('.weui-media-box__hd img')).toBeVisible()
-    await expect(first.locator('.weui-media-box__bd')).toBeVisible()
-    await expect(first.locator('.weui-media-box__title')).toBeVisible()
-    await expect(first.locator('.weui-media-box__desc')).toBeVisible()
+    const section = page.locator('.demo-section').filter({ hasText: '文字组合列表' }).first()
+    await expect(section.locator('.weui-media-box_text')).toHaveCount(2)
+    await expect(section.locator('.weui-media-box__thumb')).toHaveCount(0)
   })
 
-  test('自定义头部通过 #header slot 渲染 .weui-panel__title', async ({ page, gotoPage }) => {
+  test('小图文组合列表渲染 cell_example', async ({ page, gotoPage }) => {
     await gotoPage('panel')
-
-    const section = page.locator('.demo-section').filter({ hasText: '自定义头部' })
-    const panel = section.locator('.weui-panel').first()
-    await expect(panel).toBeVisible()
-
-    // 自定义头部 slot 渲染 .weui-panel__title
-    const title = panel.locator('.weui-panel__hd .weui-panel__title').first()
-    await expect(title).toBeVisible()
+    const section = page.locator('.demo-section').filter({ hasText: '小图文组合列表' }).first()
+    await expect(section.locator('.weui-media-box_small-appmsg')).toHaveCount(1)
+    await expect(section.locator('.weui-cell_example')).toHaveCount(2)
   })
 
-  test('底部内容通过 #footer slot 渲染"查看更多"', async ({ page, gotoPage }) => {
+  test('点击 footer 触发 toast', async ({ page, gotoPage }) => {
     await gotoPage('panel')
-
-    const section = page.locator('.demo-section').filter({ hasText: '底部内容' })
-    const panel = section.locator('.weui-panel').first()
-    await expect(panel).toBeVisible()
-
-    // 头部标题
-    await expect(panel.locator('.weui-panel__hd')).toContainText('标题')
-
-    // 底部 ft 渲染"查看更多"（slot 内容也含 .weui-panel__ft，用 first 定位外层）
-    const ft = panel.locator('.weui-panel__ft').first()
-    await expect(ft).toBeVisible()
-    await expect(ft).toContainText('查看更多')
-  })
-
-  test('扩展类名通过 ext-class 注入 custom-panel', async ({ page, gotoPage }) => {
-    await gotoPage('panel')
-
-    const section = page.locator('.demo-section').filter({ hasText: '扩展类名' })
-    const panel = section.locator('.weui-panel').first()
-    await expect(panel).toBeVisible()
-    await expect(panel).toHaveClass(/custom-panel/)
+    const section = page.locator('.demo-section').filter({ hasText: '图文组合列表' }).first()
+    // 点击 footer link（<a> 自定义元素，用 evaluate 触发原生 click）
+    await section.locator('.weui-cell_link').evaluate((el) => el.click())
+    // toast 可见
+    await expect(page.locator('.weui-toast')).toBeVisible()
+    await expect(page.locator('.weui-toast__content')).toContainText('点击查看更多')
   })
 })
