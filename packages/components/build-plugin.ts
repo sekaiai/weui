@@ -9,6 +9,11 @@ const TAG_MAP: Record<string, string> = {
   div: 'view',
   span: 'text',
   img: 'image',
+  a: 'navigator',     // media-box 和 footer link 的 <a>
+  strong: 'text',     // media-box__title
+  p: 'view',          // media-box__desc（保留块级语义）
+  ul: 'view',         // media-box__info 列表容器
+  li: 'view',         // media-box__info__meta
 }
 
 // 条件编译注释正则（JS 注释语境，仅在 <script> 中使用）
@@ -98,14 +103,16 @@ export function transformTemplateTags(source: string): string {
 function transformTags(content: string): string {
   let transformed = content
   for (const [htmlTag, uniTag] of Object.entries(TAG_MAP)) {
-    // 开标签：<div 后面跟空格、> 或 /
+    // 转义 tag 名中的正则特殊字符（防御性编程）
+    const escapedTag = htmlTag.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    // 开标签：<div 后面跟空格、> 或 /（避免 <a 误匹配 <article>）
     transformed = transformed.replace(
-      new RegExp(`<${htmlTag}(\\s|>|/)`, 'g'),
+      new RegExp(`<${escapedTag}(\\s|>|/)`, 'g'),
       `<${uniTag}$1`,
     )
     // 闭标签
     transformed = transformed.replace(
-      new RegExp(`</${htmlTag}>`, 'g'),
+      new RegExp(`</${escapedTag}>`, 'g'),
       `</${uniTag}>`,
     )
   }
