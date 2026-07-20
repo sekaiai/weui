@@ -16,6 +16,7 @@ import { WeuiCell, WeuiCellGroup } from './cell'
 import { WeuiGrid, WeuiGridItem } from './grid'
 import { WeuiPanel } from './panel'
 import { WeuiMediaBox } from './media-box'
+import { WeuiMediaList } from './media-list'
 import { WeuiList } from './list'
 import { WeuiForm } from './form'
 import { WeuiFormPage } from './form-page'
@@ -60,9 +61,9 @@ import type { WeuiLoadmoreProps } from './loadmore'
 // 类型导出 — 布局容器
 import type { WeuiCellProps, WeuiCellEmits, WeuiCellVariant, WeuiCellGroupProps, WeuiCellGroupVariant } from './cell'
 import type { WeuiGridProps, WeuiGridItemProps, WeuiGridItemEmits } from './grid'
-import type { WeuiPanelProps } from './panel'
+import type { WeuiPanelProps, WeuiPanelEmits } from './panel'
 import type { WeuiMediaBoxProps, WeuiMediaBoxEmits, WeuiMediaBoxType } from './media-box'
-import type { WeuiPanelEmits, WeuiPanelItemType, PanelItem } from './panel'
+import type { WeuiMediaListProps, WeuiMediaListEmits, MediaListItem } from './media-list'
 import type { WeuiListProps } from './list'
 import type { WeuiFormProps } from './form'
 import type { WeuiFormPageProps } from './form-page'
@@ -97,7 +98,7 @@ const components = [
   // 基础组件
   WeuiButton, WeuiBadge, WeuiIcon, WeuiLoading, WeuiArticle, WeuiFlex, WeuiFlexItem, WeuiFooter, WeuiProgress, WeuiLoadmore,
   // 布局容器
-  WeuiCell, WeuiCellGroup, WeuiGrid, WeuiGridItem, WeuiPanel, WeuiMediaBox, WeuiList, WeuiForm, WeuiFormPage, WeuiPreview,
+  WeuiCell, WeuiCellGroup, WeuiGrid, WeuiGridItem, WeuiPanel, WeuiMediaBox, WeuiMediaList, WeuiList, WeuiForm, WeuiFormPage, WeuiPreview,
   // 表单输入
   WeuiInput, WeuiCheckbox, WeuiCheckboxGroup, WeuiSearchbar, WeuiUploader,
   // 操作反馈
@@ -121,7 +122,7 @@ export {
   // 基础组件
   WeuiButton, WeuiBadge, WeuiIcon, WeuiLoading, WeuiArticle, WeuiFlex, WeuiFlexItem, WeuiFooter, WeuiProgress, WeuiLoadmore,
   // 布局容器
-  WeuiCell, WeuiCellGroup, WeuiGrid, WeuiGridItem, WeuiPanel, WeuiMediaBox, WeuiList, WeuiForm, WeuiFormPage, WeuiPreview,
+  WeuiCell, WeuiCellGroup, WeuiGrid, WeuiGridItem, WeuiPanel, WeuiMediaBox, WeuiMediaList, WeuiList, WeuiForm, WeuiFormPage, WeuiPreview,
   // 表单输入
   WeuiInput, WeuiCheckbox, WeuiCheckboxGroup, WeuiSearchbar, WeuiUploader,
   // 操作反馈
@@ -147,9 +148,9 @@ export type {
   // 布局容器
   WeuiCellProps, WeuiCellEmits, WeuiCellVariant, WeuiCellGroupProps, WeuiCellGroupVariant,
   WeuiGridProps, WeuiGridItemProps, WeuiGridItemEmits,
-  WeuiPanelProps,
+  WeuiPanelProps, WeuiPanelEmits,
   WeuiMediaBoxProps, WeuiMediaBoxEmits, WeuiMediaBoxType,
-  WeuiPanelEmits, WeuiPanelItemType, PanelItem,
+  WeuiMediaListProps, WeuiMediaListEmits, MediaListItem,
   WeuiListProps,
   WeuiFormProps,
   WeuiFormPageProps,
