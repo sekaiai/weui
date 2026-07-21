@@ -21,7 +21,7 @@ const focusTriggered = ref(false)
 
 通过 `v-model` 绑定输入值，`placeholder` 设置占位提示。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-mobile">
     <div class="weui-cell weui-cell_active">
       <div class="weui-cell__bd">
@@ -49,7 +49,7 @@ const text = ref('')
 
 `type` 支持 `text`、`number`、`idcard`、`digit`、`password`。`password` 会使用原生 `password` 属性进行遮掩。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-mobile">
     <div class="weui-cell weui-cell_active">
       <div class="weui-cell__hd"><label class="weui-label">数字</label></div>
@@ -101,7 +101,7 @@ const password = ref('')
 
 `clearable` 开启后，输入框有值时右侧显示清除按钮，点击触发 `clear` 事件并清空内容。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-mobile">
     <div class="weui-cell weui-cell_active">
       <div class="weui-cell__hd"><label class="weui-label">可清除</label></div>
@@ -130,7 +130,7 @@ const value = ref('')
 
 `maxlength` 控制最大输入长度，默认 `140`；传 `-1` 表示不限制。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-mobile">
     <div class="weui-cell weui-cell_active">
       <div class="weui-cell__bd">
@@ -158,7 +158,7 @@ const value = ref('')
 
 `disabled` 禁用输入框，同时隐藏清除按钮。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-mobile">
     <div class="weui-cell weui-cell_active">
       <div class="weui-cell__hd"><label class="weui-label">禁用</label></div>
@@ -186,7 +186,7 @@ const value = ref('不可编辑的内容')
 
 `focus` 让输入框自动获取焦点。以下示例通过按钮切换 `focus` 状态触发聚焦。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-mobile">
     <div class="weui-cell weui-cell_active">
       <div class="weui-cell__bd">

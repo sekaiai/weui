@@ -56,7 +56,7 @@ const onExceed = (count: number) => {
 
 通过 `files` 传入文件列表，`count` 设置最大上传数。当文件数未达上限时显示上传按钮，点击上传按钮触发 `select` 事件由业务方处理选图。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-mobile">
     <weui-uploader
       title="图片上传"
@@ -104,7 +104,7 @@ const onPreview = (file: UploaderFile, index: number) => {
 
 通过 `UploaderFile` 的 `status` 字段设置文件状态，`loading` 和 `error` 状态会显示遮罩层与状态文字。`statusText` 可自定义状态文字。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-mobile">
     <weui-uploader title="带状态的上传" :files="statusFiles" />
   </div>
@@ -133,7 +133,7 @@ const files = ref<UploaderFile[]>([
 
 `count` 限制最大上传数。当文件数达到上限时，上传按钮自动隐藏；超出时触发 `exceed` 事件。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-mobile">
     <weui-uploader
       title="最多2张"
@@ -170,7 +170,7 @@ const onExceed = (count: number) => {
 
 设置 `show-header` 为 `false` 可隐藏标题与计数区域。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-mobile">
     <weui-uploader :show-header="false" :files="headerFiles" />
   </div>
@@ -197,7 +197,7 @@ const files = ref<UploaderFile[]>([
 
 通过 `tips` 属性在底部显示提示信息。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-mobile">
     <weui-uploader title="图片上传" tips="最多上传9张图片" :files="tipsFiles" />
   </div>
@@ -225,7 +225,7 @@ const files = ref<UploaderFile[]>([
 
 点击文件触发 `preview` 事件。H5 端文件右上角显示 × 删除按钮，点击触发 `delete` 事件；小程序端长按文件触发 `delete` 事件。以下示例展示事件回调。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-mobile">
     <weui-uploader
       title="预览/删除"

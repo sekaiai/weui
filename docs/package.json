@@ -11,13 +11,13 @@
     "typecheck": "vue-tsc --noEmit"
   },
   "dependencies": {
-    "weui-design-vue": "workspace:*",
+    "vue": "^3.4.0",
     "weui": "^2.4.3",
-    "vue": "^3.4.0"
+    "weui-design-vue": "workspace:*"
   },
   "devDependencies": {
+    "sass": "^1.75.0",
     "vitepress": "^1.0.0",
-    "vue-tsc": "^2.0.0",
-    "sass": "^1.75.0"
+    "vue-tsc": "^2.0.0"
   }
 }

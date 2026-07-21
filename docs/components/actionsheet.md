@@ -52,7 +52,7 @@ const onImperative = async () => {
 
 通过 `v-model:visible` 控制显示，`items` 设置菜单项，`@select` 监听选择。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="show1 = true">显示 Actionsheet</weui-button>
   <p v-if="lastSelected" style="margin-top: 8px; color: #07c160;">{{ lastSelected }}</p>
   <weui-actionsheet
@@ -94,7 +94,7 @@ const onSelect = (item: ActionsheetItem, index: number) => {
 
 通过 `title` 设置标题。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="show2 = true">带标题</weui-button>
   <weui-actionsheet
     v-model:visible="show2"
@@ -119,7 +119,7 @@ const onSelect = (item: ActionsheetItem, index: number) => {
 
 通过 `warn: true` 将菜单项设为警告样式（红色文字），常用于删除等危险操作。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="warn" @click="show3 = true">删除操作</weui-button>
   <weui-actionsheet
     v-model:visible="show3"
@@ -150,7 +150,7 @@ const warnItems: ActionsheetItem[] = [
 
 通过 `tips` 为菜单项添加说明文字。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="show4 = true">带提示</weui-button>
   <weui-actionsheet
     v-model:visible="show4"
@@ -181,7 +181,7 @@ const tipsItems: ActionsheetItem[] = [
 
 通过 `:mask-closable="false"` 禁止点击遮罩关闭，必须选择菜单项或取消。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="show5 = true">禁用遮罩点击</weui-button>
   <weui-actionsheet
     v-model:visible="show5"
@@ -206,7 +206,7 @@ const tipsItems: ActionsheetItem[] = [
 
 通过 `cancel-text` 自定义取消按钮文字，设为空字符串可隐藏取消按钮。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="show6 = true">无取消按钮</weui-button>
   <weui-actionsheet
     v-model:visible="show6"
@@ -231,7 +231,7 @@ const tipsItems: ActionsheetItem[] = [
 
 通过 `Actionsheet.show(options)` 命令式调用，返回 Promise。点击菜单项 resolve `{ item, index }`，点击取消/遮罩 resolve `{ item: null, index: -1 }`。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="onImperative">Actionsheet.show</weui-button>
   <p v-if="lastSelected" style="margin-top: 8px; color: #07c160;">{{ lastSelected }}</p>
 </div>

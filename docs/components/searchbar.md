@@ -26,7 +26,7 @@ const onBlur = () => logEvent('触发 blur 事件')
 
 通过 `v-model` 绑定搜索关键词，`placeholder` 设置占位提示。点击搜索栏进入聚焦状态并展示输入框与取消按钮。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-mobile">
     <weui-searchbar v-model="value" placeholder="搜索" />
   </div>
@@ -50,7 +50,7 @@ const value = ref('')
 
 通过 `focus`、`blur`、`cancel`、`clear`、`search`、`confirm` 事件监听用户操作。点击搜索栏进入聚焦状态，输入内容后点击清除或取消按钮查看对应事件。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-mobile">
     <weui-searchbar
       v-model="value"
@@ -107,7 +107,7 @@ const onBlur = () => logEvent('触发 blur 事件')
 
 `cancelText` 自定义取消按钮文字，点击取消按钮时触发 `cancel` 事件并退出聚焦状态。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-mobile">
     <weui-searchbar v-model="customCancelValue" cancel-text="返回" @cancel="onCancel" />
   </div>
@@ -132,7 +132,7 @@ const onCancel = () => console.log('用户取消了搜索')
 
 `searchButtonText` 设置后显示搜索按钮（替代取消按钮）。点击搜索按钮触发 `search` 事件，携带当前输入值。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-mobile">
     <weui-searchbar
       v-model="searchBtnValue"

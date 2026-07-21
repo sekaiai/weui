@@ -6,7 +6,7 @@
 
 `weui-flex` 默认主轴为 `row`，子项使用 `weui-flex-item`（默认 `flex: 1`）等分宽度。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-flex>
     <weui-flex-item ext-class="flex-demo-item">1</weui-flex-item>
     <weui-flex-item ext-class="flex-demo-item">2</weui-flex-item>
@@ -30,7 +30,7 @@
 
 通过 `justify` 属性设置主轴对齐方式：`start`/`center`/`end`/`between`/`around`/`evenly`。此时子项使用固定宽度（非 `flex:1`）以体现间距差异。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="flex-demo-stack">
     <weui-flex justify="start" ext-class="flex-demo-row">
       <div class="flex-demo-box">start</div>
@@ -76,7 +76,7 @@
 
 通过 `align` 属性设置交叉轴对齐方式：`start`/`center`/`end`/`baseline`/`stretch`。需为容器设置高度以体现差异。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="flex-demo-stack">
     <weui-flex align="start" ext-class="flex-demo-tall">
       <div class="flex-demo-box">start</div>
@@ -112,7 +112,7 @@
 
 通过 `wrap` 属性设置换行方式：`nowrap`（默认）/`wrap`/`wrap-reverse`。子项总宽超过容器时换行。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-flex wrap="wrap" ext-class="flex-demo-wrap">
     <div class="flex-demo-box">1</div>
     <div class="flex-demo-box">2</div>
@@ -142,7 +142,7 @@
 
 通过 `direction` 属性设置主轴方向：`row`（默认）/`column`/`row-reverse`/`column-reverse`。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-flex direction="column" ext-class="flex-demo-col">
     <div class="flex-demo-box">第一行</div>
     <div class="flex-demo-box">第二行</div>
@@ -166,7 +166,7 @@
 
 通过 `weui-flex-item` 的 `flex` 属性自定义子项的 `flex` 值（不传时为 `flex:1`）。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-flex>
     <weui-flex-item :flex="1" ext-class="flex-demo-item">flex 1</weui-flex-item>
     <weui-flex-item :flex="2" ext-class="flex-demo-item">flex 2</weui-flex-item>

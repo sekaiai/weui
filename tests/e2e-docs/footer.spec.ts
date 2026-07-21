@@ -37,14 +37,14 @@ test.describe('Footer 文档', () => {
     await expect(linkDemo.locator('.weui-footer__text')).toContainText('Copyright')
   })
 
-  test('链接带 URL：渲染为 navigator 且带 url 属性', async ({ page, gotoDocsPage }) => {
+  test('链接带 URL：渲染为 a 标签且带 href 属性', async ({ page, gotoDocsPage }) => {
     await gotoDocsPage('footer')
     const urlDemo = page.locator('.demo-block').nth(2)
     const links = urlDemo.locator('.weui-footer__link')
     await expect(links).toHaveCount(2)
-    // 提供 url 的链接渲染为 navigator
-    await expect(links.nth(0)).toHaveAttribute('url', 'https://weui.io')
-    await expect(links.nth(1)).toHaveAttribute('url', 'https://vuejs.org')
+    // 提供 url 的链接渲染为 a 标签，href 属性透传 link.url
+    await expect(links.nth(0)).toHaveAttribute('href', 'https://weui.io')
+    await expect(links.nth(1)).toHaveAttribute('href', 'https://vuejs.org')
     await expect(links.nth(0)).toContainText('WeUI')
   })
 

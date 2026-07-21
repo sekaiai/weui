@@ -19,7 +19,7 @@ const decrease = () => {
 
 通过 `percent` 属性设置进度百分比（0-100），右侧默认显示百分比文字（`showInfo` 默认为 `true`）。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-progress :percent="50" />
 </div>
 
@@ -35,7 +35,7 @@ const decrease = () => {
 
 通过不同的 `percent` 展示不同完成度。`percent` 会被限制在 0-100 范围内。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-row" style="flex-direction: column; align-items: stretch; gap: 12px;">
     <weui-progress :percent="0" />
     <weui-progress :percent="30" />
@@ -59,7 +59,7 @@ const decrease = () => {
 
 结合按钮与响应式数据，可动态控制进度条变化。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-progress :percent="dynamicPercent" />
   <div class="demo-row" style="margin-top: 12px;">
     <weui-button size="mini" @click="decrease">- 20</weui-button>
@@ -93,7 +93,7 @@ const decrease = () => {
 
 通过 `showInfo` 属性控制是否显示右侧百分比文字，设为 `false` 时仅展示进度条。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-progress :percent="50" :show-info="false" />
 </div>
 
@@ -109,7 +109,7 @@ const decrease = () => {
 
 通过 `activeColor` 属性设置进度条前景色，适用于不同语义（成功、警告、危险等）。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-row" style="flex-direction: column; align-items: stretch; gap: 12px;">
     <weui-progress :percent="80" active-color="#10aeff" />
     <weui-progress :percent="60" active-color="#fa9d3b" />
@@ -131,7 +131,7 @@ const decrease = () => {
 
 通过 `strokeWidth` 属性设置进度条高度（px），不传时使用 weui 默认高度。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-row" style="flex-direction: column; align-items: stretch; gap: 12px;">
     <weui-progress :percent="50" :stroke-width="3" />
     <weui-progress :percent="50" :stroke-width="6" />
@@ -153,7 +153,7 @@ const decrease = () => {
 
 通过 `backgroundColor` 属性设置进度条背景色。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-progress :percent="70" background-color="#ededed" />
 </div>
 
@@ -169,7 +169,7 @@ const decrease = () => {
 
 `strokeWidth`、`activeColor`、`backgroundColor` 可组合使用以匹配自定义视觉风格。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-progress
     :percent="75"
     :stroke-width="8"

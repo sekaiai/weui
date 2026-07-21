@@ -51,7 +51,7 @@ const onConfirm = async () => {
 
 通过 `v-model:visible` 控制显示，`title` 设置标题，`content` 设置内容，`buttons` 配置按钮，`@buttontap` 监听按钮点击。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="show1 = true">显示 Dialog</weui-button>
   <p v-if="lastResult" style="margin-top: 8px; color: #07c160;">{{ lastResult }}</p>
   <weui-dialog
@@ -97,7 +97,7 @@ const onButtonTap = (btn: DialogButton, index: number) => {
 
 `buttons` 仅配置一项时，按钮自动设为 primary 样式。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="show2 = true">单按钮 Dialog</weui-button>
   <weui-dialog
     v-model:visible="show2"
@@ -124,7 +124,7 @@ const onButtonTap = (btn: DialogButton, index: number) => {
 
 通过 `type: 'warn'` 设置警告按钮。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="show3 = true">三按钮 Dialog</weui-button>
   <weui-dialog
     v-model:visible="show3"
@@ -162,7 +162,7 @@ const threeButtons: DialogButton[] = [
 
 通过 `btn-wrap` 让按钮垂直排列，适用于按钮文字较长时。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="show4 = true">垂直按钮 Dialog</weui-button>
   <weui-dialog
     v-model:visible="show4"
@@ -192,7 +192,7 @@ const threeButtons: DialogButton[] = [
 
 通过 `:mask-closable="false"` 禁止点击遮罩关闭。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="show5 = true">禁用遮罩点击</weui-button>
   <weui-dialog
     v-model:visible="show5"
@@ -221,7 +221,7 @@ const threeButtons: DialogButton[] = [
 
 通过 `:mask="false"` 使遮罩透明（仍拦截点击）。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="show6 = true">无遮罩背景</weui-button>
   <weui-dialog
     v-model:visible="show6"
@@ -250,7 +250,7 @@ const threeButtons: DialogButton[] = [
 
 `Dialog.alert(options)` 显示只有一个"确定"按钮的对话框，点击确定后 Promise resolve。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="onAlert">Dialog.alert</weui-button>
   <p v-if="lastResult" style="margin-top: 8px; color: #07c160;">{{ lastResult }}</p>
 </div>
@@ -276,7 +276,7 @@ const onAlert = async () => {
 
 `Dialog.confirm(options)` 显示有"取消"和"确定"按钮的对话框，返回 `Promise<boolean>`，点击确定 resolve `true`，点击取消 resolve `false`。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="onConfirm">Dialog.confirm</weui-button>
   <p v-if="lastResult" style="margin-top: 8px; color: #07c160;">{{ lastResult }}</p>
 </div>
@@ -303,7 +303,7 @@ const onConfirm = async () => {
 
 通过 `title` 和 `default` 插槽自定义标题和内容。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="show7 = true">查看插槽 Dialog</weui-button>
   <weui-dialog v-model:visible="show7" :buttons="twoButtons">
     <template #title>自定义标题</template>

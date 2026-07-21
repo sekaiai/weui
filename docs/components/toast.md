@@ -48,7 +48,7 @@ const onImpHide = () => {
 
 通过 `v-model:visible` 控制显示，`content` 设置提示文字，`type` 设置类型，`duration` 控制显示时长（默认 2000ms，到期自动关闭）。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="show1 = true">显示 Toast</weui-button>
   <weui-toast
     v-model:visible="show1"
@@ -82,7 +82,7 @@ const show = ref(false)
 
 通过 `type` 设置四种类型：`success`（成功，默认）、`loading`（加载，默认不自动关闭）、`warning`（警告）、`text`（纯文本，无图标）。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="default" @click="showSuccess = true">success</weui-button>
   <weui-button type="default" @click="showLoading = true">loading</weui-button>
   <weui-button type="default" @click="showWarning = true">warning</weui-button>
@@ -121,7 +121,7 @@ const vText = ref(false)
 
 通过 `:duration="0"` 设置不自动关闭，需手动控制 `visible`。`loading` 类型默认即为不自动关闭。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="show3 = true">常驻提示</weui-button>
   <weui-button type="default" @click="show3 = false">手动关闭</weui-button>
   <weui-toast
@@ -157,7 +157,7 @@ const show = ref(false)
 
 通过 `:duration="4000"` 自定义显示时长（毫秒）。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="show4 = true">显示 4 秒 Toast</weui-button>
   <weui-toast
     v-model:visible="show4"
@@ -191,7 +191,7 @@ const show = ref(false)
 
 通过 `:mask="false"` 取消透明遮罩，允许背景交互（点击穿透）。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="show5 = true">无遮罩 Toast</weui-button>
   <weui-toast
     v-model:visible="show5"
@@ -225,7 +225,7 @@ const show = ref(false)
 
 通过 `Toast.success / warning / text` 命令式调用，无需在模板中声明组件。调用前需在应用中挂载 `<weui-overlay-host />`。多次调用会通过内部队列排队，前一个关闭后才显示下一个。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="onImpSuccess">Toast.success</weui-button>
   <weui-button type="primary" @click="onImpWarning">Toast.warning</weui-button>
   <weui-button type="primary" @click="onImpText">Toast.text</weui-button>
@@ -255,7 +255,7 @@ const showImpText = () => Toast.text('纯文本提示')
 
 `Toast.loading` 默认 `duration=0`（不自动关闭），需手动调用 `Toast.hide()` 关闭。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="onImpLoading">Toast.loading</weui-button>
   <weui-button type="default" @click="onImpHide">Toast.hide</weui-button>
   <p v-if="lastResult" style="margin-top: 8px; color: #07c160;">{{ lastResult }}</p>

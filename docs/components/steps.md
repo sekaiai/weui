@@ -19,7 +19,7 @@ const titleOnlySteps = [
 
 通过 `steps` 属性传入步骤列表（`{ title, desc? }`），`current` 指定当前步骤索引。索引小于 `current` 的步骤会标记为已完成（追加 `weui-steps__item_success` 类）。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-steps :steps="basicSteps" :current="1" />
 </div>
 
@@ -42,7 +42,7 @@ const titleOnlySteps = [
 
 通过 `direction="vertical"` 切换为垂直布局，适合步骤较多或描述较长的场景。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-steps :steps="basicSteps" :current="1" direction="vertical" />
 </div>
 
@@ -66,7 +66,7 @@ const titleOnlySteps = [
 
 通过调整 `current` 控制已完成步骤的数量。以下三个示例分别展示 `current=0`（未开始）、`current=1`（进行中）、`current=2`（即将完成）。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-row" style="flex-direction: column; align-items: stretch; gap: 16px;">
     <div>
       <p style="margin-bottom: 4px; color: #888;">current = 0</p>
@@ -105,7 +105,7 @@ const titleOnlySteps = [
 
 `desc` 为可选字段，传入后会在标题下方渲染描述文字。不传时不渲染描述区域。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-steps :steps="basicSteps" :current="2" />
 </div>
 
@@ -128,7 +128,7 @@ const titleOnlySteps = [
 
 `desc` 为可选字段，不传时仅渲染标题，适合简洁的分步提示场景。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-steps :steps="titleOnlySteps" :current="0" />
 </div>
 
@@ -151,7 +151,7 @@ const titleOnlySteps = [
 
 通过 `extClass` 追加自定义类名到根元素，便于在父容器中定制样式。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-steps :steps="titleOnlySteps" :current="0" ext-class="my-steps" />
 </div>
 

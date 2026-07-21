@@ -42,7 +42,7 @@ const onImpError = () => {
 
 通过 `v-model:visible` 控制显示，`content` 设置提示文字，`type` 设置类型，`duration` 控制显示时长（默认 2000ms，到期自动关闭）。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="show1 = true">显示 Toptips</weui-button>
   <weui-toptips
     v-model:visible="show1"
@@ -76,7 +76,7 @@ const show = ref(false)
 
 通过 `type` 设置四种类型：`info`（信息）、`success`（成功）、`warn`（警告）、`error`（错误）。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="default" @click="showInfo = true">info</weui-button>
   <weui-button type="default" @click="showSuccess = true">success</weui-button>
   <weui-button type="default" @click="showWarn = true">warn</weui-button>
@@ -115,7 +115,7 @@ const vError = ref(false)
 
 通过 `:duration="0"` 设置不自动关闭，需手动控制 `visible`。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="show3 = true">常驻提示</weui-button>
   <weui-button type="default" @click="show3 = false">手动关闭</weui-button>
   <weui-toptips
@@ -151,7 +151,7 @@ const show = ref(false)
 
 通过 `:duration="4000"` 自定义显示时长（毫秒）。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="show4 = true">显示 4 秒 Toptips</weui-button>
   <weui-toptips
     v-model:visible="show4"
@@ -185,7 +185,7 @@ const show = ref(false)
 
 通过 `Toptips.info / success` 命令式调用，无需在模板中声明组件。调用前需在应用中挂载 `<weui-overlay-host />`。命令式调用会在 `duration` 后自动通过 overlay-host 卸载。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="onImpInfo">Toptips.info</weui-button>
   <weui-button type="primary" @click="onImpSuccess">Toptips.success</weui-button>
   <p v-if="lastResult" style="margin-top: 8px; color: #07c160;">{{ lastResult }}</p>
@@ -212,7 +212,7 @@ const showImpSuccess = () => Toptips.success('操作成功')
 
 通过 `Toptips.warn / error` 命令式调用警告与错误提示。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="onImpWarn">Toptips.warn</weui-button>
   <weui-button type="primary" @click="onImpError">Toptips.error</weui-button>
   <p v-if="lastResult" style="margin-top: 8px; color: #07c160;">{{ lastResult }}</p>

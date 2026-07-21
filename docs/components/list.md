@@ -6,7 +6,7 @@
 
 通过默认插槽放置列表项，常用 `.weui-cells` 包裹一组 `.weui-cell`。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-mobile">
     <weui-list>
       <div class="weui-cells">
@@ -46,7 +46,7 @@
 
 通过 `title` 属性设置列表标题，渲染 `.weui-list__title`。不传时不渲染标题区域。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-mobile">
     <weui-list title="列表标题">
       <div class="weui-cells">
@@ -78,7 +78,7 @@
 
 通过 `tips` 属性设置列表底部提示文字，渲染 `.weui-list__tips`。不传时不渲染提示区域。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-mobile">
     <weui-list tips="底部提示文字">
       <div class="weui-cells">
@@ -110,7 +110,7 @@
 
 同时设置 `title` 与 `tips`，标题渲染在主体之前，提示渲染在主体之后。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-mobile">
     <weui-list title="列表标题" tips="底部提示文字">
       <div class="weui-cells">

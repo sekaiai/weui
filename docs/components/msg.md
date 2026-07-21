@@ -22,7 +22,7 @@ const onTap = (btn: MsgButton, index: number) => {
 
 通过 `type` 指定图标类型（对应 `weui-icon-*`），`title` 与 `desc` 设置文案，`buttons` 配置操作按钮。点击按钮触发 `buttontap` 事件。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-mobile">
     <weui-msg
       type="success"
@@ -66,7 +66,7 @@ const onButtonTap = (btn: MsgButton, index: number) => {
 
 `type` 对应 WeUI 内置图标：`success`（成功）、`info`（信息）、`warn`（警告）、`waiting`（等待）等。可通过 `iconSize` 调整图标尺寸（默认 64px）。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-mobile">
     <weui-msg type="success" title="操作成功" />
   </div>
@@ -80,7 +80,7 @@ const onButtonTap = (btn: MsgButton, index: number) => {
 ```
 :::
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-mobile">
     <weui-msg type="warn" title="操作失败" desc="请稍后重试" />
   </div>
@@ -94,7 +94,7 @@ const onButtonTap = (btn: MsgButton, index: number) => {
 ```
 :::
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-mobile">
     <weui-msg type="info" title="提示" desc="用于展示普通信息" />
   </div>
@@ -108,7 +108,7 @@ const onButtonTap = (btn: MsgButton, index: number) => {
 ```
 :::
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-mobile">
     <weui-msg type="waiting" title="等待中" desc="正在处理，请稍候" />
   </div>
@@ -126,7 +126,7 @@ const onButtonTap = (btn: MsgButton, index: number) => {
 
 使用默认插槽替换默认的图标 + 标题 + 描述区域，适用于完全自定义布局的场景。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-mobile">
     <weui-msg :buttons="[{ text: '返回', type: 'primary' }]">
       <div style="padding: 24px 0; text-align: center;">
@@ -152,7 +152,7 @@ const onButtonTap = (btn: MsgButton, index: number) => {
 
 使用 `footer` 插槽在操作按钮下方渲染额外内容（如版权信息、相关链接），对应 `.weui-msg__extra-area`。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-mobile">
     <weui-msg type="success" title="操作成功">
       <template #footer>

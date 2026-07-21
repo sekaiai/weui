@@ -20,7 +20,7 @@ const onTabText = (i: number) => {
 
 通过 `weui-tabbar` 包裹多个 `weui-tabbar-item`，使用 `active` 属性标记当前选中项。`text` 设置文字，`#icon` 具名插槽自定义图标内容。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-tabbar>
     <weui-tabbar-item text="微信" :active="active === 0" @click="onTab(0)">
       <template #icon><span style="font-size:20px;">💬</span></template>
@@ -71,7 +71,7 @@ const onTab = (i: number) => {
 
 不传 `icon` 与 `#icon` 插槽时，仅渲染文字标签，常用于纯文本切换场景。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-tabbar>
     <weui-tabbar-item text="首页" :active="activeText === 0" @click="onTabText(0)" />
     <weui-tabbar-item text="分类" :active="activeText === 1" @click="onTabText(1)" />
@@ -104,7 +104,7 @@ const onTabText = (i: number) => {
 
 通过 `badge` 属性在图标右上角显示数字或文字徽标，支持字符串和数字类型。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-tabbar>
     <weui-tabbar-item text="微信" badge="8">
       <template #icon><span style="font-size:20px;">💬</span></template>
@@ -146,7 +146,7 @@ const onTabText = (i: number) => {
 
 通过 `showDot` 属性显示红点提示，表示有新内容但不需要显示具体数量。红点与 `badge` 互斥，`showDot` 优先。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-tabbar>
     <weui-tabbar-item text="微信" badge="8">
       <template #icon><span style="font-size:20px;">💬</span></template>
@@ -188,7 +188,7 @@ const onTabText = (i: number) => {
 
 `active` 为 `true` 时，item 根元素追加 `weui-bar__item_on` 类，呈现高亮选中样式。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-tabbar>
     <weui-tabbar-item text="未选中">
       <template #icon><span style="font-size:20px;">💬</span></template>
@@ -218,7 +218,7 @@ const onTabText = (i: number) => {
 
 通过默认插槽替代 `text` 属性，渲染更丰富的标签内容。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-tabbar>
     <weui-tabbar-item active>
       <template #icon><span style="font-size:20px;">🏠</span></template>
@@ -252,7 +252,7 @@ const onTabText = (i: number) => {
 
 通过 `fixed` 属性将 tabbar 固定在视口底部。注意为页面底部内容预留足够间距，避免被遮挡。
 
-<div class="demo-block" style="min-height: 80px; position: relative;">
+<div class="demo-block vp-raw" style="min-height: 80px; position: relative;">
   <p style="color: #888;">下方 tabbar 使用 fixed 固定在视口底部。</p>
   <weui-tabbar fixed>
     <weui-tabbar-item text="首页" active>

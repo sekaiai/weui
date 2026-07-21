@@ -6,7 +6,7 @@
 
 通过 `title` 设置页面标题，默认插槽放置表单内容。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-mobile">
     <weui-form-page title="页面标题">
       <div class="weui-cells weui-cells_form">
@@ -42,7 +42,7 @@
 
 通过 `title` 与 `desc` 同时设置标题与描述文字，分别渲染到 `.weui-form__title` 与 `.weui-form__desc`。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-mobile">
     <weui-form-page title="页面标题" desc="页面描述文字">
       <div class="weui-cells weui-cells_form">
@@ -72,7 +72,7 @@
 
 通过 `footer` 插槽渲染底部操作区域，对应 `.weui-form__opr-area`，未提供时不渲染。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-mobile">
     <weui-form-page title="页面标题">
       <div class="weui-cells weui-cells_form">
@@ -112,7 +112,7 @@
 
 通过 `title` 插槽替代 `title`/`desc` 属性，渲染完全自定义的标题区域内容。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-mobile">
     <weui-form-page>
       <template #title>

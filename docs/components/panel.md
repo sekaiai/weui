@@ -36,7 +36,7 @@ const onFooterClick = () => { footerClicked.value = true }
 
 `Panel` 作为容器，外部 `v-for` 循环 `MediaBox` 并传入 `thumb`。`MediaBox` 会根据是否传入 `thumb`（或 `hd` slot）自动判定为 `appmsg` 图文模式或 `text` 纯文字模式。配合 `footer-text` 自动渲染"查看更多"链接。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-mobile">
     <weui-panel type="access" title="图文组合列表" footer-text="查看更多">
       <weui-media-box
@@ -80,7 +80,7 @@ const items = ref([
 
 `MediaBox` 不传 `thumb` 时自动渲染为纯文字组合列表（`weui-media-box_text`）。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-mobile">
     <weui-panel type="access" title="文字组合列表" footer-text="查看更多">
       <weui-media-box
@@ -120,7 +120,7 @@ const items = ref([
 
 `MediaBox` 指定 `type="cells"` 作为容器，内部用 `Cell` 组件渲染紧凑列表。`type="cells"` 内部已渲染 `weui-cells` 容器，无需再嵌套 `CellGroup`。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-mobile">
     <weui-panel title="小图文组合列表">
       <weui-media-box type="cells">
@@ -166,7 +166,7 @@ const items = ref([
 
 `MediaBox` 不传 `thumb` 时为纯文字模式，默认插槽放在 `__bd` 末尾，可用于渲染 `weui-media-box__info` 来源信息。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-mobile">
     <weui-panel title="文字列表附来源">
       <weui-media-box :title="infoItem.title" :desc="infoItem.desc">
@@ -209,7 +209,7 @@ const item = ref({
 
 通过 `@footer-click` 监听"查看更多"链接的点击事件。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-mobile">
     <weui-panel type="access" title="图文组合列表" footer-text="查看更多" @footer-click="onFooterClick">
       <weui-media-box
@@ -253,7 +253,7 @@ const items = ref([{ id: 1, thumb: '...', title: '标题', desc: '描述' }])
 
 通过 `header` 插槽自定义头部，通过默认插槽手动组合 `MediaBox` 组件。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-mobile">
     <weui-panel>
       <template #header>

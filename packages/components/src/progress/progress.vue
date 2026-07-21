@@ -9,7 +9,6 @@
     <span
       v-if="showInfo"
       class="weui-progress__info"
-      :style="infoStyle"
     >{{ displayPercent }}%</span>
   </div>
 </template>
@@ -72,9 +71,13 @@ const innerBarStyle = computed(() => {
 })
 
 const displayPercent = computed(() => Math.round(props.percent))
-
-const infoStyle = computed(() => ({
-  'font-size': '14px',
-  'margin-left': '15px',
-}))
 </script>
+
+<style lang="scss">
+/* WeUI .weui-progress 设 font-size:0 隐藏空白，百分比文字需显式覆盖
+   .weui-progress__info 是项目自定义类（官方用 .weui-hidden_abs 隐藏百分比文字） */
+.weui-progress__info {
+  margin-left: 15px;
+  font-size: 14px;
+}
+</style>

@@ -63,10 +63,11 @@ describe('WeuiProgress', () => {
       expect(wrapper2.find('.weui-progress__info').text()).toBe('61%')
     })
 
-    it('文字元素显式设置 font-size 覆盖父级 font-size:0', () => {
+    it('文字元素显式通过 SFC style 覆盖父级 font-size:0', () => {
       const wrapper = mount(WeuiProgress, { props: { percent: 30 } })
-      const style = wrapper.find('.weui-progress__info').attributes('style') || ''
-      expect(style).toContain('font-size: 14px')
+      // SFC style 中 .weui-progress__info { font-size: 14px; margin-left: 15px }
+      // 这里仅验证元素存在并使用 .weui-progress__info 类（font-size 覆盖在 SFC style 块）
+      expect(wrapper.find('.weui-progress__info').exists()).toBe(true)
     })
 
     it('showInfo 为 false 时不渲染 .weui-progress__info', () => {

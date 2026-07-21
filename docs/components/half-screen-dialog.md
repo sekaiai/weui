@@ -57,7 +57,7 @@ const onImperative = async () => {
 
 通过 `v-model:visible` 控制显示，`title` 设置标题，`subtitle` 设置副标题，`content` 设置内容，`buttons` 配置底部按钮。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="show1 = true">显示 HalfScreenDialog</weui-button>
   <p v-if="lastResult" style="margin-top: 8px; color: #07c160;">{{ lastResult }}</p>
   <weui-half-screen-dialog
@@ -105,7 +105,7 @@ const onButtonTap = (btn: HalfScreenDialogButton, index: number) => {
 
 `buttons` 仅配置一项时，按钮自动设为 primary 样式。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="show2 = true">单按钮 HalfScreenDialog</weui-button>
   <weui-half-screen-dialog
     v-model:visible="show2"
@@ -132,7 +132,7 @@ const onButtonTap = (btn: HalfScreenDialogButton, index: number) => {
 
 通过 `type: 'warn'` 设置警告按钮。未指定 type 时，多按钮首个为 default，其余为 primary。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="show3 = true">三按钮 HalfScreenDialog</weui-button>
   <weui-half-screen-dialog
     v-model:visible="show3"
@@ -170,7 +170,7 @@ const threeButtons: HalfScreenDialogButton[] = [
 
 通过 `:mask-closable="false"` 禁止点击遮罩关闭，必须点击按钮。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="show4 = true">禁用遮罩点击</weui-button>
   <weui-half-screen-dialog
     v-model:visible="show4"
@@ -199,7 +199,7 @@ const threeButtons: HalfScreenDialogButton[] = [
 
 通过 `:mask="false"` 使遮罩透明（仍拦截点击）。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="show5 = true">无遮罩背景</weui-button>
   <weui-half-screen-dialog
     v-model:visible="show5"
@@ -228,7 +228,7 @@ const threeButtons: HalfScreenDialogButton[] = [
 
 通过 `title`、`default`、`footer` 插槽自定义标题、内容和底部按钮区。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="show6 = true">自定义内容</weui-button>
   <weui-half-screen-dialog v-model:visible="show6">
     <template #title>
@@ -267,7 +267,7 @@ const threeButtons: HalfScreenDialogButton[] = [
 
 通过 `HalfScreenDialog.show(options)` 命令式调用，无需在模板中声明组件。返回 `Promise<{ button, index }>`，点击按钮 resolve `{ button, index }`，点击遮罩关闭 resolve `{ button: undefined, index: -1 }`。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="onImperative">HalfScreenDialog.show</weui-button>
   <p v-if="lastResult" style="margin-top: 8px; color: #07c160;">{{ lastResult }}</p>
 </div>

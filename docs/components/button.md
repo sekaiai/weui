@@ -55,7 +55,7 @@ const onOverlayConfirm = () => {
 
 通过 `type` 设置按钮类型：`primary` 主操作、`default` 次要操作、`warn` 警告操作。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="onClick">页面主操作</weui-button>
   <weui-button type="default" @click="onClick">页面次要操作</weui-button>
   <weui-button type="warn" @click="onClick">警告类操作</weui-button>
@@ -85,7 +85,7 @@ const onClick = () => {
 
 通过 `size` 设置按钮尺寸，提供 `default`、`medium`、`mini`、`xmini` 四种尺寸。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" size="default">默认</weui-button>
   <weui-button type="primary" size="medium">中等</weui-button>
   <weui-button type="primary" size="mini">迷你</weui-button>
@@ -107,7 +107,7 @@ const onClick = () => {
 
 通过 `display` 设置显示模式：`block` 填满父容器（块级），`inline` 行内排列。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" display="block">块级按钮</weui-button>
   <div class="demo-row" style="margin-top: 8px;">
     <weui-button type="default" display="inline">行内按钮</weui-button>
@@ -129,7 +129,7 @@ const onClick = () => {
 
 `disabled` 为 `true` 时按钮不可点击，不会触发 `click` 事件。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" disabled @click="onClick">禁用</weui-button>
   <weui-button type="default" disabled @click="onClick">禁用</weui-button>
 </div>
@@ -147,7 +147,7 @@ const onClick = () => {
 
 `loading` 为 `true` 时显示旋转加载图标，按钮仍可点击。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" loading @click="onClick">加载中</weui-button>
   <weui-button type="default" loading @click="onClick">加载中</weui-button>
 </div>
@@ -165,7 +165,7 @@ const onClick = () => {
 
 通过 `icon` 设置图标地址，显示在文字左侧（cell 或标准模式下生效）。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" icon="https://weui.io/images/logo.png">带图标</weui-button>
 </div>
 
@@ -183,7 +183,7 @@ const onClick = () => {
 
 ### 配合 weui-cell-group 作为通栏操作
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-cell-group>
     <weui-cell title="成员" value="3 人" />
     <weui-cell title="群名" value="WeUI 设计组" />
@@ -195,7 +195,7 @@ const onClick = () => {
 
 若需在 cell 右侧放置操作按钮（非通栏），使用普通按钮配合 `size="mini"`，通过 `#footer` 插槽放入 cell：
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-cell-group>
     <weui-cell title="设置" value="已开启">
       <template #footer>
@@ -212,7 +212,7 @@ const onClick = () => {
 
 ### 通栏 Cell 按钮类型
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button cell type="primary">Cell Primary</weui-button>
   <weui-button cell type="default">Cell Default</weui-button>
   <weui-button cell type="warn">Cell Warn</weui-button>
@@ -254,7 +254,7 @@ const onClick = () => {
 
 `vcode` 为 `true` 时渲染为验证码按钮（`weui-vcode-btn`），带左侧分隔线，配合 `weui-cell` 使用：输入框放 cell 默认插槽（body 区），验证码按钮放 `#footer` 插槽。点击后启动 60 秒倒计时。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-cell-group>
     <weui-cell title="验证码" variant="vcode">
       <input
@@ -339,7 +339,7 @@ onUnmounted(() => {
 
 `overlay` 为 `true` 时使用半透明样式（`weui-btn_overlay`），常用于弹层（遮罩层）底部的操作按钮。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="overlayVisible = true">显示遮罩层</weui-button>
   <p v-if="clickResult" style="margin-top: 8px; color: #07c160;">{{ clickResult }}</p>
 </div>

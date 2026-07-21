@@ -31,7 +31,7 @@ const onGridClick = (label: string) => {
 
 `weui-grid` 作为宫格容器，内部使用 `weui-grid-item`。通过 `#icon` 插槽传入图标，`label` 属性传入文字。
 
-<div class="demo-block demo-mobile">
+<div class="demo-block demo-mobile vp-raw">
   <weui-grid>
     <weui-grid-item v-for="item in gridList" :key="item.label" :label="item.label" @click="onGridClick(item.label)">
       <template #icon><weui-icon :type="item.icon" /></template>
@@ -69,7 +69,7 @@ const gridList = [
 
 仅传 `label` 时，宫格只渲染文字，不渲染图标区域。
 
-<div class="demo-block demo-mobile">
+<div class="demo-block demo-mobile vp-raw">
   <weui-grid>
     <weui-grid-item v-for="(label, i) in plainList" :key="i" :label="label" />
   </weui-grid>
@@ -94,7 +94,7 @@ const gridList = [
 
 通过默认插槽传入自定义内容，覆盖 `icon` 与 `label`。
 
-<div class="demo-block demo-mobile">
+<div class="demo-block demo-mobile vp-raw">
   <weui-grid>
     <weui-grid-item>
       <div style="text-align:center;padding:16px 0;">
@@ -142,7 +142,7 @@ const gridList = [
 
 `weui-grid-item` 触发 `click` 事件，常用于跳转页面或执行操作。点击下方宫格查看事件响应。
 
-<div class="demo-block demo-mobile">
+<div class="demo-block demo-mobile vp-raw">
   <weui-grid>
     <weui-grid-item v-for="item in gridList" :key="item.label" :label="item.label" @click="onGridClick(item.label)">
       <template #icon><weui-icon :type="item.icon" /></template>

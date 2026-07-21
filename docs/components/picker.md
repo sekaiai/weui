@@ -91,7 +91,7 @@ const onImperative = async () => {
 
 通过 `v-model:visible` 控制显示，`columns` 设置列配置，`title` 设置标题。点击确定触发 `confirm` 事件，回调参数为 `(indexes, values)`。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="show1 = true">显示 Picker</weui-button>
   <p v-if="lastResult" style="margin-top: 8px; color: #07c160;">{{ lastResult }}</p>
   <weui-picker
@@ -140,7 +140,7 @@ const onConfirm = (indexes: number[], values: (string | number)[]) => {
 
 通过 `columns` 传入多列配置，每列独立的 `options` 与可选的初始 `index`。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="show2 = true">显示多列 Picker</weui-button>
   <weui-picker
     v-model:visible="show2"
@@ -199,7 +199,7 @@ const columns: PickerColumn[] = [
 
 通过 `PickerColumn.index` 设置每列的初始选中索引。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="show3 = true">显示初始选中 Picker</weui-button>
   <weui-picker
     v-model:visible="show3"
@@ -245,7 +245,7 @@ const columns: PickerColumn[] = [
 
 通过 `PickerOption.disabled` 标记选项为禁用，渲染时添加 `weui-picker__item_disabled` 样式。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="show4 = true">显示含禁用项 Picker</weui-button>
   <weui-picker
     v-model:visible="show4"
@@ -289,7 +289,7 @@ const columns: PickerColumn[] = [
 
 通过 `cancel-text` 和 `confirm-text` 自定义取消/确定按钮文字。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="show5 = true">显示自定义按钮 Picker</weui-button>
   <weui-picker
     v-model:visible="show5"
@@ -334,7 +334,7 @@ const columns: PickerColumn[] = [
 
 通过 `:mask-closable="false"` 禁用点击遮罩关闭，用户必须点击取消或确定。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="show6 = true">显示 Picker</weui-button>
   <weui-picker
     v-model:visible="show6"
@@ -370,7 +370,7 @@ const columns: PickerColumn[] = [{ options: [{ label: '选项一', value: 'a' }]
 
 通过 `Picker.show(options)` 命令式调用，无需在模板中声明组件。返回 Promise，确定时 resolve `{ action: 'confirm', indexes, values }`，取消/遮罩点击时 resolve `{ action: 'cancel', indexes: [], values: [] }`。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="onImperative">Picker.show</weui-button>
   <p v-if="lastResult" style="margin-top: 8px; color: #07c160;">{{ lastResult }}</p>
 </div>

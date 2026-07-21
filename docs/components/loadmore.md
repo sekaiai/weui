@@ -6,7 +6,7 @@
 
 默认 `type` 为 `default`，渲染加载图标（`.weui-loading`）和文字，文字默认为"正在加载"。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-loadmore />
 </div>
 
@@ -22,7 +22,7 @@
 
 设置 `type` 为 `line`，渲染分割线和文字，常用于"暂无数据"分隔场景。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-loadmore type="line" text="暂无数据" />
 </div>
 
@@ -38,7 +38,7 @@
 
 设置 `type` 为 `dot`，渲染点点样式，常用于列表底部"已无更多数据"的视觉提示。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-loadmore type="dot" />
 </div>
 
@@ -54,7 +54,7 @@
 
 通过 `text` 属性自定义文字内容，适用于不同业务场景的加载提示。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-loadmore text="正在加载更多" />
   <weui-loadmore type="line" text="没有更多了" />
 </div>
@@ -72,7 +72,7 @@
 
 通过 `showText` 属性控制是否显示文字，设为 `false` 时仅保留加载图标或点点视觉。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-loadmore :show-text="false" />
   <weui-loadmore type="dot" :show-text="false" />
 </div>
@@ -88,7 +88,7 @@
 
 ## 三种样式对比
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-loadmore text="加载中" />
   <weui-loadmore type="line" text="暂无数据" />
   <weui-loadmore type="dot" text="已无更多" />
@@ -108,7 +108,7 @@
 
 通过 `extClass` 属性追加自定义类名，用于在父容器中定制样式（如调整间距）。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-loadmore ext-class="my-loadmore" />
 </div>
 

@@ -6,7 +6,7 @@
 
 在 `weui-article` 内使用 `h1`/`h2`/`p`/`ul`/`li` 等标签，WeUI 会应用文章排版样式。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-article>
     <h1>大标题</h1>
     <h2>章节标题</h2>
@@ -42,7 +42,7 @@
 
 文章中可插入图片，WeUI 会为图片添加圆角与间距样式。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-article>
     <h1>图文文章</h1>
     <p>图文混排是文章常见形态，下方为示例图片。</p>
@@ -68,7 +68,7 @@
 
 使用 `blockquote` 展示引用内容，WeUI 会添加左侧边框与缩进。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-article>
     <h1>引用示例</h1>
     <p>正文段落，引出下方引用。</p>
@@ -94,7 +94,7 @@
 
 组合标题、段落、列表、引用、图片，展示完整文章排版。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-article>
     <h1>Vue 3 组合式 API 指南</h1>
     <p>组合式 API（Composition API）是 Vue 3 引入的一组 API，用于通过函数组织组件逻辑，提升逻辑复用与类型推断。</p>

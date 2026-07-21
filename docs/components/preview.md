@@ -44,7 +44,7 @@ const onTap = (btn: PreviewButton, index: number) => {
 
 通过 `title` 设置头部标题，`items` 配置键值对列表，`buttons` 配置底部操作按钮。点击按钮触发 `buttontap` 事件。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-mobile">
     <weui-preview
       title="合计：¥99.00"
@@ -92,7 +92,7 @@ const onButtonTap = (btn: PreviewButton, index: number) => {
 
 不传 `buttons` 时只展示头部与键值对信息，无底部操作区。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-mobile">
     <weui-preview
       title="收款方：WeUI"
@@ -123,7 +123,7 @@ const items: PreviewItem[] = [
 
 `buttons` 中每项的 `type` 控制按钮样式：`primary` 为链接色（强调，`.weui-form-preview__btn_primary`），`default` 为常规色（`.weui-form-preview__btn_default`），未指定时使用基础链接色。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-mobile">
     <weui-preview
       :items="typeItems"

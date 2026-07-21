@@ -16,7 +16,7 @@ Cell 是 WeUI 中最基础的布局组件，用于构建列表项、表单项、
 
 使用 `weui-cell-group` 包裹 `weui-cell`，通过 `title` 和 `value` 设置左右内容。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-mobile">
     <weui-cell-group title="带说明的列表项">
       <weui-cell title="标题文字" value="说明文字" />
@@ -40,7 +40,7 @@ Cell 是 WeUI 中最基础的布局组件，用于构建列表项、表单项、
 
 通过 `icon` 插槽自定义 header 图标（`icon` 属性用于 uni-app `image` 地址）。下方使用 `weui-icon` 作为图标。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-mobile">
     <weui-cell-group title="带图标的列表项">
       <weui-cell title="标题文字" value="说明文字">
@@ -66,7 +66,7 @@ Cell 是 WeUI 中最基础的布局组件，用于构建列表项、表单项、
 
 通过 `link` 属性启用链接样式（追加 `weui-cell_access` 类，显示箭头）。`link` 为 `true` 但 `url` 为空时，仅触发 `@click` 事件；提供 `url` 时在 uni-app 环境中会调用 `navigateTo` 跳转。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-mobile">
     <weui-cell-group title="带跳转的列表项">
       <weui-cell title="cell standard" link @click="onCellClick" />
@@ -97,7 +97,7 @@ const onCellClick = () => {
 
 通过默认插槽在 body 区域放置更丰富的内容（如标题 + 副标题）。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-mobile">
     <weui-cell-group title="带副标题的列表项">
       <weui-cell link>
@@ -125,7 +125,7 @@ const onCellClick = () => {
 
 通过 `inline` 属性设置为 `false`，header 和 body 将上下排列（追加 `weui-cell_vertical` 类），适用于表单标签独占一行的场景。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-mobile">
     <weui-cell-group form title="上下布局">
       <weui-cell :inline="false" title="留言">
@@ -151,7 +151,7 @@ const onCellClick = () => {
 
 通过 `form` 属性启用表单型分组样式（圆角卡片外观），配合 `input`、`checkbox` 等表单控件使用。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-mobile">
     <weui-cell-group form title="表单分组">
       <weui-cell title="姓名" value="张三" />
@@ -175,7 +175,7 @@ const onCellClick = () => {
 
 通过 `footer` 属性在分组底部显示说明文字（`.weui-cells__tips`）。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-mobile">
     <weui-cell-group title="列表" footer="底部说明文字">
       <weui-cell title="标题文字" />
@@ -199,7 +199,7 @@ const onCellClick = () => {
 
 通过 `variant` 属性设置 cell 的视觉变体，自动追加对应的 CSS 类。可用变体：`access`、`link`、`switch`、`vcode`、`warn`、`select`、`select-before`、`select-after`、`uploader`。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-mobile">
     <weui-cell-group title="变体示例">
       <weui-cell variant="warn" title="警告项" value="说明文字" />
@@ -235,7 +235,7 @@ const onCellClick = () => {
 
 Cell 提供四个具名插槽，分别对应 header 图标、header 标题、body 内容与 footer 区域。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-mobile">
     <weui-cell-group title="自定义插槽">
       <weui-cell>

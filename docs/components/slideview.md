@@ -48,7 +48,7 @@ const onButtonClick = (btn: SlideButton, index: number) => {
 
 通过 `buttons` 设置操作按钮列表，`v-model:show` 控制是否展开右侧按钮。移动端可通过左滑手势展开，桌面端（无 touch 事件）通过按钮切换 `show` 状态。点击按钮触发 `buttonclick` 事件并自动收起。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="show1 = !show1">{{ show1 ? '收起' : '展开' }}</weui-button>
   <weui-slideview v-model:show="show1" :buttons="buttons1" @buttonclick="onButtonClick">
     <div class="weui-cell__bd">滑动菜单内容</div>
@@ -86,7 +86,7 @@ const onButtonClick = (btn: SlideButton, index: number) => {
 
 通过在 `buttons` 中添加更多项实现多按钮操作，`warn` 类型的按钮显示为红色警告样式。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="show2 = !show2">{{ show2 ? '收起' : '展开' }}</weui-button>
   <weui-slideview v-model:show="show2" :buttons="buttons2" @buttonclick="onButtonClick">
     <div class="weui-cell__bd">三按钮滑动菜单</div>
@@ -120,7 +120,7 @@ const buttons: SlideButton[] = [
 
 通过 `disabled` 禁用滑动和点击收起交互。父组件仍可通过 `v-model:show` 控制展开状态，但点击内容区域不会自动收起。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="show3 = !show3">{{ show3 ? '收起' : '展开' }}</weui-button>
   <weui-slideview v-model:show="show3" :buttons="buttons3" disabled>
     <div class="weui-cell__bd">禁用滑动（点击内容区域不收起，但按钮仍可点击收起）</div>
@@ -153,7 +153,7 @@ const buttons: SlideButton[] = [
 
 点击右侧操作按钮时，组件自动触发 `buttonclick` 事件并收起（`show` 置为 `false`），无需手动处理收起逻辑。同时触发 `close` 事件。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="show4 = !show4">{{ show4 ? '收起' : '展开' }}</weui-button>
   <weui-slideview v-model:show="show4" :buttons="buttons4" @buttonclick="onButtonClick">
     <div class="weui-cell__bd">点击右侧按钮后自动收起</div>
@@ -191,7 +191,7 @@ const onButtonClick = (btn: SlideButton, index: number) => {
 
 通过 default slot 自定义左侧内容区域，可放置卡片、列表项等任意内容。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="show5 = !show5">{{ show5 ? '收起' : '展开' }}</weui-button>
   <weui-slideview v-model:show="show5" :buttons="buttons5" @buttonclick="onButtonClick">
     <div class="weui-cell" style="padding: 12px 16px; background: #fff;">

@@ -1,5 +1,34 @@
 import type { UserConfig } from 'vitepress'
 
+/**
+ * 自定义 PostCSS 插件：给所有包含 .vp-doc 的选择器追加 :not(:where(.vp-raw, .vp-raw *)) 前缀
+ *
+ * 为什么不用 VitePress 官方的 postcssIsolateStyles？
+ * 该插件内部用 includeFiles: [/base\.css/] 限制只处理 base.css，但 .vp-doc 选择器实际在
+ * vp-doc.css 文件里，includeFiles 匹配不到，导致插件完全不生效。
+ *
+ * 本插件不依赖 includeFiles，直接按选择器内容判断，处理任意来源的 .vp-doc 样式，
+ * 配合 demo-block 上的 vp-raw 类，阻断 .vp-doc 默认文档样式（a/p/ul/li/strong 等）污染 demo。
+ */
+const isolateVpDocStyles = {
+  postcssPlugin: 'isolate-vp-doc',
+  Rule(rule: { selector: string; selectors: string[] }) {
+    // 只处理包含 .vp-doc 的选择器
+    if (!rule.selector.includes('.vp-doc')) return
+    rule.selectors = rule.selectors.map((selector) => {
+      if (!selector.includes('.vp-doc')) return selector
+      // 已有前缀的不重复加
+      if (selector.includes(':not(:where(.vp-raw')) return selector
+      // 拆分末尾伪类，把前缀插在伪类之前
+      // 例如 .vp-doc strong:hover -> .vp-doc strong:not(:where(.vp-raw, .vp-raw *)):hover
+      const match = selector.match(/^(.*?)(:[\w-]+(?:\(.*?\))?)?$/)
+      if (!match) return selector + ':not(:where(.vp-raw, .vp-raw *))'
+      const [, main, pseudo = ''] = match
+      return `${main}:not(:where(.vp-raw, .vp-raw *))${pseudo}`
+    })
+  },
+}
+
 const nav = [
   { text: '指导', link: '/guide/introduce', activeMatch: '^/guide/' },
   { text: '组件', link: '/components/button', activeMatch: '^/components/' },
@@ -113,6 +142,14 @@ const config: UserConfig = {
   vite: {
     optimizeDeps: {
       exclude: ['weui-design-vue'],
+    },
+    // 启用样式隔离：给 .vp-doc 选择器追加 :not(:where(.vp-raw, .vp-raw *)) 前缀
+    // 配合 demo-block 上的 vp-raw 类，阻断文档默认样式污染 demo
+    // 注意：PostCSS 插件必须放在 vite.css.postcss.plugins 下，不是顶层 vite.postcss
+    css: {
+      postcss: {
+        plugins: [isolateVpDocStyles],
+      },
     },
   },
 }

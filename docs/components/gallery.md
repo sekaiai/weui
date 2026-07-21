@@ -57,7 +57,7 @@ const onImperative = async () => {
 
 通过 `v-model:visible` 控制显示，`src` 设置图片地址。默认 `mask-closable` 为 `true`，点击画廊遮罩区域即关闭。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="show1 = true">预览图片</weui-button>
   <weui-gallery v-model:visible="show1" :src="imgSrc" />
 </div>
@@ -82,7 +82,7 @@ const imgSrc = 'https://picsum.photos/seed/weui-gallery/600/400'
 
 通过 `show-delete` 显示底部删除按钮，`delete-text` 自定义按钮文字。点击删除按钮触发 `delete` 事件，**不会自动关闭画廊**，需在回调中手动将 `visible` 置为 `false`。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="show2 = true">预览并删除</weui-button>
   <p v-if="lastResult" style="margin-top: 8px; color: #07c160;">{{ lastResult }}</p>
   <weui-gallery
@@ -125,7 +125,7 @@ const onDelete = () => {
 
 通过 default slot 替代默认删除按钮，实现保存、分享等自定义操作。slot 内容会渲染在 `.weui-gallery__opr` 容器内，点击事件需在 slot 内部绑定并自行关闭画廊。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="show3 = true">自定义操作</weui-button>
   <p v-if="lastResult" style="margin-top: 8px; color: #07c160;">{{ lastResult }}</p>
   <weui-gallery v-model:visible="show3" :src="imgSrc">
@@ -167,7 +167,7 @@ const onShare = () => {
 
 通过 `:mask-closable="false"` 禁用点击遮罩区域关闭，此时仅能通过删除按钮或父组件控制 `visible` 关闭。本示例同时开启 `show-delete` 以提供关闭入口。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="show4 = true">禁用遮罩点击</weui-button>
   <weui-gallery
     v-model:visible="show4"
@@ -213,7 +213,7 @@ const onDelete = () => {
 - 点击删除按钮 → `promise` resolve 为 `'delete'`，**gallery 不会自动关闭**，需手动调用 `close()`
 - 点击遮罩（`maskClosable` 默认 `true`）→ `promise` resolve 为 `'hide'` 并自动关闭
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-button type="primary" @click="onImperative">Gallery.show 命令式调用</weui-button>
   <p v-if="lastResult" style="margin-top: 8px; color: #07c160;">{{ lastResult }}</p>
 </div>

@@ -6,7 +6,7 @@
 
 通过 `content` 属性设置徽章内容（任意短文本，如数字 `8`）。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-badge content="8" />
 </div>
 
@@ -22,7 +22,7 @@
 
 不传 `content` 或 `content` 为空字符串时，徽章会自动切换为红点模式（追加 `weui-badge_dot` 类）。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-badge />
 </div>
 
@@ -38,7 +38,7 @@
 
 `content` 不限于数字，也支持任意短文本（如 `New`、`hot`）。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-row">
     <weui-badge content="New" />
     <weui-badge content="hot" />
@@ -60,7 +60,7 @@
 
 数字、文字、红点可混用，统一通过 `content` 控制。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="demo-row">
     <weui-badge content="1" />
     <weui-badge content="8" />
@@ -86,7 +86,7 @@
 
 通过 `ariaLabel` 属性设置无障碍标签，读屏时会朗读完整语义。建议在内容为数字时补充单位描述（如「8 个新通知」）。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-badge content="8" aria-label="8个新通知" />
 </div>
 
@@ -102,7 +102,7 @@
 
 通过 `extClass` 属性追加自定义类名，常配合父容器定位（如绝对定位到头像右上角）。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <div class="badge-avatar-wrap">
     <div class="badge-avatar"></div>
     <weui-badge content="8" ext-class="badge-avatar-dot" />
@@ -160,7 +160,7 @@
 
 徽章常配合列表使用，放在 `weui-cell__ft` 中作为右侧提示。
 
-<div class="demo-block demo-mobile">
+<div class="demo-block demo-mobile vp-raw">
   <div class="weui-cell weui-cell_access">
     <div class="weui-cell__bd">单行列表</div>
     <div class="weui-cell__ft">

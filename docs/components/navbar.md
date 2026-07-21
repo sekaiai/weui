@@ -20,7 +20,7 @@ const onTabMany = (i: number) => {
 
 通过 `weui-navbar` 包裹多个 `weui-navbar-item`，使用 `active` 属性标记当前选中项。每个 item 点击时触发 `click` 事件，在事件处理中切换 `active` 即可完成切换。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-navbar>
     <weui-navbar-item :active="active === 0" @click="onTab(0)">选项一</weui-navbar-item>
     <weui-navbar-item :active="active === 1" @click="onTab(1)">选项二</weui-navbar-item>
@@ -53,7 +53,7 @@ const onTab = (i: number) => {
 
 `active` 为 `true` 时，item 根元素追加 `weui-bar__item_on` 类，呈现高亮选中样式。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-navbar>
     <weui-navbar-item>未选中</weui-navbar-item>
     <weui-navbar-item active>选中</weui-navbar-item>
@@ -77,7 +77,7 @@ const onTab = (i: number) => {
 
 当选项数量较多时，`weui-navbar` 会自动均分宽度。以下示例展示 5 个选项的切换。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-navbar>
     <weui-navbar-item :active="activeMany === 0" @click="onTabMany(0)">首页</weui-navbar-item>
     <weui-navbar-item :active="activeMany === 1" @click="onTabMany(1)">分类</weui-navbar-item>
@@ -114,7 +114,7 @@ const onTabMany = (i: number) => {
 
 通过 `extClass` 为容器或选项追加自定义类名。
 
-<div class="demo-block">
+<div class="demo-block vp-raw">
   <weui-navbar ext-class="my-navbar">
     <weui-navbar-item ext-class="my-item">tab</weui-navbar-item>
     <weui-navbar-item active ext-class="my-item">tab</weui-navbar-item>
