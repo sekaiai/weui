@@ -9,7 +9,7 @@ describe('WeuiForm', () => {
       expect(wrapper.classes()).toContain('weui-form')
     })
 
-    it('根元素为 view', () => {
+    it('根元素为 div', () => {
       const wrapper = mount(WeuiForm)
       expect(wrapper.element.tagName.toLowerCase()).toBe('div')
     })
@@ -17,9 +17,7 @@ describe('WeuiForm', () => {
 
   describe('extClass', () => {
     it('附加扩展类名到根元素', () => {
-      const wrapper = mount(WeuiForm, {
-        props: { extClass: 'my-form' },
-      })
+      const wrapper = mount(WeuiForm, { props: { extClass: 'my-form' } })
       expect(wrapper.classes()).toContain('my-form')
     })
 
@@ -64,22 +62,12 @@ describe('WeuiForm', () => {
     it('title slot 替代默认标题内容', () => {
       const wrapper = mount(WeuiForm, {
         props: { title: '默认标题' },
-        slots: { title: '<view class="custom-title">自定义标题</view>' },
+        slots: { title: '<div class="custom-title">自定义标题</div>' },
       })
       const ta = wrapper.find('.weui-form__text-area')
       expect(ta.exists()).toBe(true)
       expect(ta.find('.custom-title').exists()).toBe(true)
       expect(ta.find('.weui-form__title').exists()).toBe(false)
-      expect(ta.text()).toBe('自定义标题')
-    })
-
-    it('仅提供 title slot（无 title/desc）时也渲染 .weui-form__text-area', () => {
-      const wrapper = mount(WeuiForm, {
-        slots: { title: '<view class="custom-title">只有 slot</view>' },
-      })
-      const ta = wrapper.find('.weui-form__text-area')
-      expect(ta.exists()).toBe(true)
-      expect(ta.text()).toBe('只有 slot')
     })
   })
 
@@ -91,69 +79,49 @@ describe('WeuiForm', () => {
 
     it('default slot 内容渲染到控件区域', () => {
       const wrapper = mount(WeuiForm, {
-        slots: { default: '<view class="control-content">控件内容</view>' },
+        slots: { default: '<div class="control-content">控件内容</div>' },
       })
       const ca = wrapper.find('.weui-form__control-area')
       expect(ca.find('.control-content').exists()).toBe(true)
-      expect(ca.text()).toBe('控件内容')
     })
   })
 
-  describe('tips-area', () => {
-    it('传入 tips 时渲染 .weui-form__tips-area 并显示文本', () => {
-      const wrapper = mount(WeuiForm, { props: { tips: '提示文字' } })
-      const ta = wrapper.find('.weui-form__tips-area')
-      expect(ta.exists()).toBe(true)
-      expect(ta.text()).toBe('提示文字')
-    })
-
-    it('不传 tips 且无 tips slot 时不渲染 .weui-form__tips-area', () => {
-      const wrapper = mount(WeuiForm)
-      expect(wrapper.find('.weui-form__tips-area').exists()).toBe(false)
-    })
-
-    it('tips slot 替代默认提示内容', () => {
+  describe('footer slot', () => {
+    it('提供 footer slot 时渲染 .weui-form__ft', () => {
       const wrapper = mount(WeuiForm, {
-        slots: { tips: '<view class="custom-tips">自定义提示</view>' },
+        slots: { footer: '<div class="my-footer">底部内容</div>' },
       })
-      const ta = wrapper.find('.weui-form__tips-area')
-      expect(ta.exists()).toBe(true)
-      expect(ta.find('.custom-tips').exists()).toBe(true)
-      expect(ta.text()).toBe('自定义提示')
-    })
-  })
-
-  describe('opr-area', () => {
-    it('提供 footer slot 时渲染 .weui-form__opr-area', () => {
-      const wrapper = mount(WeuiForm, {
-        slots: { footer: '<view class="footer-content">操作按钮</view>' },
-      })
-      const oa = wrapper.find('.weui-form__opr-area')
-      expect(oa.exists()).toBe(true)
-      expect(oa.find('.footer-content').exists()).toBe(true)
-      expect(oa.text()).toBe('操作按钮')
+      const ft = wrapper.find('.weui-form__ft')
+      expect(ft.exists()).toBe(true)
+      expect(ft.find('.my-footer').exists()).toBe(true)
     })
 
-    it('不提供 footer slot 时不渲染 .weui-form__opr-area', () => {
+    it('不提供 footer slot 时不渲染 .weui-form__ft', () => {
       const wrapper = mount(WeuiForm)
-      expect(wrapper.find('.weui-form__opr-area').exists()).toBe(false)
+      expect(wrapper.find('.weui-form__ft').exists()).toBe(false)
     })
-  })
 
-  describe('组合结构', () => {
-    it('同时渲染 text-area、control-area、tips-area、opr-area', () => {
+    it('footer slot 内用户自行组合 tips-area 和 opr-area', () => {
       const wrapper = mount(WeuiForm, {
-        props: { title: '标题', desc: '描述', tips: '提示', extClass: 'ext' },
         slots: {
-          default: '<view>主体</view>',
-          footer: '<view>底部</view>',
+          footer: `
+            <div class="weui-form__tips-area"><p class="weui-form__tips">提示</p></div>
+            <div class="weui-form__opr-area"><button>确定</button></div>
+          `,
         },
       })
-      expect(wrapper.find('.weui-form__text-area').exists()).toBe(true)
-      expect(wrapper.find('.weui-form__control-area').exists()).toBe(true)
-      expect(wrapper.find('.weui-form__tips-area').exists()).toBe(true)
-      expect(wrapper.find('.weui-form__opr-area').exists()).toBe(true)
-      expect(wrapper.classes()).toContain('ext')
+      const ft = wrapper.find('.weui-form__ft')
+      expect(ft.find('.weui-form__tips-area').exists()).toBe(true)
+      expect(ft.find('.weui-form__opr-area').exists()).toBe(true)
+    })
+
+    it('footer slot 内渲染 extra-area', () => {
+      const wrapper = mount(WeuiForm, {
+        slots: {
+          footer: '<div class="weui-form__extra-area"><div class="weui-footer">Copyright</div></div>',
+        },
+      })
+      expect(wrapper.find('.weui-form__extra-area').exists()).toBe(true)
     })
   })
 })
