@@ -1,5 +1,5 @@
 <template>
-  <div :class="groupClass" :aria-role="ariaRole">
+  <div :class="groupClass" :role="ariaRole">
     <div v-if="title" class="weui-cells__title">{{ title }}</div>
     <div :class="cellsClass">
       <template v-if="__IS_H5__">
@@ -59,11 +59,7 @@ const props = withDefaults(defineProps<WeuiCheckboxGroupProps>(), {
   modelValue: () => [],
   multi: true,
   disabled: false,
-  title: undefined,
-  footer: undefined,
   form: false,
-  extClass: undefined,
-  ariaRole: undefined,
 })
 
 const emit = defineEmits<WeuiCheckboxGroupEmits>()

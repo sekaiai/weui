@@ -82,8 +82,6 @@ const props = withDefaults(defineProps<WeuiSearchbarProps>(), {
   placeholder: '搜索',
   cancelText: '取消',
   focus: false,
-  searchButtonText: undefined,
-  extClass: undefined,
 })
 
 const emit = defineEmits<WeuiSearchbarEmits>()
@@ -122,7 +120,7 @@ watch(() => props.focus, (val) => {
     if (val) inputRef.value?.focus()
     else inputRef.value?.blur()
   }
-}, { immediate: true })
+})
 
 const handleInput = (event: Event) => {
   const e = event as Event & { detail?: { value?: string } }

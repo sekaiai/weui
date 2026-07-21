@@ -81,7 +81,6 @@ const props = withDefaults(defineProps<WeuiCheckboxProps>(), {
   label: '',
   disabled: false,
   checked: false,
-  extClass: undefined,
 })
 
 const emit = defineEmits<WeuiCheckboxEmits>()

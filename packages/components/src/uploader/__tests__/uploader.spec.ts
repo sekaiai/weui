@@ -49,6 +49,26 @@ describe('WeuiUploader', () => {
       expect(fileInput.exists()).toBe(true)
       expect(fileInput.classes()).toContain('weui-uploader__input')
     })
+
+    it('H5 端默认 accept=image 时 input accept=image/*', () => {
+      const wrapper = mount(WeuiUploader)
+      expect(wrapper.find('input[type="file"]').attributes('accept')).toBe('image/*')
+    })
+
+    it('H5 端 accept=file 时 input 不带 accept 属性', () => {
+      const wrapper = mount(WeuiUploader, { props: { accept: 'file' } })
+      expect(wrapper.find('input[type="file"]').attributes('accept')).toBeUndefined()
+    })
+
+    it('H5 端 count>1 时 input 带 multiple 属性', () => {
+      const wrapper = mount(WeuiUploader, { props: { count: 9 } })
+      expect(wrapper.find('input[type="file"]').attributes('multiple')).toBeDefined()
+    })
+
+    it('H5 端 count=1 时 input 不带 multiple 属性', () => {
+      const wrapper = mount(WeuiUploader, { props: { count: 1 } })
+      expect(wrapper.find('input[type="file"]').attributes('multiple')).toBeUndefined()
+    })
   })
 
   describe('extClass', () => {

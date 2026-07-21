@@ -274,7 +274,6 @@ const onDelete = (file: UploaderFile, index: number) => {
 | title | 标题 | `string` | — |
 | tips | 提示文字 | `string` | — |
 | count | 最大上传数 | `number` | `9` |
-| maxSize | 单文件最大字节数 | `number` | — |
 | showHeader | 是否显示头部 | `boolean` | `true` |
 | accept | 接受的文件类型 | `'image' \| 'file'` | `'image'` |
 | extClass | 附加在根元素上的扩展类名 | `string` | — |

@@ -93,12 +93,9 @@ export interface WeuiPickerEmits {
 const props = withDefaults(defineProps<WeuiPickerProps>(), {
   visible: false,
   columns: () => [],
-  title: undefined,
   cancelText: '取消',
   confirmText: '确定',
   maskClosable: true,
-  extClass: undefined,
-  zIndex: undefined,
 })
 
 const emit = defineEmits<WeuiPickerEmits>()

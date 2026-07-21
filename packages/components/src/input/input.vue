@@ -66,13 +66,11 @@ export interface WeuiInputEmits {
 
 const props = withDefaults(defineProps<WeuiInputProps>(), {
   modelValue: '',
-  placeholder: undefined,
   type: 'text',
   disabled: false,
   maxlength: 140,
   clearable: false,
   focus: false,
-  extClass: undefined,
 })
 
 const emit = defineEmits<WeuiInputEmits>()
@@ -115,7 +113,7 @@ if (__IS_H5__) {
   watch(() => props.focus, (val) => {
     if (val) inputRef.value?.focus()
     else inputRef.value?.blur()
-  }, { immediate: true })
+  })
 }
 
 const handleInput = (event: Event) => {

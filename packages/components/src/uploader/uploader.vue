@@ -34,6 +34,8 @@
           ref="fileInput"
           type="file"
           class="weui-uploader__input"
+          :accept="h5Accept"
+          :multiple="count > 1"
           @click.stop
           @change="handleFileChange"
         />
@@ -80,8 +82,6 @@ export interface WeuiUploaderProps {
   tips?: string
   /** 最大上传数 */
   count?: number
-  /** 单文件最大字节数 */
-  maxSize?: number
   /** 是否显示头部 */
   showHeader?: boolean
   /** 附加在根元素上的扩展类名 */
@@ -107,12 +107,8 @@ export interface WeuiUploaderEmits {
 
 const props = withDefaults(defineProps<WeuiUploaderProps>(), {
   files: () => [],
-  title: undefined,
-  tips: undefined,
   count: 9,
-  maxSize: undefined,
   showHeader: true,
-  extClass: undefined,
   accept: 'image',
 })
 
@@ -127,6 +123,9 @@ const rootClass = computed(() => {
 })
 
 const infoText = computed(() => `${props.files.length}/${props.count}`)
+
+// H5 端 input[accept] 映射：image → image/*，file → 不限制（undefined）
+const h5Accept = computed(() => (props.accept === 'image' ? 'image/*' : undefined))
 
 const canUpload = computed(() => props.files.length < props.count)
 
