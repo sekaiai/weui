@@ -17,45 +17,40 @@ test.describe('Form 文档', () => {
     }
   })
 
-  test('基础用法：渲染 weui-form__title 与 weui-form__control-area', async ({ page, gotoDocsPage }) => {
+  test('Demo 1 基础表单结构：渲染 title/desc/tips/opr/extra-area', async ({ page, gotoDocsPage }) => {
     await gotoDocsPage('form')
-    const firstDemo = page.locator('.demo-block').first()
-    await expect(firstDemo.locator('.weui-form')).toHaveCount(1)
-    await expect(firstDemo.locator('.weui-form__text-area')).toHaveCount(1)
-    await expect(firstDemo.locator('.weui-form__title')).toContainText('表单标题')
-    await expect(firstDemo.locator('.weui-form__control-area')).toHaveCount(1)
-    // 无 desc / tips / footer
-    await expect(firstDemo.locator('.weui-form__desc')).toHaveCount(0)
-    await expect(firstDemo.locator('.weui-form__tips-area')).toHaveCount(0)
-    await expect(firstDemo.locator('.weui-form__opr-area')).toHaveCount(0)
+    const demo = page.locator('.demo-block').nth(0)
+    await expect(demo.locator('.weui-form__title')).toContainText('表单结构')
+    await expect(demo.locator('.weui-form__desc')).toHaveCount(1)
+    await expect(demo.locator('.weui-form__tips-area')).toHaveCount(1)
+    await expect(demo.locator('.weui-form__opr-area')).toHaveCount(1)
+    await expect(demo.locator('.weui-form__extra-area')).toHaveCount(1)
   })
 
-  test('标题与描述：渲染 weui-form__desc', async ({ page, gotoDocsPage }) => {
+  test('Demo 2 输入框状态：渲染 readonly 和 disabled cell', async ({ page, gotoDocsPage }) => {
     await gotoDocsPage('form')
-    const descDemo = page.locator('.demo-block').nth(1)
-    await expect(descDemo.locator('.weui-form__title')).toContainText('表单标题')
-    await expect(descDemo.locator('.weui-form__desc')).toHaveCount(1)
-    await expect(descDemo.locator('.weui-form__desc')).toContainText('表单描述文字')
+    const demo = page.locator('.demo-block').nth(1)
+    await expect(demo.locator('.weui-cell_readonly')).toHaveCount(1)
+    await expect(demo.locator('.weui-cell_disabled')).toHaveCount(1)
   })
 
-  test('提示文字：渲染 weui-form__tips-area', async ({ page, gotoDocsPage }) => {
+  test('Demo 3 验证码表单：渲染 vcode cell 和 Agree 组件', async ({ page, gotoDocsPage }) => {
     await gotoDocsPage('form')
-    const tipsDemo = page.locator('.demo-block').nth(2)
-    await expect(tipsDemo.locator('.weui-form__tips-area')).toHaveCount(1)
-    await expect(tipsDemo.locator('.weui-form__tips-area')).toContainText('底部提示文字')
+    const demo = page.locator('.demo-block').nth(2)
+    await expect(demo.locator('.weui-cell_vcode')).toHaveCount(1)
+    await expect(demo.locator('.weui-agree')).toHaveCount(1)
   })
 
-  test('操作按钮区域：footer 插槽渲染 weui-form__opr-area', async ({ page, gotoDocsPage }) => {
+  test('Demo 4 复选框表单：渲染 CheckboxGroup', async ({ page, gotoDocsPage }) => {
     await gotoDocsPage('form')
-    const footerDemo = page.locator('.demo-block').nth(3)
-    await expect(footerDemo.locator('.weui-form__opr-area')).toHaveCount(1)
-    await expect(footerDemo.locator('.weui-form__opr-area')).toContainText('确定')
+    const demo = page.locator('.demo-block').nth(3)
+    await expect(demo.locator('.weui-cells_checkbox')).toHaveCount(1)
   })
 
-  test('自定义标题区域：title 插槽覆盖属性', async ({ page, gotoDocsPage }) => {
+  test('Demo 5 底部悬浮表单：渲染 ext-class 和 Agree', async ({ page, gotoDocsPage }) => {
     await gotoDocsPage('form')
-    const slotDemo = page.locator('.demo-block').nth(4)
-    await expect(slotDemo.locator('.weui-form__title')).toContainText('自定义标题')
-    await expect(slotDemo.locator('.weui-form__desc')).toContainText('通过 title 插槽')
+    const demo = page.locator('.demo-block').nth(4)
+    await expect(demo.locator('.weui-bottom-fixed-opr-page')).toHaveCount(1)
+    await expect(demo.locator('.weui-agree')).toHaveCount(1)
   })
 })

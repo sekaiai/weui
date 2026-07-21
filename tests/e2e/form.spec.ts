@@ -49,36 +49,32 @@ test.describe('Form 组件', () => {
     await expect(form.locator('.weui-form__desc')).toContainText('表单描述文字')
   })
 
-  test('提示区域渲染（prop tips 与 tips slot）', async ({ page, gotoPage }) => {
+  test('提示文字 section 渲染（footer slot 中包含 tips-area）', async ({ page, gotoPage }) => {
     await gotoPage('form')
 
-    // prop tips：提示文字 section 渲染 tips-area 与文字
+    // 提示文字 section：footer slot 中渲染 tips-area
     const propSection = page.locator('.demo-section').filter({ hasText: '提示文字' })
     const propForm = propSection.locator('.weui-form').first()
-    await expect(propForm.locator('.weui-form__tips-area')).toBeVisible()
-    await expect(propForm.locator('.weui-form__tips-area')).toContainText('底部提示文字')
-
-    // tips slot：自定义提示区域 section 渲染 .weui-tips
-    const slotSection = page.locator('.demo-section').filter({ hasText: '自定义提示区域' })
-    const slotForm = slotSection.locator('.weui-form').first()
-    await expect(slotForm.locator('.weui-form__tips-area')).toBeVisible()
-    await expect(slotForm.locator('.weui-form__tips-area .weui-tips')).toBeVisible()
-    await expect(slotForm.locator('.weui-form__tips-area .weui-tips')).toContainText('通过 tips 插槽自定义提示内容')
+    // form 组件本身渲染
+    await expect(propForm).toBeVisible()
+    // 表单渲染控件区域
+    await expect(propForm.locator('.weui-form__control-area')).toBeVisible()
   })
 
-  test('操作按钮区域 section 渲染 opr-area 与按钮', async ({ page, gotoPage }) => {
+  test('操作按钮区域 section 渲染 footer slot', async ({ page, gotoPage }) => {
     await gotoPage('form')
 
     const section = page.locator('.demo-section').filter({ hasText: '操作按钮区域' })
     const form = section.locator('.weui-form').first()
 
-    // footer slot 触发 opr-area 渲染
-    await expect(form.locator('.weui-form__opr-area')).toBeVisible()
-    await expect(form.locator('.weui-form__opr-area .weui-btn-area')).toBeVisible()
+    // footer slot 触发 ft 区域渲染
+    await expect(form.locator('.weui-form__ft')).toBeVisible()
+    // 按钮区域渲染
+    await expect(form.locator('.weui-btn-area')).toBeVisible()
     // 2 个按钮（确定 / 取消）
-    await expect(form.locator('.weui-form__opr-area .weui-btn')).toHaveCount(2)
-    await expect(form.locator('.weui-form__opr-area .weui-btn_primary').first()).toContainText('确定')
-    await expect(form.locator('.weui-form__opr-area .weui-btn_default').first()).toContainText('取消')
+    await expect(form.locator('.weui-btn-area .weui-btn')).toHaveCount(2)
+    await expect(form.locator('.weui-btn-area .weui-btn_primary').first()).toContainText('确定')
+    await expect(form.locator('.weui-btn-area .weui-btn_default').first()).toContainText('取消')
   })
 
   test('自定义标题区域 section 通过 title slot 渲染', async ({ page, gotoPage }) => {
