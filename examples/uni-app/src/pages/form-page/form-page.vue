@@ -1,15 +1,15 @@
 <template>
   <view class="page">
     <view class="page__hd">
-      <text class="page__title">FormPage</text>
-      <text class="page__desc">表单页容器组件验证页</text>
+      <text class="page__title">Form</text>
+      <text class="page__desc">表单容器组件验证页</text>
     </view>
 
     <view class="page__bd">
       <!-- 基础用法 -->
       <view class="demo-section">
         <view class="demo-section__title">基础用法</view>
-        <weui-form-page title="页面标题">
+        <weui-form title="页面标题">
           <view class="weui-cells weui-cells_form">
             <view class="weui-cell">
               <view class="weui-cell__hd">
@@ -28,25 +28,25 @@
               </view>
             </view>
           </view>
-        </weui-form-page>
+        </weui-form>
       </view>
 
       <!-- 标题与描述 -->
       <view class="demo-section">
         <view class="demo-section__title">标题与描述</view>
-        <weui-form-page title="页面标题" desc="页面描述文字">
+        <weui-form title="页面标题" desc="页面描述文字">
           <view class="weui-cells weui-cells_form">
             <view class="weui-cell">
               <view class="weui-cell__bd">表单内容</view>
             </view>
           </view>
-        </weui-form-page>
+        </weui-form>
       </view>
 
       <!-- 底部操作区域 -->
       <view class="demo-section">
         <view class="demo-section__title">底部操作区域</view>
-        <weui-form-page title="页面标题">
+        <weui-form title="页面标题">
           <view class="weui-cells weui-cells_form">
             <view class="weui-cell">
               <view class="weui-cell__bd">表单内容</view>
@@ -58,13 +58,13 @@
               <button class="weui-btn weui-btn_default">取消</button>
             </view>
           </template>
-        </weui-form-page>
+        </weui-form>
       </view>
 
       <!-- 自定义标题区域 -->
       <view class="demo-section">
         <view class="demo-section__title">自定义标题区域</view>
-        <weui-form-page>
+        <weui-form>
           <template #title>
             <view class="weui-form__title">自定义标题</view>
             <view class="weui-form__desc">通过 title 插槽自定义整段标题区域</view>
@@ -74,19 +74,19 @@
               <view class="weui-cell__bd">表单内容</view>
             </view>
           </view>
-        </weui-form-page>
+        </weui-form>
       </view>
 
       <!-- 扩展类名 -->
       <view class="demo-section">
         <view class="demo-section__title">扩展类名</view>
-        <weui-form-page title="页面标题" ext-class="custom-page">
+        <weui-form title="页面标题" ext-class="custom-page">
           <view class="weui-cells weui-cells_form">
             <view class="weui-cell">
               <view class="weui-cell__bd">表单内容</view>
             </view>
           </view>
-        </weui-form-page>
+        </weui-form>
       </view>
     </view>
   </view>

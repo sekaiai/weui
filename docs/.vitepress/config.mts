@@ -80,8 +80,8 @@ const sidebar = {
         { text: 'Searchbar 搜索栏', link: '/components/searchbar' },
         { text: 'Uploader 上传', link: '/components/uploader' },
         { text: 'Form 表单', link: '/components/form' },
-        { text: 'FormPage 表单页', link: '/components/form-page' },
         { text: 'Preview 预览', link: '/components/preview' },
+        { text: 'Agree 协议勾选', link: '/components/agree' },
       ],
     },
     {

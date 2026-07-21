@@ -176,12 +176,6 @@
       }
     },
     {
-      "path": "pages/form-page/form-page",
-      "style": {
-        "navigationBarTitleText": "FormPage 表单页"
-      }
-    },
-    {
       "path": "pages/half-screen-dialog/half-screen-dialog",
       "style": {
         "navigationBarTitleText": "HalfScreenDialog 半屏弹窗"
