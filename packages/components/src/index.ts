@@ -27,6 +27,16 @@ import { WeuiTextarea } from './textarea'
 import { WeuiCheckbox, WeuiCheckboxGroup } from './checkbox'
 import { WeuiSearchbar } from './searchbar'
 import { WeuiUploader } from './uploader'
+import { WeuiSwitch } from './switch-ctrl'
+import { WeuiSelect } from './select'
+import { WeuiRadio, WeuiRadioGroup } from './radio'
+
+// 表单容器
+import { WeuiFormGroup } from './form-group'
+import { WeuiFormControl } from './form-control'
+import { WeuiFormTips } from './form-tips'
+import { WeuiFormOpr } from './form-opr'
+import { WeuiFormExtra } from './form-extra'
 
 // 操作反馈
 import { WeuiOverlayHost } from './overlay-host'
@@ -159,7 +169,17 @@ export type {
   WeuiCheckboxProps, WeuiCheckboxGroupProps, WeuiCheckboxGroupEmits,
   WeuiSearchbarProps, WeuiSearchbarEmits,
   WeuiUploaderProps, WeuiUploaderEmits, UploaderFile,
+  // 表单输入
   WeuiAgreeProps, WeuiAgreeEmits,
+  WeuiSwitchProps, WeuiSwitchEmits,
+  WeuiSelectProps, WeuiSelectEmits,
+  WeuiRadioProps, WeuiRadioGroupProps,
+  // 表单容器
+  WeuiFormGroupProps,
+  WeuiFormControlProps,
+  WeuiFormTipsProps,
+  WeuiFormOprProps,
+  WeuiFormExtraProps,
   // 操作反馈
   OverlayItem,
   WeuiActionsheetProps, WeuiActionsheetEmits, ActionsheetItem, ActionsheetShowOptions, ActionsheetShowResult,
