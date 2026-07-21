@@ -29,7 +29,7 @@ describe('WeuiCheckbox', () => {
     })
   })
 
-  describe('多选模式（multi=true，默认）', () => {
+  describe('多选模式', () => {
     it('H5 端 checkbox 渲染为 input[type=checkbox] 在 header 区域', () => {
       const wrapper = mount(WeuiCheckbox, {
         props: { value: '1', label: '选项' },
@@ -47,37 +47,6 @@ describe('WeuiCheckbox', () => {
         props: { value: '1', label: '选项' },
       })
       expect(wrapper.find('.weui-cell__ft').exists()).toBe(false)
-    })
-  })
-
-  describe('单选模式（multi=false，通过 group 注入）', () => {
-    const groupProvide = {
-      weuiCheckboxGroup: {
-        multi: { value: false },
-        modelValue: { value: [] },
-        disabled: { value: false },
-      },
-    }
-
-    it('H5 端 radio 渲染为 input[type=radio] 在 footer 区域', () => {
-      const wrapper = mount(WeuiCheckbox, {
-        props: { value: '1', label: '选项' },
-        global: { provide: groupProvide },
-      })
-      const ft = wrapper.find('.weui-cell__ft')
-      expect(ft.exists()).toBe(true)
-      const radioEl = ft.find('input[type="radio"]')
-      expect(radioEl.exists()).toBe(true)
-      expect(radioEl.classes()).toContain('weui-check')
-      expect(ft.find('.weui-icon-checked').exists()).toBe(true)
-    })
-
-    it('header 区域不渲染 radio 图标', () => {
-      const wrapper = mount(WeuiCheckbox, {
-        props: { value: '1', label: '选项' },
-        global: { provide: groupProvide },
-      })
-      expect(wrapper.find('.weui-cell__hd').exists()).toBe(false)
     })
   })
 
@@ -103,7 +72,6 @@ describe('WeuiCheckbox', () => {
         global: {
           provide: {
             weuiCheckboxGroup: {
-              multi: { value: true },
               modelValue: { value: ['1', '2'] },
               disabled: { value: false },
             },
@@ -119,7 +87,6 @@ describe('WeuiCheckbox', () => {
         global: {
           provide: {
             weuiCheckboxGroup: {
-              multi: { value: true },
               modelValue: { value: ['1', '2'] },
               disabled: { value: false },
             },
@@ -151,7 +118,6 @@ describe('WeuiCheckbox', () => {
         global: {
           provide: {
             weuiCheckboxGroup: {
-              multi: { value: true },
               modelValue: { value: [] },
               disabled: { value: true },
             },
@@ -222,7 +188,6 @@ describe('WeuiCheckbox', () => {
         global: {
           provide: {
             weuiCheckboxGroup: {
-              multi: { value: true },
               modelValue: { value: [] },
               disabled: { value: false },
             },

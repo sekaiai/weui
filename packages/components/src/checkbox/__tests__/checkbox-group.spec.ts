@@ -17,24 +17,6 @@ describe('WeuiCheckboxGroup', () => {
     })
   })
 
-  describe('multi', () => {
-    it('multi=true（默认）H5 端不渲染 checkbox-group 标签 + weui-cells_checkbox', () => {
-      const wrapper = mount(WeuiCheckboxGroup)
-      expect(wrapper.find('checkbox-group').exists()).toBe(false)
-      expect(wrapper.find('.weui-cells').classes()).toContain('weui-cells_checkbox')
-      expect(wrapper.find('.weui-cells').classes()).not.toContain('weui-cells_radio')
-    })
-
-    it('multi=false H5 端不渲染 radio-group 标签 + weui-cells_radio', () => {
-      const wrapper = mount(WeuiCheckboxGroup, {
-        props: { multi: false },
-      })
-      expect(wrapper.find('radio-group').exists()).toBe(false)
-      expect(wrapper.find('.weui-cells').classes()).toContain('weui-cells_radio')
-      expect(wrapper.find('.weui-cells').classes()).not.toContain('weui-cells_checkbox')
-    })
-  })
-
   describe('title', () => {
     it('渲染组标题', () => {
       const wrapper = mount(WeuiCheckboxGroup, {
@@ -119,20 +101,6 @@ describe('WeuiCheckboxGroup', () => {
       expect(wrapper.emitted('update:modelValue')![0]).toEqual([[]])
     })
 
-    it('单选模式下 toggle 替换为单值数组', async () => {
-      const wrapper = mount(WeuiCheckboxGroup, {
-        props: { multi: false, modelValue: [] },
-        slots: {
-          default: '<weui-checkbox value="1" label="A" /><weui-checkbox value="2" label="B" />',
-        },
-        global: {
-          components: { 'weui-checkbox': WeuiCheckbox },
-        },
-      })
-      const radios = wrapper.findAll('input[type="radio"]')
-      await radios[1].trigger('change')
-      expect(wrapper.emitted('update:modelValue')![0]).toEqual([['2']])
-    })
   })
 
   describe('默认插槽', () => {

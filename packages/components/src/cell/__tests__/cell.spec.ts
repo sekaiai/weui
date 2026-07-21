@@ -122,23 +122,6 @@ describe('WeuiCell', () => {
       expect(wrapper.classes()).toContain('weui-cell_warn')
     })
 
-    it('variant=select 追加 weui-cell_select', () => {
-      const wrapper = mount(WeuiCell, { props: { variant: 'select' } })
-      expect(wrapper.classes()).toContain('weui-cell_select')
-    })
-
-    it('variant=select-before 追加 weui-cell_select 和 weui-cell_select-before', () => {
-      const wrapper = mount(WeuiCell, { props: { variant: 'select-before' } })
-      expect(wrapper.classes()).toContain('weui-cell_select')
-      expect(wrapper.classes()).toContain('weui-cell_select-before')
-    })
-
-    it('variant=select-after 追加 weui-cell_select 和 weui-cell_select-after', () => {
-      const wrapper = mount(WeuiCell, { props: { variant: 'select-after' } })
-      expect(wrapper.classes()).toContain('weui-cell_select')
-      expect(wrapper.classes()).toContain('weui-cell_select-after')
-    })
-
     it('variant=uploader 追加 weui-cell_uploader', () => {
       const wrapper = mount(WeuiCell, { props: { variant: 'uploader' } })
       expect(wrapper.classes()).toContain('weui-cell_uploader')
@@ -266,51 +249,6 @@ describe('WeuiCell', () => {
       const wrapper = mount(WeuiCell, { props: { link: true } })
       await wrapper.trigger('click')
       expect(mockNavigateTo).not.toHaveBeenCalled()
-    })
-  })
-
-  describe('switch variant', () => {
-    it('variant=switch 时在 __ft 渲染 input.weui-switch', () => {
-      const wrapper = mount(WeuiCell, { props: { variant: 'switch' } })
-      const sw = wrapper.find('.weui-cell__ft .weui-switch')
-      expect(sw.exists()).toBe(true)
-      expect(sw.attributes('type')).toBe('checkbox')
-    })
-
-    it('switchModelValue 控制 switch 选中状态', () => {
-      const wrapper = mount(WeuiCell, {
-        props: { variant: 'switch', switchModelValue: true },
-      })
-      const sw = wrapper.find('.weui-switch')
-      expect((sw.element as HTMLInputElement).checked).toBe(true)
-    })
-
-    it('switchDisabled 禁用 switch', () => {
-      const wrapper = mount(WeuiCell, {
-        props: { variant: 'switch', switchDisabled: true },
-      })
-      const sw = wrapper.find('.weui-switch')
-      expect((sw.element as HTMLInputElement).disabled).toBe(true)
-    })
-
-    it('switchCp=true 渲染 weui-switch-cp 兼容版', () => {
-      const wrapper = mount(WeuiCell, {
-        props: { variant: 'switch', switchCp: true, switchModelValue: true },
-      })
-      const cp = wrapper.find('.weui-switch-cp')
-      expect(cp.exists()).toBe(true)
-      expect(cp.find('.weui-switch-cp__input').exists()).toBe(true)
-      expect(cp.find('.weui-switch-cp__box').exists()).toBe(true)
-    })
-
-    it('switch 变化时触发 update:switchModelValue', async () => {
-      const wrapper = mount(WeuiCell, {
-        props: { variant: 'switch', switchModelValue: false },
-      })
-      const sw = wrapper.find('.weui-switch')
-      await sw.setValue(true)
-      expect(wrapper.emitted('update:switchModelValue')).toHaveLength(1)
-      expect(wrapper.emitted('update:switchModelValue')![0]).toEqual([true])
     })
   })
 

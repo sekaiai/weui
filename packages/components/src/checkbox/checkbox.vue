@@ -1,6 +1,6 @@
 <template>
   <label :class="rootClass" @click="handleClick">
-    <div v-if="multi" class="weui-cell__hd">
+    <div class="weui-cell__hd">
       <input
         v-if="__IS_H5__"
         type="checkbox"
@@ -22,26 +22,6 @@
     </div>
     <div class="weui-cell__bd">
       <slot>{{ label }}</slot>
-    </div>
-    <div v-if="!multi" class="weui-cell__ft">
-      <input
-        v-if="__IS_H5__"
-        type="radio"
-        class="weui-check"
-        :value="value"
-        :checked="isChecked"
-        :disabled="isDisabled"
-        @click.stop
-        @change.stop="onH5Change"
-      />
-      <radio
-        v-else
-        class="weui-check"
-        :value="value"
-        :checked="isChecked"
-        :disabled="isDisabled"
-      />
-      <div class="weui-icon-checked" />
     </div>
   </label>
 </template>
@@ -86,7 +66,6 @@ const props = withDefaults(defineProps<WeuiCheckboxProps>(), {
 const emit = defineEmits<WeuiCheckboxEmits>()
 
 interface CheckboxGroupContext {
-  multi: { value: boolean }
   modelValue: { value: string[] }
   disabled: { value: boolean }
   // H5 端独有：toggle 方法（非 H5 端为 undefined）
@@ -95,7 +74,6 @@ interface CheckboxGroupContext {
 
 const group = inject<CheckboxGroupContext | null>('weuiCheckboxGroup', null)
 
-const multi = computed(() => group?.multi.value ?? true)
 const isChecked = computed(() => {
   if (group) return group.modelValue.value.includes(props.value)
   return props.checked

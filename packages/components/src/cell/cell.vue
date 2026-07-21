@@ -131,9 +131,6 @@ const props = withDefaults(defineProps<WeuiCellProps>(), {
   hasBody: true,
   hasFooter: true,
   variant: 'default',
-  switchModelValue: false,
-  switchDisabled: false,
-  switchCp: false,
   extClass: undefined,
   iconClass: undefined,
   bodyClass: undefined,
@@ -175,11 +172,6 @@ const bdClass = computed(() => {
   if (props.bodyClass) classes.push(props.bodyClass)
   return classes
 })
-
-const onSwitchChange = (event: Event) => {
-  const checked = (event.target as HTMLInputElement).checked
-  emit('update:switchModelValue', checked)
-}
 
 const handleClick = (event: Event) => {
   emit('click', event)

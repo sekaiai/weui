@@ -6,12 +6,9 @@
         <slot />
       </template>
       <template v-else>
-        <checkbox-group v-if="multi" @change="onChange">
+        <checkbox-group @change="onChange">
           <slot />
         </checkbox-group>
-        <radio-group v-else @change="onChange">
-          <slot />
-        </radio-group>
       </template>
     </div>
     <div v-if="footer" class="weui-cells__tips">{{ footer }}</div>
@@ -90,24 +87,18 @@ const onChange = (event: { detail?: { value?: string | string[] } }) => {
 // H5 端：group 自身管理子项选中（无原生 group 联动）
 // 非 H5 端：toggle 始终为 undefined（由原生 checkbox-group/radio-group change 事件驱动）
 const toggle = (value: string) => {
-  if (props.multi) {
-    const set = new Set(props.modelValue)
-    if (set.has(value)) set.delete(value)
-    else set.add(value)
-    const arr = Array.from(set)
-    emit('update:modelValue', arr)
-    emit('change', arr)
-  } else {
-    emit('update:modelValue', [value])
-    emit('change', [value])
-  }
+  const set = new Set(props.modelValue)
+  if (set.has(value)) set.delete(value)
+  else set.add(value)
+  const arr = Array.from(set)
+  emit('update:modelValue', arr)
+  emit('change', arr)
 }
 
 provide('weuiCheckboxGroup', {
-  multi: computed(() => props.multi),
   modelValue: computed(() => props.modelValue),
   disabled: computed(() => props.disabled),
-  // H5 端独有：toggle 方法（非 H5 端通过原生 checkbox-group/radio-group change 事件联动）
+  // H5 端独有：toggle 方法（非 H5 端通过原生 checkbox-group change 事件联动）
   toggle: __IS_H5__ ? toggle : undefined,
 })
 </script>
