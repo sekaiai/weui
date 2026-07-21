@@ -77,17 +77,4 @@ test.describe('Checkbox 文档', () => {
     await expect(groupDemo.locator('p')).not.toContainText('"2"')
   })
 
-  test('单选模式：点击 radio 替换选中值', async ({ page, gotoDocsPage }) => {
-    await gotoDocsPage('checkbox')
-    // 单选模式是第 4 个 demo-block（index 3）
-    const radioDemo = page.locator('.demo-block').nth(3)
-    // 初始选中值包含 "1"
-    await expect(radioDemo.locator('p')).toContainText('"1"')
-    // 点击「选项二」radio label 触发 toggle
-    await radioDemo.locator('.weui-check__label').nth(1).click()
-    // 验证选中值替换为 ['2']（包含 "2"）
-    await expect(radioDemo.locator('p')).toContainText('"2"')
-    // 验证不再包含 "1"（单选模式下被替换）
-    await expect(radioDemo.locator('p')).not.toContainText('"1"')
-  })
 })

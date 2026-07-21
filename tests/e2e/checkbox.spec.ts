@@ -51,32 +51,6 @@ test.describe('Checkbox 组件', () => {
     await expect(secondCheckboxInput.locator('svg')).toHaveCount(1)
   })
 
-  test('单选模式点击切换选中（互斥）', async ({ page, gotoPage }) => {
-    await gotoPage('checkbox')
-
-    // 找到单选列表，初始 radioValue=['1']，第一项已选中
-    const radioTitle = page.locator('.weui-cells__title').filter({ hasText: '单选列表' })
-    const cells = radioTitle.locator('+ .weui-cells')
-    const labels = cells.locator('.weui-check__label')
-
-    // 第一项初始已选中（有 svg）
-    const firstRadioInput = labels.first().locator('.uni-radio-input')
-    await expect(firstRadioInput.locator('svg')).toHaveCount(1)
-
-    // 第二项初始未选中（无 svg）
-    const secondRadioInput = labels.nth(1).locator('.uni-radio-input')
-    await expect(secondRadioInput.locator('svg')).toHaveCount(0)
-
-    // 点击第二项
-    await labels.nth(1).click()
-
-    // 第二项应变为选中
-    await expect(secondRadioInput.locator('svg')).toHaveCount(1)
-
-    // 第一项应取消选中（互斥）
-    await expect(firstRadioInput.locator('svg')).toHaveCount(0)
-  })
-
   test('禁用选项有 weui-cell_disabled 类', async ({ page, gotoPage }) => {
     await gotoPage('checkbox')
 

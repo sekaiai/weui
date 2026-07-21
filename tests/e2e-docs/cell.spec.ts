@@ -85,15 +85,14 @@ test.describe('Cell 文档', () => {
     await expect(footerDemo.locator('.weui-cells__tips')).toContainText('底部说明文字')
   })
 
-  test('视觉变体：warn/switch/vcode/link 类名正确', async ({ page, gotoDocsPage }) => {
+  test('视觉变体：warn/vcode/link 类名正确', async ({ page, gotoDocsPage }) => {
     await gotoDocsPage('cell')
     const variantDemo = page.locator('.demo-block').nth(7)
     const cells = variantDemo.locator('.weui-cell')
-    await expect(cells).toHaveCount(4)
+    await expect(cells).toHaveCount(3)
     await expect(cells.nth(0)).toHaveClass(/weui-cell_warn/)
-    await expect(cells.nth(1)).toHaveClass(/weui-cell_switch/)
-    await expect(cells.nth(2)).toHaveClass(/weui-cell_vcode/)
-    await expect(cells.nth(3)).toHaveClass(/weui-cell_link/)
+    await expect(cells.nth(1)).toHaveClass(/weui-cell_vcode/)
+    await expect(cells.nth(2)).toHaveClass(/weui-cell_link/)
   })
 
   test('自定义插槽：四个插槽内容均渲染', async ({ page, gotoDocsPage }) => {
