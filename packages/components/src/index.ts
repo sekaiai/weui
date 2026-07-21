@@ -18,8 +18,8 @@ import { WeuiPanel } from './panel'
 import { WeuiMediaBox } from './media-box'
 import { WeuiList } from './list'
 import { WeuiForm } from './form'
-import { WeuiFormPage } from './form-page'
 import { WeuiPreview } from './preview'
+import { WeuiAgree } from './agree'
 
 // 表单输入
 import { WeuiInput } from './input'
@@ -64,7 +64,6 @@ import type { WeuiPanelProps, WeuiPanelEmits } from './panel'
 import type { WeuiMediaBoxProps, WeuiMediaBoxEmits, WeuiMediaBoxType } from './media-box'
 import type { WeuiListProps } from './list'
 import type { WeuiFormProps } from './form'
-import type { WeuiFormPageProps } from './form-page'
 import type { WeuiPreviewProps, WeuiPreviewEmits, PreviewItem, PreviewButton } from './preview'
 
 // 类型导出 — 表单输入
@@ -72,6 +71,7 @@ import type { WeuiInputProps, WeuiInputEmits } from './input'
 import type { WeuiCheckboxProps, WeuiCheckboxGroupProps, WeuiCheckboxGroupEmits } from './checkbox'
 import type { WeuiSearchbarProps, WeuiSearchbarEmits } from './searchbar'
 import type { WeuiUploaderProps, WeuiUploaderEmits, UploaderFile } from './uploader'
+import type { WeuiAgreeProps, WeuiAgreeEmits } from './agree'
 
 // 类型导出 — 操作反馈
 import type { OverlayItem } from './overlay-host'
@@ -96,9 +96,9 @@ const components = [
   // 基础组件
   WeuiButton, WeuiBadge, WeuiIcon, WeuiLoading, WeuiArticle, WeuiFlex, WeuiFlexItem, WeuiFooter, WeuiProgress, WeuiLoadmore,
   // 布局容器
-  WeuiCell, WeuiCellGroup, WeuiGrid, WeuiGridItem, WeuiPanel, WeuiMediaBox, WeuiList, WeuiForm, WeuiFormPage, WeuiPreview,
+  WeuiCell, WeuiCellGroup, WeuiGrid, WeuiGridItem, WeuiPanel, WeuiMediaBox, WeuiList, WeuiForm, WeuiPreview,
   // 表单输入
-  WeuiInput, WeuiCheckbox, WeuiCheckboxGroup, WeuiSearchbar, WeuiUploader,
+  WeuiInput, WeuiCheckbox, WeuiCheckboxGroup, WeuiSearchbar, WeuiUploader, WeuiAgree,
   // 操作反馈
   WeuiOverlayHost, WeuiActionsheet, WeuiDialog, WeuiHalfScreenDialog, WeuiToptips, WeuiToast, WeuiPicker, WeuiGallery, WeuiSlideview,
   // 导航
@@ -120,9 +120,9 @@ export {
   // 基础组件
   WeuiButton, WeuiBadge, WeuiIcon, WeuiLoading, WeuiArticle, WeuiFlex, WeuiFlexItem, WeuiFooter, WeuiProgress, WeuiLoadmore,
   // 布局容器
-  WeuiCell, WeuiCellGroup, WeuiGrid, WeuiGridItem, WeuiPanel, WeuiMediaBox, WeuiList, WeuiForm, WeuiFormPage, WeuiPreview,
+  WeuiCell, WeuiCellGroup, WeuiGrid, WeuiGridItem, WeuiPanel, WeuiMediaBox, WeuiList, WeuiForm, WeuiPreview,
   // 表单输入
-  WeuiInput, WeuiCheckbox, WeuiCheckboxGroup, WeuiSearchbar, WeuiUploader,
+  WeuiInput, WeuiCheckbox, WeuiCheckboxGroup, WeuiSearchbar, WeuiUploader, WeuiAgree,
   // 操作反馈
   WeuiOverlayHost, WeuiActionsheet, Actionsheet, WeuiDialog, Dialog, WeuiHalfScreenDialog, HalfScreenDialog, WeuiToptips, Toptips, WeuiToast, Toast, WeuiPicker, Picker, WeuiGallery, Gallery, WeuiSlideview,
   // 导航
@@ -150,13 +150,13 @@ export type {
   WeuiMediaBoxProps, WeuiMediaBoxEmits, WeuiMediaBoxType,
   WeuiListProps,
   WeuiFormProps,
-  WeuiFormPageProps,
   WeuiPreviewProps, WeuiPreviewEmits, PreviewItem, PreviewButton,
   // 表单输入
   WeuiInputProps, WeuiInputEmits,
   WeuiCheckboxProps, WeuiCheckboxGroupProps, WeuiCheckboxGroupEmits,
   WeuiSearchbarProps, WeuiSearchbarEmits,
   WeuiUploaderProps, WeuiUploaderEmits, UploaderFile,
+  WeuiAgreeProps, WeuiAgreeEmits,
   // 操作反馈
   OverlayItem,
   WeuiActionsheetProps, WeuiActionsheetEmits, ActionsheetItem, ActionsheetShowOptions, ActionsheetShowResult,
