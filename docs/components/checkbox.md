@@ -222,7 +222,6 @@ const radioValue = ref(['1'])
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | modelValue | 选中项的 value 数组（v-model） | `string[]` | `[]` |
-| multi | `true`=多选，`false`=单选 | `boolean` | `true` |
 | disabled | 是否禁用全部子项 | `boolean` | `false` |
 | title | 组标题 | `string` | — |
 | footer | 组底部说明文字 | `string` | — |

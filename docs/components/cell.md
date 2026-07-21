@@ -197,15 +197,12 @@ const onCellClick = () => {
 
 ## 视觉变体
 
-通过 `variant` 属性设置 cell 的视觉变体，自动追加对应的 CSS 类。可用变体：`access`、`link`、`switch`、`vcode`、`warn`、`select`、`select-before`、`select-after`、`uploader`。
+通过 `variant` 属性设置 cell 的视觉变体，自动追加对应的 CSS 类。可用变体：`access`、`link`、`vcode`、`warn`、`uploader`。
 
 <div class="demo-block vp-raw">
   <div class="demo-mobile">
     <weui-cell-group title="变体示例">
       <weui-cell variant="warn" title="警告项" value="说明文字" />
-      <weui-cell variant="switch" title="开关项">
-        <template #footer><span style="color: #888;">关</span></template>
-      </weui-cell>
       <weui-cell variant="vcode" title="验证码">
         <template #footer><weui-button type="primary" size="mini">获取验证码</weui-button></template>
       </weui-cell>
@@ -219,9 +216,6 @@ const onCellClick = () => {
 <template>
   <weui-cell-group title="变体示例">
     <weui-cell variant="warn" title="警告项" value="说明文字" />
-    <weui-cell variant="switch" title="开关项">
-      <template #footer><span style="color: #888;">关</span></template>
-    </weui-cell>
     <weui-cell variant="vcode" title="验证码">
       <template #footer><weui-button type="primary" size="mini">获取验证码</weui-button></template>
     </weui-cell>
