@@ -1,16 +1,29 @@
 <template>
-  <template v-if="visible">
+  <div v-if="visible" role="alert">
     <div
       v-if="mask"
       class="weui-mask_transparent"
       :style="maskStyle"
       @touchmove.stop.prevent
     />
-    <div :class="toastClass">
-      <div v-if="type !== 'text'" :class="iconClass" />
-      <div class="weui-toast__content">{{ content }}</div>
+    <div class="weui-toast__wrp">
+      <div :class="toastClass">
+        <i
+          v-if="type === 'success'"
+          class="weui-icon_toast weui-icon-success-no-circle"
+        />
+        <i
+          v-else-if="type === 'warning'"
+          class="weui-icon_toast weui-icon-warn"
+        />
+        <span
+          v-else-if="type === 'loading'"
+          class="weui-icon_toast weui-primary-loading"
+        ><span class="weui-primary-loading__dot" /></span>
+        <p class="weui-toast__content">{{ content }}</p>
+      </div>
     </div>
-  </template>
+  </div>
 </template>
 
 <script lang="ts">
@@ -68,23 +81,6 @@ const toastClass = computed(() => {
   const classes: string[] = ['weui-toast']
   if (props.type === 'text') classes.push('weui-toast_text')
   if (props.extClass) classes.push(props.extClass)
-  return classes
-})
-
-const iconClass = computed(() => {
-  const classes: string[] = ['weui-icon_toast']
-  switch (props.type) {
-    case 'loading':
-      classes.push('weui-loading')
-      break
-    case 'warning':
-      classes.push('weui-icon-warn')
-      break
-    case 'success':
-    default:
-      classes.push('weui-icon-success-no-circle')
-      break
-  }
   return classes
 })
 

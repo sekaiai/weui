@@ -9,11 +9,15 @@
   >
     <div
       :class="['weui-dialog', { 'weui-animate-fade-in': innerShow, 'weui-animate-fade-out': !innerShow }, extClass, { 'weui-dialog_btn-wrap': btnWrap }]"
+      role="dialog"
+      aria-modal="true"
       @click.stop
     >
       <!-- 标题区域：优先使用 title slot -->
       <div v-if="hasHeader" class="weui-dialog__hd">
-        <slot name="title">{{ title }}</slot>
+        <slot name="title">
+          <strong class="weui-dialog__title">{{ title }}</strong>
+        </slot>
       </div>
 
       <!-- 内容区域 -->
@@ -24,14 +28,14 @@
       <!-- 底部按钮区域 -->
       <div v-if="hasFooter" class="weui-dialog__ft">
         <slot name="footer">
-          <div
+          <a
             v-for="(btn, index) in buttons"
             :key="index"
+            role="button"
+            href="javascript:"
             :class="['weui-dialog__btn', btnClassName(btn, index)]"
             @click="handleButtonTap(btn, index)"
-          >
-            {{ btn.label }}
-          </div>
+          >{{ btn.label }}</a>
         </slot>
       </div>
     </div>

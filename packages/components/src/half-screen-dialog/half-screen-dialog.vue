@@ -9,12 +9,14 @@
   >
     <div
       :class="['weui-half-screen-dialog', { 'weui-animate-slide-up': innerShow, 'weui-animate-slide-down': !innerShow }, extClass]"
+      role="dialog"
+      aria-modal="true"
       @click.stop
     >
       <!-- 头部区域：优先使用 title slot -->
       <div v-if="hasHeader" class="weui-half-screen-dialog__hd">
         <slot name="title">
-          <span v-if="title" class="weui-half-screen-dialog__title">{{ title }}</span>
+          <strong v-if="title" class="weui-half-screen-dialog__title">{{ title }}</strong>
           <span v-if="subtitle" class="weui-half-screen-dialog__subtitle">{{ subtitle }}</span>
         </slot>
       </div>
@@ -27,14 +29,14 @@
       <!-- 底部按钮区域 -->
       <div v-if="hasFooter" class="weui-half-screen-dialog__ft">
         <slot name="footer">
-          <div
+          <a
             v-for="(btn, index) in buttons"
             :key="index"
+            role="button"
+            href="javascript:"
             :class="['weui-half-screen-dialog__btn', btnClassName(btn, index)]"
             @click="handleButtonTap(btn, index)"
-          >
-            {{ btn.label }}
-          </div>
+          >{{ btn.label }}</a>
         </slot>
       </div>
     </div>

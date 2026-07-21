@@ -8,11 +8,13 @@
   >
     <div
       :class="['weui-actionsheet', extClass, { 'weui-actionsheet_toggle': showSheet }]"
+      role="dialog"
+      aria-modal="true"
       @click.stop
     >
       <!-- 标题 -->
       <div v-if="title" class="weui-actionsheet__title">
-        <span class="weui-actionsheet__title-text">{{ title }}</span>
+        <p class="weui-actionsheet__title-text">{{ title }}</p>
       </div>
 
       <!-- 菜单项 -->
@@ -20,24 +22,21 @@
         <div
           v-for="(item, index) in items"
           :key="index"
+          role="button"
+          tabindex="0"
           :class="cellClass(item)"
           @click="handleSelect(item, index)"
-        >
-          <span>{{ item.label }}</span>
-          <span v-if="item.tips" class="weui-actionsheet__cell__tips">
-            {{ item.tips }}
-          </span>
-        </div>
+        >{{ item.label }}<div v-if="item.tips" class="weui-actionsheet__cell__tips">{{ item.tips }}</div></div>
       </div>
 
       <!-- 操作区（取消按钮） -->
       <div v-if="cancelText" class="weui-actionsheet__action">
         <div
+          role="button"
+          tabindex="0"
           class="weui-actionsheet__cell"
           @click="handleCancel"
-        >
-          <span>{{ cancelText }}</span>
-        </div>
+        >{{ cancelText }}</div>
       </div>
     </div>
   </div>

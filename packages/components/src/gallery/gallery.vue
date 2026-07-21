@@ -3,13 +3,21 @@
     v-if="wrapperShow"
     :class="['weui-gallery', extClass, { 'weui-animate-fade-in': innerShow, 'weui-animate-fade-out': !innerShow }]"
     :style="maskStyle"
+    role="dialog"
+    aria-modal="true"
     @click="handleClick"
     @touchmove.stop.prevent
   >
-    <img class="weui-gallery__img" :src="src" mode="aspectFit" />
+    <img class="weui-gallery__img" :src="src" />
     <div v-if="hasOpr" class="weui-gallery__opr" @click.stop>
       <slot>
-        <div class="weui-gallery__del" @click="handleDelete">{{ deleteText }}</div>
+        <a
+          role="button"
+          aria-label="删除"
+          href="javascript:"
+          class="weui-gallery__del"
+          @click="handleDelete"
+        >{{ deleteText }}</a>
       </slot>
     </div>
   </div>

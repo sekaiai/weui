@@ -51,12 +51,12 @@ describe('WeuiToast', () => {
       expect(wrapper.find('.weui-toast').classes()).not.toContain('weui-toast_text')
     })
 
-    it('type=loading 使用 weui-loading 图标', () => {
+    it('type=loading 使用 weui-primary-loading 图标', () => {
       const wrapper = mount(WeuiToast, {
         props: { visible: true, type: 'loading', duration: 0 },
       })
       const icon = wrapper.find('.weui-icon_toast')
-      expect(icon.classes()).toContain('weui-loading')
+      expect(icon.classes()).toContain('weui-primary-loading')
     })
 
     it('type=warning 使用 weui-icon-warn 图标', () => {

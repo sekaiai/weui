@@ -1,6 +1,7 @@
 <template>
   <div
     v-if="visible"
+    role="alert"
     class="weui-toptips"
     :class="[typeClass, extClass]"
     :style="toptipsStyle"
