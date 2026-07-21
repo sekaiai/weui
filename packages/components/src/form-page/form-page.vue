@@ -1,21 +1,25 @@
 <template>
   <div :class="rootClass">
-    <!-- 标题区域：title/desc 或 title slot -->
-    <div v-if="hasTitle" class="weui-form__text-area">
-      <slot name="title">
-        <div v-if="title" class="weui-form__title">{{ title }}</div>
-        <div v-if="desc" class="weui-form__desc">{{ desc }}</div>
-      </slot>
+    <div class="weui-form__bd">
+      <!-- 标题区域：title/desc 或 title slot -->
+      <div v-if="hasTitle" class="weui-form__text-area">
+        <slot name="title">
+          <h2 v-if="title" class="weui-form__title">{{ title }}</h2>
+          <div v-if="desc" class="weui-form__desc">{{ desc }}</div>
+        </slot>
+      </div>
+
+      <!-- 主体内容区域 -->
+      <div class="weui-form__control-area">
+        <slot />
+      </div>
     </div>
 
-    <!-- 主体内容区域 -->
-    <div class="weui-form__control-area">
-      <slot />
-    </div>
-
-    <!-- 底部操作区域：footer slot -->
-    <div v-if="hasFooter" class="weui-form__opr-area">
-      <slot name="footer" />
+    <div v-if="hasFooter" class="weui-form__ft">
+      <!-- 底部操作区域：footer slot -->
+      <div class="weui-form__opr-area">
+        <slot name="footer" />
+      </div>
     </div>
   </div>
 </template>
@@ -59,3 +63,15 @@ const rootClass = computed(() => {
 const hasTitle = computed(() => Boolean(props.title || props.desc || slots.title))
 const hasFooter = computed(() => Boolean(slots.footer))
 </script>
+
+<style lang="scss">
+/* WeUI v2 未提供 weui-form-page 类（weui-form 仅用于 weui-form 容器内）
+   form-page 定位为整页表单容器，需要复用 weui-form 的整页布局样式 */
+.weui-form-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  box-sizing: border-box;
+  background-color: #fff;
+}
+</style>

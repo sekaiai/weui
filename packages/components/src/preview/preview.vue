@@ -3,7 +3,9 @@
     <!-- 头部：title 或 header slot -->
     <div v-if="hasHeader" class="weui-form-preview__hd">
       <slot name="header">
-        <div class="weui-form-preview__value">{{ title }}</div>
+        <div class="weui-form-preview__item">
+          <em class="weui-form-preview__value">{{ title }}</em>
+        </div>
       </slot>
     </div>
 
@@ -15,7 +17,7 @@
           :key="index"
           class="weui-form-preview__item"
         >
-          <span class="weui-form-preview__label">{{ item.label }}</span>
+          <label class="weui-form-preview__label">{{ item.label }}</label>
           <span class="weui-form-preview__value">{{ item.value }}</span>
         </div>
       </slot>
@@ -24,14 +26,14 @@
     <!-- 底部：buttons 或 footer slot -->
     <div v-if="hasFooter" class="weui-form-preview__ft">
       <slot name="footer">
-        <div
+        <a
           v-for="(btn, index) in buttons"
           :key="index"
+          role="button"
+          href="javascript:"
           :class="['weui-form-preview__btn', btnClass(btn)]"
           @click="handleButtonTap(btn, index)"
-        >
-          {{ btn.text }}
-        </div>
+        >{{ btn.text }}</a>
       </slot>
     </div>
   </div>

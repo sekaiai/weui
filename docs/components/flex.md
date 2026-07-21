@@ -194,14 +194,14 @@
 | wrap | 换行方式 | `'nowrap' \| 'wrap' \| 'wrap-reverse'` | `'nowrap'` |
 | justify | 主轴对齐 | `'start' \| 'end' \| 'center' \| 'between' \| 'around' \| 'evenly'` | `'start'` |
 | align | 交叉轴对齐 | `'start' \| 'end' \| 'center' \| 'baseline' \| 'stretch'` | `'center'` |
-| extClass | 附加在根元素上的扩展类名 | `string` | — |
+| ext-class | 附加在根元素上的扩展类名 | `string` | — |
 
 ## FlexItem Attributes
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | flex | 自定义 flex 值，不传时使用 weui-flex__item 的 `flex:1` | `number` | — |
-| extClass | 附加在根元素上的扩展类名 | `string` | — |
+| ext-class | 附加在根元素上的扩展类名 | `string` | — |
 
 ## Flex Slots
 

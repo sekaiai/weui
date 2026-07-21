@@ -1,26 +1,32 @@
 <template>
   <div :class="rootClass">
-    <!-- 文字区域：title/desc 或 title slot -->
-    <div v-if="hasText" class="weui-form__text-area">
-      <slot name="title">
-        <div v-if="title" class="weui-form__title">{{ title }}</div>
-        <div v-if="desc" class="weui-form__desc">{{ desc }}</div>
-      </slot>
+    <div class="weui-form__bd">
+      <!-- 文字区域：title/desc 或 title slot -->
+      <div v-if="hasText" class="weui-form__text-area">
+        <slot name="title">
+          <h2 v-if="title" class="weui-form__title">{{ title }}</h2>
+          <div v-if="desc" class="weui-form__desc">{{ desc }}</div>
+        </slot>
+      </div>
+
+      <!-- 控件区域 -->
+      <div class="weui-form__control-area">
+        <slot />
+      </div>
     </div>
 
-    <!-- 控件区域 -->
-    <div class="weui-form__control-area">
-      <slot />
-    </div>
+    <div v-if="hasFooter || hasTips" class="weui-form__ft">
+      <!-- 提示区域：tips 或 tips slot -->
+      <div v-if="hasTips" class="weui-form__tips-area">
+        <p class="weui-form__tips">
+          <slot name="tips">{{ tips }}</slot>
+        </p>
+      </div>
 
-    <!-- 提示区域：tips 或 tips slot -->
-    <div v-if="hasTips" class="weui-form__tips-area">
-      <slot name="tips">{{ tips }}</slot>
-    </div>
-
-    <!-- 操作按钮区域：footer slot -->
-    <div v-if="hasFooter" class="weui-form__opr-area">
-      <slot name="footer" />
+      <!-- 操作按钮区域：footer slot -->
+      <div v-if="hasFooter" class="weui-form__opr-area">
+        <slot name="footer" />
+      </div>
     </div>
   </div>
 </template>

@@ -7,19 +7,26 @@
         </slot>
       </div>
       <div v-if="hasText" class="weui-msg__text-area">
-        <div v-if="title" class="weui-msg__title">{{ title }}</div>
-        <div v-if="desc" class="weui-msg__desc">{{ desc }}</div>
+        <h2 v-if="title" class="weui-msg__title">{{ title }}</h2>
+        <p v-if="desc" class="weui-msg__desc">{{ desc }}</p>
       </div>
     </slot>
     <div v-if="hasOpr" class="weui-msg__opr-area">
-      <div class="weui-btn-area">
-        <div
+      <p class="weui-btn-area">
+        <a
           v-for="(btn, index) in buttons"
           :key="index"
+          role="button"
+          href="javascript:"
           :class="buttonClass(btn)"
           @click="handleButtonTap(btn, index)"
-        >{{ btn.text }}</div>
-      </div>
+        >{{ btn.text }}</a>
+      </p>
+    </div>
+    <div v-if="hasTips" class="weui-msg__tips-area">
+      <p class="weui-msg__tips">
+        <slot name="tips">{{ tips }}</slot>
+      </p>
     </div>
     <div v-if="$slots.footer" class="weui-msg__extra-area">
       <slot name="footer" />
@@ -59,6 +66,8 @@ export interface WeuiMsgProps {
   desc?: string
   /** 操作按钮列表 */
   buttons?: MsgButton[]
+  /** 底部提示文字（操作按钮下方） */
+  tips?: string
   /** 附加在根元素上的扩展类名 */
   extClass?: string
 }
@@ -73,6 +82,7 @@ const props = withDefaults(defineProps<WeuiMsgProps>(), {
   title: undefined,
   desc: undefined,
   buttons: () => [],
+  tips: undefined,
   extClass: undefined,
 })
 
@@ -88,6 +98,7 @@ const rootClass = computed(() => {
 const hasIcon = computed(() => Boolean(props.type || slots.icon))
 const hasText = computed(() => Boolean(props.title || props.desc))
 const hasOpr = computed(() => Boolean(props.buttons && props.buttons.length > 0))
+const hasTips = computed(() => Boolean(props.tips || slots.tips))
 
 const buttonClass = (btn: MsgButton) => {
   return ['weui-btn', `weui-btn_${btn.type || 'default'}`]

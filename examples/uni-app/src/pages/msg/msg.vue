@@ -69,6 +69,18 @@
         <weui-msg title="纯文字提示" desc="不显示图标与按钮" />
       </view>
 
+      <!-- 底部提示 -->
+      <view class="demo-section">
+        <view class="demo-section__title">底部提示</view>
+        <weui-msg
+          type="success"
+          title="操作成功"
+          :buttons="[{ text: '推荐操作', type: 'primary' }]"
+          tips="提示详情，可根据实际需要安排，居中展现"
+          @buttontap="onButtonTap"
+        />
+      </view>
+
       <!-- 底部额外区域 -->
       <view class="demo-section">
         <view class="demo-section__title">底部额外区域</view>

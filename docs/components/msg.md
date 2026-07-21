@@ -122,6 +122,34 @@ const onButtonTap = (btn: MsgButton, index: number) => {
 ```
 :::
 
+## 底部提示
+
+通过 `tips` 属性在操作按钮下方渲染底部提示文字，对应 `.weui-msg__tips-area`。
+
+<div class="demo-block vp-raw">
+  <div class="demo-mobile">
+    <weui-msg
+      type="success"
+      title="操作成功"
+      :buttons="[{ text: '推荐操作', type: 'primary' }]"
+      tips="提示详情，可根据实际需要安排，居中展现"
+    />
+  </div>
+</div>
+
+::: details 查看代码
+```vue
+<template>
+  <weui-msg
+    type="success"
+    title="操作成功"
+    :buttons="[{ text: '推荐操作', type: 'primary' }]"
+    tips="提示详情，可根据实际需要安排，居中展现"
+  />
+</template>
+```
+:::
+
 ## 自定义内容
 
 使用默认插槽替换默认的图标 + 标题 + 描述区域，适用于完全自定义布局的场景。
@@ -187,6 +215,7 @@ const onButtonTap = (btn: MsgButton, index: number) => {
 | title | 标题 | `string` | — |
 | desc | 描述文字 | `string` | — |
 | buttons | 操作按钮列表 | `MsgButton[]` | `[]` |
+| tips | 底部提示文字（操作按钮下方，`.weui-msg__tips-area`） | `string` | — |
 | ext-class | 附加在根元素上的扩展类名 | `string` | — |
 
 ### MsgButton
@@ -208,4 +237,5 @@ const onButtonTap = (btn: MsgButton, index: number) => {
 | --- | --- |
 | default | 自定义内容，替换默认的图标 + 标题 + 描述区域 |
 | icon | 自定义图标，替换默认 `weui-icon` |
+| tips | 自定义提示区域，替代 `tips` 属性 |
 | footer | 底部额外区域，渲染在操作按钮下方 |
