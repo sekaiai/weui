@@ -1,5 +1,10 @@
 <template>
-  <div :class="rootClass" @click="handleClick">
+  <div
+    :class="rootClass"
+    role="tab"
+    :aria-selected="active"
+    @click="handleClick"
+  >
     <slot />
   </div>
 </template>

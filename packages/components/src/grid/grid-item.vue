@@ -1,6 +1,7 @@
 <template>
   <div
     :class="rootClass"
+    role="button"
     :hover-class="'weui-grid_active'"
     @click="handleClick"
   >
@@ -10,10 +11,10 @@
         <img v-if="icon" :src="icon" />
         <slot v-else name="icon" />
       </div>
-      <div v-if="label || hasLabelSlot" class="weui-grid__label">
+      <p v-if="label || hasLabelSlot" class="weui-grid__label">
         <template v-if="label">{{ label }}</template>
         <slot v-else name="label" />
-      </div>
+      </p>
     </template>
   </div>
 </template>

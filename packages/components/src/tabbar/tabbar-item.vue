@@ -1,6 +1,11 @@
 <template>
-  <div :class="rootClass" :aria-selected="active" @click="handleClick">
-    <div v-if="hasIcon" :class="iconWrapClass" :style="iconWrapStyle">
+  <div
+    :class="rootClass"
+    role="tab"
+    :aria-selected="active"
+    @click="handleClick"
+  >
+    <div v-if="hasIcon" class="weui-tabbar__icon-wrap" :style="iconWrapStyle">
       <slot name="icon">
         <img
           v-if="displayIcon"
@@ -99,10 +104,6 @@ const hasBadge = computed(() => {
   if (props.badge === undefined || props.badge === null) return false
   if (props.badge === '') return false
   return true
-})
-
-const iconWrapClass = computed(() => {
-  return ['weui-tabbar__icon-wrap']
 })
 
 const iconWrapStyle = computed(() => {

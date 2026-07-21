@@ -201,6 +201,7 @@ const gridList = [
 | 事件名 | 说明 | 回调参数 |
 | --- | --- | --- |
 | click | 点击宫格时触发 | `event: Event` |
+| navigate | `url` 非空时点击触发（H5 环境），uni-app 环境调用 `uni.navigateTo` 跳转 | `(payload: { url: string })` |
 
 ## GridItem Slots
 
