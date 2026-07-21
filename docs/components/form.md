@@ -318,6 +318,344 @@ const checkboxValues = ref(['1'])
 ```
 :::
 
+## 跳转列表项
+
+使用 `weui-cell_access` 类实现可点击跳转的列表项。
+
+<div class="demo-block vp-raw">
+  <div class="demo-mobile">
+    <weui-form title="跳转列表项">
+      <div class="weui-cells__group weui-cells__group_form">
+        <div class="weui-cells">
+          <a class="weui-cell weui-cell_access" href="javascript:">
+            <div class="weui-cell__bd"><p>cell standard</p></div>
+            <div class="weui-cell__ft"></div>
+          </a>
+          <a class="weui-cell weui-cell_access" href="javascript:">
+            <div class="weui-cell__bd"><p>cell standard</p></div>
+            <div class="weui-cell__ft"></div>
+          </a>
+        </div>
+      </div>
+    </weui-form>
+  </div>
+</div>
+
+::: details 查看代码
+```vue
+<template>
+  <weui-form title="跳转列表项">
+    <div class="weui-cells__group weui-cells__group_form">
+      <div class="weui-cells">
+        <a class="weui-cell weui-cell_access" href="javascript:">
+          <div class="weui-cell__bd"><p>cell standard</p></div>
+          <div class="weui-cell__ft"></div>
+        </a>
+        <a class="weui-cell weui-cell_access" href="javascript:">
+          <div class="weui-cell__bd"><p>cell standard</p></div>
+          <div class="weui-cell__ft"></div>
+        </a>
+      </div>
+    </div>
+  </weui-form>
+</template>
+```
+:::
+
+## 开关
+
+使用 `weui-cell_switch` 类结合 `weui-switch` 实现开关列表项。
+
+<div class="demo-block vp-raw">
+  <div class="demo-mobile">
+    <weui-form title="开关样式展示">
+      <div class="weui-cells__group weui-cells__group_form">
+        <div class="weui-cells">
+          <label class="weui-cell weui-cell_active weui-cell_switch">
+            <div class="weui-cell__bd">标题文字</div>
+            <div class="weui-cell__ft">
+              <input class="weui-switch" type="checkbox"/>
+            </div>
+          </label>
+          <label class="weui-cell weui-cell_active weui-cell_disabled weui-cell_switch">
+            <div class="weui-cell__bd">标题文字</div>
+            <div class="weui-cell__ft">
+              <input class="weui-switch" checked disabled type="checkbox"/>
+            </div>
+          </label>
+          <label class="weui-cell weui-cell_active weui-cell_switch">
+            <div class="weui-cell__bd">兼容IE Edge的版本</div>
+            <div class="weui-cell__ft">
+              <span class="weui-switch-cp">
+                <input class="weui-switch-cp__input" checked type="checkbox"/>
+                <div class="weui-switch-cp__box"></div>
+              </span>
+            </div>
+          </label>
+        </div>
+      </div>
+      <template #footer>
+        <div class="weui-form__opr-area"><a role="button" class="weui-btn weui-btn_primary" href="javascript:">确定</a></div>
+      </template>
+    </weui-form>
+  </div>
+</div>
+
+::: details 查看代码
+```vue
+<template>
+  <weui-form title="开关样式展示">
+    <div class="weui-cells__group weui-cells__group_form">
+      <div class="weui-cells">
+        <label class="weui-cell weui-cell_active weui-cell_switch">
+          <div class="weui-cell__bd">标题文字</div>
+          <div class="weui-cell__ft">
+            <input class="weui-switch" type="checkbox" />
+          </div>
+        </label>
+        <label class="weui-cell weui-cell_active weui-cell_disabled weui-cell_switch">
+          <div class="weui-cell__bd">标题文字</div>
+          <div class="weui-cell__ft">
+            <input class="weui-switch" checked disabled type="checkbox" />
+          </div>
+        </label>
+        <label class="weui-cell weui-cell_active weui-cell_switch">
+          <div class="weui-cell__bd">兼容IE Edge的版本</div>
+          <div class="weui-cell__ft">
+            <span class="weui-switch-cp">
+              <input class="weui-switch-cp__input" checked type="checkbox" />
+              <div class="weui-switch-cp__box"></div>
+            </span>
+          </div>
+        </label>
+      </div>
+    </div>
+    <template #footer>
+      <div class="weui-form__opr-area">
+        <a role="button" class="weui-btn weui-btn_primary" href="javascript:">确定</a>
+      </div>
+    </template>
+  </weui-form>
+</template>
+```
+:::
+
+## 文本域
+
+通过 `weui-cells_form` 与 `weui-textarea` 渲染可多行输入的文本域，带字数统计。
+
+<div class="demo-block vp-raw">
+  <div class="demo-mobile">
+    <weui-form title="文本域" desc="输入更多内容的输入区域样式展示">
+      <div class="weui-cells__group weui-cells__group_form">
+        <div class="weui-cells__title">问题描述</div>
+        <div class="weui-cells weui-cells_form">
+          <div class="weui-cell weui-cell_active">
+            <div class="weui-cell__bd">
+              <textarea class="weui-textarea" placeholder="请描述你所发生的问题" rows="3"></textarea>
+              <div class="weui-textarea-counter"><span>0</span>/200</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <template #footer>
+        <div class="weui-form__opr-area"><a role="button" class="weui-btn weui-btn_primary" href="javascript:">确定</a></div>
+      </template>
+    </weui-form>
+  </div>
+</div>
+
+::: details 查看代码
+```vue
+<template>
+  <weui-form title="文本域" desc="输入更多内容的输入区域样式展示">
+    <div class="weui-cells__group weui-cells__group_form">
+      <div class="weui-cells__title">问题描述</div>
+      <div class="weui-cells weui-cells_form">
+        <div class="weui-cell weui-cell_active">
+          <div class="weui-cell__bd">
+            <textarea class="weui-textarea" placeholder="请描述你所发生的问题" rows="3"></textarea>
+            <div class="weui-textarea-counter"><span>0</span>/200</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <template #footer>
+      <div class="weui-form__opr-area">
+        <a role="button" class="weui-btn weui-btn_primary" href="javascript:">确定</a>
+      </div>
+    </template>
+  </weui-form>
+</template>
+```
+:::
+
+## 选择框
+
+通过 `weui-cell_select` 系列类名实现原生选择框的三种布局：独立选择、前置选择、后置选择。
+
+<div class="demo-block vp-raw">
+  <div class="demo-mobile">
+    <weui-form title="原生选择框">
+      <div class="weui-cells__group weui-cells__group_form">
+        <div class="weui-cells">
+          <div class="weui-cell weui-cell_active weui-cell_select">
+            <div class="weui-cell__bd">
+              <select class="weui-select" name="select1">
+                <option selected value="1">微信号</option>
+                <option value="2">QQ号</option>
+                <option value="3">Email</option>
+              </select>
+            </div>
+          </div>
+          <div class="weui-cell weui-cell_active weui-cell_select weui-cell_select-before">
+            <div class="weui-cell__hd">
+              <select class="weui-select" name="select2">
+                <option value="1">+86</option>
+                <option value="2">+80</option>
+                <option value="3">+84</option>
+              </select>
+            </div>
+            <label class="weui-cell__bd">
+              <input class="weui-input" type="number" placeholder="请输入号码" value="12345678907"/>
+            </label>
+          </div>
+          <label class="weui-cell weui-cell_active weui-cell_select weui-cell_select-after">
+            <div class="weui-cell__hd"><span class="weui-label">国家</span></div>
+            <div class="weui-cell__bd">
+              <select class="weui-select" name="select2">
+                <option value="1">中国</option>
+                <option value="2">美国</option>
+                <option value="3">英国</option>
+              </select>
+            </div>
+          </label>
+        </div>
+      </div>
+      <template #footer>
+        <div class="weui-form__opr-area"><a role="button" class="weui-btn weui-btn_primary" href="javascript:">确定</a></div>
+      </template>
+    </weui-form>
+  </div>
+</div>
+
+::: details 查看代码
+```vue
+<template>
+  <weui-form title="原生选择框">
+    <div class="weui-cells__group weui-cells__group_form">
+      <div class="weui-cells">
+        <div class="weui-cell weui-cell_active weui-cell_select">
+          <div class="weui-cell__bd">
+            <select class="weui-select" name="select1">
+              <option selected value="1">微信号</option>
+              <option value="2">QQ号</option>
+              <option value="3">Email</option>
+            </select>
+          </div>
+        </div>
+        <div class="weui-cell weui-cell_active weui-cell_select weui-cell_select-before">
+          <div class="weui-cell__hd">
+            <select class="weui-select" name="select2">
+              <option value="1">+86</option>
+              <option value="2">+80</option>
+              <option value="3">+84</option>
+            </select>
+          </div>
+          <label class="weui-cell__bd">
+            <input class="weui-input" type="number" placeholder="请输入号码" value="12345678907" />
+          </label>
+        </div>
+        <label class="weui-cell weui-cell_active weui-cell_select weui-cell_select-after">
+          <div class="weui-cell__hd"><span class="weui-label">国家</span></div>
+          <div class="weui-cell__bd">
+            <select class="weui-select" name="select2">
+              <option value="1">中国</option>
+              <option value="2">美国</option>
+              <option value="3">英国</option>
+            </select>
+          </div>
+        </label>
+      </div>
+    </div>
+    <template #footer>
+      <div class="weui-form__opr-area">
+        <a role="button" class="weui-btn weui-btn_primary" href="javascript:">确定</a>
+      </div>
+    </template>
+  </weui-form>
+</template>
+```
+:::
+
+## 反色表单
+
+通过 `weui-cells__group_form-primary` 类实现反色样式的表单组，适用于深色背景上的表单展示。
+
+<div class="demo-block vp-raw">
+  <div class="demo-mobile">
+    <weui-form title="表单结构" desc="展示表单页面的信息结构样式">
+      <div class="weui-cells__group weui-cells__group_form weui-cells__group_form-primary">
+        <div class="weui-cells__title">表单组标题</div>
+        <div class="weui-cells">
+          <label class="weui-cell weui-cell_active">
+            <div class="weui-cell__hd"><span class="weui-label">微信号</span></div>
+            <div class="weui-cell__bd"><input class="weui-input" placeholder="填写本人微信号"/></div>
+          </label>
+          <label class="weui-cell weui-cell_active">
+            <div class="weui-cell__hd"><span class="weui-label">昵称</span></div>
+            <div class="weui-cell__bd"><input class="weui-input" placeholder="填写本人微信号的昵称"/></div>
+          </label>
+        </div>
+      </div>
+      <template #footer>
+        <div class="weui-form__tips-area"><p class="weui-form__tips">表单页提示，居中对齐</p></div>
+        <div class="weui-form__opr-area"><a role="button" disabled aria-disabled="true" class="weui-btn weui-btn_primary weui-btn_disabled" href="javascript:">确定</a></div>
+        <div class="weui-form__tips-area"><p class="weui-form__tips">表单页提示，居中对齐</p></div>
+        <div class="weui-form__extra-area">
+          <div class="weui-footer">
+            <p class="weui-footer__links"><a class="weui-footer__link">底部链接文本</a></p>
+            <p class="weui-footer__text">Copyright &copy; 2008-2025 weui.io</p>
+          </div>
+        </div>
+      </template>
+    </weui-form>
+  </div>
+</div>
+
+::: details 查看代码
+```vue
+<template>
+  <weui-form title="表单结构" desc="展示表单页面的信息结构样式">
+    <div class="weui-cells__group weui-cells__group_form weui-cells__group_form-primary">
+      <div class="weui-cells__title">表单组标题</div>
+      <div class="weui-cells">
+        <label class="weui-cell weui-cell_active">
+          <div class="weui-cell__hd"><span class="weui-label">微信号</span></div>
+          <div class="weui-cell__bd"><input class="weui-input" placeholder="填写本人微信号" /></div>
+        </label>
+        <label class="weui-cell weui-cell_active">
+          <div class="weui-cell__hd"><span class="weui-label">昵称</span></div>
+          <div class="weui-cell__bd"><input class="weui-input" placeholder="填写本人微信号的昵称" /></div>
+        </label>
+      </div>
+    </div>
+    <template #footer>
+      <div class="weui-form__tips-area"><p class="weui-form__tips">表单页提示，居中对齐</p></div>
+      <div class="weui-form__opr-area"><a role="button" disabled aria-disabled="true" class="weui-btn weui-btn_primary weui-btn_disabled" href="javascript:">确定</a></div>
+      <div class="weui-form__tips-area"><p class="weui-form__tips">表单页提示，居中对齐</p></div>
+      <div class="weui-form__extra-area">
+        <div class="weui-footer">
+          <p class="weui-footer__links"><a class="weui-footer__link">底部链接文本</a></p>
+          <p class="weui-footer__text">Copyright &copy; 2008-2025 weui.io</p>
+        </div>
+      </div>
+    </template>
+  </weui-form>
+</template>
+```
+:::
+
 ## Attributes
 
 | 参数 | 说明 | 类型 | 默认值 |
