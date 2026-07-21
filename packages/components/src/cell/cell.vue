@@ -11,12 +11,33 @@
       <template v-if="title">{{ title }}</template>
       <slot v-else name="title" />
     </div>
-    <div v-if="hasBody" :class="['weui-cell__bd', bodyClass]">
+    <div v-if="hasBody" :class="bdClass">
       <template v-if="value">{{ value }}</template>
       <slot v-else />
+      <slot v-if="variant === 'vcode'" name="vcode" />
     </div>
     <div v-if="hasFooter" :class="footerClass">
-      <template v-if="footer">{{ footer }}</template>
+      <template v-if="variant === 'switch'">
+        <span v-if="switchCp" class="weui-switch-cp">
+          <input
+            class="weui-switch-cp__input"
+            type="checkbox"
+            :checked="switchModelValue"
+            :disabled="switchDisabled"
+            @change="onSwitchChange"
+          />
+          <div class="weui-switch-cp__box"></div>
+        </span>
+        <input
+          v-else
+          type="checkbox"
+          class="weui-switch"
+          :checked="switchModelValue"
+          :disabled="switchDisabled"
+          @change="onSwitchChange"
+        />
+      </template>
+      <template v-else-if="footer">{{ footer }}</template>
       <slot v-else name="footer" />
     </div>
   </div>
@@ -72,6 +93,12 @@ export interface WeuiCellProps {
   hasFooter?: boolean
   /** 视觉变体，自动追加对应 weui-cell_* 类 */
   variant?: WeuiCellVariant
+  /** variant=switch 时 switch 的选中状态 */
+  switchModelValue?: boolean
+  /** variant=switch 时 switch 是否禁用 */
+  switchDisabled?: boolean
+  /** variant=switch 时是否使用 weui-switch-cp 兼容版结构 */
+  switchCp?: boolean
   /** 根元素扩展类名 */
   extClass?: string
   /** header 扩展类名 */
@@ -88,6 +115,7 @@ export interface WeuiCellEmits {
   (e: 'click', event: Event): void
   (e: 'navigate', res: unknown): void
   (e: 'navigate-error', err: unknown): void
+  (e: 'update:switchModelValue', value: boolean): void
 }
 
 const props = withDefaults(defineProps<WeuiCellProps>(), {
@@ -103,6 +131,9 @@ const props = withDefaults(defineProps<WeuiCellProps>(), {
   hasBody: true,
   hasFooter: true,
   variant: 'default',
+  switchModelValue: false,
+  switchDisabled: false,
+  switchCp: false,
   extClass: undefined,
   iconClass: undefined,
   bodyClass: undefined,
@@ -137,6 +168,18 @@ const footerClass = computed(() => {
   if (props.footerClass) classes.push(props.footerClass)
   return classes
 })
+
+const bdClass = computed(() => {
+  const classes: string[] = ['weui-cell__bd']
+  if (props.variant === 'vcode') classes.push('weui-flex')
+  if (props.bodyClass) classes.push(props.bodyClass)
+  return classes
+})
+
+const onSwitchChange = (event: Event) => {
+  const checked = (event.target as HTMLInputElement).checked
+  emit('update:switchModelValue', checked)
+}
 
 const handleClick = (event: Event) => {
   emit('click', event)
