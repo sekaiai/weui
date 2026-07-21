@@ -23,6 +23,7 @@ import { WeuiAgree } from './agree'
 
 // 表单输入
 import { WeuiInput } from './input'
+import { WeuiTextarea } from './textarea'
 import { WeuiCheckbox, WeuiCheckboxGroup } from './checkbox'
 import { WeuiSearchbar } from './searchbar'
 import { WeuiUploader } from './uploader'
@@ -68,6 +69,7 @@ import type { WeuiPreviewProps, WeuiPreviewEmits, PreviewItem, PreviewButton } f
 
 // 类型导出 — 表单输入
 import type { WeuiInputProps, WeuiInputEmits } from './input'
+import type { WeuiTextareaProps, WeuiTextareaEmits } from './textarea'
 import type { WeuiCheckboxProps, WeuiCheckboxGroupProps, WeuiCheckboxGroupEmits } from './checkbox'
 import type { WeuiSearchbarProps, WeuiSearchbarEmits } from './searchbar'
 import type { WeuiUploaderProps, WeuiUploaderEmits, UploaderFile } from './uploader'
@@ -98,7 +100,7 @@ const components = [
   // 布局容器
   WeuiCell, WeuiCellGroup, WeuiGrid, WeuiGridItem, WeuiPanel, WeuiMediaBox, WeuiList, WeuiForm, WeuiPreview,
   // 表单输入
-  WeuiInput, WeuiCheckbox, WeuiCheckboxGroup, WeuiSearchbar, WeuiUploader, WeuiAgree,
+  WeuiInput, WeuiTextarea, WeuiCheckbox, WeuiCheckboxGroup, WeuiSearchbar, WeuiUploader, WeuiAgree,
   // 操作反馈
   WeuiOverlayHost, WeuiActionsheet, WeuiDialog, WeuiHalfScreenDialog, WeuiToptips, WeuiToast, WeuiPicker, WeuiGallery, WeuiSlideview,
   // 导航
@@ -122,7 +124,7 @@ export {
   // 布局容器
   WeuiCell, WeuiCellGroup, WeuiGrid, WeuiGridItem, WeuiPanel, WeuiMediaBox, WeuiList, WeuiForm, WeuiPreview,
   // 表单输入
-  WeuiInput, WeuiCheckbox, WeuiCheckboxGroup, WeuiSearchbar, WeuiUploader, WeuiAgree,
+  WeuiInput, WeuiTextarea, WeuiCheckbox, WeuiCheckboxGroup, WeuiSearchbar, WeuiUploader, WeuiAgree,
   // 操作反馈
   WeuiOverlayHost, WeuiActionsheet, Actionsheet, WeuiDialog, Dialog, WeuiHalfScreenDialog, HalfScreenDialog, WeuiToptips, Toptips, WeuiToast, Toast, WeuiPicker, Picker, WeuiGallery, Gallery, WeuiSlideview,
   // 导航
@@ -153,6 +155,7 @@ export type {
   WeuiPreviewProps, WeuiPreviewEmits, PreviewItem, PreviewButton,
   // 表单输入
   WeuiInputProps, WeuiInputEmits,
+  WeuiTextareaProps, WeuiTextareaEmits,
   WeuiCheckboxProps, WeuiCheckboxGroupProps, WeuiCheckboxGroupEmits,
   WeuiSearchbarProps, WeuiSearchbarEmits,
   WeuiUploaderProps, WeuiUploaderEmits, UploaderFile,
