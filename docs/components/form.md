@@ -4,12 +4,13 @@
 
 ## 基础表单结构
 
-通过 `title` 设定表单标题，`desc` 设定描述文字，`footer` 插槽放置提示文字、操作按钮与底部链接等区域。
+通过 `title` 设定表单标题，`desc` 设定描述文字，`footer` 插槽放置提示文字、操作按钮与底部链接等区域。表单页由头部区域、控件区域、提示区域、操作区域和底部信息区域组成。
 
 <div class="demo-block vp-raw">
   <div class="demo-mobile">
-    <weui-form title="表单结构" desc="展示表单页面的信息结构样式">
+    <weui-form title="表单结构" desc="展示表单页面的信息结构样式，分别由头部区域/控件区域/提示区域/操作区域和底部信息区域组成。">
       <div class="weui-cells__group weui-cells__group_form">
+        <div class="weui-cells__title">表单组标题</div>
         <div class="weui-cells">
           <label class="weui-cell weui-cell_active">
             <div class="weui-cell__hd"><span class="weui-label">微信号</span></div>
@@ -17,15 +18,27 @@
           </label>
           <label class="weui-cell weui-cell_active">
             <div class="weui-cell__hd"><span class="weui-label">昵称</span></div>
-            <div class="weui-cell__bd"><input class="weui-input" placeholder="填写昵称"/></div>
+            <div class="weui-cell__bd"><input class="weui-input" placeholder="填写本人微信号的昵称"/></div>
+          </label>
+          <label class="weui-cell weui-cell_active">
+            <div class="weui-cell__hd"><span class="weui-label">联系电话</span><div class="weui-cell__desc">副标题</div></div>
+            <div class="weui-cell__bd"><input class="weui-input" placeholder="填写绑定的电话号码" type="number" pattern="[0-9]*"/></div>
+          </label>
+          <label class="weui-cell weui-cell_active weui-cell_primary">
+            <div class="weui-cell__hd"><span class="weui-label" lang="en">verification address</span></div>
+            <div class="weui-cell__bd"><textarea class="weui-textarea" placeholder="input your address" rows="3"></textarea></div>
           </label>
         </div>
       </div>
       <template #footer>
         <div class="weui-form__tips-area"><p class="weui-form__tips">表单页提示，居中对齐</p></div>
-        <div class="weui-form__opr-area"><a role="button" class="weui-btn weui-btn_primary" href="javascript:">确定</a></div>
+        <div class="weui-form__opr-area"><a role="button" disabled aria-disabled="true" class="weui-btn weui-btn_primary weui-btn_disabled" href="javascript:">确定</a></div>
+        <div class="weui-form__tips-area"><p class="weui-form__tips">表单页提示，居中对齐</p></div>
         <div class="weui-form__extra-area">
-          <div class="weui-footer"><p class="weui-footer__links"><a class="weui-footer__link">底部链接文本</a></p></div>
+          <div class="weui-footer">
+            <p class="weui-footer__links"><a class="weui-footer__link">底部链接文本</a></p>
+            <p class="weui-footer__text">Copyright &copy; 2008-2025 weui.io</p>
+          </div>
         </div>
       </template>
     </weui-form>
@@ -35,8 +48,9 @@
 ::: details 查看代码
 ```vue
 <template>
-  <weui-form title="表单结构" desc="展示表单页面的信息结构样式">
+  <weui-form title="表单结构" desc="展示表单页面的信息结构样式，分别由头部区域/控件区域/提示区域/操作区域和底部信息区域组成。">
     <div class="weui-cells__group weui-cells__group_form">
+      <div class="weui-cells__title">表单组标题</div>
       <div class="weui-cells">
         <label class="weui-cell weui-cell_active">
           <div class="weui-cell__hd"><span class="weui-label">微信号</span></div>
@@ -44,7 +58,15 @@
         </label>
         <label class="weui-cell weui-cell_active">
           <div class="weui-cell__hd"><span class="weui-label">昵称</span></div>
-          <div class="weui-cell__bd"><input class="weui-input" placeholder="填写昵称" /></div>
+          <div class="weui-cell__bd"><input class="weui-input" placeholder="填写本人微信号的昵称" /></div>
+        </label>
+        <label class="weui-cell weui-cell_active">
+          <div class="weui-cell__hd"><span class="weui-label">联系电话</span><div class="weui-cell__desc">副标题</div></div>
+          <div class="weui-cell__bd"><input class="weui-input" placeholder="填写绑定的电话号码" type="number" pattern="[0-9]*" /></div>
+        </label>
+        <label class="weui-cell weui-cell_active weui-cell_primary">
+          <div class="weui-cell__hd"><span class="weui-label" lang="en">verification address</span></div>
+          <div class="weui-cell__bd"><textarea class="weui-textarea" placeholder="input your address" rows="3"></textarea></div>
         </label>
       </div>
     </div>
@@ -53,13 +75,15 @@
         <p class="weui-form__tips">表单页提示，居中对齐</p>
       </div>
       <div class="weui-form__opr-area">
-        <a role="button" class="weui-btn weui-btn_primary" href="javascript:">确定</a>
+        <a role="button" disabled aria-disabled="true" class="weui-btn weui-btn_primary weui-btn_disabled" href="javascript:">确定</a>
+      </div>
+      <div class="weui-form__tips-area">
+        <p class="weui-form__tips">表单页提示，居中对齐</p>
       </div>
       <div class="weui-form__extra-area">
         <div class="weui-footer">
-          <p class="weui-footer__links">
-            <a class="weui-footer__link">底部链接文本</a>
-          </p>
+          <p class="weui-footer__links"><a class="weui-footer__link">底部链接文本</a></p>
+          <p class="weui-footer__text">Copyright &copy; 2008-2025 weui.io</p>
         </div>
       </div>
     </template>
