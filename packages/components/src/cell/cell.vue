@@ -6,7 +6,7 @@
     @click="handleClick"
   >
     <div v-if="hasHeader" :class="['weui-cell__hd', iconClass]">
-      <img v-if="icon" :src="icon" class="weui-cell__icon" mode="aspectFit" />
+      <img v-if="icon" :src="icon" class="weui-cell__icon" />
       <slot v-else name="icon" />
       <template v-if="title">{{ title }}</template>
       <slot v-else name="title" />
@@ -164,5 +164,14 @@ const handleClick = (event: Event) => {
   width: 20px;
   height: 20px;
   vertical-align: middle;
+}
+
+/* 约束 __hd 中通过 icon slot 传入的 weui-icon 尺寸
+   weui.css 中 [class^="weui-icon-"] 默认 width:2.4em，
+   当 icon 组件设置 :size="N" 时 font-size 被覆盖，导致 2.4em 计算值过大。
+   此处用 !important 覆盖 weui.css 的 em 值，固定为 20px */
+.weui-cell__hd [class^="weui-icon-"] {
+  width: 20px !important;
+  height: 20px !important;
 }
 </style>
