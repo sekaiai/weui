@@ -84,6 +84,16 @@ import type { WeuiCheckboxProps, WeuiCheckboxGroupProps, WeuiCheckboxGroupEmits 
 import type { WeuiSearchbarProps, WeuiSearchbarEmits } from './searchbar'
 import type { WeuiUploaderProps, WeuiUploaderEmits, UploaderFile } from './uploader'
 import type { WeuiAgreeProps, WeuiAgreeEmits } from './agree'
+import type { WeuiSwitchProps, WeuiSwitchEmits } from './switch-ctrl'
+import type { WeuiSelectProps, WeuiSelectEmits } from './select'
+import type { WeuiRadioProps, WeuiRadioGroupProps } from './radio'
+
+// 类型导出 — 表单容器
+import type { WeuiFormGroupProps } from './form-group'
+import type { WeuiFormControlProps } from './form-control'
+import type { WeuiFormTipsProps } from './form-tips'
+import type { WeuiFormOprProps } from './form-opr'
+import type { WeuiFormExtraProps } from './form-extra'
 
 // 类型导出 — 操作反馈
 import type { OverlayItem } from './overlay-host'
@@ -110,7 +120,9 @@ const components = [
   // 布局容器
   WeuiCell, WeuiCellGroup, WeuiGrid, WeuiGridItem, WeuiPanel, WeuiMediaBox, WeuiList, WeuiForm, WeuiPreview,
   // 表单输入
-  WeuiInput, WeuiTextarea, WeuiCheckbox, WeuiCheckboxGroup, WeuiSearchbar, WeuiUploader, WeuiAgree,
+  WeuiInput, WeuiTextarea, WeuiCheckbox, WeuiCheckboxGroup, WeuiSearchbar, WeuiUploader, WeuiAgree, WeuiSwitch, WeuiSelect, WeuiRadio, WeuiRadioGroup,
+  // 表单容器
+  WeuiFormGroup, WeuiFormControl, WeuiFormTips, WeuiFormOpr, WeuiFormExtra,
   // 操作反馈
   WeuiOverlayHost, WeuiActionsheet, WeuiDialog, WeuiHalfScreenDialog, WeuiToptips, WeuiToast, WeuiPicker, WeuiGallery, WeuiSlideview,
   // 导航
@@ -134,7 +146,9 @@ export {
   // 布局容器
   WeuiCell, WeuiCellGroup, WeuiGrid, WeuiGridItem, WeuiPanel, WeuiMediaBox, WeuiList, WeuiForm, WeuiPreview,
   // 表单输入
-  WeuiInput, WeuiTextarea, WeuiCheckbox, WeuiCheckboxGroup, WeuiSearchbar, WeuiUploader, WeuiAgree,
+  WeuiInput, WeuiTextarea, WeuiCheckbox, WeuiCheckboxGroup, WeuiSearchbar, WeuiUploader, WeuiAgree, WeuiSwitch, WeuiSelect, WeuiRadio, WeuiRadioGroup,
+  // 表单容器
+  WeuiFormGroup, WeuiFormControl, WeuiFormTips, WeuiFormOpr, WeuiFormExtra,
   // 操作反馈
   WeuiOverlayHost, WeuiActionsheet, Actionsheet, WeuiDialog, Dialog, WeuiHalfScreenDialog, HalfScreenDialog, WeuiToptips, Toptips, WeuiToast, Toast, WeuiPicker, Picker, WeuiGallery, Gallery, WeuiSlideview,
   // 导航
