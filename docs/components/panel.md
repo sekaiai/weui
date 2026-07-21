@@ -34,7 +34,7 @@ const onFooterClick = () => { footerClicked.value = true }
 
 ## 图文组合列表
 
-`Panel` 作为容器，外部 `v-for` 循环 `MediaBox` 并指定 `type="flex"`。配合 `footer-text` 自动渲染"查看更多"链接。
+`Panel` 作为容器，外部 `v-for` 循环 `MediaBox` 并传入 `thumb`。`MediaBox` 会根据是否传入 `thumb`（或 `hd` slot）自动判定为 `appmsg` 图文模式或 `text` 纯文字模式。配合 `footer-text` 自动渲染"查看更多"链接。
 
 <div class="demo-block">
   <div class="demo-mobile">
@@ -42,7 +42,6 @@ const onFooterClick = () => { footerClicked.value = true }
       <weui-media-box
         v-for="item in appmsgItems"
         :key="item.id"
-        type="flex"
         :thumb="item.thumb"
         :title="item.title"
         :desc="item.desc"
@@ -59,7 +58,6 @@ const onFooterClick = () => { footerClicked.value = true }
     <weui-media-box
       v-for="item in items"
       :key="item.id"
-      type="flex"
       :thumb="item.thumb"
       :title="item.title"
       :desc="item.desc"
@@ -80,7 +78,7 @@ const items = ref([
 
 ## 文字组合列表
 
-`MediaBox` 指定 `type="text"` 渲染纯文字组合列表（无缩略图）。
+`MediaBox` 不传 `thumb` 时自动渲染为纯文字组合列表（`weui-media-box_text`）。
 
 <div class="demo-block">
   <div class="demo-mobile">
@@ -88,7 +86,6 @@ const items = ref([
       <weui-media-box
         v-for="item in textItems"
         :key="item.id"
-        type="text"
         :title="item.title"
         :desc="item.desc"
       />
@@ -103,7 +100,6 @@ const items = ref([
     <weui-media-box
       v-for="item in items"
       :key="item.id"
-      type="text"
       :title="item.title"
       :desc="item.desc"
     />
@@ -168,12 +164,12 @@ const items = ref([
 
 ## 文字列表附来源
 
-`MediaBox` 的默认插槽放在 `__bd` 末尾，可用于渲染 `weui-media-box__info` 来源信息。
+`MediaBox` 不传 `thumb` 时为纯文字模式，默认插槽放在 `__bd` 末尾，可用于渲染 `weui-media-box__info` 来源信息。
 
 <div class="demo-block">
   <div class="demo-mobile">
     <weui-panel title="文字列表附来源">
-      <weui-media-box type="text" :title="infoItem.title" :desc="infoItem.desc">
+      <weui-media-box :title="infoItem.title" :desc="infoItem.desc">
         <ul class="weui-media-box__info">
           <li class="weui-media-box__info__meta">文字来源</li>
           <li class="weui-media-box__info__meta">时间</li>
@@ -188,7 +184,7 @@ const items = ref([
 ```vue
 <template>
   <weui-panel title="文字列表附来源">
-    <weui-media-box type="text" :title="item.title" :desc="item.desc">
+    <weui-media-box :title="item.title" :desc="item.desc">
       <ul class="weui-media-box__info">
         <li class="weui-media-box__info__meta">文字来源</li>
         <li class="weui-media-box__info__meta">时间</li>
@@ -219,7 +215,6 @@ const item = ref({
       <weui-media-box
         v-for="item in appmsgItems"
         :key="item.id"
-        type="flex"
         :thumb="item.thumb"
         :title="item.title"
         :desc="item.desc"
@@ -237,7 +232,6 @@ const item = ref({
     <weui-media-box
       v-for="item in items"
       :key="item.id"
-      type="flex"
       :thumb="item.thumb"
       :title="item.title"
       :desc="item.desc"
@@ -265,7 +259,7 @@ const items = ref([{ id: 1, thumb: '...', title: '标题', desc: '描述' }])
       <template #header>
         <div style="font-weight: bold; color: #576b95;">自定义头部</div>
       </template>
-      <weui-media-box type="text" :title="infoItem.title" :desc="infoItem.desc">
+      <weui-media-box :title="infoItem.title" :desc="infoItem.desc">
         <ul class="weui-media-box__info">
           <li class="weui-media-box__info__meta">文字来源</li>
           <li class="weui-media-box__info__meta">时间</li>
@@ -283,7 +277,7 @@ const items = ref([{ id: 1, thumb: '...', title: '标题', desc: '描述' }])
     <template #header>
       <div style="font-weight: bold; color: #576b95;">自定义头部</div>
     </template>
-    <weui-media-box type="text" title="标题一" desc="描述...">
+    <weui-media-box title="标题一" desc="描述...">
       <ul class="weui-media-box__info">
         <li class="weui-media-box__info__meta">文字来源</li>
         <li class="weui-media-box__info__meta">时间</li>
@@ -311,11 +305,11 @@ const items = ref([{ id: 1, thumb: '...', title: '标题', desc: '描述' }])
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
-| type | media-box 类型：`flex`=图文组合，`text`=纯文字，`cells`=小图文组合列表容器 | `'flex' \| 'text' \| 'cells'` | `'flex'` |
-| thumb | 缩略图 URL（仅 flex 模式有效） | `string` | — |
+| type | media-box 类型：`text`=图文/纯文字（根据 `thumb` 自动判断），`cells`=小图文组合列表容器 | `'text' \| 'cells'` | `'text'` |
+| thumb | 缩略图 URL。传入时自动渲染为 `appmsg` 图文模式，否则为 `text` 纯文字模式 | `string` | — |
 | title | 标题 | `string` | — |
 | desc | 描述 | `string` | — |
-| href | 链接地址，传入时用 `<a>` 包裹（仅 flex 模式有效） | `string` | — |
+| href | 链接地址，传入时用 `<a>` 包裹（仅非 cells 模式有效） | `string` | — |
 | ext-class | 扩展类名 | `string` | — |
 
 ## Events
@@ -330,7 +324,7 @@ const items = ref([{ id: 1, thumb: '...', title: '标题', desc: '描述' }])
 
 | 事件名 | 说明 | 回调参数 |
 | --- | --- | --- |
-| click | 点击时触发（仅当 href 未传入时，flex/text 模式有效） | `(event: Event)` |
+| click | 点击时触发（仅当 href 未传入时，非 cells 模式有效） | `(event: Event)` |
 
 ## Slots
 
@@ -346,5 +340,5 @@ const items = ref([{ id: 1, thumb: '...', title: '标题', desc: '描述' }])
 
 | 名称 | 说明 |
 | --- | --- |
-| default | flex/text 模式：放在 `__bd` 末尾（如 info 来源列表）；cells 模式：放 `Cell` 组件 |
-| hd | 自定义头部，替代 `thumb`（仅 flex 模式） |
+| default | appmsg/text 模式：放在 `__bd` 末尾（如 info 来源列表）；cells 模式：放 `Cell` 组件 |
+| hd | 自定义头部，替代 `thumb`。传入时自动切换为 appmsg 图文模式 |

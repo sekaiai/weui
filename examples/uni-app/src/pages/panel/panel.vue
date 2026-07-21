@@ -13,7 +13,6 @@
           <weui-media-box
             v-for="item in appmsgItems"
             :key="item.id"
-            type="flex"
             :thumb="item.thumb"
             :title="item.title"
             :desc="item.desc"
@@ -29,7 +28,6 @@
           <weui-media-box
             v-for="item in textItems"
             :key="item.id"
-            type="text"
             :title="item.title"
             :desc="item.desc"
           />
@@ -56,7 +54,7 @@
       <div class="demo-section">
         <div class="demo-section__title">文字列表附来源</div>
         <weui-panel title="文字列表附来源">
-          <weui-media-box type="text" :title="infoItem.title" :desc="infoItem.desc">
+          <weui-media-box :title="infoItem.title" :desc="infoItem.desc">
             <ul class="weui-media-box__info">
               <li class="weui-media-box__info__meta">文字来源</li>
               <li class="weui-media-box__info__meta">时间</li>
@@ -73,7 +71,7 @@
           <template #header>
             <div style="font-weight: bold; color: #576b95;">自定义头部</div>
           </template>
-          <weui-media-box type="text" :title="infoItem.title" :desc="infoItem.desc">
+          <weui-media-box :title="infoItem.title" :desc="infoItem.desc">
             <ul class="weui-media-box__info">
               <li class="weui-media-box__info__meta">文字来源</li>
               <li class="weui-media-box__info__meta">时间</li>

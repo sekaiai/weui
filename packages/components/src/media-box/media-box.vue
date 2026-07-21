@@ -1,6 +1,13 @@
 <template>
-  <a v-if="type === 'flex' && href" :href="href" :class="rootClass" @click="onClick">
-    <div v-if="hasHd" class="weui-media-box__hd">
+  <!-- cells 模式：小图文组合列表容器 -->
+  <div v-if="type === 'cells'" :class="rootClass">
+    <div class="weui-cells">
+      <slot />
+    </div>
+  </div>
+  <!-- appmsg 模式（有 thumb 或 hd slot） + href：用 <a> 包裹 -->
+  <a v-else-if="hasHd && href" :href="href" :class="rootClass" @click="onClick">
+    <div class="weui-media-box__hd">
       <slot name="hd">
         <img v-if="thumb" class="weui-media-box__thumb" :src="thumb" />
       </slot>
@@ -11,8 +18,9 @@
       <slot />
     </div>
   </a>
-  <div v-else-if="type === 'flex'" :class="rootClass" @click="onClick">
-    <div v-if="hasHd" class="weui-media-box__hd">
+  <!-- appmsg 模式（有 thumb 或 hd slot）无 href -->
+  <div v-else-if="hasHd" :class="rootClass" @click="onClick">
+    <div class="weui-media-box__hd">
       <slot name="hd">
         <img v-if="thumb" class="weui-media-box__thumb" :src="thumb" />
       </slot>
@@ -23,15 +31,11 @@
       <slot />
     </div>
   </div>
-  <div v-else-if="type === 'text'" :class="rootClass" @click="onClick">
+  <!-- text 模式（无 thumb 且无 hd slot） -->
+  <div v-else :class="rootClass" @click="onClick">
     <strong v-if="title" class="weui-media-box__title">{{ title }}</strong>
     <p v-if="desc" class="weui-media-box__desc">{{ desc }}</p>
     <slot />
-  </div>
-  <div v-else :class="rootClass">
-    <div class="weui-cells">
-      <slot />
-    </div>
   </div>
 </template>
 
@@ -48,18 +52,18 @@ export default {
 <script setup lang="ts">
 import { computed, useSlots } from 'vue'
 
-export type WeuiMediaBoxType = 'flex' | 'text' | 'cells'
+export type WeuiMediaBoxType = 'text' | 'cells'
 
 export interface WeuiMediaBoxProps {
-  /** media-box 类型：flex=图文组合，text=纯文字组合，cells=小图文组合列表容器 */
-  type: WeuiMediaBoxType
-  /** 缩略图 URL（仅 flex 模式有效） */
+  /** media-box 类型：text=纯文字或图文组合（根据 thumb 自动判断），cells=小图文组合列表容器 */
+  type?: WeuiMediaBoxType
+  /** 缩略图 URL。传入时自动渲染为 appmsg 图文模式，否则为 text 纯文字模式 */
   thumb?: string
   /** 标题，渲染为 <strong class="weui-media-box__title"> */
   title?: string
   /** 描述，渲染为 <p class="weui-media-box__desc"> */
   desc?: string
-  /** 链接地址，传入时整个 media-box 用 <a> 包裹（仅 flex 模式有效） */
+  /** 链接地址，传入时整个 media-box 用 <a> 包裹（仅非 cells 模式有效） */
   href?: string
   /** 扩展类名 */
   extClass?: string
@@ -70,7 +74,7 @@ export interface WeuiMediaBoxEmits {
 }
 
 const props = withDefaults(defineProps<WeuiMediaBoxProps>(), {
-  type: 'flex',
+  type: 'text',
   thumb: undefined,
   title: undefined,
   desc: undefined,
@@ -82,20 +86,20 @@ const emit = defineEmits<WeuiMediaBoxEmits>()
 
 const slots = useSlots()
 
+const hasHd = computed(() => Boolean(props.thumb || slots.hd))
+
 const rootClass = computed(() => {
   const classes: string[] = ['weui-media-box']
-  // 类型 → 官方类名后缀映射
-  const suffixMap: Record<WeuiMediaBoxType, string> = {
-    flex: 'appmsg',
-    text: 'text',
-    cells: 'small-appmsg',
+  if (props.type === 'cells') {
+    classes.push('weui-media-box_small-appmsg')
+  } else if (hasHd.value) {
+    classes.push('weui-media-box_appmsg')
+  } else {
+    classes.push('weui-media-box_text')
   }
-  classes.push(`weui-media-box_${suffixMap[props.type]}`)
   if (props.extClass) classes.push(props.extClass)
   return classes
 })
-
-const hasHd = computed(() => Boolean(props.thumb || slots.hd))
 
 const onClick = (event: Event) => {
   if (!props.href) {
