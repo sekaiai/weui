@@ -4,10 +4,11 @@ import WeuiAgree from '../agree.vue'
 
 describe('WeuiAgree', () => {
   describe('基础渲染', () => {
-    it('根元素为 label.weui-agree', () => {
+    it('根元素为 label 且带 weui-agree 和 weui-wa-hotarea 类', () => {
       const wrapper = mount(WeuiAgree)
       expect(wrapper.element.tagName).toBe('LABEL')
       expect(wrapper.classes()).toContain('weui-agree')
+      expect(wrapper.classes()).toContain('weui-wa-hotarea')
     })
 
     it('包含 checkbox 和文本区域', () => {
