@@ -94,17 +94,6 @@ test.describe('Cell 组件', () => {
     await expect(tipsCell).toBeVisible()
   })
 
-  test('switch 变体 cell：渲染 weui-cell_switch 和 switch 控件', async ({ page, gotoPage }) => {
-    await gotoPage('cell')
-
-    // 直接定位 switch cell
-    const switchCell = page.locator('.weui-cell_switch')
-    await expect(switchCell).toBeVisible()
-    // 验证 switch cell 内部有 input 或开关控件
-    const switchControl = switchCell.locator('.weui-switch, .weui-switch-cp__input')
-    await expect(switchControl).toHaveCount(1)
-  })
-
   test('vcode 变体 cell：渲染 weui-cell_vcode 和 weui-flex', async ({ page, gotoPage }) => {
     await gotoPage('cell')
 

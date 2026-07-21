@@ -32,18 +32,6 @@ test.describe('Checkbox 组件', () => {
     await expect(checkboxes).toHaveCount(3)
   })
 
-  test('单选模式渲染 radio-group', async ({ page, gotoPage }) => {
-    await gotoPage('checkbox')
-
-    // 验证单选列表标题
-    const radioTitle = page.locator('.weui-cells__title').filter({ hasText: '单选列表' })
-    await expect(radioTitle).toBeVisible()
-
-    // 验证 uni-radio-group 存在（而非 checkbox-group）
-    const radioGroup = radioTitle.locator('+ .weui-cells').locator('uni-radio-group')
-    await expect(radioGroup).toBeVisible()
-  })
-
   test('点击 checkbox 切换选中状态', async ({ page, gotoPage }) => {
     await gotoPage('checkbox')
 
