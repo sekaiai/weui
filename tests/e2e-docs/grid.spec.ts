@@ -58,17 +58,19 @@ test.describe('Grid 文档', () => {
   test('点击事件：点击宫格触发 click 并更新计数', async ({ page, gotoDocsPage }) => {
     await gotoDocsPage('grid')
     const clickDemo = page.locator('.demo-block').nth(3)
+    // 结果 <p> 没有 class，使用 :not(.weui-grid__label) 排除 9 个宫格 label <p>
+    const resultText = clickDemo.locator('p:not(.weui-grid__label)')
     // 初始无计数文字
-    await expect(clickDemo.locator('p')).toHaveCount(0)
+    await expect(resultText).toHaveCount(0)
     // 点击第一个宫格（<view> 自定义元素，用 evaluate 触发原生 click）
     const firstItem = clickDemo.locator('.weui-grid').first()
     await firstItem.evaluate((el) => el.click())
     // 计数更新为 1，最近一次为"成功"
-    await expect(clickDemo.locator('p')).toContainText('已点击 1 次')
-    await expect(clickDemo.locator('p')).toContainText('成功')
+    await expect(resultText).toContainText('已点击 1 次')
+    await expect(resultText).toContainText('成功')
     // 再点击第二个宫格
     await clickDemo.locator('.weui-grid').nth(1).evaluate((el) => el.click())
-    await expect(clickDemo.locator('p')).toContainText('已点击 2 次')
-    await expect(clickDemo.locator('p')).toContainText('信息')
+    await expect(resultText).toContainText('已点击 2 次')
+    await expect(resultText).toContainText('信息')
   })
 })

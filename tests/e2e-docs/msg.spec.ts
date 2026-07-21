@@ -45,8 +45,8 @@ test.describe('Msg 文档', () => {
 
   test('自定义内容：默认插槽替换图标与标题区', async ({ page, gotoDocsPage }) => {
     await gotoDocsPage('msg')
-    // 自定义内容 demo：index 5
-    const slotDemo = page.locator('.demo-block').nth(5)
+    // 自定义内容 demo：index 6（含底部提示 demo 在 index 5）
+    const slotDemo = page.locator('.demo-block').nth(6)
     await expect(slotDemo.locator('.weui-msg')).toHaveCount(1)
     // 插槽内容渲染
     await expect(slotDemo).toContainText('完全自定义的内容')
@@ -59,8 +59,8 @@ test.describe('Msg 文档', () => {
 
   test('底部额外区域：footer 插槽渲染 weui-msg__extra-area', async ({ page, gotoDocsPage }) => {
     await gotoDocsPage('msg')
-    // footer demo：index 6
-    const footerDemo = page.locator('.demo-block').nth(6)
+    // footer demo：index 7（含底部提示 demo 在 index 5）
+    const footerDemo = page.locator('.demo-block').nth(7)
     await expect(footerDemo.locator('.weui-msg__extra-area')).toHaveCount(1)
     await expect(footerDemo.locator('.weui-msg__extra-area')).toContainText('Copyright')
   })
@@ -71,8 +71,9 @@ test.describe('Msg 文档', () => {
     const btns = firstDemo.locator('.weui-msg__opr-area .weui-btn')
     // 点击「推荐操作」按钮（view 自定义元素，用 evaluate 触发原生 click）
     await btns.nth(0).evaluate((el) => el.click())
-    // 验证提示文字更新
-    await expect(firstDemo.locator('p')).toContainText('推荐操作')
-    await expect(firstDemo.locator('p')).toContainText('index=0')
+    // 验证提示文字更新 — 只匹配无 class 的结果 <p>（避免命中 .weui-msg__desc / .weui-btn-area）
+    const resultText = firstDemo.locator('p:not([class])')
+    await expect(resultText).toContainText('推荐操作')
+    await expect(resultText).toContainText('index=0')
   })
 })

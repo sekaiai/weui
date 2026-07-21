@@ -3,9 +3,7 @@
     <!-- 头部：title 或 header slot -->
     <div v-if="hasHeader" class="weui-form-preview__hd">
       <slot name="header">
-        <div class="weui-form-preview__item">
-          <em class="weui-form-preview__value">{{ title }}</em>
-        </div>
+        <div class="weui-form-preview__value">{{ title }}</div>
       </slot>
     </div>
 

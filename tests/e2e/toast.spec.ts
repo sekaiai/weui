@@ -45,7 +45,7 @@ test.describe('Toast 组件', () => {
     await typeSection.locator('.weui-btn').filter({ hasText: 'loading' }).click()
     const loadingToast = page.locator('.weui-toast')
     await expect(loadingToast).toBeVisible({ timeout: 5_000 })
-    await expect(loadingToast.locator('.weui-icon_toast')).toHaveClass(/weui-loading/)
+    await expect(loadingToast.locator('.weui-icon_toast')).toHaveClass(/weui-primary-loading/)
     // 等待自动关闭
     await expect(loadingToast).not.toBeVisible({ timeout: 3_000 })
 
@@ -187,7 +187,7 @@ test.describe('Toast 组件', () => {
     await imperativeSection.locator('.weui-btn').filter({ hasText: 'Toast.loading' }).click()
     const loadingToast = page.locator('.weui-toast')
     await expect(loadingToast).toBeVisible({ timeout: 5_000 })
-    await expect(loadingToast.locator('.weui-icon_toast')).toHaveClass(/weui-loading/)
+    await expect(loadingToast.locator('.weui-icon_toast')).toHaveClass(/weui-primary-loading/)
     await expect(loadingToast.locator('.weui-toast__content')).toContainText('加载中')
 
     // 等待 3 秒，验证 loading 仍可见（不自动关闭）
