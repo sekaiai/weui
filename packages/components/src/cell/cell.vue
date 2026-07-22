@@ -17,27 +17,7 @@
       <slot v-if="variant === 'vcode'" name="vcode" />
     </div>
     <div v-if="hasFooter" :class="footerClass">
-      <template v-if="variant === 'switch'">
-        <span v-if="switchCp" class="weui-switch-cp">
-          <input
-            class="weui-switch-cp__input"
-            type="checkbox"
-            :checked="switchModelValue"
-            :disabled="switchDisabled"
-            @change="onSwitchChange"
-          />
-          <div class="weui-switch-cp__box"></div>
-        </span>
-        <input
-          v-else
-          type="checkbox"
-          class="weui-switch"
-          :checked="switchModelValue"
-          :disabled="switchDisabled"
-          @change="onSwitchChange"
-        />
-      </template>
-      <template v-else-if="footer">{{ footer }}</template>
+      <template v-if="footer">{{ footer }}</template>
       <slot v-else name="footer" />
     </div>
   </div>
@@ -115,7 +95,6 @@ export interface WeuiCellEmits {
   (e: 'click', event: Event): void
   (e: 'navigate', res: unknown): void
   (e: 'navigate-error', err: unknown): void
-  (e: 'update:switchModelValue', value: boolean): void
 }
 
 const props = withDefaults(defineProps<WeuiCellProps>(), {
@@ -144,16 +123,8 @@ const rootClass = computed(() => {
   const classes: string[] = ['weui-cell']
   if (props.link || props.variant === 'access') classes.push('weui-cell_access')
   if (props.variant === 'link') classes.push('weui-cell_link')
-  if (props.variant === 'switch') classes.push('weui-cell_switch')
   if (props.variant === 'vcode') classes.push('weui-cell_vcode')
   if (props.variant === 'warn') classes.push('weui-cell_warn')
-  if (props.variant === 'select') classes.push('weui-cell_select')
-  if (props.variant === 'select-before') {
-    classes.push('weui-cell_select', 'weui-cell_select-before')
-  }
-  if (props.variant === 'select-after') {
-    classes.push('weui-cell_select', 'weui-cell_select-after')
-  }
   if (props.variant === 'uploader') classes.push('weui-cell_uploader')
   if (!props.inline) classes.push('weui-cell_vertical')
   if (props.extClass) classes.push(props.extClass)
