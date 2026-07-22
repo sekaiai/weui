@@ -22,7 +22,7 @@ test.describe('Form 文档', () => {
     const demo = page.locator('.demo-block').nth(0)
     await expect(demo.locator('.weui-form__title')).toContainText('表单结构')
     await expect(demo.locator('.weui-form__desc')).toHaveCount(1)
-    await expect(demo.locator('.weui-form__tips-area')).toHaveCount(1)
+    await expect(demo.locator('.weui-form__tips-area')).toHaveCount(2)
     await expect(demo.locator('.weui-form__opr-area')).toHaveCount(1)
     await expect(demo.locator('.weui-form__extra-area')).toHaveCount(1)
   })
@@ -49,7 +49,7 @@ test.describe('Form 文档', () => {
 
   test('Demo 5 底部悬浮表单：渲染 ext-class 和 Agree', async ({ page, gotoDocsPage }) => {
     await gotoDocsPage('form')
-    const demo = page.locator('.demo-block').nth(4)
+    const demo = page.locator('.demo-block').nth(5)
     await expect(demo.locator('.weui-bottom-fixed-opr-page')).toHaveCount(1)
     await expect(demo.locator('.weui-agree')).toHaveCount(1)
   })
