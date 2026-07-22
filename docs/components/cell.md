@@ -204,7 +204,7 @@ const onCellClick = () => {
     <weui-cell-group title="变体示例">
       <weui-cell variant="warn" title="警告项" value="说明文字" />
       <weui-cell variant="vcode" title="验证码">
-        <template #footer><weui-button type="primary" size="mini">获取验证码</weui-button></template>
+        <template #vcode><weui-button type="primary" size="mini">获取验证码</weui-button></template>
       </weui-cell>
       <weui-cell variant="link" title="链接型" />
     </weui-cell-group>
