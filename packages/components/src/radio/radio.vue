@@ -48,6 +48,7 @@ interface RadioGroupContext {
   modelValue: { value: string }
   name: { value: string }
   disabled: { value: boolean }
+  onChange?: (value: string) => void
 }
 
 const group = inject<RadioGroupContext | null>('weuiRadioGroup', null)
@@ -63,6 +64,10 @@ const rootClass = computed(() => {
 })
 
 const onChange = () => {
-  emit('change', props.value)
+  if (group?.onChange) {
+    group.onChange(props.value)
+  } else {
+    emit('change', props.value)
+  }
 }
 </script>

@@ -1,12 +1,14 @@
 <template>
   <div :class="groupClass" :role="ariaRole">
-    <div v-if="title" class="weui-cells__title">{{ title }}</div>
-    <slot v-else name="title" />
-    <div :class="cellsClass">
+    <weui-cells-title>
+      <slot name="title">{{ title }}</slot>
+    </weui-cells-title>
+    <weui-cells :ext-class="cellsExtClass">
       <slot />
-    </div>
-    <div v-if="footer" class="weui-cells__tips">{{ footer }}</div>
-    <slot v-else name="footer" />
+    </weui-cells>
+    <weui-cells-tips>
+      <slot name="footer">{{ footer }}</slot>
+    </weui-cells-tips>
   </div>
 </template>
 
@@ -22,8 +24,7 @@ export default {
 
 <script setup lang="ts">
 import { computed } from 'vue'
-
-export type WeuiCellGroupVariant = 'default' | 'form' | 'radio' | 'checkbox'
+import { WeuiCellsTitle, WeuiCells, WeuiCellsTips } from '../cells'
 
 export interface WeuiCellGroupProps {
   /** 组标题 */
@@ -32,8 +33,10 @@ export interface WeuiCellGroupProps {
   footer?: string
   /** 是否为表单型组（追加 weui-cells__group_form） */
   form?: boolean
-  /** 视觉变体 */
-  variant?: WeuiCellGroupVariant
+  /** 是否为单选项组（内部 weui-cells 追加 weui-cells_radio） */
+  radio?: boolean
+  /** 是否为复选框组（内部 weui-cells 追加 weui-cells_checkbox） */
+  checkbox?: boolean
   /** 根元素扩展类名 */
   extClass?: string
   /** 根元素 aria-role */
@@ -44,23 +47,24 @@ const props = withDefaults(defineProps<WeuiCellGroupProps>(), {
   title: undefined,
   footer: undefined,
   form: false,
-  variant: 'default',
+  radio: false,
+  checkbox: false,
   extClass: undefined,
   ariaRole: undefined,
 })
 
 const groupClass = computed(() => {
   const classes: string[] = ['weui-cells__group']
-  if (props.form || props.variant === 'form') classes.push('weui-cells__group_form')
+  if (props.form) classes.push('weui-cells__group_form')
   if (props.extClass) classes.push(props.extClass)
   return classes
 })
 
-const cellsClass = computed(() => {
-  const classes: string[] = ['weui-cells']
-  if (props.variant === 'radio') classes.push('weui-cells_radio')
-  if (props.variant === 'checkbox') classes.push('weui-cells_checkbox')
-  if (props.variant === 'form' || props.form) classes.push('weui-cells_form')
-  return classes
+const cellsExtClass = computed(() => {
+  const classes: string[] = []
+  if (props.radio) classes.push('weui-cells_radio')
+  if (props.checkbox) classes.push('weui-cells_checkbox')
+  if (props.form) classes.push('weui-cells_form')
+  return classes.join(' ') || undefined
 })
 </script>

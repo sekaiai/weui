@@ -41,6 +41,8 @@ export interface WeuiTextareaProps {
   label?: string
   disabled?: boolean
   warn?: boolean
+  /** 内容顶部对齐，适合多行文本域 */
+  primary?: boolean
   vertical?: boolean
   extClass?: string
 }
@@ -57,6 +59,7 @@ const props = withDefaults(defineProps<WeuiTextareaProps>(), {
   showCount: true,
   disabled: false,
   warn: false,
+  primary: false,
   vertical: false,
 })
 
@@ -65,6 +68,7 @@ const emit = defineEmits<WeuiTextareaEmits>()
 const rootClass = computed(() => {
   const classes: string[] = ['weui-cell', 'weui-cell_active']
   if (props.warn) classes.push('weui-cell_warn')
+  if (props.primary) classes.push('weui-cell_primary')
   if (props.vertical) classes.push('weui-cell_vertical')
   if (props.extClass) classes.push(props.extClass)
   return classes

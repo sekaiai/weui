@@ -13,10 +13,10 @@ import { WeuiLoadmore } from './loadmore'
 
 // 布局容器
 import { WeuiCell, WeuiCellGroup } from './cell'
+import { WeuiCells, WeuiCellsTitle, WeuiCellsTips } from './cells'
 import { WeuiGrid, WeuiGridItem } from './grid'
 import { WeuiPanel } from './panel'
 import { WeuiMediaBox } from './media-box'
-import { WeuiList } from './list'
 import { WeuiForm } from './form'
 import { WeuiPreview } from './preview'
 import { WeuiAgree } from './agree'
@@ -32,7 +32,6 @@ import { WeuiSelect } from './select'
 import { WeuiRadio, WeuiRadioGroup } from './radio'
 
 // 表单容器
-import { WeuiFormGroup } from './form-group'
 import { WeuiFormControl } from './form-control'
 import { WeuiFormTips } from './form-tips'
 import { WeuiFormOpr } from './form-opr'
@@ -69,11 +68,11 @@ import type { WeuiProgressProps } from './progress'
 import type { WeuiLoadmoreProps } from './loadmore'
 
 // 类型导出 — 布局容器
-import type { WeuiCellProps, WeuiCellEmits, WeuiCellVariant, WeuiCellGroupProps, WeuiCellGroupVariant } from './cell'
+import type { WeuiCellProps, WeuiCellEmits, WeuiCellGroupProps } from './cell'
+import type { WeuiCellsProps, WeuiCellsTitleProps, WeuiCellsTipsProps } from './cells'
 import type { WeuiGridProps, WeuiGridItemProps, WeuiGridItemEmits } from './grid'
 import type { WeuiPanelProps, WeuiPanelEmits } from './panel'
 import type { WeuiMediaBoxProps, WeuiMediaBoxEmits, WeuiMediaBoxType } from './media-box'
-import type { WeuiListProps } from './list'
 import type { WeuiFormProps } from './form'
 import type { WeuiPreviewProps, WeuiPreviewEmits, PreviewItem, PreviewButton } from './preview'
 
@@ -89,7 +88,6 @@ import type { WeuiSelectProps, WeuiSelectEmits } from './select'
 import type { WeuiRadioProps, WeuiRadioGroupProps } from './radio'
 
 // 类型导出 — 表单容器
-import type { WeuiFormGroupProps } from './form-group'
 import type { WeuiFormControlProps } from './form-control'
 import type { WeuiFormTipsProps } from './form-tips'
 import type { WeuiFormOprProps } from './form-opr'
@@ -118,11 +116,11 @@ const components = [
   // 基础组件
   WeuiButton, WeuiBadge, WeuiIcon, WeuiLoading, WeuiArticle, WeuiFlex, WeuiFlexItem, WeuiFooter, WeuiProgress, WeuiLoadmore,
   // 布局容器
-  WeuiCell, WeuiCellGroup, WeuiGrid, WeuiGridItem, WeuiPanel, WeuiMediaBox, WeuiList, WeuiForm, WeuiPreview,
+  WeuiCell, WeuiCellGroup, WeuiCells, WeuiCellsTitle, WeuiCellsTips, WeuiGrid, WeuiGridItem, WeuiPanel, WeuiMediaBox, WeuiForm, WeuiPreview,
   // 表单输入
   WeuiInput, WeuiTextarea, WeuiCheckbox, WeuiCheckboxGroup, WeuiSearchbar, WeuiUploader, WeuiAgree, WeuiSwitch, WeuiSelect, WeuiRadio, WeuiRadioGroup,
   // 表单容器
-  WeuiFormGroup, WeuiFormControl, WeuiFormTips, WeuiFormOpr, WeuiFormExtra,
+  WeuiFormControl, WeuiFormTips, WeuiFormOpr, WeuiFormExtra,
   // 操作反馈
   WeuiOverlayHost, WeuiActionsheet, WeuiDialog, WeuiHalfScreenDialog, WeuiToptips, WeuiToast, WeuiPicker, WeuiGallery, WeuiSlideview,
   // 导航
@@ -144,11 +142,11 @@ export {
   // 基础组件
   WeuiButton, WeuiBadge, WeuiIcon, WeuiLoading, WeuiArticle, WeuiFlex, WeuiFlexItem, WeuiFooter, WeuiProgress, WeuiLoadmore,
   // 布局容器
-  WeuiCell, WeuiCellGroup, WeuiGrid, WeuiGridItem, WeuiPanel, WeuiMediaBox, WeuiList, WeuiForm, WeuiPreview,
+  WeuiCell, WeuiCellGroup, WeuiCells, WeuiCellsTitle, WeuiCellsTips, WeuiGrid, WeuiGridItem, WeuiPanel, WeuiMediaBox, WeuiForm, WeuiPreview,
   // 表单输入
   WeuiInput, WeuiTextarea, WeuiCheckbox, WeuiCheckboxGroup, WeuiSearchbar, WeuiUploader, WeuiAgree, WeuiSwitch, WeuiSelect, WeuiRadio, WeuiRadioGroup,
   // 表单容器
-  WeuiFormGroup, WeuiFormControl, WeuiFormTips, WeuiFormOpr, WeuiFormExtra,
+  WeuiFormControl, WeuiFormTips, WeuiFormOpr, WeuiFormExtra,
   // 操作反馈
   WeuiOverlayHost, WeuiActionsheet, Actionsheet, WeuiDialog, Dialog, WeuiHalfScreenDialog, HalfScreenDialog, WeuiToptips, Toptips, WeuiToast, Toast, WeuiPicker, Picker, WeuiGallery, Gallery, WeuiSlideview,
   // 导航
@@ -170,11 +168,11 @@ export type {
   WeuiProgressProps,
   WeuiLoadmoreProps,
   // 布局容器
-  WeuiCellProps, WeuiCellEmits, WeuiCellVariant, WeuiCellGroupProps, WeuiCellGroupVariant,
+  WeuiCellProps, WeuiCellEmits, WeuiCellGroupProps,
+  WeuiCellsProps, WeuiCellsTitleProps, WeuiCellsTipsProps,
   WeuiGridProps, WeuiGridItemProps, WeuiGridItemEmits,
   WeuiPanelProps, WeuiPanelEmits,
   WeuiMediaBoxProps, WeuiMediaBoxEmits, WeuiMediaBoxType,
-  WeuiListProps,
   WeuiFormProps,
   WeuiPreviewProps, WeuiPreviewEmits, PreviewItem, PreviewButton,
   // 表单输入
@@ -189,7 +187,6 @@ export type {
   WeuiSelectProps, WeuiSelectEmits,
   WeuiRadioProps, WeuiRadioGroupProps,
   // 表单容器
-  WeuiFormGroupProps,
   WeuiFormControlProps,
   WeuiFormTipsProps,
   WeuiFormOprProps,

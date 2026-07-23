@@ -9,6 +9,8 @@
 </template>
 
 <script lang="ts">
+let radioGroupId = 0
+
 export default {
   name: 'WeuiRadioGroup',
   options: {
@@ -43,6 +45,9 @@ const emit = defineEmits<{
   (e: 'change', value: string): void
 }>()
 
+const generatedName = `weui-radio-group-${radioGroupId++}`
+const radioName = computed(() => props.name || generatedName)
+
 const groupClass = computed(() => {
   const classes: string[] = ['weui-cells__group']
   if (props.form) classes.push('weui-cells__group_form')
@@ -56,9 +61,15 @@ const cellsClass = computed(() => {
   return classes
 })
 
+const onChange = (value: string) => {
+  emit('update:modelValue', value)
+  emit('change', value)
+}
+
 provide('weuiRadioGroup', {
   modelValue: computed(() => props.modelValue),
-  name: computed(() => props.name),
+  name: radioName,
   disabled: computed(() => props.disabled),
+  onChange,
 })
 </script>

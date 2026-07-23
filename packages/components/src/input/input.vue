@@ -1,8 +1,8 @@
 <template>
-  <div :class="rootClass">
+  <div v-if="clearable" class="weui-input__wrapper">
     <input
       ref="inputRef"
-      class="weui-input"
+      :class="inputClass"
       :value="modelValue"
       :type="inputType"
       :placeholder="placeholder"
@@ -15,12 +15,29 @@
       @keydown.enter="handleConfirm"
       @confirm="handleConfirm"
     />
-    <div
+    <button
       v-if="showClear"
+      type="button"
       class="weui-icon-clear"
       @click="handleClear"
     />
   </div>
+  <input
+    v-else
+    ref="inputRef"
+    :class="inputClass"
+    :value="modelValue"
+    :type="inputType"
+    :placeholder="placeholder"
+    :disabled="disabled"
+    :maxlength="maxlength"
+    v-bind="uniOnlyAttrs"
+    @input="handleInput"
+    @focus="handleFocus"
+    @blur="handleBlur"
+    @keydown.enter="handleConfirm"
+    @confirm="handleConfirm"
+  />
 </template>
 
 <script lang="ts">
@@ -77,7 +94,7 @@ const emit = defineEmits<WeuiInputEmits>()
 
 const inputRef = ref<HTMLInputElement | null>(null)
 
-const rootClass = computed(() => {
+const inputClass = computed(() => {
   const classes: string[] = ['weui-input']
   if (props.extClass) classes.push(props.extClass)
   return classes
@@ -142,5 +159,12 @@ const handleClear = () => {
   width: 16px;
   height: 16px;
   background-color: currentColor;
+}
+
+.weui-input__wrapper {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  align-items: center;
 }
 </style>

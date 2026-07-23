@@ -11,5 +11,5 @@ WeuiCellGroup.install = (app: App) => {
 }
 
 export { WeuiCell, WeuiCellGroup }
-export type { WeuiCellProps, WeuiCellEmits, WeuiCellVariant } from './cell.vue'
-export type { WeuiCellGroupProps, WeuiCellGroupVariant } from './cell-group.vue'
+export type { WeuiCellProps, WeuiCellEmits } from './cell.vue'
+export type { WeuiCellGroupProps } from './cell-group.vue'
