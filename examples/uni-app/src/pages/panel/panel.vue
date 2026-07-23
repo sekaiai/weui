@@ -42,7 +42,7 @@
             <weui-cell
               v-for="item in cellItems"
               :key="item.id"
-              variant="access"
+              access
               :icon="item.thumb"
               :value="item.title"
             />
