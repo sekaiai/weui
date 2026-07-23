@@ -127,7 +127,7 @@ const items = ref([
         <weui-cell
           v-for="item in cellItems"
           :key="item.id"
-          variant="access"
+          access
           :icon="item.thumb"
           :value="item.title"
         />
@@ -144,7 +144,7 @@ const items = ref([
       <weui-cell
         v-for="item in items"
         :key="item.id"
-        variant="access"
+        access
         :icon="item.thumb"
         :value="item.title"
       />
