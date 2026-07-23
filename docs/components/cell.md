@@ -1,320 +1,155 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onBeforeUnmount, ref } from 'vue'
 
 const clickResult = ref('')
+const vcodeSeconds = ref(0)
+let vcodeTimer: ReturnType<typeof setInterval> | undefined
 
-const onCellClick = () => {
-  clickResult.value = 'cell click 事件已触发'
+const sendVcode = () => {
+  if (vcodeSeconds.value) return
+  vcodeSeconds.value = 59
+  vcodeTimer = setInterval(() => {
+    vcodeSeconds.value -= 1
+    if (!vcodeSeconds.value && vcodeTimer) clearInterval(vcodeTimer)
+  }, 1000)
 }
+
+onBeforeUnmount(() => vcodeTimer && clearInterval(vcodeTimer))
 </script>
 
 # Cell 列表项
 
-Cell 是 WeUI 中最基础的布局组件，用于构建列表项、表单项、设置项等。`cell-group` 作为容器，提供标题、说明文字和分组样式。Cell 由 header（标题/图标）、body（内容）、footer（说明）三部分组成。
+Cell 由 header、body 与 footer 构成，适用于表单项、设置项和列表项。WeUI 的状态样式均使用明确 attr；`ext-class` 仅用于业务自定义样式。
 
 ## 基础用法
 
-使用 `weui-cell-group` 包裹 `weui-cell`，通过 `title` 和 `value` 设置左右内容。
+通过默认插槽提供正文，通过 `desc` 提供右侧说明。
 
-<div class="demo-block vp-raw">
-  <div class="demo-mobile">
-    <weui-cell-group title="带说明的列表项">
-      <weui-cell title="标题文字" value="说明文字" />
-      <weui-cell title="标题文字" value="说明文字" />
-    </weui-cell-group>
-  </div>
-</div>
+<div class="demo-block vp-raw"><div class="demo-mobile"><weui-cell-group title="带说明的列表项"><weui-cell desc="说明文字">标题文字</weui-cell><weui-cell desc="说明文字">标题文字</weui-cell></weui-cell-group></div></div>
 
 ::: details 查看代码
 ```vue
-<template>
-  <weui-cell-group title="带说明的列表项">
-    <weui-cell title="标题文字" value="说明文字" />
-    <weui-cell title="标题文字" value="说明文字" />
-  </weui-cell-group>
-</template>
+<weui-cell-group title="带说明的列表项">
+  <weui-cell desc="说明文字">标题文字</weui-cell>
+  <weui-cell desc="说明文字">标题文字</weui-cell>
+</weui-cell-group>
 ```
 :::
 
-## 带图标
+## 表单标签
 
-通过 `icon` 插槽自定义 header 图标（`icon` 属性用于 uni-app `image` 地址）。下方使用 `weui-icon` 作为图标。
+`label` 渲染表单标签；验证码场景使用 `vcode`，输入框与发送按钮都放在默认插槽。点击按钮会模拟发送并从“已发送(59)”开始倒计时。
 
-<div class="demo-block vp-raw">
-  <div class="demo-mobile">
-    <weui-cell-group title="带图标的列表项">
-      <weui-cell title="标题文字" value="说明文字">
-        <template #icon><weui-icon type="info" :size="16" /></template>
-      </weui-cell>
-    </weui-cell-group>
-  </div>
-</div>
+<div class="demo-block vp-raw"><div class="demo-mobile"><weui-cell-group form title="表单标签"><weui-cell label="手机号"><weui-input placeholder="请输入手机号" /></weui-cell><weui-cell label="验证码" vcode wrap><weui-input ext-class="weui-cell__control weui-cell__control_flex" placeholder="请输入验证码" /><button class="weui-cell__control weui-btn weui-btn_default weui-vcode-btn" :disabled="vcodeSeconds > 0" @click="sendVcode">{{ vcodeSeconds ? `已发送(${vcodeSeconds})` : '获取验证码' }}</button></weui-cell></weui-cell-group></div></div>
 
 ::: details 查看代码
 ```vue
-<template>
-  <weui-cell-group title="带图标的列表项">
-    <weui-cell title="标题文字" value="说明文字">
-      <template #icon><weui-icon type="info" :size="16" /></template>
-    </weui-cell>
-  </weui-cell-group>
-</template>
-```
-:::
-
-## 链接型
-
-通过 `link` 属性启用链接样式（追加 `weui-cell_access` 类，显示箭头）。`link` 为 `true` 但 `url` 为空时，仅触发 `@click` 事件；提供 `url` 时在 uni-app 环境中会调用 `navigateTo` 跳转。
-
-<div class="demo-block vp-raw">
-  <div class="demo-mobile">
-    <weui-cell-group title="带跳转的列表项">
-      <weui-cell title="cell standard" link @click="onCellClick" />
-      <weui-cell title="cell standard" link @click="onCellClick" />
-    </weui-cell-group>
-  </div>
-  <p style="margin-top: 8px; color: #576b95;">{{ clickResult || '点击列表项试试' }}</p>
-</div>
-
-::: details 查看代码
-```vue
-<template>
-  <weui-cell-group title="带跳转的列表项">
-    <weui-cell title="cell standard" link @click="onCellClick" />
-    <weui-cell title="cell standard" link @click="onCellClick" />
-  </weui-cell-group>
-</template>
-
 <script setup lang="ts">
-const onCellClick = () => {
-  console.log('cell click')
+import { ref } from 'vue'
+
+const seconds = ref(0)
+let timer: ReturnType<typeof setInterval> | undefined
+const send = () => {
+  if (seconds.value) return
+  seconds.value = 59
+  timer = setInterval(() => {
+    seconds.value -= 1
+    if (!seconds.value && timer) clearInterval(timer)
+  }, 1000)
 }
 </script>
-```
-:::
 
-## 带副标题
-
-通过默认插槽在 body 区域放置更丰富的内容（如标题 + 副标题）。
-
-<div class="demo-block vp-raw">
-  <div class="demo-mobile">
-    <weui-cell-group title="带副标题的列表项">
-      <weui-cell link>
-        <div>标题文字</div>
-        <div style="font-size: 13px; color: #888;">副标题</div>
-      </weui-cell>
-    </weui-cell-group>
-  </div>
-</div>
-
-::: details 查看代码
-```vue
 <template>
-  <weui-cell-group title="带副标题的列表项">
-    <weui-cell link>
-      <div>标题文字</div>
-      <div style="font-size: 13px; color: #888;">副标题</div>
+  <weui-cell-group form title="表单标签">
+    <weui-cell label="手机号"><weui-input placeholder="请输入手机号" /></weui-cell>
+    <weui-cell label="验证码" vcode wrap>
+      <weui-input ext-class="weui-cell__control weui-cell__control_flex" placeholder="请输入验证码" />
+      <button class="weui-cell__control weui-btn weui-btn_default weui-vcode-btn" :disabled="seconds > 0" @click="send">{{ seconds ? `已发送(${seconds})` : '获取验证码' }}</button>
     </weui-cell>
   </weui-cell-group>
 </template>
 ```
 :::
 
-## 上下布局
+## 图标、跳转与副标题
 
-通过 `inline` 属性设置为 `false`，header 和 body 将上下排列（追加 `weui-cell_vertical` 类），适用于表单标签独占一行的场景。
+`subtitle` 在正文标题下渲染 `.weui-cell__desc`；`access` 用于显示官方跳转箭头。`icon` 会智能识别图标：普通字符串作为 WeUI 图标名，`/`、`./`、`../`、`http(s):` 与 `data:` 开头的字符串作为图片地址。`#icon` 插槽同样自动提供默认对齐和右侧间距。
 
-<div class="demo-block vp-raw">
-  <div class="demo-mobile">
-    <weui-cell-group form title="上下布局">
-      <weui-cell :inline="false" title="留言">
-        <input class="weui-input" placeholder="请输入留言" />
-      </weui-cell>
-    </weui-cell-group>
-  </div>
-</div>
+<div class="demo-block vp-raw"><div class="demo-mobile"><weui-cell-group title="带跳转的列表项"><weui-cell access icon="info" subtitle="通过图标名渲染" @click="clickResult = 'cell click 事件已触发'">cell standard</weui-cell><weui-cell access icon="https://weui.io/images/icon/logo.png" subtitle="通过图片地址渲染">image icon</weui-cell><weui-cell access subtitle="插槽也有默认对齐"><template #icon><weui-icon type="success" /></template>slot icon</weui-cell><weui-cell access desc="说明文字">cell standard</weui-cell></weui-cell-group><p>{{ clickResult || '点击列表项试试' }}</p></div></div>
 
 ::: details 查看代码
 ```vue
-<template>
-  <weui-cell-group form title="上下布局">
-    <weui-cell :inline="false" title="留言">
-      <input class="weui-input" placeholder="请输入留言" />
-    </weui-cell>
-  </weui-cell-group>
-</template>
-```
-:::
-
-## 表单型分组
-
-通过 `form` 属性启用表单型分组样式（圆角卡片外观），配合 `input`、`checkbox` 等表单控件使用。
-
-<div class="demo-block vp-raw">
-  <div class="demo-mobile">
-    <weui-cell-group form title="表单分组">
-      <weui-cell title="姓名" value="张三" />
-      <weui-cell title="手机号" value="13800138000" />
-    </weui-cell-group>
-  </div>
-</div>
-
-::: details 查看代码
-```vue
-<template>
-  <weui-cell-group form title="表单分组">
-    <weui-cell title="姓名" value="张三" />
-    <weui-cell title="手机号" value="13800138000" />
-  </weui-cell-group>
-</template>
-```
-:::
-
-## 分组底部说明
-
-通过 `footer` 属性在分组底部显示说明文字（`.weui-cells__tips`）。
-
-<div class="demo-block vp-raw">
-  <div class="demo-mobile">
-    <weui-cell-group title="列表" footer="底部说明文字">
-      <weui-cell title="标题文字" />
-      <weui-cell title="标题文字" />
-    </weui-cell-group>
-  </div>
-</div>
-
-::: details 查看代码
-```vue
-<template>
-  <weui-cell-group title="列表" footer="底部说明文字">
-    <weui-cell title="标题文字" />
-    <weui-cell title="标题文字" />
-  </weui-cell-group>
-</template>
-```
-:::
-
-## 视觉变体
-
-通过 `variant` 属性设置 cell 的视觉变体，自动追加对应的 CSS 类。可用变体：`access`、`link`、`vcode`、`warn`、`uploader`。
-
-<div class="demo-block vp-raw">
-  <div class="demo-mobile">
-    <weui-cell-group title="变体示例">
-      <weui-cell variant="warn" title="警告项" value="说明文字" />
-      <weui-cell variant="vcode" title="验证码">
-        <template #vcode><weui-button type="primary" size="mini">获取验证码</weui-button></template>
-      </weui-cell>
-      <weui-cell variant="link" title="链接型" />
-    </weui-cell-group>
-  </div>
-</div>
-
-::: details 查看代码
-```vue
-<template>
-  <weui-cell-group title="变体示例">
-    <weui-cell variant="warn" title="警告项" value="说明文字" />
-    <weui-cell variant="vcode" title="验证码">
-      <template #footer><weui-button type="primary" size="mini">获取验证码</weui-button></template>
-    </weui-cell>
-    <weui-cell variant="link" title="链接型" />
-  </weui-cell-group>
-</template>
-```
-:::
-
-## 自定义插槽
-
-Cell 提供四个具名插槽，分别对应 header 图标、header 标题、body 内容与 footer 区域。
-
-<div class="demo-block vp-raw">
-  <div class="demo-mobile">
-    <weui-cell-group title="自定义插槽">
-      <weui-cell>
-        <template #icon><weui-icon type="info" :size="16" /></template>
-        <template #title>自定义标题</template>
-        <template #default>自定义内容</template>
-        <template #footer>自定义说明</template>
-      </weui-cell>
-    </weui-cell-group>
-  </div>
-</div>
-
-::: details 查看代码
-```vue
-<template>
-  <weui-cell>
-    <template #icon><weui-icon type="info" :size="16" /></template>
-    <template #title>自定义标题</template>
-    <template #default>自定义内容</template>
-    <template #footer>自定义说明</template>
+<weui-cell-group title="带跳转的列表项">
+  <weui-cell access icon="info" subtitle="通过图标名渲染">
+    cell standard
   </weui-cell>
-</template>
+  <weui-cell access icon="https://weui.io/images/icon/logo.png" subtitle="通过图片地址渲染">
+    image icon
+  </weui-cell>
+  <weui-cell access subtitle="插槽也有默认对齐">
+    <template #icon><weui-icon type="success" /></template>
+    slot icon
+  </weui-cell>
+  <weui-cell access desc="说明文字">cell standard</weui-cell>
+</weui-cell-group>
+```
+:::
+
+## 内置状态
+
+`warn`、`readonly`、`disabled`、`primary` 与 `select` 分别映射官方状态 class，无需传递状态型扩展类。
+
+<div class="demo-block vp-raw"><div class="demo-mobile"><weui-cell-group form title="状态"><weui-cell warn desc="说明文字">警告项</weui-cell><weui-cell readonly label="EMail"><weui-input model-value="1234567" readonly /></weui-cell><weui-cell disabled label="微信号"><weui-input model-value="WeUI" disabled /></weui-cell><weui-textarea primary label="地址" placeholder="请输入地址" /><weui-cell select active>选择框</weui-cell></weui-cell-group></div></div>
+
+::: details 查看代码
+```vue
+<weui-cell-group form title="状态">
+  <weui-cell warn desc="说明文字">警告项</weui-cell>
+  <weui-cell readonly label="EMail"><weui-input model-value="1234567" readonly /></weui-cell>
+  <weui-cell disabled label="微信号"><weui-input model-value="WeUI" disabled /></weui-cell>
+  <weui-textarea primary label="地址" placeholder="请输入地址" />
+  <weui-cell select active>选择框</weui-cell>
+</weui-cell-group>
+```
+:::
+
+## 内置滑动删除
+
+`is-swipe` 使用官方滑动结构。向左滑动显示操作按钮，点击按钮触发 `swipe-click`。
+
+<div class="demo-block vp-raw"><div class="demo-mobile"><weui-cell-group title="滑动删除"><weui-cell is-swipe desc="向左滑动试试" @swipe-click="clickResult = 'swipe-click 已触发'">可滑动的列表项</weui-cell><weui-cell is-swipe swipe-text="归档" swipe-type="default" desc="自定义按钮">可滑动的列表项</weui-cell></weui-cell-group></div></div>
+
+::: details 查看代码
+```vue
+<weui-cell-group title="滑动删除">
+  <weui-cell is-swipe desc="向左滑动试试" @swipe-click="removeItem">可滑动的列表项</weui-cell>
+  <weui-cell is-swipe swipe-text="归档" swipe-type="default" desc="自定义按钮">可滑动的列表项</weui-cell>
+</weui-cell-group>
 ```
 :::
 
 ## Attributes
 
-### Cell
-
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
-| title | header 标题文字 | `string` | `''` |
-| value | body 内容文字 | `string` | `''` |
-| icon | header 图标地址（uni-app image） | `string` | — |
-| footer | footer 文字内容 | `string` | `''` |
-| link | 是否为链接型（等价于 `variant='access'`） | `boolean` | `false` |
-| url | `link=true` 时的跳转 url，非空时调用 `navigateTo` | `string` | `''` |
-| hover | 是否启用按下态高亮 | `boolean` | `true` |
-| inline | `true`=左右布局，`false`=上下布局 | `boolean` | `true` |
-| has-header | 是否渲染 header 区域 | `boolean` | `true` |
-| has-body | 是否渲染 body 区域 | `boolean` | `true` |
-| has-footer | 是否渲染 footer 区域 | `boolean` | `true` |
-| variant | 视觉变体 | `CellVariant` | `'default'` |
-| ext-class | 根元素扩展类名 | `string` | — |
-| icon-class | header 扩展类名 | `string` | — |
-| body-class | body 扩展类名 | `string` | — |
-| footer-class | footer 扩展类名 | `string` | — |
-| aria-role | 根元素 aria-role | `string` | — |
-
-### CellGroup
-
-| 参数 | 说明 | 类型 | 默认值 |
-| --- | --- | --- | --- |
-| title | 组标题 | `string` | — |
-| footer | 组底部说明文字 | `string` | — |
-| form | 是否为表单型组（追加 `weui-cells__group_form`） | `boolean` | `false` |
-| variant | 视觉变体 | `'default' \| 'form' \| 'radio' \| 'checkbox'` | `'default'` |
-| ext-class | 根元素扩展类名 | `string` | — |
-| aria-role | 根元素 aria-role | `string` | — |
+| title / label | header 标题或表单标签 | `string` | — |
+| subtitle | 默认插槽标题下的副标题 | `string` | — |
+| value / desc / footer | footer 说明文字 | `string` | — |
+| access | 跳转样式与导航能力 | `boolean` | `false` |
+| link | `access` 的兼容别名 | `boolean` | `false` |
+| vcode / warn / uploader | 验证码、警告、上传状态 | `boolean` | `false` |
+| readonly / disabled | 输入只读或禁用状态 | `boolean` | `false` |
+| primary / wrap | 顶部对齐或可折行 | `boolean` | `false` |
+| select / select-before / select-after | 选择框状态 | `boolean` | `false` |
+| active | 静态按下态样式 | `boolean` | `false` |
+| is-swipe | 官方结构的滑动操作项 | `boolean` | `false` |
+| swipe-text / swipe-type | 操作按钮文案与类型 | `string` / `'default' \| 'warn'` | `'删除'` / `'warn'` |
+| ext-class | 自定义扩展类 | `string` | — |
 
 ## Events
 
-### Cell
-
-| 事件名 | 说明 | 回调参数 |
-| --- | --- | --- |
-| click | 点击 cell 时触发 | `(event: Event)` |
-| navigate | `link=true` 且 `url` 非空，跳转成功时触发 | `(res: unknown)` |
-| navigate-error | 跳转失败时触发 | `(err: unknown)` |
-
-## Slots
-
-### Cell
-
-| 插槽名 | 说明 | 备注 |
-| --- | --- | --- |
-| icon | header 图标 | `icon` prop 为空时启用 |
-| title | header 标题 | `title` prop 为空时启用 |
-| default | body 内容 | `value` prop 为空时启用 |
-| footer | footer 内容 | `footer` prop 为空时启用 |
-
-### CellGroup
-
-| 插槽名 | 说明 | 备注 |
-| --- | --- | --- |
-| title | 组标题 | `title` prop 为空时启用 |
-| default | cell 子项 | — |
-| footer | 底部说明 | `footer` prop 为空时启用 |
+| 事件 | 说明 |
+| --- | --- |
+| click | 点击 cell |
+| navigate / navigate-error | 有 `access` 与 `url` 时的导航结果 |
+| swipe-click | 点击内置 swipe 操作按钮 |

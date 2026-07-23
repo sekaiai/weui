@@ -51,7 +51,7 @@ import 'weui-design-vue/dist/vue3/style.css'
 </template>
 ```
 
-> **说明：** `weui.css` 提供所有 `.weui-*` 类的基础样式与 CSS 变量；`style.css` 提供 `weui.css` 不含的自定义类（如 `.weui-list`、`.weui-slideview`、`.weui-cell__icon`），这些样式已随各组件 SFC 内联并打包。
+> **说明：** `weui.css` 提供所有 `.weui-*` 类的基础样式与 CSS 变量；`style.css` 提供 `weui.css` 不含的组件补充样式（如 `.weui-slideview`、`.weui-cell__icon`），这些样式已随各组件 SFC 内联并打包。
 
 ## 在 uni-app 项目中使用（小程序 / App / uni-app H5）
 

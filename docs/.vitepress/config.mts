@@ -66,7 +66,6 @@ const sidebar = {
         { text: 'Grid 宫格', link: '/components/grid' },
         { text: 'Flex 弹性布局', link: '/components/flex' },
         { text: 'Panel 面板', link: '/components/panel' },
-        { text: 'List 列表', link: '/components/list' },
         { text: 'Article 文章', link: '/components/article' },
         { text: 'Footer 页脚', link: '/components/footer' },
       ],

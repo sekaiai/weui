@@ -256,7 +256,7 @@ const onClick = () => {
 
 <div class="demo-block vp-raw">
   <weui-cell-group>
-    <weui-cell title="验证码" variant="vcode">
+    <weui-cell title="验证码" vcode>
       <input
         v-model="vcodeInput"
         type="text"
@@ -281,7 +281,7 @@ const onClick = () => {
 ```vue
 <template>
   <weui-cell-group>
-    <weui-cell title="验证码" variant="vcode">
+    <weui-cell title="验证码" vcode>
       <input
         v-model="vcodeInput"
         type="text"
