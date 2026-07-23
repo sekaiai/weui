@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
+import { defineComponent, ref } from 'vue'
 import WeuiRadio from '../radio.vue'
 import WeuiRadioGroup from '../radio-group.vue'
 
@@ -88,5 +89,23 @@ describe('WeuiRadioGroup', () => {
       slots: { default: '<div>content</div>' },
     })
     expect(wrapper.find('.weui-cells__tips').text()).toBe('提示信息')
+  })
+
+  it('生成非空 name，并且连续选择时只保留一个选中项', async () => {
+    const Harness = defineComponent({
+      components: { WeuiRadioGroup, WeuiRadio },
+      setup() {
+        const value = ref('1')
+        return { value }
+      },
+      template: '<weui-radio-group v-model="value"><weui-radio value="1" /><weui-radio value="2" /></weui-radio-group>',
+    })
+    const wrapper = mount(Harness)
+    const inputs = wrapper.findAll('input[type="radio"]')
+    expect(inputs[0].attributes('name')).toMatch(/^weui-radio-group-/)
+    expect(inputs[0].attributes('name')).toBe(inputs[1].attributes('name'))
+    await inputs[1].setValue()
+    expect((inputs[0].element as HTMLInputElement).checked).toBe(false)
+    expect((inputs[1].element as HTMLInputElement).checked).toBe(true)
   })
 })

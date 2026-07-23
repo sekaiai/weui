@@ -27,6 +27,14 @@ describe('WeuiForm', () => {
     })
   })
 
+  describe('bottomFixed', () => {
+    it('通过 prop 渲染官方底部悬浮页面结构', () => {
+      const wrapper = mount(WeuiForm, { props: { bottomFixed: true } })
+      expect(wrapper.classes()).toContain('weui-bottom-fixed-opr-page')
+      expect(wrapper.find('.weui-form__bd').classes()).toContain('weui-bottom-fixed-opr-page__content')
+    })
+  })
+
   describe('text-area', () => {
     it('传入 title 时渲染 .weui-form__text-area 和 .weui-form__title', () => {
       const wrapper = mount(WeuiForm, { props: { title: '表单标题' } })

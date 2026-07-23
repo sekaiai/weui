@@ -43,10 +43,38 @@ describe('WeuiCell', () => {
     })
   })
 
+  describe('label', () => {
+    it('在 __hd 渲染 label.weui-label', () => {
+      const wrapper = mount(WeuiCell, { props: { label: '手机号' } })
+      const label = wrapper.find('.weui-cell__hd .weui-label')
+      expect(label.exists()).toBe(true)
+      expect(label.element.tagName).toBe('LABEL')
+      expect(label.text()).toBe('手机号')
+    })
+  })
+
+  describe('subtitle', () => {
+    it('在正文默认插槽标题下渲染副标题', () => {
+      const wrapper = mount(WeuiCell, {
+        props: { subtitle: '副标题' },
+        slots: { default: '标题文字' },
+      })
+      expect(wrapper.find('.weui-cell__bd').text()).toContain('标题文字')
+      expect(wrapper.find('.weui-cell__bd .weui-cell__desc').text()).toBe('副标题')
+    })
+  })
+
+  describe('desc', () => {
+    it('在 __ft 渲染说明文字', () => {
+      const wrapper = mount(WeuiCell, { props: { desc: '说明文字' } })
+      expect(wrapper.find('.weui-cell__ft').text()).toBe('说明文字')
+    })
+  })
+
   describe('value', () => {
-    it('渲染 body 内容', () => {
-      const wrapper = mount(WeuiCell, { props: { value: '内容' } })
-      expect(wrapper.find('.weui-cell__bd').text()).toBe('内容')
+    it('在 __ft 渲染说明文字', () => {
+      const wrapper = mount(WeuiCell, { props: { value: '说明' } })
+      expect(wrapper.find('.weui-cell__ft').text()).toBe('说明')
     })
 
     it('value 为空时使用默认 slot', () => {
@@ -106,25 +134,42 @@ describe('WeuiCell', () => {
     })
   })
 
-  describe('variant', () => {
-    it('variant=access 追加 weui-cell_access', () => {
-      const wrapper = mount(WeuiCell, { props: { variant: 'access' } })
+  describe('access', () => {
+    it('access=true 追加 weui-cell_access 类', () => {
+      const wrapper = mount(WeuiCell, { props: { access: true } })
       expect(wrapper.classes()).toContain('weui-cell_access')
     })
+  })
 
-    it('variant=link 追加 weui-cell_link', () => {
-      const wrapper = mount(WeuiCell, { props: { variant: 'link' } })
-      expect(wrapper.classes()).toContain('weui-cell_link')
+  describe('vcode', () => {
+    it('vcode=true 时 bd 追加 weui-flex 类', () => {
+      const wrapper = mount(WeuiCell, { props: { vcode: true } })
+      const bd = wrapper.find('.weui-cell__bd')
+      expect(bd.classes()).toContain('weui-flex')
     })
+  })
 
-    it('variant=warn 追加 weui-cell_warn', () => {
-      const wrapper = mount(WeuiCell, { props: { variant: 'warn' } })
+  describe('warn', () => {
+    it('warn=true 追加 weui-cell_warn', () => {
+      const wrapper = mount(WeuiCell, { props: { warn: true } })
       expect(wrapper.classes()).toContain('weui-cell_warn')
     })
 
-    it('variant=uploader 追加 weui-cell_uploader', () => {
-      const wrapper = mount(WeuiCell, { props: { variant: 'uploader' } })
+    it('warn=false 不追加 weui-cell_warn', () => {
+      const wrapper = mount(WeuiCell)
+      expect(wrapper.classes()).not.toContain('weui-cell_warn')
+    })
+  })
+
+  describe('uploader', () => {
+    it('uploader=true 追加 weui-cell_uploader', () => {
+      const wrapper = mount(WeuiCell, { props: { uploader: true } })
       expect(wrapper.classes()).toContain('weui-cell_uploader')
+    })
+
+    it('uploader=false 不追加 weui-cell_uploader', () => {
+      const wrapper = mount(WeuiCell)
+      expect(wrapper.classes()).not.toContain('weui-cell_uploader')
     })
   })
 
@@ -142,6 +187,26 @@ describe('WeuiCell', () => {
     it('inline=false 不追加废弃的 weui-cell_label-block', () => {
       const wrapper = mount(WeuiCell, { props: { inline: false } })
       expect(wrapper.classes()).not.toContain('weui-cell_label-block')
+    })
+  })
+
+  describe('isSwipe', () => {
+    it('追加 weui-cell_swiped 类', () => {
+      const wrapper = mount(WeuiCell, { props: { isSwipe: true } })
+      expect(wrapper.classes()).toContain('weui-cell_swiped')
+    })
+
+    it('手势左滑超过30px展开', async () => {
+      const wrapper = mount(WeuiCell, { props: { isSwipe: true } })
+      const bd = wrapper.find('.weui-cell__bd')
+      await bd.trigger('touchstart', { touches: [{ clientX: 200 }] })
+      await bd.trigger('touchmove', { touches: [{ clientX: 150 }] })
+      expect(bd.attributes('style')).toContain('translateX(-68px)')
+    })
+
+    it('isSwipe=false 时不追加 swiped 类', () => {
+      const wrapper = mount(WeuiCell)
+      expect(wrapper.classes()).not.toContain('weui-cell_swiped')
     })
   })
 
@@ -213,6 +278,12 @@ describe('WeuiCell', () => {
       expect(wrapper.emitted('click')).toHaveLength(1)
     })
 
+    it('点击 swipe 按钮触发 swipe-click', async () => {
+      const wrapper = mount(WeuiCell, { props: { isSwipe: true, swipeText: '删除' } })
+      await wrapper.find('.weui-swiped-btn').trigger('click')
+      expect(wrapper.emitted('swipe-click')).toHaveLength(1)
+    })
+
     it('link=true 且 url 不为空时调用 uni.navigateTo', async () => {
       mockNavigateTo.mockImplementation(({ success }: any) => success?.({ ok: true }))
       const wrapper = mount(WeuiCell, {
@@ -252,17 +323,11 @@ describe('WeuiCell', () => {
     })
   })
 
-  describe('vcode variant', () => {
-    it('variant=vcode 时 bd 追加 weui-flex 类', () => {
-      const wrapper = mount(WeuiCell, { props: { variant: 'vcode' } })
-      const bd = wrapper.find('.weui-cell__bd')
-      expect(bd.classes()).toContain('weui-flex')
-    })
-
-    it('variant=vcode 时可使用 vcode slot', () => {
+  describe('vcode slot（已移除，验证码按钮放 default slot）', () => {
+    it('vcode slot 不可用（vcode 仅为 boolean prop）', () => {
       const wrapper = mount(WeuiCell, {
-        props: { variant: 'vcode' },
-        slots: { vcode: '<button class="vcode-btn">获取验证码</button>' },
+        props: { vcode: true },
+        slots: { default: '<button class="vcode-btn">获取验证码</button>' },
       })
       expect(wrapper.find('.vcode-btn').exists()).toBe(true)
     })
