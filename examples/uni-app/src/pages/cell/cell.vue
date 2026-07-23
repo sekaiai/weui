@@ -27,18 +27,8 @@
 
       <!-- 带副标题 -->
       <weui-cell-group title="带副标题的列表项">
-        <weui-cell link>
-          <template #default>
-            <view>标题文字</view>
-            <view class="weui-cell__desc">副标题</view>
-          </template>
-        </weui-cell>
-        <weui-cell link>
-          <template #default>
-            <view>标题文字</view>
-            <view class="weui-cell__desc">副标题</view>
-          </template>
-        </weui-cell>
+        <weui-cell access subtitle="副标题">标题文字</weui-cell>
+        <weui-cell access subtitle="副标题">标题文字</weui-cell>
       </weui-cell-group>
 
       <!-- 上下布局 + 表单型 -->
@@ -59,23 +49,17 @@
 
       <!-- 变体示例 -->
       <weui-cell-group title="视觉变体">
-        <weui-cell variant="warn" title="警告项">
+        <weui-cell warn title="警告项">
           <template #footer>
             <text style="color: #e64340;">请输入正确的卡号</text>
           </template>
         </weui-cell>
-        <weui-cell variant="switch" title="通知开关">
-          <template #footer>
-            <switch checked />
-          </template>
-        </weui-cell>
-        <weui-cell variant="vcode" title="验证码">
+        <weui-switch label="通知开关" :model-value="true" />
+        <weui-cell vcode title="验证码">
           <input class="weui-input" placeholder="请输入验证码" />
-          <template #footer>
-            <weui-button vcode>获取验证码</weui-button>
-          </template>
+          <weui-button vcode>获取验证码</weui-button>
         </weui-cell>
-        <weui-cell variant="link" title="添加更多" />
+        <weui-cell access title="添加更多" />
       </weui-cell-group>
 
       <!-- 自定义插槽 -->

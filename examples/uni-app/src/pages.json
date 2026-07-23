@@ -122,12 +122,6 @@
       }
     },
     {
-      "path": "pages/list/list",
-      "style": {
-        "navigationBarTitleText": "List 列表"
-      }
-    },
-    {
       "path": "pages/msg/msg",
       "style": {
         "navigationBarTitleText": "Msg 提示页"
