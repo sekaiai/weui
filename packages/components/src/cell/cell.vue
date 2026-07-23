@@ -176,4 +176,10 @@ const handleClick = (event: Event) => {
   height: 100%;
   object-fit: contain;
 }
+
+/* WeUI icons use a 2.4em square. Keep their native sizing model within the 20px cell icon area. */
+.weui-cell__icon > [class^="weui-icon-"],
+.weui-cell__icon > [class*=" weui-icon-"] {
+  font-size: 8.333333px;
+}
 </style>

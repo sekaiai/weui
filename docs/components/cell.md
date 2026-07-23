@@ -75,7 +75,7 @@ const send = () => {
 
 `subtitle` 在正文标题下渲染 `.weui-cell__desc`；`access` 用于显示官方跳转箭头。`icon` 会智能识别图标：普通字符串作为 WeUI 图标名，`/`、`./`、`../`、`http(s):` 与 `data:` 开头的字符串作为图片地址。`#icon` 插槽同样自动提供默认对齐和右侧间距。
 
-<div class="demo-block vp-raw"><div class="demo-mobile"><weui-cell-group title="带跳转的列表项"><weui-cell access icon="info" subtitle="通过图标名渲染" @click="clickResult = 'cell click 事件已触发'">cell standard</weui-cell><weui-cell access icon="https://weui.io/images/icon/logo.png" subtitle="通过图片地址渲染">image icon</weui-cell><weui-cell access subtitle="插槽也有默认对齐"><template #icon><weui-icon type="success" /></template>slot icon</weui-cell><weui-cell access desc="说明文字">cell standard</weui-cell></weui-cell-group><p>{{ clickResult || '点击列表项试试' }}</p></div></div>
+<div class="demo-block vp-raw"><div class="demo-mobile"><weui-cell-group title="带跳转的列表项"><weui-cell access icon="info" subtitle="通过图标名渲染" @click="clickResult = 'cell click 事件已触发'">cell standard</weui-cell><weui-cell access icon="https://weui.io/images/pic_160.png" subtitle="通过图片地址渲染">image icon</weui-cell><weui-cell access subtitle="插槽也有默认对齐"><template #icon><weui-icon type="success" /></template>slot icon</weui-cell><weui-cell icon="warn" access desc="说明文字" /></weui-cell-group><p>{{ clickResult || '点击列表项试试' }}</p></div></div>
 
 ::: details 查看代码
 ```vue
@@ -83,7 +83,7 @@ const send = () => {
   <weui-cell access icon="info" subtitle="通过图标名渲染">
     cell standard
   </weui-cell>
-  <weui-cell access icon="https://weui.io/images/icon/logo.png" subtitle="通过图片地址渲染">
+  <weui-cell access icon="https://weui.io/images/pic_160.png" subtitle="通过图片地址渲染">
     image icon
   </weui-cell>
   <weui-cell access subtitle="插槽也有默认对齐">
