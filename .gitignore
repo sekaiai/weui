@@ -3,6 +3,7 @@ dist/
 unpackage/
 **/.vitepress/cache/
 **/.vitepress/dist/
+**/.vitepress/.temp/
 *.log
 .DS_Store
 .idea/
@@ -15,3 +16,5 @@ coverage/
 .eslintcache
 test-results/
 playwright-report/
+/.superpowers
+/tests
