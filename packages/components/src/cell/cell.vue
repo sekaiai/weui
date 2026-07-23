@@ -1,183 +1,179 @@
 <template>
-  <div
-    :class="rootClass"
-    :hover-class="hover ? 'weui-cell_active' : undefined"
-    :role="ariaRole"
-    @click="handleClick"
-  >
+  <div v-if="isSwipe" :class="swipeClass">
+    <div
+      class="weui-cell__bd"
+      :style="swipeContentStyle"
+      @touchstart.passive="onTouchStart"
+        @touchmove.passive="onTouchMove"
+    >
+      <div :class="cellClass" :hover-class="hover ? 'weui-cell_active' : undefined" :role="ariaRole" @click="handleClick">
+        <div v-if="hasHeader" :class="['weui-cell__hd', iconClass]">
+          <span v-if="hasIcon" class="weui-cell__icon">
+            <img v-if="isImageIcon" :src="icon" alt="" />
+            <span v-else-if="icon" :class="weuiIconClass" aria-hidden="true" />
+            <slot v-else name="icon" />
+          </span>
+          <template v-if="label"><label class="weui-label">{{ label }}</label></template>
+          <template v-else-if="title"><span class="weui-label">{{ title }}</span></template>
+          <slot v-else name="title" />
+        </div>
+        <div v-if="hasBody" :class="bodyClassName"><slot /><div v-if="subtitle" class="weui-cell__desc">{{ subtitle }}</div></div>
+        <div v-if="hasFooter" :class="footerClass"><template v-if="value || desc">{{ value || desc }}</template><template v-else-if="footer">{{ footer }}</template><slot v-else name="footer" /></div>
+      </div>
+    </div>
+    <div class="weui-cell__ft"><a role="button" href="javascript:" :class="swipeButtonClass" @click.prevent="onSwipeClick">{{ swipeText }}</a></div>
+  </div>
+  <div v-else :class="cellClass" :hover-class="hover ? 'weui-cell_active' : undefined" :role="ariaRole" @click="handleClick">
     <div v-if="hasHeader" :class="['weui-cell__hd', iconClass]">
-      <img v-if="icon" :src="icon" class="weui-cell__icon" />
-      <slot v-else name="icon" />
-      <template v-if="title">{{ title }}</template>
+      <span v-if="hasIcon" class="weui-cell__icon">
+        <img v-if="isImageIcon" :src="icon" alt="" />
+        <span v-else-if="icon" :class="weuiIconClass" aria-hidden="true" />
+        <slot v-else name="icon" />
+      </span>
+      <template v-if="label"><label class="weui-label">{{ label }}</label></template>
+      <template v-else-if="title"><span class="weui-label">{{ title }}</span></template>
       <slot v-else name="title" />
     </div>
-    <div v-if="hasBody" :class="bdClass">
-      <template v-if="value">{{ value }}</template>
-      <slot v-else />
-      <slot v-if="variant === 'vcode'" name="vcode" />
-    </div>
-    <div v-if="hasFooter" :class="footerClass">
-      <template v-if="footer">{{ footer }}</template>
-      <slot v-else name="footer" />
-    </div>
+    <div v-if="hasBody" :class="bodyClassName"><slot /><div v-if="subtitle" class="weui-cell__desc">{{ subtitle }}</div></div>
+    <div v-if="hasFooter" :class="footerClass"><template v-if="value || desc">{{ value || desc }}</template><template v-else-if="footer">{{ footer }}</template><slot v-else name="footer" /></div>
   </div>
 </template>
 
 <script lang="ts">
-export default {
-  name: 'WeuiCell',
-  options: {
-    styleIsolation: 'apply-shared',
-    addGlobalClass: true,
-  },
-}
+export default { name: 'WeuiCell', options: { styleIsolation: 'apply-shared', addGlobalClass: true } }
 </script>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-
-export type WeuiCellVariant =
-  | 'default'
-  | 'access'
-  | 'link'
-  | 'switch'
-  | 'vcode'
-  | 'warn'
-  | 'select'
-  | 'select-before'
-  | 'select-after'
-  | 'uploader'
+import { computed, ref, useSlots } from 'vue'
 
 export interface WeuiCellProps {
-  /** header 标题文字 */
   title?: string
-  /** body 内容文字 */
+  label?: string
+  /** Rendered below default-slot content in .weui-cell__bd. */
+  subtitle?: string
   value?: string
-  /** header 图标地址 */
+  desc?: string
+  /** WeUI icon name, or an image URL/path/data URI. */
   icon?: string
-  /** footer 文字内容 */
   footer?: string
-  /** 是否为链接型 cell（追加 weui-cell_access），等价于 variant='access' */
+  /** Primary access style. */
+  access?: boolean
+  /** @deprecated Use access. */
   link?: boolean
-  /** link=true 时的跳转 url；为空则仅触发 click */
   url?: string
-  /** 是否启用按下态高亮 */
+  vcode?: boolean
+  warn?: boolean
+  uploader?: boolean
+  readonly?: boolean
+  disabled?: boolean
+  primary?: boolean
+  wrap?: boolean
+  select?: boolean
+  selectBefore?: boolean
+  selectAfter?: boolean
+  active?: boolean
   hover?: boolean
-  /** true=左右布局，false=上下布局（追加 weui-cell_vertical） */
   inline?: boolean
-  /** 是否渲染 header 区域 */
   hasHeader?: boolean
-  /** 是否渲染 body 区域 */
   hasBody?: boolean
-  /** 是否渲染 footer 区域 */
   hasFooter?: boolean
-  /** 视觉变体，自动追加对应 weui-cell_* 类 */
-  variant?: WeuiCellVariant
-  /** variant=switch 时 switch 的选中状态 */
-  switchModelValue?: boolean
-  /** variant=switch 时 switch 是否禁用 */
-  switchDisabled?: boolean
-  /** variant=switch 时是否使用 weui-switch-cp 兼容版结构 */
-  switchCp?: boolean
-  /** 根元素扩展类名 */
   extClass?: string
-  /** header 扩展类名 */
   iconClass?: string
-  /** body 扩展类名 */
   bodyClass?: string
-  /** footer 扩展类名 */
   footerClass?: string
-  /** 根元素 aria-role */
   ariaRole?: string
+  isSwipe?: boolean
+  swipeText?: string
+  swipeType?: 'default' | 'warn'
 }
 
 export interface WeuiCellEmits {
   (e: 'click', event: Event): void
   (e: 'navigate', res: unknown): void
   (e: 'navigate-error', err: unknown): void
+  (e: 'swipe-click'): void
 }
 
 const props = withDefaults(defineProps<WeuiCellProps>(), {
-  title: '',
-  value: '',
-  icon: undefined,
-  footer: '',
-  link: false,
-  url: '',
-  hover: true,
-  inline: true,
-  hasHeader: true,
-  hasBody: true,
-  hasFooter: true,
-  variant: 'default',
-  extClass: undefined,
-  iconClass: undefined,
-  bodyClass: undefined,
-  footerClass: undefined,
-  ariaRole: undefined,
+  title: '', label: undefined, subtitle: undefined, value: '', desc: undefined, icon: undefined, footer: '',
+  access: false, link: false, url: '', vcode: false, warn: false, uploader: false, readonly: false,
+  disabled: false, primary: false, wrap: false, select: false, selectBefore: false, selectAfter: false,
+  active: false, hover: true, inline: true, hasHeader: true, hasBody: true, hasFooter: true,
+  extClass: undefined, iconClass: undefined, bodyClass: undefined, footerClass: undefined, ariaRole: undefined,
+  isSwipe: false, swipeText: '删除', swipeType: 'warn',
 })
 
 const emit = defineEmits<WeuiCellEmits>()
+const slots = useSlots()
+const swipeOpen = ref(false)
+const touchStartX = ref(0)
+const isAccess = computed(() => props.access || props.link)
+const hasIcon = computed(() => Boolean(props.icon || slots.icon))
+const isImageIcon = computed(() => /^(?:\/|\.\/|\.\.\/|https?:|data:)/.test(props.icon ?? ''))
+const weuiIconClass = computed(() => `weui-icon-${props.icon}`)
 
-const rootClass = computed(() => {
-  const classes: string[] = ['weui-cell']
-  if (props.link || props.variant === 'access') classes.push('weui-cell_access')
-  if (props.variant === 'link') classes.push('weui-cell_link')
-  if (props.variant === 'vcode') classes.push('weui-cell_vcode')
-  if (props.variant === 'warn') classes.push('weui-cell_warn')
-  if (props.variant === 'uploader') classes.push('weui-cell_uploader')
+const cellClass = computed(() => {
+  const classes = ['weui-cell']
+  if (isAccess.value) classes.push('weui-cell_access')
+  if (props.vcode) classes.push('weui-cell_vcode')
+  if (props.warn) classes.push('weui-cell_warn')
+  if (props.uploader) classes.push('weui-cell_uploader')
+  if (props.readonly) classes.push('weui-cell_readonly')
+  if (props.disabled) classes.push('weui-cell_disabled')
+  if (props.primary) classes.push('weui-cell_primary')
+  if (props.wrap) classes.push('weui-cell_wrap')
+  if (props.select) classes.push('weui-cell_select')
+  if (props.selectBefore) classes.push('weui-cell_select-before')
+  if (props.selectAfter) classes.push('weui-cell_select-after')
+  if (props.active) classes.push('weui-cell_active')
   if (!props.inline) classes.push('weui-cell_vertical')
   if (props.extClass) classes.push(props.extClass)
   return classes
 })
 
-const footerClass = computed(() => {
-  const classes: string[] = ['weui-cell__ft']
-  if (props.footerClass) classes.push(props.footerClass)
-  return classes
-})
+const swipeClass = computed(() => ['weui-cell', 'weui-cell_swiped'])
+const swipeContentStyle = computed(() => ({ transform: swipeOpen.value ? 'translateX(-68px)' : undefined, transition: 'transform .3s ease' }))
+const swipeButtonClass = computed(() => ['weui-swiped-btn', props.swipeType === 'warn' ? 'weui-swiped-btn_warn' : undefined])
+const footerClass = computed(() => ['weui-cell__ft', props.footerClass].filter(Boolean))
+const bodyClassName = computed(() => ['weui-cell__bd', props.vcode ? 'weui-flex' : undefined, props.bodyClass].filter(Boolean))
 
-const bdClass = computed(() => {
-  const classes: string[] = ['weui-cell__bd']
-  if (props.variant === 'vcode') classes.push('weui-flex')
-  if (props.bodyClass) classes.push(props.bodyClass)
-  return classes
-})
-
+const onTouchStart = (event: TouchEvent) => { touchStartX.value = event.touches[0]?.clientX ?? 0 }
+const onTouchMove = (event: TouchEvent) => {
+  const currentX = event.touches[0]?.clientX ?? touchStartX.value
+  const distance = touchStartX.value - currentX
+  if (distance > 30) swipeOpen.value = true
+  if (distance < -30) swipeOpen.value = false
+}
+const onSwipeClick = () => { emit('swipe-click'); swipeOpen.value = false }
 const handleClick = (event: Event) => {
+  if (swipeOpen.value) { swipeOpen.value = false; return }
   emit('click', event)
-  if (props.link && props.url) {
-    // #ifdef H5
-    // Vue 3 / H5：不自动跳转，emit navigate 事件让用户处理
-    emit('navigate', { url: props.url })
-    // #endif
-    // #ifndef H5
-    // 小程序/App：用 uni.navigateTo
-    uni.navigateTo({
-      url: props.url,
-      success: (res) => emit('navigate', res),
-      fail: (err) => emit('navigate-error', err),
-    })
-    // #endif
-  }
+  if (!isAccess.value || !props.url) return
+  // #ifdef H5
+  emit('navigate', { url: props.url })
+  // #endif
+  // #ifndef H5
+  uni.navigateTo({ url: props.url, success: (res) => emit('navigate', res), fail: (err) => emit('navigate-error', err) })
+  // #endif
 }
 </script>
 
 <style lang="scss">
-/* WeUI 源码未定义 weui-cell__icon，cell 组件的 image 图标需要默认尺寸
-   不设 margin-right：__hd 在 small-appmsg 等上下文中已有 padding-right */
 .weui-cell__icon {
+  display: inline-flex;
+  flex: 0 0 20px;
   width: 20px;
   height: 20px;
+  align-items: center;
+  justify-content: center;
+  margin-right: 16px;
   vertical-align: middle;
 }
 
-/* 约束 __hd 中通过 icon slot 传入的 weui-icon 尺寸
-   weui.css 中 [class^="weui-icon-"] 默认 width:2.4em，
-   当 icon 组件设置 :size="N" 时 font-size 被覆盖，导致 2.4em 计算值过大。
-   此处用 !important 覆盖 weui.css 的 em 值，固定为 20px */
-.weui-cell__hd [class^="weui-icon-"] {
-  width: 20px !important;
-  height: 20px !important;
+.weui-cell__icon > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 </style>
