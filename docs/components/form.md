@@ -208,12 +208,12 @@ const cycle = <T>(value: { value: T }, options: T[]) => {
 `weui-select` 已经输出选择框所需的完整 cell，不应被 `weui-cell` 再包一层。
 
 <div class="demo-block vp-raw"><div class="demo-mobile">
-  <weui-form title="原生选择框"><weui-cell-group form><weui-select v-model="selectValue"><option value="1">微信号</option><option value="2">QQ号</option><option value="3">Email</option></weui-select><weui-select v-model="selectAfterValue" after label="国家"><option value="1">中国</option><option value="2">美国</option><option value="3">英国</option></weui-select></weui-cell-group></weui-form>
+  <weui-form title="原生选择框"><weui-cell-group form><weui-select v-model="selectValue"><option value="1">微信号</option><option value="2">QQ号</option><option value="3">Email</option></weui-select><weui-select v-model="selectAfterValue" label="国家"><option value="1">中国</option><option value="2">美国</option><option value="3">英国</option></weui-select></weui-cell-group></weui-form>
 </div></div>
 
 ::: details 查看代码
 ```vue
-<weui-cell-group form><weui-select v-model="selectValue"><option value="1">微信号</option><option value="2">QQ号</option></weui-select><weui-select v-model="selectAfterValue" after label="国家"><option value="1">中国</option><option value="2">美国</option></weui-select></weui-cell-group>
+<weui-cell-group form><weui-select v-model="selectValue"><option value="1">微信号</option><option value="2">QQ号</option></weui-select><weui-select v-model="selectAfterValue" label="国家"><option value="1">中国</option><option value="2">美国</option></weui-select></weui-cell-group>
 ```
 :::
 
