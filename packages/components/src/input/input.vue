@@ -1,19 +1,23 @@
 <template>
   <div v-if="clearable" class="weui-input__wrapper">
     <input
+      v-bind="nativeAttrs"
       ref="inputRef"
       :class="inputClass"
       :value="modelValue"
       :type="inputType"
       :placeholder="placeholder"
       :disabled="disabled"
+      :readonly="readonly"
       :maxlength="maxlength"
-      v-bind="uniOnlyAttrs"
       @input="handleInput"
+      @change="handleChange"
       @focus="handleFocus"
       @blur="handleBlur"
       @keydown.enter="handleConfirm"
       @confirm="handleConfirm"
+      @keyboardheightchange="handleKeyboardHeightChange"
+      @nicknamereview="handleNicknameReview"
     />
     <button
       v-if="showClear"
@@ -23,6 +27,7 @@
     />
   </div>
   <input
+    v-bind="nativeAttrs"
     v-else
     ref="inputRef"
     :class="inputClass"
@@ -30,19 +35,23 @@
     :type="inputType"
     :placeholder="placeholder"
     :disabled="disabled"
+    :readonly="readonly"
     :maxlength="maxlength"
-    v-bind="uniOnlyAttrs"
     @input="handleInput"
+    @change="handleChange"
     @focus="handleFocus"
     @blur="handleBlur"
     @keydown.enter="handleConfirm"
     @confirm="handleConfirm"
+    @keyboardheightchange="handleKeyboardHeightChange"
+    @nicknamereview="handleNicknameReview"
   />
 </template>
 
 <script lang="ts">
 export default {
   name: 'WeuiInput',
+  inheritAttrs: false,
   options: {
     styleIsolation: 'apply-shared',
     addGlobalClass: true,
@@ -52,32 +61,42 @@ export default {
 
 <script setup lang="ts">
 /// <reference path="../globals.d.ts" />
-import { computed, ref, watch } from 'vue'
+import { computed, onMounted, ref, useAttrs, watch } from 'vue'
 
 export interface WeuiInputProps {
   /** v-model 绑定值 */
   modelValue?: string
   /** 占位提示文字 */
   placeholder?: string
-  /** 输入类型。password 在 H5 端用原生 password 类型；idcard/digit 在 H5 端降级为 text */
-  type?: 'text' | 'number' | 'idcard' | 'digit' | 'password'
+  /** 输入类型。safe-password 与 nickname 仅微信小程序支持。 */
+  type?: 'text' | 'number' | 'idcard' | 'digit' | 'password' | 'safe-password' | 'nickname'
   /** 是否禁用 */
   disabled?: boolean
+  /** 是否只读 */
+  readonly?: boolean
   /** 最大输入长度，-1 为不限制 */
   maxlength?: number
   /** 是否显示清除按钮 */
   clearable?: boolean
   /** 获取焦点（H5 端通过 ref.focus() 实现；小程序端通过 :focus 属性） */
   focus?: boolean
+  /** 小程序官方 auto-focus 兼容入口，等同于 focus。 */
+  autoFocus?: boolean
+  /** 小程序键盘右下角按钮文案；H5 映射为 enterkeyhint。 */
+  confirmType?: 'send' | 'search' | 'next' | 'go' | 'done'
   /** 根元素扩展类名 */
   extClass?: string
 }
 
 export interface WeuiInputEmits {
   (e: 'update:modelValue', value: string): void
+  (e: 'input', event: Event): void
+  (e: 'change', event: Event): void
   (e: 'focus', event: Event): void
   (e: 'blur', event: Event): void
   (e: 'confirm', event: Event): void
+  (e: 'keyboardheightchange', event: Event): void
+  (e: 'nicknamereview', event: Event): void
   (e: 'clear'): void
 }
 
@@ -85,12 +104,16 @@ const props = withDefaults(defineProps<WeuiInputProps>(), {
   modelValue: '',
   type: 'text',
   disabled: false,
+  readonly: false,
   maxlength: 140,
   clearable: false,
   focus: false,
+  autoFocus: false,
+  confirmType: 'done',
 })
 
 const emit = defineEmits<WeuiInputEmits>()
+const attrs = useAttrs()
 
 const inputRef = ref<HTMLInputElement | null>(null)
 
@@ -100,25 +123,27 @@ const inputClass = computed(() => {
   return classes
 })
 
-// H5 端 type 映射：password 保持 password，idcard/digit 降级为 text
-// 非 H5 端：password 用 'text' + :password 属性（uni input 不支持 password type），idcard/digit 保留 uni 类型
+// H5 端 type 映射：password 保持 password，微信小程序专属键盘类型降级为 text。
+// 非 H5 端：password 用 'text' + :password 属性，其他官方 type 原样传递。
 const inputType = computed(() => {
   if (props.type === 'password') return __IS_H5__ ? 'password' : 'text'
-  if (props.type === 'idcard' || props.type === 'digit') return __IS_H5__ ? 'text' : props.type
+  if (props.type === 'idcard' || props.type === 'digit' || props.type === 'safe-password' || props.type === 'nickname') return __IS_H5__ ? 'text' : props.type
   return props.type
 })
 
-// 非 H5 端专属属性（H5 端浏览器忽略 :focus/:password/confirm-type）
-// H5 端 focus 由 watch + ref.focus() 处理，不绑 :focus 属性
-const uniOnlyAttrs = computed(() => {
-  if (__IS_H5__) return {}
+const effectiveFocus = computed(() => props.focus || props.autoFocus)
+
+// 未声明的小程序官方属性由 attrs 原样透传；这里仅处理需要跨端转换的高频 prop。
+const platformAttrs = computed(() => {
+  if (__IS_H5__) return { enterkeyhint: props.confirmType }
   const attrs: Record<string, any> = {
-    focus: props.focus || undefined,
-    'confirm-type': 'done',
+    focus: effectiveFocus.value || undefined,
+    'confirm-type': props.confirmType,
   }
   if (props.type === 'password') attrs['password'] = true
   return attrs
 })
+const nativeAttrs = computed(() => ({ ...attrs, ...platformAttrs.value }))
 
 const showClear = computed(
   () => props.clearable && !!props.modelValue && !props.disabled,
@@ -127,9 +152,12 @@ const showClear = computed(
 // H5 端：focus prop 变化时调用 DOM focus()/blur()
 // 非 H5 端：:focus 属性已由 uniOnlyAttrs 绑定，无需 watch
 if (__IS_H5__) {
-  watch(() => props.focus, (val) => {
+  watch(effectiveFocus, (val) => {
     if (val) inputRef.value?.focus()
     else inputRef.value?.blur()
+  })
+  onMounted(() => {
+    if (effectiveFocus.value) inputRef.value?.focus()
   })
 }
 
@@ -138,14 +166,18 @@ const handleInput = (event: Event) => {
   const e = event as Event & { detail?: { value?: string } }
   const value = e.detail?.value ?? (event.target as HTMLInputElement)?.value ?? ''
   emit('update:modelValue', value)
+  emit('input', event)
 }
 
+const handleChange = (event: Event) => emit('change', event)
 const handleFocus = (event: Event) => emit('focus', event)
 const handleBlur = (event: Event) => emit('blur', event)
 
 // H5 端：keydown.enter 触发 confirm
 // 非 H5 端：@confirm 事件触发（uni-app 键盘完成键）
 const handleConfirm = (event: Event) => emit('confirm', event)
+const handleKeyboardHeightChange = (event: Event) => emit('keyboardheightchange', event)
+const handleNicknameReview = (event: Event) => emit('nicknamereview', event)
 
 const handleClear = () => {
   emit('update:modelValue', '')

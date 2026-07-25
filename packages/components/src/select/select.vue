@@ -30,6 +30,7 @@ export interface WeuiSelectProps {
   placeholder?: string
   disabled?: boolean
   before?: boolean
+  /** Select-after layout. Enabled automatically when label is provided unless before is true. */
   after?: boolean
   label?: string
   extClass?: string
@@ -48,11 +49,12 @@ const props = withDefaults(defineProps<WeuiSelectProps>(), {
 })
 
 const emit = defineEmits<WeuiSelectEmits>()
+const isAfter = computed(() => props.after || (Boolean(props.label) && !props.before))
 
 const rootClass = computed(() => {
   const classes: string[] = ['weui-cell', 'weui-cell_active', 'weui-cell_select']
   if (props.before) classes.push('weui-cell_select-before')
-  if (props.after) classes.push('weui-cell_select-after')
+  if (isAfter.value) classes.push('weui-cell_select-after')
   if (props.extClass) classes.push(props.extClass)
   return classes
 })
