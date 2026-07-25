@@ -4,39 +4,72 @@
       class="weui-cell__bd"
       :style="swipeContentStyle"
       @touchstart.passive="onTouchStart"
-        @touchmove.passive="onTouchMove"
+      @touchmove.passive="onTouchMove"
     >
-      <div :class="cellClass" :hover-class="hover ? 'weui-cell_active' : undefined" :role="ariaRole" @click="handleClick">
-        <div v-if="hasHeader" :class="['weui-cell__hd', iconClass]">
+      <component
+        :is="cellTag"
+        :class="cellClass"
+        :hover-class="hover ? 'weui-cell_active' : undefined"
+        :role="ariaRole"
+        v-bind="navigationAttrs"
+        @click="handleClick"
+        @success="onNavigate"
+        @fail="onNavigateError"
+      >
+        <div v-if="hasHeader && hasHeaderContent" :class="['weui-cell__hd', iconClass]">
           <span v-if="hasIcon" class="weui-cell__icon">
             <img v-if="isImageIcon" :src="icon" alt="" />
             <span v-else-if="icon" :class="weuiIconClass" aria-hidden="true" />
             <slot v-else name="icon" />
           </span>
-          <template v-if="label"><label class="weui-label">{{ label }}</label></template>
-          <template v-else-if="title"><span class="weui-label">{{ title }}</span></template>
-          <slot v-else name="title" />
+          <label v-if="label" class="weui-label">{{ label }}</label>
         </div>
-        <div v-if="hasBody" :class="bodyClassName"><slot /><div v-if="subtitle" class="weui-cell__desc">{{ subtitle }}</div></div>
-        <div v-if="hasFooter" :class="footerClass"><template v-if="value || desc">{{ value || desc }}</template><template v-else-if="footer">{{ footer }}</template><slot v-else name="footer" /></div>
-      </div>
+        <div v-if="hasBody" :class="bodyClassName">
+          <slot v-if="slots.title" name="title" />
+          <span v-else-if="title">{{ title }}</span>
+          <div v-if="slots.subtitle" class="weui-cell__desc"><slot name="subtitle" /></div>
+          <div v-else-if="subtitle" class="weui-cell__desc">{{ subtitle }}</div>
+          <slot />
+        </div>
+        <div v-if="hasFooter && (hasFooterContent || isAccess)" :class="footerClass">
+          <slot v-if="slots.footer" name="footer" />
+          <template v-else>{{ footer || value || desc }}</template>
+        </div>
+      </component>
     </div>
     <div class="weui-cell__ft"><a role="button" href="javascript:" :class="swipeButtonClass" @click.prevent="onSwipeClick">{{ swipeText }}</a></div>
   </div>
-  <div v-else :class="cellClass" :hover-class="hover ? 'weui-cell_active' : undefined" :role="ariaRole" @click="handleClick">
-    <div v-if="hasHeader" :class="['weui-cell__hd', iconClass]">
+  <component
+    v-else
+    :is="cellTag"
+    :class="cellClass"
+    :hover-class="hover ? 'weui-cell_active' : undefined"
+    :role="ariaRole"
+    v-bind="navigationAttrs"
+    @click="handleClick"
+    @success="onNavigate"
+    @fail="onNavigateError"
+  >
+    <div v-if="hasHeader && hasHeaderContent" :class="['weui-cell__hd', iconClass]">
       <span v-if="hasIcon" class="weui-cell__icon">
         <img v-if="isImageIcon" :src="icon" alt="" />
         <span v-else-if="icon" :class="weuiIconClass" aria-hidden="true" />
         <slot v-else name="icon" />
       </span>
-      <template v-if="label"><label class="weui-label">{{ label }}</label></template>
-      <template v-else-if="title"><span class="weui-label">{{ title }}</span></template>
-      <slot v-else name="title" />
+      <label v-if="label" class="weui-label">{{ label }}</label>
     </div>
-    <div v-if="hasBody" :class="bodyClassName"><slot /><div v-if="subtitle" class="weui-cell__desc">{{ subtitle }}</div></div>
-    <div v-if="hasFooter" :class="footerClass"><template v-if="value || desc">{{ value || desc }}</template><template v-else-if="footer">{{ footer }}</template><slot v-else name="footer" /></div>
-  </div>
+    <div v-if="hasBody" :class="bodyClassName">
+      <slot v-if="slots.title" name="title" />
+      <span v-else-if="title">{{ title }}</span>
+      <div v-if="slots.subtitle" class="weui-cell__desc"><slot name="subtitle" /></div>
+      <div v-else-if="subtitle" class="weui-cell__desc">{{ subtitle }}</div>
+      <slot />
+    </div>
+    <div v-if="hasFooter && (hasFooterContent || isAccess)" :class="footerClass">
+      <slot v-if="slots.footer" name="footer" />
+      <template v-else>{{ footer || value || desc }}</template>
+    </div>
+  </component>
 </template>
 
 <script lang="ts">
@@ -49,17 +82,17 @@ import { computed, ref, useSlots } from 'vue'
 export interface WeuiCellProps {
   title?: string
   label?: string
-  /** Rendered below default-slot content in .weui-cell__bd. */
+  /** Rendered below title and above the default body slot in .weui-cell__bd. */
   subtitle?: string
   value?: string
   desc?: string
   /** WeUI icon name, or an image URL/path/data URI. */
   icon?: string
   footer?: string
-  /** Primary access style. */
-  access?: boolean
-  /** @deprecated Use access. */
-  link?: boolean
+  /** Access style alias. A string is used as the navigation target. */
+  access?: boolean | string
+  /** Primary access style. A string is used as the navigation target. */
+  link?: boolean | string
   url?: string
   vcode?: boolean
   warn?: boolean
@@ -107,7 +140,35 @@ const emit = defineEmits<WeuiCellEmits>()
 const slots = useSlots()
 const swipeOpen = ref(false)
 const touchStartX = ref(0)
-const isAccess = computed(() => props.access || props.link)
+const getNavigationTarget = (value: boolean | string | undefined) => typeof value === 'string' && value.length > 0 ? value : ''
+const navigationTarget = computed(() => {
+  const linkTarget = getNavigationTarget(props.link)
+  if (linkTarget) return linkTarget
+  const accessTarget = getNavigationTarget(props.access)
+  if (accessTarget) return accessTarget
+  return props.link || props.access ? props.url : ''
+})
+const isAccess = computed(() => Boolean(props.access || props.link))
+const hasHeaderContent = computed(() => hasIcon.value || Boolean(props.label))
+const hasFooterContent = computed(() => Boolean(props.footer || props.value || props.desc || slots.footer))
+const cellTag = computed(() => {
+  if (!navigationTarget.value) return 'div'
+  // #ifdef H5
+  return 'a'
+  // #endif
+  // #ifndef H5
+  return 'navigator'
+  // #endif
+})
+const navigationAttrs = computed(() => {
+  if (!navigationTarget.value) return {}
+  // #ifdef H5
+  return { href: navigationTarget.value }
+  // #endif
+  // #ifndef H5
+  return { url: navigationTarget.value }
+  // #endif
+})
 const hasIcon = computed(() => Boolean(props.icon || slots.icon))
 const isImageIcon = computed(() => /^(?:\/|\.\/|\.\.\/|https?:|data:)/.test(props.icon ?? ''))
 const weuiIconClass = computed(() => `weui-icon-${props.icon}`)
@@ -133,7 +194,7 @@ const cellClass = computed(() => {
 
 const swipeClass = computed(() => ['weui-cell', 'weui-cell_swiped'])
 const swipeContentStyle = computed(() => ({ transform: swipeOpen.value ? 'translateX(-68px)' : undefined, transition: 'transform .3s ease' }))
-const swipeButtonClass = computed(() => ['weui-swiped-btn', props.swipeType === 'warn' ? 'weui-swiped-btn_warn' : undefined])
+const swipeButtonClass = computed(() => ['weui-swiped-btn', `weui-swiped-btn_${props.swipeType}`])
 const footerClass = computed(() => ['weui-cell__ft', props.footerClass].filter(Boolean))
 const bodyClassName = computed(() => ['weui-cell__bd', props.vcode ? 'weui-flex' : undefined, props.bodyClass].filter(Boolean))
 
@@ -145,15 +206,14 @@ const onTouchMove = (event: TouchEvent) => {
   if (distance < -30) swipeOpen.value = false
 }
 const onSwipeClick = () => { emit('swipe-click'); swipeOpen.value = false }
+const onNavigate = (res: unknown) => emit('navigate', res)
+const onNavigateError = (err: unknown) => emit('navigate-error', err)
 const handleClick = (event: Event) => {
-  if (swipeOpen.value) { swipeOpen.value = false; return }
+  if (swipeOpen.value) { event.preventDefault(); swipeOpen.value = false; return }
   emit('click', event)
-  if (!isAccess.value || !props.url) return
+  if (!navigationTarget.value) return
   // #ifdef H5
-  emit('navigate', { url: props.url })
-  // #endif
-  // #ifndef H5
-  uni.navigateTo({ url: props.url, success: (res) => emit('navigate', res), fail: (err) => emit('navigate-error', err) })
+  emit('navigate', { url: navigationTarget.value })
   // #endif
 }
 </script>
@@ -181,5 +241,10 @@ const handleClick = (event: Event) => {
 .weui-cell__icon > [class^="weui-icon-"],
 .weui-cell__icon > [class*=" weui-icon-"] {
   font-size: 8.333333px;
+}
+
+/* 只读内容不可编辑，但仍保持表单正文的默认颜色；禁用状态继续使用 WeUI 的置灰样式。 */
+.weui-cell_readonly .weui-input[readonly] {
+  color: inherit;
 }
 </style>
