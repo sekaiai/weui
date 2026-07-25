@@ -82,6 +82,20 @@
         </view>
       </view>
 
+      <!-- 小程序官方能力 -->
+      <view class="weui-cells__title">小程序官方能力</view>
+      <view class="weui-cells weui-cells_form">
+        <weui-cell label="确认键">
+          <weui-input v-model="confirmValue" confirm-type="search" placeholder="点击搜索键" @confirm="onConfirm" />
+        </weui-cell>
+        <weui-cell label="昵称">
+          <weui-input v-model="nickname" type="nickname" placeholder="昵称输入键盘" @nicknamereview="onNicknameReview" />
+        </weui-cell>
+        <weui-cell label="键盘布局">
+          <weui-input cursor-spacing="16" confirm-hold hold-keyboard :adjust-position="false" placeholder="小程序属性透传" @keyboardheightchange="onKeyboardHeightChange" />
+        </weui-cell>
+      </view>
+
       <!-- 当前值 -->
       <view class="result-section">
         <view class="result-section__title">当前值</view>
@@ -119,6 +133,12 @@ const password = ref('')
 const limited = ref('')
 const clearable = ref('')
 const disabled = ref('不可编辑的内容')
+const confirmValue = ref('')
+const nickname = ref('')
+
+const onConfirm = () => uni.showToast({ title: 'confirm 已触发', icon: 'none' })
+const onNicknameReview = () => uni.showToast({ title: '昵称审核完成', icon: 'none' })
+const onKeyboardHeightChange = () => uni.showToast({ title: '键盘高度变化', icon: 'none' })
 </script>
 
 <style scoped>
