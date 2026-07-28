@@ -3,20 +3,10 @@ import { mount } from '@vue/test-utils'
 import WeuiLoading from '../loading.vue'
 
 describe('WeuiLoading', () => {
-  describe('type', () => {
-    it('默认 type 为 default，渲染 weui-loading 图标', () => {
+  describe('基础加载图标', () => {
+    it('渲染 weui-loading 图标', () => {
       const wrapper = mount(WeuiLoading)
       expect(wrapper.find('.weui-loading').exists()).toBe(true)
-    })
-
-    it('type=page 时根元素带 weui-loadmore 类', () => {
-      const wrapper = mount(WeuiLoading, { props: { type: 'page' } })
-      expect(wrapper.classes()).toContain('weui-loadmore')
-    })
-
-    it('type=default 时根元素不带 weui-loadmore 类', () => {
-      const wrapper = mount(WeuiLoading)
-      expect(wrapper.classes()).not.toContain('weui-loadmore')
     })
   })
 
@@ -99,30 +89,17 @@ describe('WeuiLoading', () => {
     })
   })
 
-  describe('page 模式', () => {
-    it('page 模式下渲染 weui-loading 图标', () => {
-      const wrapper = mount(WeuiLoading, { props: { type: 'page' } })
-      expect(wrapper.find('.weui-loading').exists()).toBe(true)
-    })
-
-    it('page 模式下文字使用 weui-loadmore__tips 类（WeUI 实际类名）', () => {
+  describe('文字结构', () => {
+    it('文字使用 weui-loading__text 类', () => {
       const wrapper = mount(WeuiLoading, {
-        props: { type: 'page', text: '正在加载' },
-      })
-      expect(wrapper.find('.weui-loadmore__tips').exists()).toBe(true)
-      expect(wrapper.text()).toContain('正在加载')
-    })
-
-    it('default 模式下文字使用 weui-loading__text 类', () => {
-      const wrapper = mount(WeuiLoading, {
-        props: { type: 'default', text: '加载中' },
+        props: { text: '加载中' },
       })
       expect(wrapper.find('.weui-loading__text').exists()).toBe(true)
     })
 
-    it('default 模式下文字显式设置 font-size 保证可见', () => {
+    it('文字显式设置 font-size 保证可见', () => {
       const wrapper = mount(WeuiLoading, {
-        props: { type: 'default', text: '加载中' },
+        props: { text: '加载中' },
       })
       const style = wrapper.find('.weui-loading__text').attributes('style') || ''
       expect(style).toContain('font-size: 14px')

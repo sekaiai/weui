@@ -1,6 +1,6 @@
 # Loading 加载
 
-用于展示加载状态。支持行内加载图标、带文字加载、透明背景（适用于深色容器）以及页面级加载（`weui-loadmore` 样式）。
+用于展示加载状态。支持行内加载图标、带文字加载和透明背景（适用于深色容器）。页面或列表底部加载请使用专门的 [Loadmore](/components/loadmore) 组件。
 
 ## 基础用法
 
@@ -102,22 +102,6 @@
 ```
 :::
 
-## 页面级加载
-
-设置 `type` 为 `page`，渲染为 `weui-loadmore` 样式，常用于页面或列表底部的加载提示。
-
-<div class="demo-block vp-raw">
-  <weui-loading type="page" text="正在加载" />
-</div>
-
-::: details 查看代码
-```vue
-<template>
-  <weui-loading type="page" text="正在加载" />
-</template>
-```
-:::
-
 ## 自定义文字颜色
 
 通过 `color` 属性设置文字颜色。注意：WeUI 的 `.weui-loading` 使用内嵌 SVG 固定色，`color` 仅影响文字颜色，不影响图标颜色。
@@ -160,7 +144,6 @@
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
-| type | 显示模式：`default` 行内加载，`page` 页面级加载（`weui-loadmore`） | `'default' \| 'page'` | `'default'` |
 | size | 加载图标尺寸 px | `number` | `20` |
 | color | 文字颜色（不影响图标颜色） | `string` | `'#999'` |
 | text | 加载文字 | `string` | — |

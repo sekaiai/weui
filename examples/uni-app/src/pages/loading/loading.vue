@@ -18,10 +18,10 @@
         </view>
       </view>
 
-      <!-- 页面模式 -->
+      <!-- 列表加载 -->
       <view class="demo-section">
-        <view class="demo-section__title">页面模式</view>
-        <weui-loading type="page" text="正在加载" />
+        <view class="demo-section__title">列表加载</view>
+        <weui-loadmore text="正在加载" />
       </view>
 
       <!-- 自定义尺寸 -->
@@ -71,11 +71,11 @@
         </view>
       </view>
 
-      <!-- 页面模式组合 -->
+      <!-- 列表加载组合 -->
       <view class="demo-section">
-        <view class="demo-section__title">页面模式组合</view>
-        <weui-loading type="page" text="正在加载" />
-        <weui-loading type="page" :size="32" color="#1AAD19" text="绿色加载" />
+        <view class="demo-section__title">列表加载组合</view>
+        <weui-loadmore text="正在加载" />
+        <weui-loadmore text="加载更多" />
       </view>
     </view>
   </view>

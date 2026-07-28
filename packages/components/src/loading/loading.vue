@@ -25,8 +25,6 @@ export default {
 import { computed, useSlots } from 'vue'
 
 export interface WeuiLoadingProps {
-  /** 显示模式：default 行内加载图标，page 居中加载状态 */
-  type?: 'default' | 'page'
   /** 加载图标尺寸 px */
   size?: number
   /**
@@ -43,7 +41,6 @@ export interface WeuiLoadingProps {
 }
 
 const props = withDefaults(defineProps<WeuiLoadingProps>(), {
-  type: 'default',
   size: 20,
   color: '#999',
   text: undefined,
@@ -54,22 +51,12 @@ const slots = useSlots()
 
 const hasText = computed(() => props.text !== undefined || !!slots.default)
 
-const rootClass = computed(() => {
-  if (props.type === 'page') {
-    return ['weui-loadmore']
-  }
-  return []
-})
+const rootClass = computed(() => [])
 
-const rootStyle = computed(() => {
-  if (props.type === 'page') {
-    return {}
-  }
-  return {
+const rootStyle = computed(() => ({
     display: 'inline-flex',
     alignItems: 'center',
-  }
-})
+}))
 
 const iconStyle = computed(() => {
   const style: Record<string, string> = {
@@ -81,15 +68,10 @@ const iconStyle = computed(() => {
 })
 
 const textClass = computed(() => {
-  // page 模式：使用 WeUI 的 .weui-loadmore__tips（font-size:14px 由 WeUI 提供）
-  // default 模式：weui-loading__text 在 WeUI 中不存在，用内联 style 保证可见
-  return props.type === 'page' ? 'weui-loadmore__tips' : 'weui-loading__text'
+  return 'weui-loading__text'
 })
 
 const textStyle = computed(() => {
-  if (props.type === 'default') {
-    return { 'font-size': '14px', 'margin-left': '8px', color: props.color }
-  }
-  return { color: props.color }
+  return { 'font-size': '14px', 'margin-left': '8px', color: props.color }
 })
 </script>
