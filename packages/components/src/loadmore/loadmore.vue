@@ -1,7 +1,13 @@
 <template>
-  <div :class="rootClass">
-    <div v-if="type === 'default'" class="weui-loading" />
-    <span v-if="showText" class="weui-loadmore__tips">{{ text }}</span>
+  <div :class="rootClass" :role="role">
+    <span
+      v-if="type === 'default'"
+      class="weui-primary-loading"
+      role="img"
+      :aria-label="text"
+    ><i class="weui-primary-loading__dot" /></span>
+    <span v-if="showTips" class="weui-loadmore__tips">{{ visibleText }}</span>
+    <span v-if="type === 'dot'" class="weui-hidden_abs">{{ accessibleText }}</span>
   </div>
 </template>
 
@@ -23,7 +29,7 @@ export interface WeuiLoadmoreProps {
   type?: 'default' | 'line' | 'dot'
   /** 文字内容 */
   text?: string
-  /** 是否显示文字 */
+  /** 是否显示 default / line 模式的可见文字；dot 模式固定显示视觉圆点。 */
   showText?: boolean
   /** 附加在根元素上的扩展类名 */
   extClass?: string
@@ -43,4 +49,9 @@ const rootClass = computed(() => {
   if (props.extClass) classes.push(props.extClass)
   return classes
 })
+
+const showTips = computed(() => props.type === 'dot' || props.showText)
+const visibleText = computed(() => props.type === 'dot' ? '' : props.text)
+const accessibleText = computed(() => props.type === 'dot' && props.text === '正在加载' ? '已无更多数据' : props.text)
+const role = computed(() => props.type === 'default' ? 'alert' : props.type === 'dot' ? 'option' : undefined)
 </script>

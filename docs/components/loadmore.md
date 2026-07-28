@@ -4,7 +4,7 @@
 
 ## 基础用法
 
-默认 `type` 为 `default`，渲染加载图标（`.weui-loading`）和文字，文字默认为"正在加载"。
+默认 `type` 为 `default`，渲染官方 `.weui-primary-loading` 及文字，文字默认为"正在加载"。
 
 <div class="demo-block vp-raw">
   <weui-loadmore />
@@ -36,7 +36,7 @@
 
 ## 点点样式
 
-设置 `type` 为 `dot`，渲染点点样式，常用于列表底部"已无更多数据"的视觉提示。
+设置 `type` 为 `dot`，渲染官方点点样式，常用于列表底部"已无更多数据"的视觉提示。该模式将状态文字保留给辅助技术，不在视觉上显示文字。
 
 <div class="demo-block vp-raw">
   <weui-loadmore type="dot" />
@@ -70,7 +70,7 @@
 
 ## 隐藏文字
 
-通过 `showText` 属性控制是否显示文字，设为 `false` 时仅保留加载图标或点点视觉。
+通过 `showText` 属性控制 default / line 模式的可见文字；dot 模式始终保留视觉圆点，并隐藏状态文字。
 
 <div class="demo-block vp-raw">
   <weui-loadmore :show-text="false" />
@@ -151,5 +151,5 @@ const list = ref([{ id: 1, text: '列表项一' }, { id: 2, text: '列表项二'
 | --- | --- | --- | --- |
 | type | 显示模式：`default` 加载图标+文字，`line` 分割线+文字，`dot` 点点样式 | `'default' \| 'line' \| 'dot'` | `'default'` |
 | text | 文字内容 | `string` | `'正在加载'` |
-| showText | 是否显示文字 | `boolean` | `true` |
+| showText | 是否显示 default / line 模式的可见文字 | `boolean` | `true` |
 | extClass | 附加在根元素上的扩展类名 | `string` | — |

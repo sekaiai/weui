@@ -26,9 +26,10 @@ describe('WeuiLoadmore', () => {
       expect(wrapper.classes()).not.toContain('weui-loadmore_dot')
     })
 
-    it('type=default 渲染 weui-loading 加载图标', () => {
+    it('type=default 渲染官方 primary loading 加载图标', () => {
       const wrapper = mount(WeuiLoadmore)
-      expect(wrapper.find('.weui-loading').exists()).toBe(true)
+      expect(wrapper.find('.weui-primary-loading').exists()).toBe(true)
+      expect(wrapper.find('.weui-primary-loading__dot').exists()).toBe(true)
     })
 
     it('type=line 带 weui-loadmore_line 类', () => {
@@ -38,7 +39,7 @@ describe('WeuiLoadmore', () => {
 
     it('type=line 不渲染加载图标', () => {
       const wrapper = mount(WeuiLoadmore, { props: { type: 'line' } })
-      expect(wrapper.find('.weui-loading').exists()).toBe(false)
+      expect(wrapper.find('.weui-primary-loading').exists()).toBe(false)
     })
 
     it('type=dot 带 weui-loadmore_dot 类', () => {
@@ -48,7 +49,7 @@ describe('WeuiLoadmore', () => {
 
     it('type=dot 不渲染加载图标', () => {
       const wrapper = mount(WeuiLoadmore, { props: { type: 'dot' } })
-      expect(wrapper.find('.weui-loading').exists()).toBe(false)
+      expect(wrapper.find('.weui-primary-loading').exists()).toBe(false)
     })
 
     it('type=dot 不带 weui-loadmore_line 类', () => {
@@ -90,7 +91,7 @@ describe('WeuiLoadmore', () => {
 
     it('showText 为 false 时仍渲染加载图标（default 类型）', () => {
       const wrapper = mount(WeuiLoadmore, { props: { showText: false } })
-      expect(wrapper.find('.weui-loading').exists()).toBe(true)
+      expect(wrapper.find('.weui-primary-loading').exists()).toBe(true)
     })
   })
 
