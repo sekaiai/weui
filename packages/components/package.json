@@ -2,6 +2,24 @@
   "name": "weui-design-vue",
   "version": "0.2.0",
   "description": "支持 uni-app 的 WeUI Vue 3 组件库",
+  "keywords": [
+    "weui",
+    "vue",
+    "vue3",
+    "uni-app",
+    "wechat-miniprogram",
+    "ui"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/sekaiai/weui#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sekaiai/weui.git",
+    "directory": "packages/components"
+  },
+  "bugs": {
+    "url": "https://github.com/sekaiai/weui/issues"
+  },
   "main": "dist/vue3/index.mjs",
   "module": "dist/vue3/index.mjs",
   "types": "dist/vue3/types/index.d.ts",
@@ -17,15 +35,29 @@
     "./dist/uni-app/*": "./dist/uni-app/*"
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "LICENSE"
   ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "scripts": {
+    "prepack": "pnpm build",
     "build": "pnpm build:vue3 && pnpm build:uni-app",
     "build:vue3": "vite build --mode vue3 && pnpm build:types",
     "build:uni-app": "tsx scripts/copy-uniapp-sfc.ts",
     "build:types": "vue-tsc -p tsconfig.build.json",
     "test": "vitest run",
-    "typecheck": "vue-tsc --noEmit -p tsconfig.json"
+    "typecheck": "vue-tsc --noEmit -p tsconfig.json",
+    "release:check": "pnpm build && npm pack --dry-run"
   },
   "peerDependencies": {
     "vue": "^3.4.0"
