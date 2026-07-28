@@ -130,7 +130,7 @@ const onCancel = () => console.log('用户取消了搜索')
 
 ## 搜索按钮
 
-`searchButtonText` 设置后显示搜索按钮（替代取消按钮）。点击搜索按钮触发 `search` 事件，携带当前输入值。
+`searchButtonText` 设置后使用官方 `weui-search-bar_outlined` 与 `weui-search-bar__search-btn` 结构显示搜索按钮（替代取消按钮）。点击搜索按钮触发 `search` 事件，携带当前输入值。
 
 <div class="demo-block vp-raw">
   <div class="demo-mobile">

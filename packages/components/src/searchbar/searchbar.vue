@@ -33,7 +33,7 @@
     >{{ cancelText }}</div>
     <div
       v-if="searchButtonText"
-      class="weui-search-bar__btn"
+      class="weui-search-bar__search-btn"
       @click="handleSearch"
     >{{ searchButtonText }}</div>
   </div>
@@ -94,6 +94,7 @@ const focused = ref(props.focus)
 const rootClass = computed(() => {
   const classes: string[] = ['weui-search-bar']
   if (focused.value) classes.push('weui-search-bar_focusing')
+  if (props.searchButtonText) classes.push('weui-search-bar_outlined')
   if (props.extClass) classes.push(props.extClass)
   return classes
 })
@@ -179,9 +180,4 @@ const handleLabelClick = () => {
   background-color: currentColor;
 }
 
-/* weui.css 未设 flex 居中 */
-.weui-search-bar__btn {
-  display: flex;
-  align-items: center;
-}
 </style>

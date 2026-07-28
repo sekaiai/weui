@@ -201,13 +201,14 @@ describe('WeuiSearchbar', () => {
   describe('搜索按钮', () => {
     it('不设置 searchButtonText 时不显示搜索按钮', () => {
       const wrapper = mount(WeuiSearchbar)
-      expect(wrapper.find('.weui-search-bar__btn').exists()).toBe(false)
+      expect(wrapper.find('.weui-search-bar__search-btn').exists()).toBe(false)
     })
 
     it('设置 searchButtonText 时显示搜索按钮', () => {
       const wrapper = mount(WeuiSearchbar, { props: { searchButtonText: '搜索' } })
-      expect(wrapper.find('.weui-search-bar__btn').exists()).toBe(true)
-      expect(wrapper.find('.weui-search-bar__btn').text()).toBe('搜索')
+      expect(wrapper.find('.weui-search-bar__search-btn').exists()).toBe(true)
+      expect(wrapper.find('.weui-search-bar__search-btn').text()).toBe('搜索')
+      expect(wrapper.classes()).toContain('weui-search-bar_outlined')
     })
 
     it('设置 searchButtonText 时不显示取消按钮', async () => {
@@ -220,7 +221,7 @@ describe('WeuiSearchbar', () => {
       const wrapper = mount(WeuiSearchbar, {
         props: { modelValue: 'keyword', searchButtonText: '搜索' },
       })
-      await wrapper.find('.weui-search-bar__btn').trigger('click')
+      await wrapper.find('.weui-search-bar__search-btn').trigger('click')
       expect(wrapper.emitted('search')).toHaveLength(1)
       expect(wrapper.emitted('search')![0]).toEqual(['keyword'])
     })
@@ -229,7 +230,7 @@ describe('WeuiSearchbar', () => {
       const wrapper = mount(WeuiSearchbar, {
         props: { modelValue: 'keyword', searchButtonText: '搜索' },
       })
-      await wrapper.find('.weui-search-bar__btn').trigger('click')
+      await wrapper.find('.weui-search-bar__search-btn').trigger('click')
       expect(wrapper.classes()).toContain('weui-search-bar_focusing')
     })
 
@@ -239,7 +240,7 @@ describe('WeuiSearchbar', () => {
       })
       const inputEl = wrapper.find('input').element as HTMLInputElement
       const focusSpy = vi.spyOn(inputEl, 'focus')
-      await wrapper.find('.weui-search-bar__btn').trigger('click')
+      await wrapper.find('.weui-search-bar__search-btn').trigger('click')
       expect(focusSpy).toHaveBeenCalledTimes(1)
     })
   })
