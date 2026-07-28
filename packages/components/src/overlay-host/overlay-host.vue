@@ -31,6 +31,7 @@ export interface OverlayItem {
   id: number
   component: Component
   props: Record<string, unknown>
+  zIndex: number
 }
 
 const items = shallowRef<OverlayItem[]>([])
@@ -40,18 +41,16 @@ const nextId = ref(1)
 const add = (component: Component, props: Record<string, unknown> = {}): { id: number; zIndex: number } => {
   const id = nextId.value++
   const zIndex = overlayManager.push()
-  const item: OverlayItem = { id, component, props: { ...props, zIndex } }
+  const item: OverlayItem = { id, component, props: { ...props, zIndex }, zIndex }
   items.value = [...items.value, item]
   return { id, zIndex }
 }
 
-/** 移除命令式弹层。仅当移除的是栈顶时才释放 z-index */
+/** 移除命令式弹层，并精确释放其 z-index。 */
 const remove = (id: number): void => {
   const index = items.value.findIndex((i) => i.id === id)
   if (index === -1) return
-  if (index === items.value.length - 1) {
-    overlayManager.pop()
-  }
+  overlayManager.remove(items.value[index].zIndex)
   items.value = items.value.filter((i) => i.id !== id)
 }
 

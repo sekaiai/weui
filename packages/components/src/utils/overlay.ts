@@ -24,6 +24,15 @@ class OverlayManager {
       : this.stack[this.stack.length - 1]
   }
 
+  /** 移除指定层级；命令式弹层可以按任意关闭顺序安全释放 */
+  remove(zIndex: number): number | undefined {
+    const index = this.stack.indexOf(zIndex)
+    if (index !== -1) this.stack.splice(index, 1)
+    return this.stack.length === 0
+      ? undefined
+      : this.stack[this.stack.length - 1]
+  }
+
   /** 当前栈大小 */
   size(): number {
     return this.stack.length
