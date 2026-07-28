@@ -80,7 +80,7 @@ const show = ref(false)
 
 ## 提示类型
 
-通过 `type` 设置四种类型：`success`（成功，默认）、`loading`（加载，默认不自动关闭）、`warning`（警告）、`text`（纯文本，无图标）。
+通过 `type` 设置四种类型：`success`（成功，默认）、`loading`（加载，默认不自动关闭）、`warning`（警告）、`text`（纯文本，无图标）。纯文本超过 14 个字符时会自动添加官方 `weui-toast_text-more` 类。
 
 <div class="demo-block vp-raw">
   <weui-button type="default" @click="showSuccess = true">success</weui-button>

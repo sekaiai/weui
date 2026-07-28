@@ -79,7 +79,10 @@ const emit = defineEmits<WeuiToastEmits>()
 
 const toastClass = computed(() => {
   const classes: string[] = ['weui-toast']
-  if (props.type === 'text') classes.push('weui-toast_text')
+  if (props.type === 'text') {
+    classes.push('weui-toast_text')
+    if (props.content.length > 14) classes.push('weui-toast_text-more')
+  }
   if (props.extClass) classes.push(props.extClass)
   return classes
 })

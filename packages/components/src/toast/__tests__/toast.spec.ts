@@ -74,6 +74,13 @@ describe('WeuiToast', () => {
       expect(wrapper.find('.weui-icon_toast').exists()).toBe(false)
       expect(wrapper.find('.weui-toast').classes()).toContain('weui-toast_text')
     })
+
+    it('长文本类型添加官方 weui-toast_text-more 类', () => {
+      const wrapper = mount(WeuiToast, {
+        props: { visible: true, type: 'text', content: '这是一段超过十四个字符的长文本提示内容' },
+      })
+      expect(wrapper.find('.weui-toast').classes()).toContain('weui-toast_text-more')
+    })
   })
 
   describe('mask', () => {
