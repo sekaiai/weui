@@ -8,6 +8,7 @@ describe('WeuiNavbar', () => {
     it('根元素带 weui-navbar 类', () => {
       const wrapper = mount(WeuiNavbar)
       expect(wrapper.classes()).toContain('weui-navbar')
+      expect(wrapper.attributes('role')).toBe('tablist')
     })
 
     it('渲染默认插槽内容', () => {
@@ -58,6 +59,15 @@ describe('WeuiNavbarItem', () => {
       const wrapper = mount(WeuiNavbarItem)
       expect(wrapper.classes()).not.toContain('weui-bar__item_on')
     })
+
+    it('提供 tab 的选中状态与键盘焦点顺序', () => {
+      const active = mount(WeuiNavbarItem, { props: { active: true } })
+      const inactive = mount(WeuiNavbarItem)
+      expect(active.attributes('aria-selected')).toBe('true')
+      expect(active.attributes('tabindex')).toBe('0')
+      expect(inactive.attributes('aria-selected')).toBe('false')
+      expect(inactive.attributes('tabindex')).toBe('-1')
+    })
   })
 
   describe('extClass', () => {
@@ -81,6 +91,13 @@ describe('WeuiNavbarItem', () => {
       await wrapper.trigger('click')
       const evt = wrapper.emitted('click')![0][0]
       expect(evt).toBeInstanceOf(Event)
+    })
+
+    it('按 Enter 或 Space 触发 click', async () => {
+      const wrapper = mount(WeuiNavbarItem)
+      await wrapper.trigger('keydown.enter')
+      await wrapper.trigger('keydown.space')
+      expect(wrapper.emitted('click')).toHaveLength(2)
     })
   })
 

@@ -1,6 +1,6 @@
 # Navbar 顶部选项卡
 
-Navbar 顶部选项卡，用于页面内 tab 切换。`weui-navbar` 作为容器，`weui-navbar-item` 作为单个选项。
+Navbar 顶部选项卡，用于页面内 tab 切换。`weui-navbar` 作为容器，`weui-navbar-item` 作为单个选项；组件同时输出 `tablist` / `tab` 语义，支持 Enter 与 Space 键触发选项。
 
 <script setup lang="ts">
 import { ref } from 'vue'

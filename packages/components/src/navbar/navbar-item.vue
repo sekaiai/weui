@@ -3,7 +3,10 @@
     :class="rootClass"
     role="tab"
     :aria-selected="active"
+    :tabindex="active ? 0 : -1"
     @click="handleClick"
+    @keydown.enter="handleKeyboardClick"
+    @keydown.space.prevent="handleKeyboardClick"
   >
     <slot />
   </div>
@@ -48,6 +51,10 @@ const rootClass = computed(() => {
 })
 
 const handleClick = (event: Event) => {
+  emit('click', event)
+}
+
+const handleKeyboardClick = (event: KeyboardEvent) => {
   emit('click', event)
 }
 </script>
