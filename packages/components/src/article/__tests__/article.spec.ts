@@ -9,9 +9,9 @@ describe('WeuiArticle', () => {
       expect(wrapper.classes()).toContain('weui-article')
     })
 
-    it('根元素为 view', () => {
+    it('根元素为语义化 article', () => {
       const wrapper = mount(WeuiArticle)
-      expect(wrapper.element.tagName.toLowerCase()).toBe('div')
+      expect(wrapper.element.tagName.toLowerCase()).toBe('article')
     })
   })
 
@@ -69,7 +69,7 @@ describe('WeuiArticle', () => {
     it('无任何 props 时正常渲染且仅含 weui-article 类', () => {
       const wrapper = mount(WeuiArticle)
       expect(wrapper.classes()).toEqual(['weui-article'])
-      expect(wrapper.element.tagName.toLowerCase()).toBe('div')
+      expect(wrapper.element.tagName.toLowerCase()).toBe('article')
     })
   })
 })
