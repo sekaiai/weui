@@ -1,14 +1,14 @@
 <template>
   <div
     v-if="wrapperShow"
-    class="weui-mask"
-    :class="{ 'weui-animate-fade-in': innerShow, 'weui-animate-fade-out': !innerShow }"
+    class="weui-mask weui-transition"
+    :class="{ 'weui-transition_show': innerShow }"
     :style="maskStyle"
     @click="handleMaskClick"
     @touchmove.stop.prevent
   >
     <div
-      :class="['weui-dialog', { 'weui-animate-fade-in': innerShow, 'weui-animate-fade-out': !innerShow }, extClass, { 'weui-dialog_btn-wrap': btnWrap }]"
+      :class="['weui-dialog', extClass, { 'weui-dialog_btn-wrap': btnWrap }]"
       role="dialog"
       aria-modal="true"
       @click.stop
