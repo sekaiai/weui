@@ -15,9 +15,9 @@ describe('WeuiSteps', () => {
       expect(wrapper.classes()).toContain('weui-steps')
     })
 
-    it('根元素为 view', () => {
+    it('根元素为官方 ul 列表', () => {
       const wrapper = mount(WeuiSteps, { props: { steps: sampleSteps } })
-      expect(wrapper.element.tagName.toLowerCase()).toBe('div')
+      expect(wrapper.element.tagName.toLowerCase()).toBe('ul')
     })
 
     it('根据 steps 数组长度渲染对应数量的步骤项', () => {
@@ -31,6 +31,7 @@ describe('WeuiSteps', () => {
       items.forEach((item) => {
         expect(item.classes()).toContain('weui-steps__item')
       })
+      expect(items[0].element.tagName.toLowerCase()).toBe('li')
     })
 
     it('每个步骤项内包含 weui-steps__item__inner 包裹层', () => {

@@ -17,7 +17,7 @@ const titleOnlySteps = [
 
 ## 基础用法
 
-通过 `steps` 属性传入步骤列表（`{ title, desc? }`），`current` 指定当前步骤索引。索引小于 `current` 的步骤会标记为已完成（追加 `weui-steps__item_success` 类）。
+通过 `steps` 属性传入步骤列表（`{ title, desc? }`），`current` 指定当前步骤索引。组件输出官方的 `ul > li` 步骤列表；索引小于 `current` 的步骤会标记为已完成（追加 `weui-steps__item_success` 类）。
 
 <div class="demo-block vp-raw">
   <weui-steps :steps="basicSteps" :current="1" />
