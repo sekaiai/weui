@@ -123,6 +123,14 @@ describe('WeuiMediaBox', () => {
       expect(wrapper.find('.weui-cell').exists()).toBe(true)
       expect(wrapper.text()).toContain('cell')
     })
+
+    it('允许官方 cell_example 小图文结构作为内容', () => {
+      const wrapper = mount(WeuiMediaBox, {
+        props: { type: 'cells' },
+        slots: { default: '<a class="weui-cell weui-cell_example"><div class="weui-cell__hd"><img src="x.png" /></div></a>' },
+      })
+      expect(wrapper.find('.weui-cell_example .weui-cell__hd img').attributes('src')).toBe('x.png')
+    })
   })
 
   describe('extClass', () => {

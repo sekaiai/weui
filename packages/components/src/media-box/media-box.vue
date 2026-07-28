@@ -109,9 +109,14 @@ const onClick = (event: Event) => {
 </script>
 
 <style lang="scss">
-/* 小图文组合列表（cells 模式）：cell 头部需要右间距
-   weui.css 中 weui-cell__hd 默认无 padding-right，在此补充 */
-.weui-media-box_small-appmsg .weui-cell__hd {
+/* 官方小图文组合列表：缩略图固定 46px，并由 header 提供与正文的间距。 */
+.weui-media-box_small-appmsg .weui-cell_example .weui-cell__hd {
   padding-right: 16px;
+}
+.weui-media-box_small-appmsg .weui-cell_example .weui-cell__hd img {
+  display: block;
+  width: 46px;
+  height: 46px;
+  object-fit: cover;
 }
 </style>

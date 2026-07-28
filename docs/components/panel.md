@@ -118,7 +118,7 @@ const items = ref([
 
 ## 小图文组合列表
 
-`MediaBox` 指定 `type="cells"` 作为容器。这个案例的图片尺寸、正文语义和跳转箭头与通用 `Cell` 不同，因此按官方结构直接组合 `.weui-cell_example`：46px 图片放在 `__hd`，标题放在 `__bd.weui-cell_primary`，跳转箭头由空的 `__ft` 保留。
+`MediaBox` 指定 `type="cells"` 作为容器。这个案例的图片尺寸、正文语义和跳转箭头与通用 `Cell` 不同，因此按官方结构直接组合 `.weui-cell_example`：46px 缩略图样式由 MediaBox 内置，标题放在 `__bd.weui-cell_primary`，跳转箭头由空的 `__ft` 保留。
 
 <div class="demo-block vp-raw">
   <div class="demo-mobile">
@@ -131,7 +131,7 @@ const items = ref([
           class="weui-cell weui-cell_active weui-cell_access weui-cell_example"
         >
           <div class="weui-cell__hd">
-            <img :src="item.thumb" alt="" style="display: block; width: 46px; height: 46px;" />
+            <img :src="item.thumb" alt="" />
           </div>
           <div class="weui-cell__bd weui-cell_primary"><p>{{ item.title }}</p></div>
           <div class="weui-cell__ft" />
@@ -153,7 +153,7 @@ const items = ref([
         class="weui-cell weui-cell_active weui-cell_access weui-cell_example"
       >
         <div class="weui-cell__hd">
-          <img :src="item.thumb" alt="" style="display: block; width: 46px; height: 46px;" />
+          <img :src="item.thumb" alt="" />
         </div>
         <div class="weui-cell__bd weui-cell_primary"><p>{{ item.title }}</p></div>
         <div class="weui-cell__ft" />
