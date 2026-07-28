@@ -29,6 +29,10 @@ import { computed } from 'vue'
 export interface WeuiAgreeProps {
   modelValue?: boolean
   disabled?: boolean
+  /** 警告状态 */
+  warn?: boolean
+  /** 触发官方横向抖动动画 */
+  animate?: boolean
   extClass?: string
 }
 
@@ -40,12 +44,16 @@ export interface WeuiAgreeEmits {
 const props = withDefaults(defineProps<WeuiAgreeProps>(), {
   modelValue: false,
   disabled: false,
+  warn: false,
+  animate: false,
 })
 
 const emit = defineEmits<WeuiAgreeEmits>()
 
 const rootClass = computed(() => {
   const classes: string[] = ['weui-agree', 'weui-wa-hotarea']
+  if (props.warn) classes.push('weui-agree_warn')
+  if (props.animate) classes.push('weui-agree_animate')
   if (props.extClass) classes.push(props.extClass)
   return classes
 })

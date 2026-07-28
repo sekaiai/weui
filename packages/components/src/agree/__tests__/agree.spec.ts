@@ -47,6 +47,18 @@ describe('WeuiAgree', () => {
     })
   })
 
+  describe('状态样式', () => {
+    it('warn=true 时添加官方警告类', () => {
+      const wrapper = mount(WeuiAgree, { props: { warn: true } })
+      expect(wrapper.classes()).toContain('weui-agree_warn')
+    })
+
+    it('animate=true 时添加官方动画类', () => {
+      const wrapper = mount(WeuiAgree, { props: { animate: true } })
+      expect(wrapper.classes()).toContain('weui-agree_animate')
+    })
+  })
+
   describe('default slot', () => {
     it('默认插槽内容渲染到 .weui-agree__text', () => {
       const wrapper = mount(WeuiAgree, {
