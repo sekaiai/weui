@@ -1,10 +1,43 @@
 <template>
   <div :class="rootClass">
-    <div class="weui-search-bar__form">
+    <a
+      v-if="showBackButton"
+      href="#"
+      role="button"
+      class="weui-search-bar__back-btn"
+      aria-label="返回"
+      @click.prevent="handleBack"
+    ><i class="weui-icon-back-arrow-thin" /></a>
+    <form
+      v-if="isHomepage"
+      class="weui-search-bar__form"
+      role="search"
+      @submit.prevent
+    >
       <div class="weui-search-bar__box">
-        <div class="weui-icon-search" />
+        <div class="weui-search-bar__input weui-search-bar__input_text">{{ homepageText || placeholder }}</div>
+        <a
+          v-if="showCamera"
+          href="#"
+          role="button"
+          class="weui-icon-camera weui-wa-hotarea"
+          aria-label="拍照"
+          @click.prevent="handleCamera"
+        />
+      </div>
+    </form>
+    <form
+      v-else
+      class="weui-search-bar__form"
+      role="search"
+      @submit.prevent="handleConfirm"
+    >
+      <div class="weui-search-bar__box">
+        <i class="weui-icon-search" />
+        <span v-if="words" class="weui-search-bar__words">{{ words }}</span>
         <input
           ref="inputRef"
+          type="search"
           class="weui-search-bar__input"
           :value="modelValue"
           :placeholder="placeholder"
@@ -12,28 +45,30 @@
           @input="handleInput"
           @focus="handleFocus"
           @blur="handleBlur"
-          @keydown.enter="handleConfirm"
           @confirm="handleConfirm"
         />
-        <div
+        <a
           v-if="showClear"
+          href="#"
+          role="button"
           class="weui-icon-clear"
-          @click="handleClear"
+          aria-label="清除"
+          @click.prevent="handleClear"
         />
       </div>
-      <div class="weui-search-bar__label" @click="handleLabelClick">
-        <div class="weui-icon-search" />
-        <span>{{ placeholder }}</span>
-      </div>
-    </div>
+      <label class="weui-search-bar__label" @click="handleLabelClick">
+        <i class="weui-icon-search" />
+        <span class="weui-search-bar__label__text">{{ placeholder }}</span>
+      </label>
+    </form>
     <div
       v-if="showCancelButton"
       class="weui-search-bar__cancel-btn"
       @click="handleCancel"
     >{{ cancelText }}</div>
     <div
-      v-if="searchButtonText"
-      class="weui-search-bar__search-btn"
+      v-if="showSearchButton"
+      class="weui-search-bar__search-btn weui-btn weui-btn_primary"
       @click="handleSearch"
     >{{ searchButtonText }}</div>
   </div>
@@ -63,6 +98,16 @@ export interface WeuiSearchbarProps {
   focus?: boolean
   /** 搜索按钮文字，不设置则不显示搜索按钮，只显示取消按钮 */
   searchButtonText?: string
+  /** 官方视觉模式：filled、filled-grey、outlined、homepage */
+  mode?: 'filled' | 'filled-grey' | 'outlined' | 'homepage'
+  /** 搜索词前缀，适用于 filled / filled-grey 模式 */
+  words?: string
+  /** 是否显示返回按钮 */
+  showBackButton?: boolean
+  /** 首页搜索栏展示文字，仅 mode 为 homepage 时使用 */
+  homepageText?: string
+  /** 首页搜索栏是否显示拍照入口，仅 mode 为 homepage 时使用 */
+  showCamera?: boolean
   /** 根元素扩展类名 */
   extClass?: string
 }
@@ -75,6 +120,8 @@ export interface WeuiSearchbarEmits {
   (e: 'cancel'): void
   (e: 'clear'): void
   (e: 'search', value: string): void
+  (e: 'back'): void
+  (e: 'camera'): void
 }
 
 const props = withDefaults(defineProps<WeuiSearchbarProps>(), {
@@ -82,6 +129,11 @@ const props = withDefaults(defineProps<WeuiSearchbarProps>(), {
   placeholder: '搜索',
   cancelText: '取消',
   focus: false,
+  mode: 'filled',
+  words: '',
+  showBackButton: false,
+  homepageText: '',
+  showCamera: true,
 })
 
 const emit = defineEmits<WeuiSearchbarEmits>()
@@ -90,17 +142,22 @@ const inputRef = ref<HTMLInputElement | null>(null)
 
 /** 输入框是否聚焦（视觉状态，有值时 blur 后保持 true） */
 const focused = ref(props.focus)
+const isHomepage = computed(() => props.mode === 'homepage')
+const isOutlined = computed(() => props.mode === 'outlined' || !!props.searchButtonText)
 
 const rootClass = computed(() => {
   const classes: string[] = ['weui-search-bar']
   if (focused.value) classes.push('weui-search-bar_focusing')
-  if (props.searchButtonText) classes.push('weui-search-bar_outlined')
+  if (isOutlined.value) classes.push('weui-search-bar_outlined')
+  else if (props.mode === 'filled-grey') classes.push('weui-search-bar_filled-grey')
+  else if (isHomepage.value) classes.push('weui-search-bar_homepage')
   if (props.extClass) classes.push(props.extClass)
   return classes
 })
 
 const showClear = computed(() => !!props.modelValue)
-const showCancelButton = computed(() => focused.value && !props.searchButtonText)
+const showCancelButton = computed(() => !isHomepage.value && (isOutlined.value || focused.value))
+const showSearchButton = computed(() => !isHomepage.value && isOutlined.value && !!props.searchButtonText)
 
 // 非 H5 端专属属性（H5 端浏览器忽略 confirm-type / :focus）
 // H5 端 focus 由 watch + ref.focus() 处理，不绑 :focus 属性
@@ -142,7 +199,7 @@ const handleBlur = (event: Event) => {
   emit('blur', event)
 }
 
-// H5 端：keydown.enter 触发 confirm
+// H5 端：form submit 触发 confirm
 // 非 H5 端：@confirm 事件触发（uni-app 键盘完成键，confirm-type="search"）
 const handleConfirm = (event: Event) => {
   emit('confirm', event)
@@ -166,6 +223,10 @@ const handleSearch = () => {
   if (__IS_H5__) inputRef.value?.focus()
 }
 
+const handleBack = () => emit('back')
+
+const handleCamera = () => emit('camera')
+
 const handleLabelClick = () => {
   focused.value = true
   if (__IS_H5__) inputRef.value?.focus()
@@ -175,9 +236,10 @@ const handleLabelClick = () => {
 <style lang="scss">
 /* weui.css 仅提供 mask-image + color，缺尺寸/背景 */
 .weui-icon-clear {
-  width: 16px;
-  height: 16px;
-  background-color: currentColor;
+  border: 0;
+  padding: 0;
+  color: inherit;
+  text-decoration: none;
 }
 
 </style>

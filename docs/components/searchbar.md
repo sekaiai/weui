@@ -8,6 +8,7 @@ import { ref } from 'vue'
 const value = ref('')
 const customCancelValue = ref('')
 const searchBtnValue = ref('')
+const greyValue = ref('')
 const eventLog = ref<string[]>([])
 const logEvent = (msg: string) => {
   const time = new Date().toLocaleTimeString()
@@ -128,14 +129,50 @@ const onCancel = () => console.log('用户取消了搜索')
 ```
 :::
 
+## 官方视觉模式
+
+`mode` 对应 WeUI 的官方搜索栏结构：默认 `filled` 适合普通页面；`filled-grey` 用于灰色背景页面；`outlined` 用于带明确搜索操作的场景；`homepage` 为首页展示型搜索入口。
+
+<div class="demo-block vp-raw">
+  <div class="demo-mobile">
+    <weui-searchbar v-model="greyValue" mode="filled-grey" words="微信" placeholder="搜索联系人" />
+    <weui-searchbar mode="homepage" homepage-text="搜索" @camera="logEvent('触发 camera 事件')" />
+  </div>
+</div>
+
+::: details 查看代码
+```vue
+<template>
+  <!-- 灰色背景中的填充搜索栏，可显示固定前缀 -->
+  <weui-searchbar
+    v-model="keyword"
+    mode="filled-grey"
+    words="微信"
+    placeholder="搜索联系人"
+  />
+
+  <!-- 首页只展示搜索入口和拍照按钮，不承载输入 -->
+  <weui-searchbar mode="homepage" homepage-text="搜索" @camera="openCamera" />
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const keyword = ref('')
+const openCamera = () => console.log('打开拍照能力')
+</script>
+```
+:::
+
 ## 搜索按钮
 
-`searchButtonText` 设置后使用官方 `weui-search-bar_outlined` 与 `weui-search-bar__search-btn` 结构显示搜索按钮（替代取消按钮）。点击搜索按钮触发 `search` 事件，携带当前输入值。
+`mode="outlined"` 配合 `searchButtonText` 使用官方 `weui-search-bar_outlined`、`weui-search-bar__search-btn` 与主按钮结构。点击搜索按钮或键盘确认会触发 `search` 事件，携带当前输入值。
 
 <div class="demo-block vp-raw">
   <div class="demo-mobile">
     <weui-searchbar
       v-model="searchBtnValue"
+      mode="outlined"
       search-button-text="搜索"
       @search="onSearch"
     />
@@ -148,6 +185,7 @@ const onCancel = () => console.log('用户取消了搜索')
 <template>
   <weui-searchbar
     v-model="value"
+    mode="outlined"
     search-button-text="搜索"
     @search="onSearch"
   />
@@ -214,6 +252,11 @@ const value = ref('')
 | cancelText | 取消按钮文字 | `string` | `'取消'` |
 | focus | 是否自动聚焦 | `boolean` | `false` |
 | searchButtonText | 搜索按钮文字，不设置则只显示取消按钮 | `string` | — |
+| mode | 官方视觉模式：`filled` / `filled-grey` / `outlined` / `homepage` | `string` | `'filled'` |
+| words | 搜索词前缀，适用于 `filled` / `filled-grey` | `string` | — |
+| showBackButton | 是否显示返回按钮 | `boolean` | `false` |
+| homepageText | 首页搜索栏展示文字，仅 `homepage` 模式使用 | `string` | — |
+| showCamera | 首页搜索栏是否显示拍照入口，仅 `homepage` 模式使用 | `boolean` | `true` |
 | extClass | 根元素扩展类名 | `string` | — |
 
 ## Events
@@ -227,3 +270,5 @@ const value = ref('')
 | cancel | 点击取消按钮时触发 | — |
 | clear | 点击清除按钮时触发 | — |
 | search | 点击搜索按钮或键盘确认时触发 | `(value: string)` |
+| back | 点击返回按钮时触发 | — |
+| camera | 点击首页搜索栏的拍照入口时触发 | — |
