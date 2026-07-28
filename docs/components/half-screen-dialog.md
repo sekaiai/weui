@@ -239,7 +239,9 @@ const threeButtons: HalfScreenDialogButton[] = [
       <span>这是一个带图标的提示内容，可以放置更丰富的内容。</span>
     </div>
     <template #footer>
-      <div class="weui-half-screen-dialog__btn weui-half-screen-dialog__btn_primary" @click="show6 = false">知道了</div>
+      <div class="weui-half-screen-dialog__btn-area">
+        <weui-button type="primary" @click="show6 = false">知道了</weui-button>
+      </div>
     </template>
   </weui-half-screen-dialog>
 </div>
@@ -256,7 +258,9 @@ const threeButtons: HalfScreenDialogButton[] = [
       <span>这是一个带图标的提示内容，可以放置更丰富的内容。</span>
     </div>
     <template #footer>
-      <div class="weui-half-screen-dialog__btn weui-half-screen-dialog__btn_primary" @click="show = false">知道了</div>
+      <div class="weui-half-screen-dialog__btn-area">
+        <weui-button type="primary" @click="show = false">知道了</weui-button>
+      </div>
     </template>
   </weui-half-screen-dialog>
 </template>

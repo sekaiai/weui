@@ -29,14 +29,16 @@
       <!-- 底部按钮区域 -->
       <div v-if="hasFooter" class="weui-half-screen-dialog__ft">
         <slot name="footer">
-          <a
-            v-for="(btn, index) in buttons"
-            :key="index"
-            role="button"
-            href="javascript:"
-            :class="['weui-half-screen-dialog__btn', btnClassName(btn, index)]"
-            @click="handleButtonTap(btn, index)"
-          >{{ btn.label }}</a>
+          <div class="weui-half-screen-dialog__btn-area">
+            <a
+              v-for="(btn, index) in buttons"
+              :key="index"
+              href="#"
+              role="button"
+              :class="['weui-btn', buttonClassName(btn, index)]"
+              @click.prevent="handleButtonTap(btn, index)"
+            >{{ btn.label }}</a>
+          </div>
         </slot>
       </div>
     </div>
@@ -158,18 +160,18 @@ onBeforeUnmount(() => {
 })
 
 /** 按钮类名分配：未指定 type 时，单按钮→primary，多按钮→首个 default 其余 primary */
-const btnClassName = (btn: HalfScreenDialogButton, index: number): string => {
+const buttonClassName = (btn: HalfScreenDialogButton, index: number): string => {
   if (btn.type) {
     return btn.type === 'primary'
-      ? 'weui-half-screen-dialog__btn_primary'
+      ? 'weui-btn_primary'
       : btn.type === 'warn'
-        ? 'weui-half-screen-dialog__btn_warn'
-        : 'weui-half-screen-dialog__btn_default'
+        ? 'weui-btn_warn'
+        : 'weui-btn_default'
   }
   if (props.buttons.length === 1) {
-    return 'weui-half-screen-dialog__btn_primary'
+    return 'weui-btn_primary'
   }
-  return index === 0 ? 'weui-half-screen-dialog__btn_default' : 'weui-half-screen-dialog__btn_primary'
+  return index === 0 ? 'weui-btn_default' : 'weui-btn_primary'
 }
 
 const close = () => {
