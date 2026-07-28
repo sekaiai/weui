@@ -40,6 +40,16 @@ describe('WeuiFooter', () => {
         props: { links: [{ text: '底部链接' }] },
       })
       expect(wrapper.find('.weui-footer__link').text()).toBe('底部链接')
+      expect(wrapper.find('.weui-footer__link').element.tagName.toLowerCase()).toBe('span')
+    })
+
+    it('提供 url 时渲染链接元素', () => {
+      const wrapper = mount(WeuiFooter, {
+        props: { links: [{ text: '底部链接', url: '/about' }] },
+      })
+      const link = wrapper.find('.weui-footer__link')
+      expect(link.element.tagName.toLowerCase()).toBe('a')
+      expect(link.attributes('href')).toBe('/about')
     })
 
     it('支持渲染多个链接', () => {

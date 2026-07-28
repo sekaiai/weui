@@ -2,12 +2,10 @@
   <div :class="rootClass">
     <slot>
       <p v-if="hasLinks" class="weui-footer__links">
-        <a
-          v-for="(link, index) in links"
-          :key="index"
-          :href="link.url"
-          class="weui-footer__link"
-        >{{ link.text }}</a>
+        <template v-for="(link, index) in links" :key="index">
+          <a v-if="link.url" :href="link.url" class="weui-footer__link">{{ link.text }}</a>
+          <span v-else class="weui-footer__link">{{ link.text }}</span>
+        </template>
       </p>
       <p v-if="text" class="weui-footer__text">{{ text }}</p>
     </slot>
