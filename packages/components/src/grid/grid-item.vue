@@ -1,6 +1,8 @@
 <template>
-  <div
+  <component
+    :is="url ? 'a' : 'div'"
     :class="rootClass"
+    :href="url"
     role="button"
     :hover-class="'weui-grid_active'"
     @click="handleClick"
@@ -16,7 +18,7 @@
         <slot v-else name="label" />
       </p>
     </template>
-  </div>
+  </component>
 </template>
 
 <script lang="ts">

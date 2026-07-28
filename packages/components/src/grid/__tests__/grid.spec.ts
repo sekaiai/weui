@@ -56,6 +56,12 @@ describe('WeuiGridItem', () => {
       const wrapper = mount(WeuiGridItem, { props: { label: 'G' } })
       expect(wrapper.attributes('hover-class')).toBe('weui-grid_active')
     })
+
+    it('提供 url 时渲染真实链接目标', () => {
+      const wrapper = mount(WeuiGridItem, { props: { label: 'G', url: '/pages/detail' } })
+      expect(wrapper.element.tagName.toLowerCase()).toBe('a')
+      expect(wrapper.attributes('href')).toBe('/pages/detail')
+    })
   })
 
   describe('icon', () => {
