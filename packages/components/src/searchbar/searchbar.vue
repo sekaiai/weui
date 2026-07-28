@@ -56,7 +56,7 @@
           @click.prevent="handleClear"
         />
       </div>
-      <label class="weui-search-bar__label" @click="handleLabelClick">
+      <label v-if="!isOutlined" class="weui-search-bar__label" @click="handleLabelClick">
         <i class="weui-icon-search" />
         <span class="weui-search-bar__label__text">{{ placeholder }}</span>
       </label>
