@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="wrapperShow"
-    :class="['weui-gallery', extClass, { 'weui-animate-fade-in': innerShow, 'weui-animate-fade-out': !innerShow }]"
+    :class="['weui-gallery', 'weui-transition', extClass, { 'weui-transition_show': innerShow }]"
     :style="maskStyle"
     role="dialog"
     aria-modal="true"
@@ -160,3 +160,17 @@ const handleDelete = () => {
   emit('delete')
 }
 </script>
+
+<style lang="scss">
+/* WeUI 的 transition 默认仅覆盖 mask 与半屏弹窗；画廊复用同一初始隐藏状态。 */
+.weui-gallery.weui-transition {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+
+.weui-gallery.weui-transition_show {
+  opacity: 1;
+  visibility: visible;
+}
+</style>
