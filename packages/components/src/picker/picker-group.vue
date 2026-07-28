@@ -63,6 +63,21 @@ const ITEM_HEIGHT = 56
 /** indicator 距顶部 px（与 .weui-picker__indicator top 一致） */
 const INDICATOR_TOP = 112
 
+const resolveEnabledIndex = (preferredIndex: number) => {
+  const maxIndex = Math.max(0, props.options.length - 1)
+  const index = Math.max(0, Math.min(maxIndex, preferredIndex))
+  if (!props.options[index]?.disabled) return index
+
+  for (let distance = 1; distance <= maxIndex; distance += 1) {
+    const previous = index - distance
+    const next = index + distance
+    if (previous >= 0 && !props.options[previous]?.disabled) return previous
+    if (next <= maxIndex && !props.options[next]?.disabled) return next
+  }
+
+  return index
+}
+
 /** content 当前的 translateY 值 */
 const offset = ref(INDICATOR_TOP - props.index * ITEM_HEIGHT)
 
@@ -105,6 +120,7 @@ const handleTouchEnd = () => {
   const maxIndex = Math.max(0, props.options.length - 1)
   let nearestIndex = Math.round((INDICATOR_TOP - offset.value) / ITEM_HEIGHT)
   nearestIndex = Math.max(0, Math.min(maxIndex, nearestIndex))
+  nearestIndex = resolveEnabledIndex(nearestIndex)
 
   // 归位
   offset.value = INDICATOR_TOP - nearestIndex * ITEM_HEIGHT

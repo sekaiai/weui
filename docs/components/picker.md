@@ -243,7 +243,7 @@ const columns: PickerColumn[] = [
 
 ## 禁用选项
 
-通过 `PickerOption.disabled` 标记选项为禁用，渲染时添加 `weui-picker__item_disabled` 样式。
+通过 `PickerOption.disabled` 标记选项为禁用，渲染时添加 `weui-picker__item_disabled` 样式。滚动停在禁用项时，Picker 会自动归位到最近的可选项；初始 `index` 指向禁用项时同样会自动避开。
 
 <div class="demo-block vp-raw">
   <weui-button type="primary" @click="show4 = true">显示含禁用项 Picker</weui-button>
@@ -430,7 +430,7 @@ const showImp = async () => {
 | --- | --- | --- | --- |
 | label | 显示文字 | string | — |
 | value | 选项值 | string \| number | — |
-| disabled | 是否禁用 | boolean | false |
+| disabled | 是否禁用；不会成为当前选中项 | boolean | false |
 
 ## Events
 

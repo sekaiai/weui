@@ -100,6 +100,24 @@ const props = withDefaults(defineProps<WeuiPickerProps>(), {
 
 const emit = defineEmits<WeuiPickerEmits>()
 
+const resolveEnabledIndex = (column: PickerColumn, preferredIndex = 0) => {
+  const maxIndex = Math.max(0, column.options.length - 1)
+  const index = Math.max(0, Math.min(maxIndex, preferredIndex))
+  if (!column.options[index]?.disabled) return index
+
+  for (let distance = 1; distance <= maxIndex; distance += 1) {
+    const previous = index - distance
+    const next = index + distance
+    if (previous >= 0 && !column.options[previous]?.disabled) return previous
+    if (next <= maxIndex && !column.options[next]?.disabled) return next
+  }
+
+  return index
+}
+
+const getInitialIndexes = (columns: PickerColumn[]) =>
+  columns.map((column) => resolveEnabledIndex(column, column.index ?? 0))
+
 /** 控制外层节点是否挂载 */
 const wrapperShow = ref(false)
 /** 控制滑入/滑出动画状态 */
@@ -107,14 +125,14 @@ const showSheet = ref(false)
 
 /** 每列当前选中索引（内部状态） */
 const currentIndexes = ref<number[]>(
-  props.columns.map((col) => col.index ?? 0),
+  getInitialIndexes(props.columns),
 )
 
 // columns 变化时重置 currentIndexes
 watch(
   () => props.columns,
   (cols) => {
-    currentIndexes.value = cols.map((col) => col.index ?? 0)
+    currentIndexes.value = getInitialIndexes(cols)
   },
 )
 
