@@ -36,31 +36,10 @@ describe('WeuiToptips', () => {
     })
   })
 
-  describe('type', () => {
-    it('默认 type 为 info，添加 weui-toptips_info 类名', () => {
+  describe('官方样式', () => {
+    it('始终添加官方 weui-toptips_warn 类名', () => {
       const wrapper = mount(WeuiToptips, { props: { visible: true, duration: 0 } })
-      expect(wrapper.find('.weui-toptips').classes()).toContain('weui-toptips_info')
-    })
-
-    it('type=success 添加 weui-toptips_success 类名', () => {
-      const wrapper = mount(WeuiToptips, {
-        props: { visible: true, type: 'success', duration: 0 },
-      })
-      expect(wrapper.find('.weui-toptips').classes()).toContain('weui-toptips_success')
-    })
-
-    it('type=warn 添加 weui-toptips_warn 类名', () => {
-      const wrapper = mount(WeuiToptips, {
-        props: { visible: true, type: 'warn', duration: 0 },
-      })
       expect(wrapper.find('.weui-toptips').classes()).toContain('weui-toptips_warn')
-    })
-
-    it('type=error 添加 weui-toptips_error 类名', () => {
-      const wrapper = mount(WeuiToptips, {
-        props: { visible: true, type: 'error', duration: 0 },
-      })
-      expect(wrapper.find('.weui-toptips').classes()).toContain('weui-toptips_error')
     })
   })
 
@@ -144,16 +123,16 @@ describe('Toptips 命令式 API', () => {
 
   describe('Toptips.show', () => {
     it('调用 overlay-host.add 添加 Toptips 组件', () => {
-      Toptips.show({ content: '提示', type: 'success' })
+      Toptips.show({ content: '提示' })
       expect(addedItems).toHaveLength(1)
       expect(addedItems[0].props.visible).toBe(true)
       expect(addedItems[0].props.content).toBe('提示')
-      expect(addedItems[0].props.type).toBe('success')
+      expect(addedItems[0].props.type).toBeUndefined()
     })
 
-    it('未传 type 时默认 info', () => {
+    it('不传递非官方 type 属性', () => {
       Toptips.show({ content: 'x' })
-      expect(addedItems[0].props.type).toBe('info')
+      expect(addedItems[0].props.type).toBeUndefined()
     })
 
     it('未传 duration 时默认 2000', () => {
@@ -173,30 +152,13 @@ describe('Toptips 命令式 API', () => {
   })
 
   describe('快捷方法', () => {
-    it('Toptips.info 传递 type=info', () => {
-      Toptips.info('信息')
-      expect(addedItems[0].props.type).toBe('info')
-      expect(addedItems[0].props.content).toBe('信息')
-    })
-
-    it('Toptips.success 传递 type=success', () => {
-      Toptips.success('成功')
-      expect(addedItems[0].props.type).toBe('success')
-      expect(addedItems[0].props.content).toBe('成功')
-    })
-
-    it('Toptips.warn 传递 type=warn', () => {
+    it('Toptips.warn 传递提示内容', () => {
       Toptips.warn('警告')
-      expect(addedItems[0].props.type).toBe('warn')
-    })
-
-    it('Toptips.error 传递 type=error', () => {
-      Toptips.error('错误')
-      expect(addedItems[0].props.type).toBe('error')
+      expect(addedItems[0].props.content).toBe('警告')
     })
 
     it('快捷方法支持自定义 duration', () => {
-      Toptips.success('成功', 3000)
+      Toptips.warn('警告', 3000)
       expect(addedItems[0].props.duration).toBe(3000)
     })
   })

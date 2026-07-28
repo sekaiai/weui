@@ -1,9 +1,8 @@
 // Toptips 命令式 API
-// 通过 overlay-host 渲染 WeuiToptips，提供 show/info/success/warn/error 方法
+// 通过 overlay-host 渲染 WeuiToptips，提供 show/warn 方法
 // 调用前需确保应用中已挂载 <weui-overlay-host />
 
 import WeuiToptips from './toptips.vue'
-import type { ToptipsType } from './toptips.vue'
 import { getOverlayHost } from '../utils/overlay-host-ref'
 
 export type { ToptipsType } from './toptips.vue'
@@ -11,8 +10,6 @@ export type { ToptipsType } from './toptips.vue'
 export interface ToptipsShowOptions {
   /** 提示文字 */
   content?: string
-  /** 提示类型，默认 info */
-  type?: ToptipsType
   /** 显示时长 ms，0 为不自动关闭，默认 2000 */
   duration?: number
   /** 自定义附加类名 */
@@ -33,7 +30,6 @@ function showInternal(options: ToptipsShowOptions): void {
   const props: Record<string, unknown> = {
     visible: true,
     content: options.content ?? '',
-    type: options.type ?? 'info',
     duration: options.duration ?? DEFAULT_DURATION,
     extClass: options.extClass,
   }
@@ -51,30 +47,9 @@ export const Toptips = {
   },
 
   /**
-   * 信息提示
-   */
-  info(content: string, duration?: number): void {
-    showInternal({ content, type: 'info', duration })
-  },
-
-  /**
-   * 成功提示
-   */
-  success(content: string, duration?: number): void {
-    showInternal({ content, type: 'success', duration })
-  },
-
-  /**
    * 警告提示
    */
   warn(content: string, duration?: number): void {
-    showInternal({ content, type: 'warn', duration })
-  },
-
-  /**
-   * 错误提示
-   */
-  error(content: string, duration?: number): void {
-    showInternal({ content, type: 'error', duration })
+    showInternal({ content, duration })
   },
 }

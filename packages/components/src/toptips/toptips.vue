@@ -3,7 +3,7 @@
     v-if="visible"
     role="alert"
     class="weui-toptips"
-    :class="[typeClass, extClass]"
+    :class="['weui-toptips_warn', extClass]"
     :style="toptipsStyle"
   >
     {{ content }}
@@ -23,15 +23,13 @@ export default {
 <script setup lang="ts">
 import { computed, watch, onBeforeUnmount } from 'vue'
 
-export type ToptipsType = 'info' | 'success' | 'warn' | 'error'
+export type ToptipsType = 'warn'
 
 export interface WeuiToptipsProps {
   /** 是否显示 */
   visible?: boolean
   /** 提示文字 */
   content?: string
-  /** 提示类型 */
-  type?: ToptipsType
   /** 显示时长 ms，0 为不自动关闭 */
   duration?: number
   /** 自定义附加类名 */
@@ -50,26 +48,12 @@ export interface WeuiToptipsEmits {
 const props = withDefaults(defineProps<WeuiToptipsProps>(), {
   visible: false,
   content: '',
-  type: 'info',
   duration: 2000,
   extClass: undefined,
   zIndex: undefined,
 })
 
 const emit = defineEmits<WeuiToptipsEmits>()
-
-const typeClass = computed(() => {
-  switch (props.type) {
-    case 'success':
-      return 'weui-toptips_success'
-    case 'warn':
-      return 'weui-toptips_warn'
-    case 'error':
-      return 'weui-toptips_error'
-    default:
-      return 'weui-toptips_info'
-  }
-})
 
 const toptipsStyle = computed(() => {
   const style: Record<string, string> = {
