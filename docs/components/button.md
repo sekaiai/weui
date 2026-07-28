@@ -1,397 +1,292 @@
 # Button 按钮
 
-按钮用于触发一个操作，如提交表单、打开对话框等。支持多种类型、尺寸、显示模式及加载/禁用状态。
+[WeUI 官方 Button 文档](https://developers.weixin.qq.com/miniprogram/dev/component/button.html)
+
+按钮用于触发页面操作。组件按 WeUI 的标准按钮、行按钮与底部悬浮操作区设计实现；主按钮的宽度会随内容增长，最长两行，`block` 才会填满容器。
 
 <script setup lang="ts">
-import { ref, onUnmounted } from 'vue'
+import { onUnmounted, ref } from 'vue'
 
 const clickResult = ref('')
-const onClick = () => {
-  clickResult.value = `点击了按钮（${new Date().toLocaleTimeString()}）`
-}
-
-// 验证码按钮状态
-const vcodeInput = ref('')
+const overlayVisible = ref(false)
+const bottomFixedVisible = ref(false)
+const vcode = ref('')
 const vcodeCounting = ref(false)
 const vcodeSeconds = ref(60)
-const vcodeMessage = ref('')
-let vcodeTimer: ReturnType<typeof setInterval> | null = null
+let vcodeTimer: ReturnType<typeof setInterval> | undefined
 
-const onSendVcode = () => {
+const onClick = (message: string) => {
+  clickResult.value = message
+}
+
+const sendVcode = () => {
   if (vcodeCounting.value) return
-  vcodeMessage.value = '验证码已发送'
+
   vcodeCounting.value = true
-  vcodeSeconds.value = 60
+  vcodeSeconds.value = 59
   vcodeTimer = setInterval(() => {
-    vcodeSeconds.value--
-    if (vcodeSeconds.value <= 0) {
+    if (vcodeSeconds.value <= 1) {
       vcodeCounting.value = false
       vcodeSeconds.value = 60
-      if (vcodeTimer) {
-        clearInterval(vcodeTimer)
-        vcodeTimer = null
-      }
+      clearInterval(vcodeTimer)
+      vcodeTimer = undefined
+      return
     }
+    vcodeSeconds.value -= 1
   }, 1000)
 }
 
-onUnmounted(() => {
-  if (vcodeTimer) clearInterval(vcodeTimer)
-})
-
-// 半透明按钮遮罩层
-const overlayVisible = ref(false)
-const onOverlayCancel = () => {
-  overlayVisible.value = false
-  clickResult.value = '取消了半透明按钮操作'
-}
-const onOverlayConfirm = () => {
-  overlayVisible.value = false
-  clickResult.value = '确认了半透明按钮操作'
-}
+onUnmounted(() => clearInterval(vcodeTimer))
 </script>
 
 ## 基础用法
 
-通过 `type` 设置按钮类型：`primary` 主操作、`default` 次要操作、`warn` 警告操作。
+`type` 提供 `primary`、`default` 与 `warn` 三种官方视觉类型。默认宽度适应内容；使用 `display="block"` 填满父容器，使用 `display="inline"` 在同一行排列。
 
 <div class="demo-block vp-raw">
-  <weui-button type="primary" @click="onClick">页面主操作</weui-button>
-  <weui-button type="default" @click="onClick">页面次要操作</weui-button>
-  <weui-button type="warn" @click="onClick">警告类操作</weui-button>
-  <p v-if="clickResult" style="margin-top: 8px; color: #07c160;">{{ clickResult }}</p>
+  <weui-button type="primary" @click="onClick('点击了主要操作')">主要操作</weui-button>
+  <weui-button type="default" @click="onClick('点击了次要操作')">次要操作</weui-button>
+  <weui-button type="warn" @click="onClick('点击了警示操作')">警示操作</weui-button>
+  <weui-button type="primary" display="block">填满容器的主要操作</weui-button>
+  <p v-if="clickResult" style="margin: 12px 0 0; color: #07c160;">{{ clickResult }}</p>
 </div>
 
 ::: details 查看代码
 ```vue
 <template>
-  <weui-button type="primary" @click="onClick">页面主操作</weui-button>
-  <weui-button type="default" @click="onClick">页面次要操作</weui-button>
-  <weui-button type="warn" @click="onClick">警告类操作</weui-button>
+  <weui-button type="primary">主要操作</weui-button>
+  <weui-button type="default">次要操作</weui-button>
+  <weui-button type="warn">警示操作</weui-button>
+  <weui-button type="primary" display="block">填满容器的主要操作</weui-button>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-
-const clickResult = ref('')
-const onClick = () => {
-  clickResult.value = '点击了按钮'
-}
-</script>
 ```
 :::
 
-## 按钮尺寸
+## 加载与禁用
 
-通过 `size` 设置按钮尺寸，提供 `default`、`medium`、`mini`、`xmini` 四种尺寸。
+`loading` 使用官方 `.weui-mask-loading` 结构；不传文字时展示仅加载图标，传入默认插槽则在图标右侧显示文字。加载状态保留点击能力，避免替业务擅自改变交互；需要阻止重复提交时同时设置 `disabled`。
 
 <div class="demo-block vp-raw">
-  <weui-button type="primary" size="default">默认</weui-button>
-  <weui-button type="primary" size="medium">中等</weui-button>
-  <weui-button type="primary" size="mini">迷你</weui-button>
-  <weui-button type="primary" size="xmini">超小</weui-button>
+  <weui-button type="primary" loading aria-label="正在加载" />
+  <weui-button type="default" loading>正在加载</weui-button>
+  <weui-button type="warn" loading>正在提交</weui-button>
+  <weui-button type="primary" disabled>禁用的主要操作</weui-button>
+  <weui-button type="default" disabled>禁用的次要操作</weui-button>
+  <weui-button type="warn" disabled>禁用的警示操作</weui-button>
 </div>
 
 ::: details 查看代码
 ```vue
 <template>
-  <weui-button type="primary" size="default">默认</weui-button>
-  <weui-button type="primary" size="medium">中等</weui-button>
-  <weui-button type="primary" size="mini">迷你</weui-button>
-  <weui-button type="primary" size="xmini">超小</weui-button>
+  <weui-button type="primary" loading aria-label="正在加载" />
+  <weui-button type="default" loading>正在加载</weui-button>
+  <weui-button type="warn" loading disabled>正在提交</weui-button>
 </template>
 ```
 :::
 
-## 显示模式
+## 尺寸与排列
 
-通过 `display` 设置显示模式：`block` 填满父容器（块级），`inline` 行内排列。
+`medium` 适合紧凑操作；`mini` 与 `xmini` 适合列表或同级操作。紧邻 mini 按钮时 WeUI 不会追加垂直间距；若放在 flex 布局中，使用 `margin-reset` 取消其自动居中。
 
 <div class="demo-block vp-raw">
-  <weui-button type="primary" display="block">块级按钮</weui-button>
-  <div class="demo-row" style="margin-top: 8px;">
+  <weui-button type="primary" size="medium">medium 按钮</weui-button>
+  <p style="margin: 16px 0 8px;">
+    <weui-button type="primary" size="mini">按钮</weui-button>
+    <weui-button type="default" size="mini">按钮</weui-button>
+    <weui-button type="warn" size="mini">按钮</weui-button>
+  </p>
+  <p style="margin: 8px 0 0;">
+    <weui-button type="primary" size="xmini">按钮</weui-button>
+    <weui-button type="default" size="xmini">按钮</weui-button>
+    <weui-button type="warn" size="xmini">按钮</weui-button>
+  </p>
+  <p style="margin: 16px 0 0;">
     <weui-button type="default" display="inline">行内按钮</weui-button>
-    <weui-button type="default" display="inline">行内按钮</weui-button>
+    <weui-button type="primary" display="inline">行内按钮</weui-button>
+  </p>
+</div>
+
+::: details 查看代码
+```vue
+<template>
+  <weui-button type="primary" size="medium">medium 按钮</weui-button>
+  <weui-button type="primary" size="mini">按钮</weui-button>
+  <weui-button type="default" size="mini">按钮</weui-button>
+  <weui-button type="warn" size="xmini">按钮</weui-button>
+  <weui-button type="primary" display="inline">行内按钮</weui-button>
+</template>
+```
+:::
+
+## 半透明背景
+
+在深色遮罩或图片背景上，`overlay` 使用 WeUI 的反色方案。该状态只改变视觉，不影响按钮的事件或禁用语义。
+
+<div class="demo-block vp-raw">
+  <weui-button type="primary" @click="overlayVisible = !overlayVisible">{{ overlayVisible ? '收起' : '查看' }}半透明按钮</weui-button>
+  <div v-if="overlayVisible" style="margin-top: 16px; padding: 16px; border-radius: 8px; background: rgba(0, 0, 0, .7);">
+    <weui-button type="primary" overlay>主要操作</weui-button>
+    <weui-button type="default" overlay>次要操作</weui-button>
+    <weui-button type="warn" overlay disabled>禁用的警示操作</weui-button>
   </div>
 </div>
 
 ::: details 查看代码
 ```vue
 <template>
-  <weui-button type="primary" display="block">块级按钮</weui-button>
-  <weui-button type="default" display="inline">行内按钮</weui-button>
-  <weui-button type="default" display="inline">行内按钮</weui-button>
+  <section class="dark-panel">
+    <weui-button type="primary" overlay>主要操作</weui-button>
+    <weui-button type="default" overlay>次要操作</weui-button>
+    <weui-button type="warn" overlay disabled>禁用的警示操作</weui-button>
+  </section>
 </template>
 ```
 :::
 
-## 禁用状态
+## 行按钮
 
-`disabled` 为 `true` 时按钮不可点击，不会触发 `click` 事件。
+`cell` 生成 `.weui-btn_cell`，适合列表后的明确操作项，并支持 `icon` 图片。下面以“帐号设置”为例：帐号资料继续使用 `weui-cell`，危险的退出操作作为独立行按钮，避免把它误当成普通列表项。
 
 <div class="demo-block vp-raw">
-  <weui-button type="primary" disabled @click="onClick">禁用</weui-button>
-  <weui-button type="default" disabled @click="onClick">禁用</weui-button>
+  <weui-cells>
+    <weui-cell icon="info" title="帐号与安全" footer="已设置" link />
+    <weui-cell icon="success" title="登录设备管理" link />
+    <weui-cell title="消息通知">
+      <template #footer><weui-button type="primary" size="mini" @click="onClick('已打开通知设置')">设置</weui-button></template>
+    </weui-cell>
+  </weui-cells>
+  <weui-button cell type="warn" @click="onClick('已提交退出当前帐号操作')">退出当前帐号</weui-button>
+  <p v-if="clickResult" style="margin: 12px 0 0; color: #07c160;">{{ clickResult }}</p>
 </div>
 
 ::: details 查看代码
 ```vue
 <template>
-  <weui-button type="primary" disabled>禁用</weui-button>
-  <weui-button type="default" disabled>禁用</weui-button>
-</template>
-```
-:::
-
-## 加载状态
-
-`loading` 为 `true` 时显示旋转加载图标，按钮仍可点击。
-
-<div class="demo-block vp-raw">
-  <weui-button type="primary" loading @click="onClick">加载中</weui-button>
-  <weui-button type="default" loading @click="onClick">加载中</weui-button>
-</div>
-
-::: details 查看代码
-```vue
-<template>
-  <weui-button type="primary" loading>加载中</weui-button>
-  <weui-button type="default" loading>加载中</weui-button>
-</template>
-```
-:::
-
-## 图标
-
-通过 `icon` 设置图标地址，显示在文字左侧（cell 或标准模式下生效）。
-
-<div class="demo-block vp-raw">
-  <weui-button type="primary" icon="https://weui.io/images/logo.png">带图标</weui-button>
-</div>
-
-::: details 查看代码
-```vue
-<template>
-  <weui-button type="primary" icon="https://weui.io/images/logo.png">带图标</weui-button>
-</template>
-```
-:::
-
-## Cell 样式按钮
-
-`cell` 为 `true` 时渲染为通栏白底按钮（`weui-btn_cell`），常作为列表的通栏操作项，配合 `weui-cell-group` 使用。
-
-### 配合 weui-cell-group 作为通栏操作
-
-<div class="demo-block vp-raw">
-  <weui-cell-group>
-    <weui-cell title="成员" value="3 人" />
-    <weui-cell title="群名" value="WeUI 设计组" />
-    <weui-button cell type="primary">添加成员</weui-button>
-  </weui-cell-group>
-</div>
-
-### 在 cell 右侧放置操作按钮
-
-若需在 cell 右侧放置操作按钮（非通栏），使用普通按钮配合 `size="mini"`，通过 `#footer` 插槽放入 cell：
-
-<div class="demo-block vp-raw">
-  <weui-cell-group>
-    <weui-cell title="设置" value="已开启">
+  <weui-cells>
+    <weui-cell icon="info" title="帐号与安全" footer="已设置" link />
+    <weui-cell icon="success" title="登录设备管理" link />
+    <weui-cell title="消息通知">
       <template #footer>
-        <weui-button type="primary" size="mini">编辑</weui-button>
+        <weui-button type="primary" size="mini" @click="openNotice">设置</weui-button>
       </template>
     </weui-cell>
-    <weui-cell title="通知" value="已关闭">
-      <template #footer>
-        <weui-button type="default" size="mini">开启</weui-button>
-      </template>
-    </weui-cell>
-  </weui-cell-group>
-</div>
-
-### 通栏 Cell 按钮类型
-
-<div class="demo-block vp-raw">
-  <weui-button cell type="primary">Cell Primary</weui-button>
-  <weui-button cell type="default">Cell Default</weui-button>
-  <weui-button cell type="warn">Cell Warn</weui-button>
-</div>
-
-::: details 查看代码
-```vue
-<template>
-  <!-- 配合 weui-cell-group 作为通栏操作 -->
-  <weui-cell-group>
-    <weui-cell title="成员" value="3 人" />
-    <weui-cell title="群名" value="WeUI 设计组" />
-    <weui-button cell type="primary">添加成员</weui-button>
-  </weui-cell-group>
-
-  <!-- 在 cell 右侧放置操作按钮 -->
-  <weui-cell-group>
-    <weui-cell title="设置" value="已开启">
-      <template #footer>
-        <weui-button type="primary" size="mini">编辑</weui-button>
-      </template>
-    </weui-cell>
-    <weui-cell title="通知" value="已关闭">
-      <template #footer>
-        <weui-button type="default" size="mini">开启</weui-button>
-      </template>
-    </weui-cell>
-  </weui-cell-group>
-
-  <!-- 通栏 Cell 按钮类型 -->
-  <weui-button cell type="primary">Cell Primary</weui-button>
-  <weui-button cell type="default">Cell Default</weui-button>
-  <weui-button cell type="warn">Cell Warn</weui-button>
+  </weui-cells>
+  <weui-button cell type="warn" @click="signOut">退出当前帐号</weui-button>
 </template>
+
+<script setup lang="ts">
+const openNotice = () => {
+  // 跳转至通知设置页
+}
+
+const signOut = () => {
+  // 弹出二次确认，确认后再清理登录态
+}
+</script>
 ```
 :::
 
 ## 验证码按钮
 
-`vcode` 为 `true` 时渲染为验证码按钮（`weui-vcode-btn`），带左侧分隔线，配合 `weui-cell` 使用：输入框放 cell 默认插槽（body 区），验证码按钮放 `#footer` 插槽。点击后启动 60 秒倒计时。
+`vcode` 对应 WeUI form 中的 `.weui-vcode-btn`。它只负责按钮视觉，验证码输入和倒计时由页面管理；放置于 `weui-cell vcode` 的 `#footer` 中。点击发送后，示例会立即显示“已发送(59)”并开始倒计时。
 
 <div class="demo-block vp-raw">
-  <weui-cell-group>
-    <weui-cell title="验证码" vcode>
-      <input
-        v-model="vcodeInput"
-        type="text"
-        placeholder="请输入验证码"
-        style="width: 100%; border: none; outline: none; font-size: 17px;"
-      />
+  <weui-cells>
+    <weui-cell vcode label="验证码">
+      <weui-input v-model="vcode" placeholder="请输入验证码" type="number" />
       <template #footer>
-        <weui-button
-          vcode
-          :disabled="vcodeCounting"
-          @click="onSendVcode"
-        >
-          {{ vcodeCounting ? `${vcodeSeconds}s 后重发` : '获取验证码' }}
+        <weui-button vcode :disabled="vcodeCounting" @click="sendVcode">
+          {{ vcodeCounting ? `已发送(${vcodeSeconds})` : '发送验证码' }}
         </weui-button>
       </template>
     </weui-cell>
-  </weui-cell-group>
-  <p v-if="vcodeMessage" style="margin-top: 8px; color: #07c160; font-size: 14px;">{{ vcodeMessage }}</p>
+  </weui-cells>
 </div>
 
 ::: details 查看代码
 ```vue
 <template>
-  <weui-cell-group>
-    <weui-cell title="验证码" vcode>
-      <input
-        v-model="vcodeInput"
-        type="text"
-        placeholder="请输入验证码"
-        style="width: 100%; border: none; outline: none; font-size: 17px;"
-      />
+  <weui-cells>
+    <weui-cell vcode label="验证码">
+      <weui-input v-model="code" type="number" placeholder="请输入验证码" />
       <template #footer>
-        <weui-button
-          vcode
-          :disabled="vcodeCounting"
-          @click="onSendVcode"
-        >
-          {{ vcodeCounting ? `${vcodeSeconds}s 后重发` : '获取验证码' }}
+        <weui-button vcode :disabled="counting" @click="sendVcode">
+          {{ counting ? `已发送(${seconds})` : '发送验证码' }}
         </weui-button>
       </template>
     </weui-cell>
-  </weui-cell-group>
+  </weui-cells>
 </template>
 
 <script setup lang="ts">
-import { ref, onUnmounted } from 'vue'
+import { onUnmounted, ref } from 'vue'
 
-const vcodeInput = ref('')
-const vcodeCounting = ref(false)
-const vcodeSeconds = ref(60)
-const vcodeMessage = ref('')
-let timer: ReturnType<typeof setInterval> | null = null
+const code = ref('')
+const counting = ref(false)
+const seconds = ref(60)
+let timer: ReturnType<typeof setInterval> | undefined
 
-const onSendVcode = () => {
-  if (vcodeCounting.value) return
-  vcodeMessage.value = '验证码已发送'
-  vcodeCounting.value = true
-  vcodeSeconds.value = 60
+const sendVcode = () => {
+  if (counting.value) return
+
+  counting.value = true
+  seconds.value = 59
   timer = setInterval(() => {
-    vcodeSeconds.value--
-    if (vcodeSeconds.value <= 0) {
-      vcodeCounting.value = false
-      vcodeSeconds.value = 60
-      if (timer) {
-        clearInterval(timer)
-        timer = null
-      }
+    if (seconds.value <= 1) {
+      counting.value = false
+      seconds.value = 60
+      clearInterval(timer)
+      timer = undefined
+      return
     }
+    seconds.value -= 1
   }, 1000)
 }
 
-onUnmounted(() => {
-  if (timer) clearInterval(timer)
-})
+onUnmounted(() => clearInterval(timer))
 </script>
 ```
 :::
 
-## 半透明样式
+## 底部悬浮操作区
 
-`overlay` 为 `true` 时使用半透明样式（`weui-btn_overlay`），常用于弹层（遮罩层）底部的操作按钮。
+底部悬浮是页面布局，不是单个按钮的状态。按照官方 DOM 使用 `.weui-bottom-fixed-opr-page`、内容区与工具区；表单场景可改用 `weui-form bottom-fixed`。
 
 <div class="demo-block vp-raw">
-  <weui-button type="primary" @click="overlayVisible = true">显示遮罩层</weui-button>
-  <p v-if="clickResult" style="margin-top: 8px; color: #07c160;">{{ clickResult }}</p>
-</div>
-
-<div
-  v-if="overlayVisible"
-  style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); display: flex; align-items: flex-end; z-index: 1000;"
->
-  <div style="background: rgba(0,0,0,0.8); padding: 12px; width: 100%; display: flex; gap: 8px;">
-    <weui-button type="default" overlay @click="onOverlayCancel">取消</weui-button>
-    <weui-button type="primary" overlay @click="onOverlayConfirm">确定</weui-button>
-  </div>
+  <weui-button type="primary" @click="bottomFixedVisible = !bottomFixedVisible">{{ bottomFixedVisible ? '收起' : '查看' }}底部悬浮操作区</weui-button>
+  <section v-if="bottomFixedVisible" class="weui-bottom-fixed-opr-page" style="min-height: 360px; margin-top: 16px; border-radius: 8px; overflow: hidden; background: var(--weui-BG-0, #ededed);">
+    <div class="weui-bottom-fixed-opr-page__content" style="padding: 24px;">这里是可滚动的页面内容；底部操作区始终独立于内容区。</div>
+    <div class="weui-bottom-fixed-opr-page__tool">
+      <div class="weui-bottom-fixed-opr">
+        <weui-button type="primary">确认</weui-button>
+        <weui-button type="default">取消</weui-button>
+      </div>
+    </div>
+  </section>
 </div>
 
 ::: details 查看代码
 ```vue
 <template>
-  <weui-button type="primary" @click="overlayVisible = true">显示遮罩层</weui-button>
-
-  <div
-    v-if="overlayVisible"
-    style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); display: flex; align-items: flex-end; z-index: 1000;"
-  >
-    <div style="background: rgba(0,0,0,0.8); padding: 12px; width: 100%; display: flex; gap: 8px;">
-      <weui-button type="default" overlay @click="onOverlayCancel">取消</weui-button>
-      <weui-button type="primary" overlay @click="onOverlayConfirm">确定</weui-button>
-    </div>
-  </div>
+  <section class="weui-bottom-fixed-opr-page" style="min-height: 70vh;">
+    <main class="weui-bottom-fixed-opr-page__content">页面内容</main>
+    <footer class="weui-bottom-fixed-opr-page__tool">
+      <div class="weui-bottom-fixed-opr">
+        <weui-button type="primary">确认</weui-button>
+        <weui-button type="default">取消</weui-button>
+      </div>
+    </footer>
+  </section>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-
-const overlayVisible = ref(false)
-const clickResult = ref('')
-
-const onOverlayCancel = () => {
-  overlayVisible.value = false
-  clickResult.value = '取消了半透明按钮操作'
-}
-const onOverlayConfirm = () => {
-  overlayVisible.value = false
-  clickResult.value = '确认了半透明按钮操作'
-}
-</script>
 ```
 :::
 
 ## 微信小程序开放能力
 
-通过 `open-type` 设置微信小程序按钮的开放能力，如 `share`、`getPhoneNumber`、`contact` 等。该能力仅在微信小程序环境中生效，浏览器中无效果。
+`open-type` 只在微信小程序原生 `<button>` 上生效，例如 `share`、`getPhoneNumber`、`contact`。未声明的原生属性与事件会透传给内部 button，可直接监听小程序开放能力事件。
 
+::: details 查看代码
 ```vue
 <template>
   <weui-button type="primary" open-type="share">分享</weui-button>
@@ -400,38 +295,28 @@ const onOverlayConfirm = () => {
   </weui-button>
 </template>
 ```
+:::
 
 ## Attributes
 
-| 参数 | 说明 | 类型 | 可选值 | 默认值 |
-| --- | --- | --- | --- | --- |
-| type | 按钮类型 | string | primary / default / warn | default |
-| size | 按钮尺寸 | string | default / medium / mini / xmini | default |
-| display | 显示模式 | string | block / inline | — |
-| cell | 是否为 cell 样式按钮 | boolean | — | false |
-| disabled | 是否禁用 | boolean | — | false |
-| loading | 是否加载中 | boolean | — | false |
-| icon | 图标地址 | string | — | — |
-| vcode | 是否为验证码按钮 | boolean | — | false |
-| overlay | 是否半透明样式 | boolean | — | false |
-| open-type | 微信小程序开放能力 | string | share / getPhoneNumber / contact / … | — |
+| 参数 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| type | 视觉类型 | `primary` / `default` / `warn` | `default` |
+| size | 按钮尺寸 | `default` / `medium` / `mini` / `xmini` | `default` |
+| display | 显示方式 | `block` / `inline` | — |
+| disabled | 禁用状态 | `boolean` | `false` |
+| loading | 显示加载图标 | `boolean` | `false` |
+| overlay | 半透明背景样式 | `boolean` | `false` |
+| cell | 行按钮样式 | `boolean` | `false` |
+| icon | 行按钮左侧图片地址 | `string` | — |
+| margin-reset | 取消 mini/xmini 的自动居中 | `boolean` | `false` |
+| vcode | 验证码按钮样式 | `boolean` | `false` |
+| open-type | 微信小程序开放能力 | `string` | — |
 
-## Events
+## Slots 与事件
 
-| 事件名 | 说明 | 回调参数 |
-| --- | --- | --- |
-| click | 点击按钮时触发（禁用状态不触发） | (event: Event) |
-
-## 微信小程序 open-type 事件
-
-使用 `open-type` 时，以下事件由微信小程序 `<button>` 原生触发，可直接在组件上监听：
-
-| 事件名 | 说明 |
+| 名称 | 说明 |
 | --- | --- |
-| getphonenumber | 获取用户手机号回调 |
-| getuserinfo | 获取用户信息回调 |
-| contact | 客服消息回调 |
-| error | 发生错误回调 |
-| launchapp | 打开 APP 成功回调 |
-| opensetting | 打开授权设置页回调 |
-| chooseavatar | 获取用户头像回调 |
+| default | 按钮文字或自定义内容；标准按钮自动包裹为 `.weui-btn__inner`。 |
+| icon | 行按钮的自定义左侧图标；与 `icon` attr 共同按顺序渲染。 |
+| click | 点击时触发；`disabled` 时不触发。 |

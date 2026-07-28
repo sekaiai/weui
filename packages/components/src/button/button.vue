@@ -1,24 +1,35 @@
 <template>
   <button
+    v-bind="nativeAttrs"
     :class="rootClass"
     :disabled="disabled"
-    :open-type="!vcode && !cell ? openType : undefined"
+    :aria-disabled="disabled || undefined"
     @click="handleClick"
   >
-    <div
-      v-if="loading && !vcode"
-      class="weui-primary-loading weui-primary-loading_transparent"
-    >
-      <div class="weui-primary-loading__dot" />
-    </div>
-    <img v-if="icon" :src="icon" class="weui-btn_cell__icon" />
-    <slot />
+    <template v-if="isStandardButton">
+      <span v-if="hasContent" class="weui-btn__inner">
+        <i v-if="loading" class="weui-mask-loading" aria-hidden="true" />
+        <span v-if="loading" class="weui-btn__loading-text"><slot /></span>
+        <slot v-else />
+      </span>
+      <i
+        v-else-if="loading"
+        class="weui-mask-loading weui-mask-loading_only"
+        aria-hidden="true"
+      />
+    </template>
+    <template v-else>
+      <img v-if="icon" :src="icon" alt="" class="weui-btn_cell__icon" />
+      <slot name="icon" />
+      <slot />
+    </template>
   </button>
 </template>
 
 <script lang="ts">
 export default {
   name: 'WeuiButton',
+  inheritAttrs: false,
   options: {
     styleIsolation: 'apply-shared',
     addGlobalClass: true,
@@ -27,28 +38,31 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+/// <reference path="../globals.d.ts" />
+import { computed, useAttrs, useSlots } from 'vue'
 
 export interface WeuiButtonProps {
-  /** 按钮类型，对齐 weui 官方 */
+  /** 视觉类型，对齐 WeUI 的 primary / default / warn。 */
   type?: 'primary' | 'default' | 'warn'
-  /** 按钮尺寸 */
+  /** 尺寸。default 为内容自适应的标准按钮。 */
   size?: 'default' | 'medium' | 'mini' | 'xmini'
-  /** 显示模式：不指定时居中块级，block 填满父容器，inline 行内 */
+  /** 显示方式：block 占满父容器，inline 行内排列。 */
   display?: 'block' | 'inline'
-  /** 是否为 cell 样式按钮（通栏白底，用于单元格中） */
+  /** WeUI 行按钮模式（.weui-btn_cell）。 */
   cell?: boolean
-  /** 是否禁用 */
+  /** 是否禁用。 */
   disabled?: boolean
-  /** 是否加载中，显示旋转加载图标 */
+  /** 是否显示 WeUI loading；不传默认插槽时显示仅图标状态。 */
   loading?: boolean
-  /** 图标地址（cell 或标准模式下显示在文字左侧） */
+  /** 行按钮左侧图片地址。 */
   icon?: string
-  /** 是否为验证码按钮（用于表单 cell 中，带左侧分隔线） */
+  /** 验证码按钮模式，用于 .weui-cell_vcode 的 footer。 */
   vcode?: boolean
-  /** 半透明样式，用于弹层底部操作按钮 */
+  /** 半透明背景上的按钮样式。 */
   overlay?: boolean
-  /** 微信小程序开放能力，如 share / getPhoneNumber / contact 等 */
+  /** mini/xmini 按钮取消默认水平居中。 */
+  marginReset?: boolean
+  /** 微信小程序 button 的开放能力，例如 share、getPhoneNumber。 */
   openType?: string
 }
 
@@ -66,46 +80,47 @@ const props = withDefaults(defineProps<WeuiButtonProps>(), {
   icon: undefined,
   vcode: false,
   overlay: false,
+  marginReset: false,
   openType: undefined,
 })
 
 const emit = defineEmits<WeuiButtonEmits>()
+const attrs = useAttrs()
+const slots = useSlots()
 
-/** 根元素类名 */
+const isStandardButton = computed(() => !props.cell && !props.vcode)
+const hasContent = computed(() => Boolean(slots.default))
+
+// open-type 是微信小程序原生 button 属性；其他未声明属性和原生事件同样原样透传。
+const nativeAttrs = computed(() => {
+  if (__IS_H5__ || !isStandardButton.value) return attrs
+  return { ...attrs, 'open-type': props.openType }
+})
+
 const rootClass = computed(() => {
-  // 验证码按钮
   if (props.vcode) {
-    return ['weui-vcode-btn']
+    return ['weui-vcode-btn', props.disabled ? 'weui-btn_disabled' : undefined]
   }
 
-  // cell 样式按钮
   if (props.cell) {
-    const classes: string[] = ['weui-btn_cell', `weui-btn_cell-${props.type}`]
-    if (props.disabled) classes.push('weui-btn_disabled')
-    if (props.loading) classes.push('weui-btn_loading')
-    return classes
+    return [
+      'weui-btn_cell',
+      `weui-btn_cell-${props.type}`,
+      props.disabled ? 'weui-btn_disabled' : undefined,
+    ]
   }
 
-  // 标准按钮
-  const classes: string[] = ['weui-btn', `weui-btn_${props.type}`]
-
-  if (props.overlay) classes.push('weui-btn_overlay')
-  if (props.size === 'medium') {
-    classes.push('weui-btn_medium')
-  } else if (props.size === 'mini') {
-    classes.push('weui-btn_mini')
-  } else if (props.size === 'xmini') {
-    classes.push('weui-btn_xmini')
-  }
-  if (props.display === 'block') {
-    classes.push('weui-btn_block')
-  } else if (props.display === 'inline') {
-    classes.push('weui-btn_inline')
-  }
-  if (props.loading) classes.push('weui-btn_loading')
-  if (props.disabled) classes.push('weui-btn_disabled')
-
-  return classes
+  return [
+    'weui-btn',
+    `weui-btn_${props.type}`,
+    props.size === 'default' ? undefined : `weui-btn_${props.size}`,
+    props.display === 'block' ? 'weui-btn_block' : undefined,
+    props.display === 'inline' ? 'weui-btn_inline' : undefined,
+    props.overlay ? 'weui-btn_overlay' : undefined,
+    props.marginReset ? 'weui-btn_margin-reset' : undefined,
+    props.loading ? 'weui-btn_loading' : undefined,
+    props.disabled ? 'weui-btn_disabled' : undefined,
+  ]
 })
 
 const handleClick = (event: Event) => {
@@ -113,3 +128,23 @@ const handleClick = (event: Event) => {
   emit('click', event)
 }
 </script>
+
+<style lang="scss">
+/*
+ * .weui-btn__inner uses a line-clamp layout. A slot can otherwise become a
+ * separate box from the loading icon, so keep the icon and text on one row
+ * while allowing the text itself to shrink or truncate.
+ */
+.weui-btn_loading .weui-btn__inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.weui-btn__loading-text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+</style>

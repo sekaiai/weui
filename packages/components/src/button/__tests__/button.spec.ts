@@ -88,15 +88,15 @@ describe('WeuiButton', () => {
       expect(wrapper.classes()).toContain('weui-btn_loading')
     })
 
-    it('loading 渲染旋转加载图标', () => {
+    it('loading 渲染官方 mask loading 图标', () => {
       const wrapper = mount(WeuiButton, { props: { loading: true } })
-      expect(wrapper.find('.weui-primary-loading').exists()).toBe(true)
-      expect(wrapper.find('.weui-primary-loading__dot').exists()).toBe(true)
+      expect(wrapper.find('.weui-mask-loading').exists()).toBe(true)
+      expect(wrapper.find('.weui-mask-loading_only').exists()).toBe(true)
     })
 
     it('非 loading 时不渲染加载图标', () => {
       const wrapper = mount(WeuiButton, { props: { loading: false } })
-      expect(wrapper.find('.weui-primary-loading').exists()).toBe(false)
+      expect(wrapper.find('.weui-mask-loading').exists()).toBe(false)
     })
   })
 
@@ -108,9 +108,9 @@ describe('WeuiButton', () => {
   })
 
   describe('icon', () => {
-    it('icon 渲染 image 元素', () => {
+    it('行按钮的 icon 渲染 image 元素', () => {
       const wrapper = mount(WeuiButton, {
-        props: { icon: '/assets/icon.png' },
+        props: { cell: true, icon: '/assets/icon.png' },
       })
       expect(wrapper.find('img.weui-btn_cell__icon').exists()).toBe(true)
       expect(wrapper.find('img.weui-btn_cell__icon').attributes('src')).toBe(
@@ -125,11 +125,11 @@ describe('WeuiButton', () => {
   })
 
   describe('openType', () => {
-    it('openType 透传 open-type 属性', () => {
+    it('H5 不渲染小程序专属 open-type 属性', () => {
       const wrapper = mount(WeuiButton, {
         props: { openType: 'share' },
       })
-      expect(wrapper.attributes('open-type')).toBe('share')
+      expect(wrapper.attributes('open-type')).toBeUndefined()
     })
 
     it('无 openType 时不渲染 open-type 属性', () => {

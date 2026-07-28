@@ -6,7 +6,7 @@
     </view>
 
     <view class="page__bd">
-      <!-- 基础用法 -->
+      <!-- WeUI 官方基础按钮 -->
       <view class="demo-section">
         <view class="demo-section__title">基础用法</view>
         <weui-button type="primary" @click="onPrimary">页面主操作</weui-button>
@@ -14,13 +14,16 @@
         <weui-button type="warn">警告类操作</weui-button>
       </view>
 
-      <!-- 按钮尺寸 -->
+      <!-- 加载、禁用与尺寸 -->
       <view class="demo-section">
         <view class="demo-section__title">按钮尺寸</view>
         <weui-button type="primary" size="default">默认</weui-button>
         <weui-button type="primary" size="medium">中等</weui-button>
         <weui-button type="primary" size="mini">迷你</weui-button>
         <weui-button type="primary" size="xmini">超小</weui-button>
+        <weui-button type="primary" :loading="true">正在加载</weui-button>
+        <weui-button type="default" :loading="true" aria-label="正在加载" />
+        <weui-button type="warn" :disabled="true">禁用</weui-button>
       </view>
 
       <!-- 显示模式 -->
@@ -33,26 +36,13 @@
         </view>
       </view>
 
-      <!-- 禁用状态 -->
-      <view class="demo-section">
-        <view class="demo-section__title">禁用状态</view>
-        <weui-button type="primary" :disabled="true">禁用</weui-button>
-        <weui-button type="default" :disabled="true">禁用</weui-button>
-      </view>
-
-      <!-- 加载状态 -->
-      <view class="demo-section">
-        <view class="demo-section__title">加载状态</view>
-        <weui-button type="primary" :loading="true">加载中</weui-button>
-        <weui-button type="default" :loading="true">加载中</weui-button>
-      </view>
-
-      <!-- Cell 样式 -->
+      <!-- 行按钮 -->
       <view class="demo-section">
         <view class="demo-section__title">Cell 样式按钮</view>
         <weui-button cell type="primary">Cell Primary</weui-button>
         <weui-button cell type="default">Cell Default</weui-button>
         <weui-button cell type="warn">Cell Warn</weui-button>
+        <weui-button cell type="primary" icon="/static/pic_160.png">带图标的行按钮</weui-button>
       </view>
 
       <!-- 验证码按钮 -->

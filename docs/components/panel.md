@@ -118,19 +118,24 @@ const items = ref([
 
 ## 小图文组合列表
 
-`MediaBox` 指定 `type="cells"` 作为容器，内部用 `Cell` 组件渲染紧凑列表。`type="cells"` 内部已渲染 `weui-cells` 容器，无需再嵌套 `CellGroup`。
+`MediaBox` 指定 `type="cells"` 作为容器。这个案例的图片尺寸、正文语义和跳转箭头与通用 `Cell` 不同，因此按官方结构直接组合 `.weui-cell_example`：46px 图片放在 `__hd`，标题放在 `__bd.weui-cell_primary`，跳转箭头由空的 `__ft` 保留。
 
 <div class="demo-block vp-raw">
   <div class="demo-mobile">
     <weui-panel title="小图文组合列表">
       <weui-media-box type="cells">
-        <weui-cell
+        <a
           v-for="item in cellItems"
           :key="item.id"
-          access
-          :icon="item.thumb"
-          :value="item.title"
-        />
+          :href="item.href"
+          class="weui-cell weui-cell_active weui-cell_access weui-cell_example"
+        >
+          <div class="weui-cell__hd">
+            <img :src="item.thumb" alt="" style="display: block; width: 46px; height: 46px;" />
+          </div>
+          <div class="weui-cell__bd weui-cell_primary"><p>{{ item.title }}</p></div>
+          <div class="weui-cell__ft" />
+        </a>
       </weui-media-box>
     </weui-panel>
   </div>
@@ -141,13 +146,18 @@ const items = ref([
 <template>
   <weui-panel title="小图文组合列表">
     <weui-media-box type="cells">
-      <weui-cell
+      <a
         v-for="item in items"
         :key="item.id"
-        access
-        :icon="item.thumb"
-        :value="item.title"
-      />
+        :href="item.href"
+        class="weui-cell weui-cell_active weui-cell_access weui-cell_example"
+      >
+        <div class="weui-cell__hd">
+          <img :src="item.thumb" alt="" style="display: block; width: 46px; height: 46px;" />
+        </div>
+        <div class="weui-cell__bd weui-cell_primary"><p>{{ item.title }}</p></div>
+        <div class="weui-cell__ft" />
+      </a>
     </weui-media-box>
   </weui-panel>
 </template>
@@ -155,8 +165,8 @@ const items = ref([
 <script setup lang="ts">
 import { ref } from 'vue'
 const items = ref([
-  { id: 1, thumb: 'https://weui.io/images/pic_160.png', title: '文字标题' },
-  { id: 2, thumb: 'https://weui.io/images/pic_160.png', title: '文字标题' },
+  { id: 1, thumb: 'https://weui.io/images/pic_160.png', title: '文字标题', href: 'javascript:void(0);' },
+  { id: 2, thumb: 'https://weui.io/images/pic_160.png', title: '文字标题', href: 'javascript:void(0);' },
 ])
 </script>
 ```
