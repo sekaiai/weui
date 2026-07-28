@@ -38,16 +38,17 @@ const onTap = (btn: PreviewButton, index: number) => {
 
 # Preview 表单预览
 
-用于展示键值对信息，常见于订单详情、支付结果、账单等场景。组件结构分为头部（标题）、主体（键值对列表）、底部（操作按钮）三部分，各部分均可通过属性或插槽自定义。
+用于展示键值对信息，常见于订单详情、支付结果、账单等场景。组件结构分为头部（标签和值）、主体（键值对列表）、底部（操作按钮）三部分，各部分均可通过属性或插槽自定义。
 
 ## 基础用法
 
-通过 `title` 设置头部标题，`items` 配置键值对列表，`buttons` 配置底部操作按钮。点击按钮触发 `buttontap` 事件。
+通过 `header-label` 和 `title` 设置头部标签和值，`items` 配置键值对列表，`buttons` 配置底部操作按钮。点击按钮触发 `buttontap` 事件。
 
 <div class="demo-block vp-raw">
   <div class="demo-mobile">
     <weui-preview
       title="合计：¥99.00"
+      header-label="付款金额"
       :items="basicItems"
       :buttons="basicButtons"
       @buttontap="onTap"
@@ -61,6 +62,7 @@ const onTap = (btn: PreviewButton, index: number) => {
 <template>
   <weui-preview
     title="合计：¥99.00"
+    header-label="付款金额"
     :items="items"
     :buttons="buttons"
     @buttontap="onButtonTap"
@@ -164,7 +166,8 @@ const onButtonTap = (btn: PreviewButton, index: number) => {
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
-| title | 头部标题 | `string` | — |
+| title | 头部值 | `string` | — |
+| headerLabel | 头部标签 | `string` | — |
 | items | 键值对信息列表 | `PreviewItem[]` | `[]` |
 | buttons | 底部按钮列表 | `PreviewButton[]` | `[]` |
 | ext-class | 附加在根元素上的扩展类名 | `string` | — |
@@ -182,6 +185,7 @@ const onButtonTap = (btn: PreviewButton, index: number) => {
 | --- | --- | --- | --- |
 | text | 按钮文字 | `string` | — |
 | type | 按钮类型，未指定时使用基础链接色 | `'default' \| 'primary'` | — |
+| url | 跳转地址；提供时渲染为链接 | `string` | — |
 
 ## Events
 

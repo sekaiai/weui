@@ -3,7 +3,8 @@
     <!-- 头部：title 或 header slot -->
     <div v-if="hasHeader" class="weui-form-preview__hd">
       <slot name="header">
-        <div class="weui-form-preview__value">{{ title }}</div>
+        <label v-if="headerLabel" class="weui-form-preview__label">{{ headerLabel }}</label>
+        <em class="weui-form-preview__value">{{ title }}</em>
       </slot>
     </div>
 
@@ -24,14 +25,15 @@
     <!-- 底部：buttons 或 footer slot -->
     <div v-if="hasFooter" class="weui-form-preview__ft">
       <slot name="footer">
-        <a
+        <component
+          :is="btn.url ? 'a' : 'button'"
           v-for="(btn, index) in buttons"
           :key="index"
-          role="button"
-          href="javascript:"
+          :href="btn.url"
+          :type="btn.url ? undefined : 'button'"
           :class="['weui-form-preview__btn', btnClass(btn)]"
           @click="handleButtonTap(btn, index)"
-        >{{ btn.text }}</a>
+        >{{ btn.text }}</component>
       </slot>
     </div>
   </div>
@@ -62,11 +64,15 @@ export interface PreviewButton {
   text: string
   /** 按钮类型，未指定时使用默认链接色 */
   type?: 'default' | 'primary'
+  /** 跳转地址；提供时渲染为链接 */
+  url?: string
 }
 
 export interface WeuiPreviewProps {
   /** 头部标题 */
   title?: string
+  /** 头部标签 */
+  headerLabel?: string
   /** 键值对信息列表 */
   items?: PreviewItem[]
   /** 底部按钮列表 */
@@ -81,6 +87,7 @@ export interface WeuiPreviewEmits {
 
 const props = withDefaults(defineProps<WeuiPreviewProps>(), {
   title: undefined,
+  headerLabel: undefined,
   items: () => [],
   buttons: () => [],
   extClass: undefined,
@@ -95,7 +102,7 @@ const rootClass = computed(() => {
   return classes
 })
 
-const hasHeader = computed(() => Boolean(props.title || slots.header))
+const hasHeader = computed(() => Boolean(props.headerLabel || props.title || slots.header))
 const hasBody = computed(() => Boolean((props.items && props.items.length > 0) || slots.default))
 const hasFooter = computed(() => Boolean((props.buttons && props.buttons.length > 0) || slots.footer))
 

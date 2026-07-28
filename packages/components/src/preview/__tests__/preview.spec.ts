@@ -35,6 +35,14 @@ describe('WeuiPreview', () => {
       expect(wrapper.find('.weui-form-preview__hd').text()).toContain('订单详情')
     })
 
+    it('传入 headerLabel 时渲染官方头部标签和值', () => {
+      const wrapper = mount(WeuiPreview, {
+        props: { headerLabel: '付款金额', title: '¥99.00' },
+      })
+      expect(wrapper.find('.weui-form-preview__hd .weui-form-preview__label').text()).toBe('付款金额')
+      expect(wrapper.find('.weui-form-preview__hd .weui-form-preview__value').text()).toBe('¥99.00')
+    })
+
     it('不传 title 且无 header slot 时不渲染头部', () => {
       const wrapper = mount(WeuiPreview)
       expect(wrapper.find('.weui-form-preview__hd').exists()).toBe(false)
@@ -125,6 +133,16 @@ describe('WeuiPreview', () => {
         props: { buttons: [{ text: '操作' }] },
       })
       expect(wrapper.find('.weui-form-preview__btn').classes()).toEqual(['weui-form-preview__btn'])
+    })
+
+    it('无 url 时渲染原生 button，有 url 时渲染链接', () => {
+      const wrapper = mount(WeuiPreview, {
+        props: { buttons: [{ text: '关闭' }, { text: '查看', url: '/detail' }] },
+      })
+      const btnEls = wrapper.findAll('.weui-form-preview__btn')
+      expect(btnEls[0].element.tagName.toLowerCase()).toBe('button')
+      expect(btnEls[1].element.tagName.toLowerCase()).toBe('a')
+      expect(btnEls[1].attributes('href')).toBe('/detail')
     })
 
     it('不传 buttons 且无 footer slot 时不渲染底部', () => {
