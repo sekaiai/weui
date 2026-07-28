@@ -22,10 +22,10 @@
         </view>
       </view>
 
-      <!-- 隐藏百分比文字 -->
+      <!-- 隐藏辅助文本与取消操作 -->
       <view class="demo-section">
-        <view class="demo-section__title">隐藏百分比文字</view>
-        <weui-progress :percent="50" :show-info="false" />
+        <view class="demo-section__title">隐藏辅助文本与取消操作</view>
+        <weui-progress :percent="50" :show-info="false" :show-operation="false" />
       </view>
 
       <!-- 自定义高度 -->

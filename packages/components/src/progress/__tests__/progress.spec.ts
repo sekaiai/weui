@@ -46,40 +46,40 @@ describe('WeuiProgress', () => {
   })
 
   describe('showInfo', () => {
-    it('默认显示右侧百分比文字 .weui-progress__info', () => {
+    it('默认输出隐藏的辅助技术百分比文本', () => {
       const wrapper = mount(WeuiProgress, { props: { percent: 30 } })
-      expect(wrapper.find('.weui-progress__info').exists()).toBe(true)
+      expect(wrapper.find('.weui-hidden_abs').exists()).toBe(true)
     })
 
     it('百分比文字格式为 "X%"', () => {
       const wrapper = mount(WeuiProgress, { props: { percent: 60 } })
-      expect(wrapper.find('.weui-progress__info').text()).toBe('60%')
+      expect(wrapper.find('.weui-hidden_abs').text()).toBe('60%')
     })
 
     it('百分比文字使用 Math.round 处理小数', () => {
       const wrapper = mount(WeuiProgress, { props: { percent: 60.4 } })
-      expect(wrapper.find('.weui-progress__info').text()).toBe('60%')
+      expect(wrapper.find('.weui-hidden_abs').text()).toBe('60%')
       const wrapper2 = mount(WeuiProgress, { props: { percent: 60.6 } })
-      expect(wrapper2.find('.weui-progress__info').text()).toBe('61%')
+      expect(wrapper2.find('.weui-hidden_abs').text()).toBe('61%')
     })
 
-    it('文字元素显式通过 SFC style 覆盖父级 font-size:0', () => {
-      const wrapper = mount(WeuiProgress, { props: { percent: 30 } })
-      // SFC style 中 .weui-progress__info { font-size: 14px; margin-left: 15px }
-      // 这里仅验证元素存在并使用 .weui-progress__info 类（font-size 覆盖在 SFC style 块）
-      expect(wrapper.find('.weui-progress__info').exists()).toBe(true)
-    })
-
-    it('showInfo 为 false 时不渲染 .weui-progress__info', () => {
+    it('showInfo 为 false 时不输出辅助技术文本', () => {
       const wrapper = mount(WeuiProgress, {
         props: { percent: 30, showInfo: false },
       })
-      expect(wrapper.find('.weui-progress__info').exists()).toBe(false)
+      expect(wrapper.find('.weui-hidden_abs').exists()).toBe(false)
     })
 
-    it('不再使用 .weui-progress__opr（该类 font-size:0 会导致文字不可见）', () => {
+    it('默认使用官方取消操作', () => {
       const wrapper = mount(WeuiProgress, { props: { percent: 30 } })
-      expect(wrapper.find('.weui-progress__opr').exists()).toBe(false)
+      expect(wrapper.find('.weui-progress__opr').exists()).toBe(true)
+      expect(wrapper.find('.weui-icon-cancel').exists()).toBe(true)
+    })
+
+    it('点击取消操作触发 cancel 事件', async () => {
+      const wrapper = mount(WeuiProgress, { props: { percent: 30 } })
+      await wrapper.find('.weui-progress__opr').trigger('click')
+      expect(wrapper.emitted('cancel')).toBeTruthy()
     })
   })
 

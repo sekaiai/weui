@@ -6,6 +6,7 @@
 import { ref } from 'vue'
 
 const dynamicPercent = ref(30)
+const uploadPercent = ref(50)
 
 const increase = () => {
   dynamicPercent.value = Math.min(100, dynamicPercent.value + 20)
@@ -13,11 +14,14 @@ const increase = () => {
 const decrease = () => {
   dynamicPercent.value = Math.max(0, dynamicPercent.value - 20)
 }
+const cancelUpload = () => {
+  uploadPercent.value = 0
+}
 </script>
 
 ## 基础用法
 
-通过 `percent` 属性设置进度百分比（0-100），右侧默认显示百分比文字（`showInfo` 默认为 `true`）。
+通过 `percent` 属性设置进度百分比（0-100）。默认带有 WeUI 官方的取消操作；百分比通过隐藏的 `role="alert"` 文本提供给辅助技术，而不会额外改变页面视觉。
 
 <div class="demo-block vp-raw">
   <weui-progress :percent="50" />
@@ -89,19 +93,26 @@ const decrease = () => {
 ```
 :::
 
-## 隐藏百分比文字
+## 取消操作
 
-通过 `showInfo` 属性控制是否显示右侧百分比文字，设为 `false` 时仅展示进度条。
+通过 `cancel` 事件处理右侧取消图标。设置 `show-operation="false"` 可隐藏该操作；`show-info="false"` 则不输出辅助技术用的百分比文本。
 
 <div class="demo-block vp-raw">
-  <weui-progress :percent="50" :show-info="false" />
+  <weui-progress :percent="uploadPercent" @cancel="cancelUpload" />
+  <p style="margin-top: 8px; color: #576b95;">点击取消图标可将当前进度重置为 0%。</p>
 </div>
 
 ::: details 查看代码
 ```vue
 <template>
-  <weui-progress :percent="50" :show-info="false" />
+  <weui-progress :percent="50" @cancel="cancelUpload" />
 </template>
+
+<script setup lang="ts">
+const cancelUpload = () => {
+  // 取消上传或其他进行中的任务
+}
+</script>
 ```
 :::
 
@@ -196,8 +207,22 @@ const decrease = () => {
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | percent | 进度百分比 0-100（超出范围会被限制） | `number` | — |
-| showInfo | 是否显示右侧百分比文字 | `boolean` | `true` |
+| showInfo | 是否输出辅助技术用的百分比文本 | `boolean` | `true` |
+| showOperation | 是否显示官方取消操作 | `boolean` | `true` |
+| cancelText | 默认取消图标的辅助文字 | `string` | `'取消'` |
 | strokeWidth | 进度条高度 px | `number` | — |
 | activeColor | 进度条激活颜色 | `string` | — |
 | backgroundColor | 进度条背景色 | `string` | — |
 | extClass | 附加在根元素上的扩展类名 | `string` | — |
+
+## Events
+
+| 事件名 | 说明 | 回调参数 |
+| --- | --- | --- |
+| cancel | 点击官方取消操作时触发 | — |
+
+## Slots
+
+| 插槽名 | 说明 |
+| --- | --- |
+| operation | 自定义右侧操作内容 |

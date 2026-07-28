@@ -6,10 +6,16 @@
         :style="innerBarStyle"
       ></div>
     </div>
-    <span
-      v-if="showInfo"
-      class="weui-progress__info"
-    >{{ displayPercent }}%</span>
+    <a
+      v-if="showOperation"
+      href="javascript:"
+      role="button"
+      class="weui-wa-hotarea weui-progress__opr"
+      @click.prevent="emit('cancel')"
+    >
+      <slot name="operation"><i role="img" :aria-label="cancelText" class="weui-icon-cancel" /></slot>
+    </a>
+    <span v-if="showInfo" role="alert" class="weui-hidden_abs">{{ displayPercent }}%</span>
   </div>
 </template>
 
@@ -31,6 +37,10 @@ export interface WeuiProgressProps {
   percent: number
   /** 是否显示右侧百分比文字 */
   showInfo?: boolean
+  /** 是否显示官方取消操作 */
+  showOperation?: boolean
+  /** 默认取消图标的辅助文字 */
+  cancelText?: string
   /** 进度条高度 px */
   strokeWidth?: number
   /** 进度条激活颜色 */
@@ -43,11 +53,18 @@ export interface WeuiProgressProps {
 
 const props = withDefaults(defineProps<WeuiProgressProps>(), {
   showInfo: true,
+  showOperation: true,
+  cancelText: '取消',
   strokeWidth: undefined,
   activeColor: undefined,
   backgroundColor: undefined,
   extClass: undefined,
 })
+
+const emit = defineEmits<{
+  /** 点击取消操作时触发 */
+  (e: 'cancel'): void
+}>()
 
 const rootClass = computed(() => {
   const classes: string[] = ['weui-progress']
@@ -72,12 +89,3 @@ const innerBarStyle = computed(() => {
 
 const displayPercent = computed(() => Math.round(props.percent))
 </script>
-
-<style lang="scss">
-/* WeUI .weui-progress 设 font-size:0 隐藏空白，百分比文字需显式覆盖
-   .weui-progress__info 是项目自定义类（官方用 .weui-hidden_abs 隐藏百分比文字） */
-.weui-progress__info {
-  margin-left: 15px;
-  font-size: 14px;
-}
-</style>
