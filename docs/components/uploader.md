@@ -223,7 +223,7 @@ const files = ref<UploaderFile[]>([
 
 ## 文件预览与删除
 
-点击文件触发 `preview` 事件。H5 端文件右上角显示 × 删除按钮，点击触发 `delete` 事件；小程序端长按文件触发 `delete` 事件。以下示例展示事件回调。
+点击文件触发 `preview` 事件。H5 端文件右上角使用官方关闭图标删除按钮，点击触发 `delete` 事件；小程序端长按文件触发 `delete` 事件。以下示例展示事件回调。
 
 <div class="demo-block vp-raw">
   <div class="demo-mobile">
@@ -234,7 +234,7 @@ const files = ref<UploaderFile[]>([
       @delete="onDelete"
     />
   </div>
-  <p style="margin-top: 8px; color: #576b95;">{{ lastEvent }}（H5 端点击 × / 小程序端长按可触发删除）</p>
+  <p style="margin-top: 8px; color: #576b95;">{{ lastEvent }}（H5 端点击关闭图标 / 小程序端长按可触发删除）</p>
 </div>
 
 ::: details 查看代码
@@ -293,7 +293,7 @@ const onDelete = (file: UploaderFile, index: number) => {
 | select | 选择文件时触发 | `(event: WeuiUploaderSelectEvent)` |
 | select-fail | 选择文件失败时触发 | `(err: { errMsg: string })` |
 | preview | 点击文件预览时触发 | `(file: UploaderFile, index: number)` |
-| delete | H5 端点击 × 按钮 / 小程序端长按文件时触发 | `(file: UploaderFile, index: number)` |
+| delete | H5 端点击关闭图标 / 小程序端长按文件时触发 | `(file: UploaderFile, index: number)` |
 | exceed | 选择文件数超出最大数量时触发 | `(count: number)` |
 
 ## Slots

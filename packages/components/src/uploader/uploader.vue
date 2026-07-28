@@ -9,21 +9,21 @@
       <div class="weui-uploader__files">
         <div
           v-for="(file, index) in files"
-          :key="file.url"
+          :key="`${file.url}-${index}`"
           :class="fileClass(file)"
-          :style="fileStyle(file)"
           @click="handlePreview(file, index)"
           @longpress="handleDelete(file, index)"
         >
+          <div class="weui-uploader__file__thumb" :style="fileStyle(file)" />
           <div
             v-if="hasStatusOverlay(file)"
             class="weui-uploader__file-content"
           >{{ resolveStatusText(file) }}</div>
           <div
             v-if="__IS_H5__"
-            class="weui-uploader__file-delete"
+            class="weui-uploader__file__delete"
             @click.stop="handleDelete(file, index)"
-          >×</div>
+          ><i class="weui-icon-close" /></div>
         </div>
       </div>
 
@@ -224,21 +224,4 @@ const handleDelete = (file: UploaderFile, index: number) => {
   line-height: 1.4;
 }
 
-/* uploader 文件删除按钮（仅 H5 端渲染，小程序端用长按） */
-.weui-uploader__file-delete {
-  position: absolute;
-  top: 4px;
-  right: 4px;
-  width: 20px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.5);
-  color: #fff;
-  font-size: 14px;
-  line-height: 1;
-  border-radius: 50%;
-  z-index: 2;
-}
 </style>

@@ -134,8 +134,13 @@ describe('WeuiUploader', () => {
       const wrapper = mount(WeuiUploader, {
         props: { files: [{ url: 'test.jpg' }] },
       })
-      const fileEl = wrapper.find('.weui-uploader__file')
-      expect((fileEl.element as HTMLElement).style.backgroundImage).toContain('test.jpg')
+      const thumb = wrapper.find('.weui-uploader__file__thumb')
+      expect((thumb.element as HTMLElement).style.backgroundImage).toContain('test.jpg')
+    })
+
+    it('使用官方缩略图结构', () => {
+      const wrapper = mount(WeuiUploader, { props: { files: [{ url: 'test.jpg' }] } })
+      expect(wrapper.find('.weui-uploader__file__thumb').exists()).toBe(true)
     })
 
     it('status 为 loading 时添加 weui-uploader__file_status 类', () => {
@@ -196,18 +201,19 @@ describe('WeuiUploader', () => {
   })
 
   describe('H5 端删除按钮', () => {
-    it('H5 端每个文件渲染 × 删除按钮', () => {
+    it('H5 端每个文件渲染官方关闭图标删除按钮', () => {
       const wrapper = mount(WeuiUploader, {
         props: { files: [{ url: 'a.jpg' }, { url: 'b.jpg' }] },
       })
-      expect(wrapper.findAll('.weui-uploader__file-delete')).toHaveLength(2)
+      expect(wrapper.findAll('.weui-uploader__file__delete')).toHaveLength(2)
+      expect(wrapper.findAll('.weui-uploader__file__delete .weui-icon-close')).toHaveLength(2)
     })
 
-    it('点击 × 按钮触发 delete 事件并阻止冒泡', async () => {
+    it('点击关闭图标触发 delete 事件并阻止冒泡', async () => {
       const wrapper = mount(WeuiUploader, {
         props: { files: [{ url: 'a.jpg' }, { url: 'b.jpg' }] },
       })
-      const deleteBtns = wrapper.findAll('.weui-uploader__file-delete')
+      const deleteBtns = wrapper.findAll('.weui-uploader__file__delete')
       await deleteBtns[0].trigger('click')
       expect(wrapper.emitted('delete')).toBeTruthy()
       expect(wrapper.emitted('delete')![0]).toEqual([{ url: 'a.jpg' }, 0])
@@ -346,11 +352,11 @@ describe('WeuiUploader', () => {
   })
 
   describe('delete 事件', () => {
-    it('H5 端通过 × 按钮触发 delete', async () => {
+    it('H5 端通过关闭图标触发 delete', async () => {
       const wrapper = mount(WeuiUploader, {
         props: { files: [{ url: 'a.jpg' }, { url: 'b.jpg' }] },
       })
-      const deleteBtns = wrapper.findAll('.weui-uploader__file-delete')
+      const deleteBtns = wrapper.findAll('.weui-uploader__file__delete')
       await deleteBtns[1].trigger('click')
       expect(wrapper.emitted('delete')).toBeTruthy()
       expect(wrapper.emitted('delete')![0]).toEqual([{ url: 'b.jpg' }, 1])
