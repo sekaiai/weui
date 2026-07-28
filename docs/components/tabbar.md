@@ -18,7 +18,7 @@ const onTabText = (i: number) => {
 
 ## 基础用法
 
-通过 `weui-tabbar` 包裹多个 `weui-tabbar-item`，使用 `active` 属性标记当前选中项。`text` 设置文字，`#icon` 具名插槽自定义图标内容。
+通过 `weui-tabbar` 包裹多个 `weui-tabbar-item`，使用 `active` 属性标记当前选中项。`text` 设置文字，`#icon` 具名插槽自定义图标内容。无论使用图片还是插槽，图标都会落入官方 `.weui-tabbar__icon` 容器，以保持默认尺寸与文字间距。
 
 <div class="demo-block vp-raw">
   <weui-tabbar>

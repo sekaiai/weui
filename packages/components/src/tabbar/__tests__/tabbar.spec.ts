@@ -108,6 +108,7 @@ describe('WeuiTabbarItem', () => {
       })
       const img = wrapper.find('.weui-tabbar__icon')
       expect(img.exists()).toBe(true)
+      expect(img.find('img').exists()).toBe(true)
     })
 
     it('icon 为空时不渲染图标区域', () => {
@@ -124,7 +125,7 @@ describe('WeuiTabbarItem', () => {
         },
       })
       const img = wrapper.find('.weui-tabbar__icon')
-      expect(img.attributes('src')).toBe('/static/icon-active.png')
+      expect(img.find('img').attributes('src')).toBe('/static/icon-active.png')
     })
 
     it('非激活态时使用 icon 而非 activeIcon', () => {
@@ -136,7 +137,7 @@ describe('WeuiTabbarItem', () => {
         },
       })
       const img = wrapper.find('.weui-tabbar__icon')
-      expect(img.attributes('src')).toBe('/static/icon.png')
+      expect(img.find('img').attributes('src')).toBe('/static/icon.png')
     })
 
     it('icon slot 替代 icon prop', () => {
@@ -144,7 +145,7 @@ describe('WeuiTabbarItem', () => {
         slots: { icon: '<div class="custom-icon">icon</div>' },
       })
       expect(wrapper.find('.custom-icon').exists()).toBe(true)
-      expect(wrapper.find('.weui-tabbar__icon').exists()).toBe(false)
+      expect(wrapper.find('.weui-tabbar__icon .custom-icon').exists()).toBe(true)
     })
   })
 

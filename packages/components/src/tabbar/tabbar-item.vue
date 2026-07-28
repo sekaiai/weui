@@ -6,14 +6,15 @@
     @click="handleClick"
   >
     <div v-if="hasIcon" class="weui-tabbar__icon-wrap" :style="iconWrapStyle">
-      <slot name="icon">
-        <img
-          v-if="displayIcon"
-          :src="displayIcon"
-          class="weui-tabbar__icon"
-          mode="aspectFit"
-        />
-      </slot>
+      <div class="weui-tabbar__icon">
+        <slot name="icon">
+          <img
+            v-if="displayIcon"
+            :src="displayIcon"
+            mode="aspectFit"
+          />
+        </slot>
+      </div>
       <span
         v-if="showDot"
         class="weui-badge weui-badge_dot"
