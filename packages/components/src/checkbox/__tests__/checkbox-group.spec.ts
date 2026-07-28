@@ -69,7 +69,7 @@ describe('WeuiCheckboxGroup', () => {
   })
 
   describe('H5 端 toggle 联动', () => {
-    it('multi 模式下子项 toggle 调用更新 modelValue', async () => {
+    it('子项 toggle 调用更新 modelValue', async () => {
       const wrapper = mount(WeuiCheckboxGroup, {
         props: { modelValue: [] },
         slots: {
@@ -87,7 +87,7 @@ describe('WeuiCheckboxGroup', () => {
       expect(wrapper.emitted('change')![0]).toEqual([['1']])
     })
 
-    it('multi 模式下再次点击同一项取消选中', async () => {
+    it('再次点击同一项取消选中', async () => {
       const wrapper = mount(WeuiCheckboxGroup, {
         props: { modelValue: ['1'] },
         slots: {

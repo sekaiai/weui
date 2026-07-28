@@ -13,12 +13,12 @@
         <weui-checkbox value="3" label="标准选项三" />
       </weui-checkbox-group>
 
-      <!-- 单选模式 -->
-      <weui-checkbox-group v-model="radioValue" :multi="false" title="单选列表">
-        <weui-checkbox value="1" label="单选选项一" />
-        <weui-checkbox value="2" label="单选选项二" />
-        <weui-checkbox value="3" label="单选选项三" />
-      </weui-checkbox-group>
+      <!-- 单选列表 -->
+      <weui-radio-group v-model="radioValue" title="单选列表">
+        <weui-radio value="1" label="单选选项一" />
+        <weui-radio value="2" label="单选选项二" />
+        <weui-radio value="3" label="单选选项三" />
+      </weui-radio-group>
 
       <!-- 表单型分组 -->
       <weui-checkbox-group v-model="formValues" form title="表单型复选">
@@ -61,7 +61,7 @@
       <view class="result-section">
         <view class="result-section__title">当前选中值</view>
         <text class="result-text">多选：{{ multiValues.join(', ') }}</text>
-        <text class="result-text">单选：{{ radioValue.join(', ') }}</text>
+        <text class="result-text">单选：{{ radioValue }}</text>
         <text class="result-text">表单：{{ formValues.join(', ') }}</text>
       </view>
     </view>
@@ -76,7 +76,7 @@ defineOptions({
 })
 
 const multiValues = ref<string[]>(['1'])
-const radioValue = ref<string[]>(['1'])
+const radioValue = ref('1')
 const formValues = ref<string[]>([])
 const disabledValues = ref<string[]>(['1'])
 const allDisabledValues = ref<string[]>(['1', '2'])

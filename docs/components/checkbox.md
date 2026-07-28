@@ -1,6 +1,6 @@
 # Checkbox 复选框
 
-用于在列表中显示复选选项或单选选项。`CheckboxGroup` 通过 `multi` 属性切换多选/单选模式，配合 `v-model` 实现双向绑定；`Checkbox` 也可独立使用。
+用于在列表中显示复选选项。`CheckboxGroup` 配合 `v-model` 管理多个选中项；`Checkbox` 也可独立使用。单选列表请使用 `weui-radio-group` 与 `weui-radio`，以匹配 WeUI 的单选结构和原生互斥行为。
 
 <script setup lang="ts">
 import { ref } from 'vue'
@@ -8,7 +8,7 @@ import { ref } from 'vue'
 const standaloneChecked = ref(false)
 const defaultChecked = ref(true)
 const groupValues = ref(['1'])
-const radioValues = ref(['1'])
+const radioValue = ref('1')
 const formValues = ref(['1', '3'])
 </script>
 
@@ -66,7 +66,7 @@ const checked = ref(true)
 
 ## 多选模式
 
-`CheckboxGroup` 默认 `multi=true`，使用 `v-model` 绑定选中项的 value 数组。
+`CheckboxGroup` 使用 `v-model` 绑定选中项的 value 数组。
 
 <div class="demo-block vp-raw">
   <div class="demo-mobile">
@@ -96,32 +96,32 @@ const checkedValues = ref(['1'])
 ```
 :::
 
-## 单选模式
+## 单选列表
 
-设置 `multi=false`，使用 `radio-group` 包裹，选中项以数组形式返回（长度为 0 或 1）。
+单选列表使用独立的 `weui-radio-group` 与 `weui-radio`。它使用官方 `.weui-cells_radio` 结构，并始终只保留一个选中项。
 
 <div class="demo-block vp-raw">
   <div class="demo-mobile">
-    <weui-checkbox-group v-model="radioValues" :multi="false" title="单选列表">
-      <weui-checkbox value="1" label="选项一" />
-      <weui-checkbox value="2" label="选项二" />
-    </weui-checkbox-group>
+    <weui-radio-group v-model="radioValue" title="单选列表">
+      <weui-radio value="1" label="选项一" />
+      <weui-radio value="2" label="选项二" />
+    </weui-radio-group>
   </div>
-  <p style="margin-top: 8px; color: #576b95;">选中值：{{ radioValues }}</p>
+  <p style="margin-top: 8px; color: #576b95;">选中值：{{ radioValue }}</p>
 </div>
 
 ::: details 查看代码
 ```vue
 <template>
-  <weui-checkbox-group v-model="radioValue" :multi="false" title="单选列表">
-    <weui-checkbox value="1" label="选项一" />
-    <weui-checkbox value="2" label="选项二" />
-  </weui-checkbox-group>
+  <weui-radio-group v-model="radioValue" title="单选列表">
+    <weui-radio value="1" label="选项一" />
+    <weui-radio value="2" label="选项二" />
+  </weui-radio-group>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
-const radioValue = ref(['1'])
+const radioValue = ref('1')
 </script>
 ```
 :::

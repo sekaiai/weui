@@ -31,8 +31,6 @@ import { computed, provide } from 'vue'
 export interface WeuiCheckboxGroupProps {
   /** 选中项的 value 数组（v-model） */
   modelValue?: string[]
-  /** true=多选（checkbox），false=单选（radio） */
-  multi?: boolean
   /** 是否禁用全部子项 */
   disabled?: boolean
   /** 组标题 */
@@ -54,7 +52,6 @@ export interface WeuiCheckboxGroupEmits {
 
 const props = withDefaults(defineProps<WeuiCheckboxGroupProps>(), {
   modelValue: () => [],
-  multi: true,
   disabled: false,
   form: false,
 })
@@ -69,9 +66,7 @@ const groupClass = computed(() => {
 })
 
 const cellsClass = computed(() => {
-  const classes: string[] = ['weui-cells', 'weui-cells_after-title']
-  if (props.multi) classes.push('weui-cells_checkbox')
-  else classes.push('weui-cells_radio')
+  const classes: string[] = ['weui-cells', 'weui-cells_after-title', 'weui-cells_checkbox']
   if (props.form) classes.push('weui-cells_form')
   return classes
 })
