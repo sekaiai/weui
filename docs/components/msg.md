@@ -20,7 +20,7 @@ const onTap = (btn: MsgButton, index: number) => {
 
 ## 基础用法
 
-通过 `type` 指定图标类型（对应 `weui-icon-*`），`title` 与 `desc` 设置文案，`buttons` 配置操作按钮。点击按钮触发 `buttontap` 事件。
+通过 `type` 指定图标类型（对应 `weui-icon-*`），`title`、`desc` 与 `desc-primary` 设置不同层级的文案，`buttons` 配置操作按钮。点击按钮触发 `buttontap` 事件。
 
 <div class="demo-block vp-raw">
   <div class="demo-mobile">
@@ -150,6 +150,23 @@ const onButtonTap = (btn: MsgButton, index: number) => {
 ```
 :::
 
+## 次级描述
+
+`desc-primary` 使用官方的辅助文案样式，适合放在主描述之后补充说明。
+
+<div class="demo-block vp-raw"><div class="demo-mobile"><weui-msg type="info" title="提示" desc="主要说明内容" desc-primary="此处是补充说明，视觉层级较低。" /></div></div>
+
+::: details 查看代码
+```vue
+<weui-msg
+  type="info"
+  title="提示"
+  desc="主要说明内容"
+  desc-primary="此处是补充说明，视觉层级较低。"
+/>
+```
+:::
+
 ## 自定义内容
 
 使用默认插槽替换默认的图标 + 标题 + 描述区域，适用于完全自定义布局的场景。
@@ -214,6 +231,7 @@ const onButtonTap = (btn: MsgButton, index: number) => {
 | icon-size | 图标尺寸 px | `number` | `64` |
 | title | 标题 | `string` | — |
 | desc | 描述文字 | `string` | — |
+| descPrimary | 次级描述文字 | `string` | — |
 | buttons | 操作按钮列表 | `MsgButton[]` | `[]` |
 | tips | 底部提示文字（操作按钮下方，`.weui-msg__tips-area`） | `string` | — |
 | ext-class | 附加在根元素上的扩展类名 | `string` | — |
@@ -224,6 +242,7 @@ const onButtonTap = (btn: MsgButton, index: number) => {
 | --- | --- | --- | --- |
 | text | 按钮文字 | `string` | — |
 | type | 按钮类型，`default` 辅助操作 / `primary` 主操作 | `'default' \| 'primary'` | `'default'` |
+| url | 跳转地址；提供时渲染为链接 | `string` | — |
 
 ## Events
 

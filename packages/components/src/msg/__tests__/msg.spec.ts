@@ -72,6 +72,11 @@ describe('WeuiMsg', () => {
       expect(wrapper.find('.weui-msg__desc').text()).toBe('内容详情')
     })
 
+    it('设置 descPrimary 时渲染官方次级描述', () => {
+      const wrapper = mount(WeuiMsg, { props: { descPrimary: '补充说明' } })
+      expect(wrapper.find('.weui-msg__desc-primary').text()).toBe('补充说明')
+    })
+
     it('title 和 desc 都为空时不渲染文字区域', () => {
       const wrapper = mount(WeuiMsg)
       expect(wrapper.find('.weui-msg__text-area').exists()).toBe(false)
@@ -104,6 +109,16 @@ describe('WeuiMsg', () => {
         props: { buttons: [{ text: '知道了' }] },
       })
       expect(wrapper.find('.weui-btn').classes()).toContain('weui-btn_default')
+    })
+
+    it('无 url 时使用 button，有 url 时使用链接', () => {
+      const wrapper = mount(WeuiMsg, {
+        props: { buttons: [{ text: '关闭' }, { text: '查看', url: '/detail' }] },
+      })
+      const btns = wrapper.findAll('.weui-btn')
+      expect(btns[0].element.tagName.toLowerCase()).toBe('button')
+      expect(btns[1].element.tagName.toLowerCase()).toBe('a')
+      expect(btns[1].attributes('href')).toBe('/detail')
     })
 
     it('无按钮时不渲染操作区域', () => {

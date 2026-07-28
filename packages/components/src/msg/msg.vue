@@ -9,18 +9,20 @@
       <div v-if="hasText" class="weui-msg__text-area">
         <h2 v-if="title" class="weui-msg__title">{{ title }}</h2>
         <p v-if="desc" class="weui-msg__desc">{{ desc }}</p>
+        <p v-if="descPrimary" class="weui-msg__desc-primary">{{ descPrimary }}</p>
       </div>
     </slot>
     <div v-if="hasOpr" class="weui-msg__opr-area">
       <p class="weui-btn-area">
-        <a
+        <component
+          :is="btn.url ? 'a' : 'button'"
           v-for="(btn, index) in buttons"
           :key="index"
-          role="button"
-          href="javascript:"
+          :href="btn.url"
+          :type="btn.url ? undefined : 'button'"
           :class="buttonClass(btn)"
           @click="handleButtonTap(btn, index)"
-        >{{ btn.text }}</a>
+        >{{ btn.text }}</component>
       </p>
     </div>
     <div v-if="hasTips" class="weui-msg__tips-area">
@@ -53,6 +55,8 @@ export interface MsgButton {
   text: string
   /** 按钮类型，default 辅助操作 / primary 主操作 */
   type?: 'default' | 'primary'
+  /** 跳转地址；提供时渲染为链接 */
+  url?: string
 }
 
 export interface WeuiMsgProps {
@@ -64,6 +68,8 @@ export interface WeuiMsgProps {
   title?: string
   /** 描述文字 */
   desc?: string
+  /** 次级描述文字 */
+  descPrimary?: string
   /** 操作按钮列表 */
   buttons?: MsgButton[]
   /** 底部提示文字（操作按钮下方） */
@@ -81,6 +87,7 @@ const props = withDefaults(defineProps<WeuiMsgProps>(), {
   iconSize: undefined,
   title: undefined,
   desc: undefined,
+  descPrimary: undefined,
   buttons: () => [],
   tips: undefined,
   extClass: undefined,
@@ -96,7 +103,7 @@ const rootClass = computed(() => {
 })
 
 const hasIcon = computed(() => Boolean(props.type || slots.icon))
-const hasText = computed(() => Boolean(props.title || props.desc))
+const hasText = computed(() => Boolean(props.title || props.desc || props.descPrimary))
 const hasOpr = computed(() => Boolean(props.buttons && props.buttons.length > 0))
 const hasTips = computed(() => Boolean(props.tips || slots.tips))
 
