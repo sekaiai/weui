@@ -30,7 +30,6 @@ const isolateVpDocStyles = {
 }
 
 const nav = [
-  { text: '指导', link: '/guide/introduce', activeMatch: '^/guide/' },
   { text: '组件', link: '/components/button', activeMatch: '^/components/' },
 ]
 
@@ -47,6 +46,15 @@ const sidebar = {
     },
   ],
   '/components/': [
+    {
+      text: '开始使用',
+      collapsible: true,
+      items: [
+        { text: '介绍', link: '/guide/introduce' },
+        { text: '快速上手', link: '/guide/getting-started' },
+        { text: '定制主题', link: '/guide/customize-theme' },
+      ],
+    },
     {
       text: '基础组件',
       collapsible: true,
