@@ -18,7 +18,7 @@ import { computed } from 'vue'
 export interface WeuiIconProps {
   /** 图标类型，对应 weui 内置图标 */
   type: string
-  /** 图标尺寸 px，不传时由 WeUI 默认 font-size:10px 决定（配合 weui-icon_msg 等扩展类） */
+  /** 图标尺寸；数字和纯数字字符串按 px 处理，带单位的字符串原样使用 */
   size?: number | string
   /** 图标颜色 */
   color?: string
@@ -41,7 +41,11 @@ const rootClass = computed(() => {
 
 const rootStyle = computed(() => {
   const style: Record<string, string> = {}
-  if (props.size != null) style['font-size'] = `${props.size}px`
+  if (props.size != null) {
+    style['font-size'] = typeof props.size === 'number' || /^-?\d*\.?\d+$/.test(props.size)
+      ? `${props.size}px`
+      : props.size
+  }
   if (props.color) style['color'] = props.color
   return style
 })

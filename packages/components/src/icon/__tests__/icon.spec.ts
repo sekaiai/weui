@@ -94,6 +94,13 @@ describe('WeuiIcon', () => {
       })
       expect(wrapper.attributes('style')).toContain('font-size: 16px')
     })
+
+    it('保留带单位字符串的原始尺寸', () => {
+      const wrapper = mount(WeuiIcon, {
+        props: { type: 'success', size: '1em' },
+      })
+      expect(wrapper.attributes('style')).toContain('font-size: 1em')
+    })
   })
 
   describe('color', () => {

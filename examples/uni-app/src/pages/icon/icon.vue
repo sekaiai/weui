@@ -47,8 +47,9 @@
         <view class="demo-inline">
           <weui-icon type="success" size="28" />
           <weui-icon type="info" size="28" />
+          <weui-icon type="warn" size="1em" />
         </view>
-        <text class="demo-tips">size 也支持字符串类型</text>
+        <text class="demo-tips">纯数字字符串按 px 处理，带单位字符串原样使用</text>
       </view>
     </view>
   </view>

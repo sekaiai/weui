@@ -97,7 +97,7 @@ const onClickIcon = (t: string) => {
 
 ## 自定义尺寸
 
-通过 `size` 属性设置图标尺寸（单位 px）。组件将其映射到 `font-size`，WeUI 图标以 `em` 单位换算最终渲染尺寸（约为 `2.4 × size`）。
+通过 `size` 属性设置图标尺寸。数字和纯数字字符串按 `px` 处理；传入 `1em`、`2rem` 等带单位字符串时会原样传给 `font-size`。WeUI 图标以 `em` 单位换算最终渲染尺寸。
 
 <div class="demo-block vp-raw">
   <div class="demo-row" style="align-items:flex-end;">
@@ -105,6 +105,7 @@ const onClickIcon = (t: string) => {
     <weui-icon type="success" :size="24" />
     <weui-icon type="success" :size="32" />
     <weui-icon type="success" :size="48" />
+    <weui-icon type="success" size="1em" />
   </div>
 </div>
 
@@ -115,6 +116,7 @@ const onClickIcon = (t: string) => {
   <weui-icon type="success" :size="24" />
   <weui-icon type="success" :size="32" />
   <weui-icon type="success" :size="48" />
+  <weui-icon type="success" size="1em" />
 </template>
 ```
 :::
@@ -170,7 +172,7 @@ const onClickIcon = (t: string) => {
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | type | 图标类型，对应 `weui-icon-{type}` 类，见上方「图标类型」 | `string` | — |
-| size | 图标尺寸 px，映射到 `font-size` | `number \| string` | — |
+| size | 图标尺寸；数字按 px 处理，带单位字符串原样映射到 `font-size` | `number \| string` | — |
 | color | 图标颜色 | `string` | — |
 | extClass | 附加在根元素上的扩展类名，例如 `weui-icon_msg` | `string` | — |
 
