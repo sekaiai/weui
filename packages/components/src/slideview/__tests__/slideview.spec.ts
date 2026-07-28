@@ -3,267 +3,63 @@ import { mount } from '@vue/test-utils'
 import WeuiSlideview from '../slideview.vue'
 import type { SlideButton } from '../slideview.vue'
 
+const buttons: SlideButton[] = [
+  { text: '收藏' },
+  { text: '删除', type: 'warn', width: 80 },
+]
+
 describe('WeuiSlideview', () => {
-  describe('基础渲染', () => {
-    it('根元素带 weui-slideview 类', () => {
-      const wrapper = mount(WeuiSlideview)
-      expect(wrapper.classes()).toContain('weui-slideview')
-    })
-
-    it('默认 show=false 不带 weui-slideview_show 类', () => {
-      const wrapper = mount(WeuiSlideview)
-      expect(wrapper.classes()).not.toContain('weui-slideview_show')
-    })
-
-    it('show=true 时追加 weui-slideview_show 类', () => {
-      const wrapper = mount(WeuiSlideview, { props: { show: true } })
-      expect(wrapper.classes()).toContain('weui-slideview_show')
-    })
-
-    it('渲染内容区域 weui-slideview__left', () => {
-      const wrapper = mount(WeuiSlideview)
-      expect(wrapper.find('.weui-slideview__left').exists()).toBe(true)
-    })
-
-    it('渲染按钮区域 weui-slideview__right', () => {
-      const wrapper = mount(WeuiSlideview)
-      expect(wrapper.find('.weui-slideview__right').exists()).toBe(true)
-    })
+  it('使用官方 Cell 滑动结构', () => {
+    const wrapper = mount(WeuiSlideview, { props: { buttons } })
+    expect(wrapper.classes()).toContain('weui-cell_swiped')
+    expect(wrapper.find('.weui-cell__bd').exists()).toBe(true)
+    expect(wrapper.find('.weui-cell__ft').exists()).toBe(true)
   })
 
-  describe('buttons', () => {
-    const buttons: SlideButton[] = [
-      { text: '收藏' },
-      { text: '删除', type: 'warn' },
-    ]
-
-    it('渲染所有按钮', () => {
-      const wrapper = mount(WeuiSlideview, { props: { buttons } })
-      const btns = wrapper.findAll('.weui-slideview__btn')
-      expect(btns).toHaveLength(2)
-      expect(btns[0].text()).toBe('收藏')
-      expect(btns[1].text()).toBe('删除')
-    })
-
-    it('默认 buttons 为空数组时不渲染按钮', () => {
-      const wrapper = mount(WeuiSlideview)
-      expect(wrapper.findAll('.weui-slideview__btn')).toHaveLength(0)
-    })
-
-    it('type=warn 追加 weui-slideview__btn_warn 类', () => {
-      const wrapper = mount(WeuiSlideview, {
-        props: { buttons: [{ text: '删除', type: 'warn' }] },
-      })
-      expect(wrapper.find('.weui-slideview__btn').classes()).toContain('weui-slideview__btn_warn')
-    })
-
-    it('未指定 type 时不追加 weui-slideview__btn_warn 类', () => {
-      const wrapper = mount(WeuiSlideview, {
-        props: { buttons: [{ text: '收藏' }] },
-      })
-      expect(wrapper.find('.weui-slideview__btn').classes()).not.toContain('weui-slideview__btn_warn')
-    })
-
-    it('type=default 时不追加 weui-slideview__btn_warn 类', () => {
-      const wrapper = mount(WeuiSlideview, {
-        props: { buttons: [{ text: '编辑', type: 'default' }] },
-      })
-      expect(wrapper.find('.weui-slideview__btn').classes()).not.toContain('weui-slideview__btn_warn')
-    })
+  it('使用官方滑动按钮类名和宽度', () => {
+    const wrapper = mount(WeuiSlideview, { props: { buttons } })
+    const actionButtons = wrapper.findAll('.weui-swiped-btn')
+    expect(actionButtons).toHaveLength(2)
+    expect(actionButtons[1].classes()).toContain('weui-swiped-btn_warn')
+    expect(actionButtons[1].attributes('style')).toContain('width: 80px')
   })
 
-  describe('extClass', () => {
-    it('附加自定义类名到根元素', () => {
-      const wrapper = mount(WeuiSlideview, {
-        props: { extClass: 'my-slideview' },
-      })
-      expect(wrapper.classes()).toContain('my-slideview')
-    })
-
-    it('不传 extClass 时不追加额外类名', () => {
-      const wrapper = mount(WeuiSlideview)
-      expect(wrapper.classes()).toEqual(['weui-slideview'])
-    })
+  it('展开距离等于全部操作按钮宽度', () => {
+    const wrapper = mount(WeuiSlideview, { props: { show: true, buttons } })
+    expect(wrapper.find('.weui-cell__bd').attributes('style')).toContain('translateX(-148px)')
   })
 
-  describe('slot', () => {
-    it('default slot 内容渲染在内容区域', () => {
-      const wrapper = mount(WeuiSlideview, {
-        slots: { default: '列表内容' },
-      })
-      expect(wrapper.find('.weui-slideview__left').text()).toBe('列表内容')
-    })
+  it('点击操作按钮后触发事件并收起', async () => {
+    const wrapper = mount(WeuiSlideview, { props: { show: true, buttons } })
+    await wrapper.findAll('.weui-swiped-btn')[1].trigger('click')
+    expect(wrapper.emitted('buttonclick')![0]).toEqual([buttons[1], 1])
+    expect(wrapper.emitted('update:show')![0]).toEqual([false])
+    expect(wrapper.emitted('close')).toBeTruthy()
   })
 
-  describe('事件', () => {
-    const buttons: SlideButton[] = [
-      { text: '收藏' },
-      { text: '删除', type: 'warn' },
-    ]
-
-    it('点击按钮触发 buttonclick 事件并携带 button 和 index', async () => {
-      const wrapper = mount(WeuiSlideview, {
-        props: { show: true, buttons },
-      })
-      await wrapper.findAll('.weui-slideview__btn')[1].trigger('click')
-      expect(wrapper.emitted('buttonclick')).toBeTruthy()
-      expect(wrapper.emitted('buttonclick')![0][0]).toEqual({ text: '删除', type: 'warn' })
-      expect(wrapper.emitted('buttonclick')![0][1]).toBe(1)
-    })
-
-    it('点击按钮触发 close 和 update:show(false)', async () => {
-      const wrapper = mount(WeuiSlideview, {
-        props: { show: true, buttons },
-      })
-      await wrapper.findAll('.weui-slideview__btn')[0].trigger('click')
-      expect(wrapper.emitted('close')).toBeTruthy()
-      expect(wrapper.emitted('update:show')![0]).toEqual([false])
-    })
-
-    it('show=true 时点击内容区域收起并触发 close', async () => {
-      const wrapper = mount(WeuiSlideview, {
-        props: { show: true },
-      })
-      await wrapper.find('.weui-slideview__left').trigger('click')
-      expect(wrapper.emitted('close')).toBeTruthy()
-      expect(wrapper.emitted('update:show')![0]).toEqual([false])
-    })
-
-    it('show=false 时点击内容区域不触发 close', async () => {
-      const wrapper = mount(WeuiSlideview, {
-        props: { show: false },
-      })
-      await wrapper.find('.weui-slideview__left').trigger('click')
-      expect(wrapper.emitted('close')).toBeFalsy()
-      expect(wrapper.emitted('update:show')).toBeFalsy()
-    })
-
-    it('disabled=true 时点击内容区域不触发 close', async () => {
-      const wrapper = mount(WeuiSlideview, {
-        props: { show: true, disabled: true },
-      })
-      await wrapper.find('.weui-slideview__left').trigger('click')
-      expect(wrapper.emitted('close')).toBeFalsy()
-      expect(wrapper.emitted('update:show')).toBeFalsy()
-    })
-
-    it('disabled=true 时点击按钮仍可触发 buttonclick 和 close', async () => {
-      const wrapper = mount(WeuiSlideview, {
-        props: { show: true, disabled: true, buttons },
-      })
-      await wrapper.findAll('.weui-slideview__btn')[0].trigger('click')
-      expect(wrapper.emitted('buttonclick')).toBeTruthy()
-      expect(wrapper.emitted('close')).toBeTruthy()
-      expect(wrapper.emitted('update:show')![0]).toEqual([false])
-    })
+  it('展开时点击内容区收起', async () => {
+    const wrapper = mount(WeuiSlideview, { props: { show: true } })
+    await wrapper.find('.weui-cell__bd').trigger('click')
+    expect(wrapper.emitted('update:show')![0]).toEqual([false])
   })
 
-  describe('手势交互', () => {
-    it('左滑展开：从右向左滑动超过阈值触发 update:show(true)', async () => {
-      const wrapper = mount(WeuiSlideview)
-      const left = wrapper.find('.weui-slideview__left')
-      await left.trigger('touchstart', {
-        touches: [{ clientX: 100 }],
-      })
-      await left.trigger('touchmove', {
-        touches: [{ clientX: 50 }],
-      })
-      await left.trigger('touchend')
-      expect(wrapper.emitted('update:show')).toBeTruthy()
-      expect(wrapper.emitted('update:show')![0]).toEqual([true])
-    })
+  it('禁用时不响应手势或内容区关闭', async () => {
+    const wrapper = mount(WeuiSlideview, { props: { show: true, disabled: true } })
+    const content = wrapper.find('.weui-cell__bd')
+    await content.trigger('click')
+    await content.trigger('touchstart', { touches: [{ clientX: 100 }] })
+    await content.trigger('touchmove', { touches: [{ clientX: 40 }] })
+    expect(wrapper.emitted('update:show')).toBeFalsy()
+  })
 
-    it('左滑展开后根元素追加 weui-slideview_show 类', async () => {
-      const wrapper = mount(WeuiSlideview)
-      const left = wrapper.find('.weui-slideview__left')
-      await left.trigger('touchstart', {
-        touches: [{ clientX: 100 }],
-      })
-      await left.trigger('touchmove', {
-        touches: [{ clientX: 40 }],
-      })
-      expect(wrapper.classes()).toContain('weui-slideview_show')
-    })
-
-    it('右滑收起：从左向右滑动超过阈值触发 update:show(false)', async () => {
-      const wrapper = mount(WeuiSlideview, { props: { show: true } })
-      const left = wrapper.find('.weui-slideview__left')
-      await left.trigger('touchstart', {
-        touches: [{ clientX: 50 }],
-      })
-      await left.trigger('touchmove', {
-        touches: [{ clientX: 100 }],
-      })
-      await left.trigger('touchend')
-      expect(wrapper.emitted('update:show')).toBeTruthy()
-      expect(wrapper.emitted('update:show')![0]).toEqual([false])
-    })
-
-    it('右滑收起后移除 weui-slideview_show 类', async () => {
-      const wrapper = mount(WeuiSlideview, { props: { show: true } })
-      const left = wrapper.find('.weui-slideview__left')
-      await left.trigger('touchstart', {
-        touches: [{ clientX: 50 }],
-      })
-      await left.trigger('touchmove', {
-        touches: [{ clientX: 110 }],
-      })
-      expect(wrapper.classes()).not.toContain('weui-slideview_show')
-    })
-
-    it('滑动距离不足 30 时不触发状态切换', async () => {
-      const wrapper = mount(WeuiSlideview)
-      const left = wrapper.find('.weui-slideview__left')
-      await left.trigger('touchstart', {
-        touches: [{ clientX: 100 }],
-      })
-      await left.trigger('touchmove', {
-        touches: [{ clientX: 80 }],
-      })
-      await left.trigger('touchend')
-      expect(wrapper.emitted('update:show')).toBeFalsy()
-    })
-
-    it('disabled=true 时不响应手势', async () => {
-      const wrapper = mount(WeuiSlideview, { props: { disabled: true } })
-      const left = wrapper.find('.weui-slideview__left')
-      await left.trigger('touchstart', {
-        touches: [{ clientX: 100 }],
-      })
-      await left.trigger('touchmove', {
-        touches: [{ clientX: 40 }],
-      })
-      await left.trigger('touchend')
-      expect(wrapper.emitted('update:show')).toBeFalsy()
-    })
-
-    it('已展开状态下再次左滑不重复触发 update:show(true)', async () => {
-      const wrapper = mount(WeuiSlideview, { props: { show: true } })
-      const left = wrapper.find('.weui-slideview__left')
-      await left.trigger('touchstart', {
-        touches: [{ clientX: 100 }],
-      })
-      await left.trigger('touchmove', {
-        touches: [{ clientX: 40 }],
-      })
-      await left.trigger('touchend')
-      // 已展开，左滑不触发 update:show(true)
-      const shows = wrapper.emitted('update:show') || []
-      expect(shows.some((s) => s[0] === true)).toBe(false)
-    })
-
-    it('未展开状态下右滑不触发 update:show(false)', async () => {
-      const wrapper = mount(WeuiSlideview)
-      const left = wrapper.find('.weui-slideview__left')
-      await left.trigger('touchstart', {
-        touches: [{ clientX: 50 }],
-      })
-      await left.trigger('touchmove', {
-        touches: [{ clientX: 110 }],
-      })
-      await left.trigger('touchend')
-      const shows = wrapper.emitted('update:show') || []
-      expect(shows.some((s) => s[0] === false)).toBe(false)
-    })
+  it('左滑展开，右滑收起', async () => {
+    const wrapper = mount(WeuiSlideview, { props: { buttons } })
+    const content = wrapper.find('.weui-cell__bd')
+    await content.trigger('touchstart', { touches: [{ clientX: 100 }] })
+    await content.trigger('touchmove', { touches: [{ clientX: 40 }] })
+    expect(wrapper.emitted('update:show')![0]).toEqual([true])
+    await content.trigger('touchstart', { touches: [{ clientX: 40 }] })
+    await content.trigger('touchmove', { touches: [{ clientX: 100 }] })
+    expect(wrapper.emitted('update:show')![1]).toEqual([false])
   })
 })

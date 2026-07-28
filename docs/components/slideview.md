@@ -1,6 +1,6 @@
 # Slideview 滑动菜单
 
-左滑显示操作按钮的视图组件，常用于列表项的快捷操作（删除、标记、分享等）。通过 `v-model:show` 控制展开状态，点击按钮自动收起并触发 `buttonclick` 事件。
+左滑显示操作按钮的视图组件，常用于列表项的快捷操作（删除、标记、分享等）。组件采用 Cell 内置滑动项的官方 `weui-cell_swiped` / `weui-swiped-btn` 结构；默认插槽放入一个完整的 `weui-cell`。通过 `v-model:show` 控制展开状态，点击按钮自动收起并触发 `buttonclick` 事件。
 
 <script setup lang="ts">
 import { ref } from 'vue'
@@ -51,7 +51,7 @@ const onButtonClick = (btn: SlideButton, index: number) => {
 <div class="demo-block vp-raw">
   <weui-button type="primary" @click="show1 = !show1">{{ show1 ? '收起' : '展开' }}</weui-button>
   <weui-slideview v-model:show="show1" :buttons="buttons1" @buttonclick="onButtonClick">
-    <div class="weui-cell__bd">滑动菜单内容</div>
+    <weui-cell title="滑动菜单内容" />
   </weui-slideview>
   <p v-if="lastResult" style="margin-top: 8px; color: #07c160;">{{ lastResult }}</p>
 </div>
@@ -61,7 +61,7 @@ const onButtonClick = (btn: SlideButton, index: number) => {
 <template>
   <weui-button type="primary" @click="show = !show">{{ show ? '收起' : '展开' }}</weui-button>
   <weui-slideview v-model:show="show" :buttons="buttons" @buttonclick="onButtonClick">
-    <div class="weui-cell__bd">滑动菜单内容</div>
+    <weui-cell title="滑动菜单内容" />
   </weui-slideview>
 </template>
 
@@ -89,7 +89,7 @@ const onButtonClick = (btn: SlideButton, index: number) => {
 <div class="demo-block vp-raw">
   <weui-button type="primary" @click="show2 = !show2">{{ show2 ? '收起' : '展开' }}</weui-button>
   <weui-slideview v-model:show="show2" :buttons="buttons2" @buttonclick="onButtonClick">
-    <div class="weui-cell__bd">三按钮滑动菜单</div>
+    <weui-cell title="三按钮滑动菜单" />
   </weui-slideview>
 </div>
 
@@ -98,7 +98,7 @@ const onButtonClick = (btn: SlideButton, index: number) => {
 <template>
   <weui-button type="primary" @click="show = !show">{{ show ? '收起' : '展开' }}</weui-button>
   <weui-slideview v-model:show="show" :buttons="buttons" @buttonclick="onButtonClick">
-    <div class="weui-cell__bd">三按钮滑动菜单</div>
+    <weui-cell title="三按钮滑动菜单" />
   </weui-slideview>
 </template>
 
@@ -123,7 +123,7 @@ const buttons: SlideButton[] = [
 <div class="demo-block vp-raw">
   <weui-button type="primary" @click="show3 = !show3">{{ show3 ? '收起' : '展开' }}</weui-button>
   <weui-slideview v-model:show="show3" :buttons="buttons3" disabled>
-    <div class="weui-cell__bd">禁用滑动（点击内容区域不收起，但按钮仍可点击收起）</div>
+    <weui-cell title="禁用滑动（点击内容区域不收起，但按钮仍可点击收起）" />
   </weui-slideview>
 </div>
 
@@ -132,7 +132,7 @@ const buttons: SlideButton[] = [
 <template>
   <weui-button type="primary" @click="show = !show">{{ show ? '收起' : '展开' }}</weui-button>
   <weui-slideview v-model:show="show" :buttons="buttons" disabled>
-    <div class="weui-cell__bd">禁用滑动（点击内容区域不收起）</div>
+    <weui-cell title="禁用滑动（点击内容区域不收起）" />
   </weui-slideview>
 </template>
 
@@ -156,7 +156,7 @@ const buttons: SlideButton[] = [
 <div class="demo-block vp-raw">
   <weui-button type="primary" @click="show4 = !show4">{{ show4 ? '收起' : '展开' }}</weui-button>
   <weui-slideview v-model:show="show4" :buttons="buttons4" @buttonclick="onButtonClick">
-    <div class="weui-cell__bd">点击右侧按钮后自动收起</div>
+    <weui-cell title="点击右侧按钮后自动收起" />
   </weui-slideview>
   <p v-if="lastResult" style="margin-top: 8px; color: #07c160;">{{ lastResult }}</p>
 </div>
@@ -166,7 +166,7 @@ const buttons: SlideButton[] = [
 <template>
   <weui-button type="primary" @click="show = !show">{{ show ? '收起' : '展开' }}</weui-button>
   <weui-slideview v-model:show="show" :buttons="buttons" @buttonclick="onButtonClick">
-    <div class="weui-cell__bd">点击右侧按钮后自动收起</div>
+    <weui-cell title="点击右侧按钮后自动收起" />
   </weui-slideview>
 </template>
 
@@ -251,6 +251,7 @@ const buttons: SlideButton[] = [
 | --- | --- | --- | --- |
 | text | 按钮文字 | string | — |
 | type | 按钮类型，`warn` 为警告样式（红色） | 'default' \| 'warn' | — |
+| width | 操作按钮宽度（px）；展开距离由所有按钮宽度相加得出 | number | 68 |
 
 ## Events
 

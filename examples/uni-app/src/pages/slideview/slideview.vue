@@ -14,7 +14,7 @@
           :buttons="basicButtons"
           @buttonclick="onButtonClick"
         >
-          <view class="weui-cell__bd">滑动视图内容</view>
+          <weui-cell title="滑动视图内容" />
         </weui-slideview>
       </view>
 
@@ -26,7 +26,7 @@
           :buttons="warnButtons"
           @buttonclick="onButtonClick"
         >
-          <view class="weui-cell__bd">左滑显示删除按钮</view>
+          <weui-cell title="左滑显示删除按钮" />
         </weui-slideview>
       </view>
 
@@ -38,7 +38,7 @@
           :buttons="basicButtons"
           disabled
         >
-          <view class="weui-cell__bd">禁用滑动（点击内容区域不收起）</view>
+          <weui-cell title="禁用滑动（点击内容区域不收起）" />
         </weui-slideview>
       </view>
 
@@ -51,7 +51,7 @@
           ext-class="my-slideview"
           @buttonclick="onButtonClick"
         >
-          <view class="weui-cell__bd">附加自定义类名</view>
+          <weui-cell title="附加自定义类名" />
         </weui-slideview>
       </view>
 
@@ -64,7 +64,7 @@
           @buttonclick="onButtonClick"
           @close="onClose"
         >
-          <view class="weui-cell__bd">展开后点击此区域收起</view>
+          <weui-cell title="展开后点击此区域收起" />
         </weui-slideview>
       </view>
     </view>

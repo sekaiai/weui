@@ -1,7 +1,8 @@
 <template>
   <div :class="rootClass">
     <div
-      class="weui-slideview__left"
+      class="weui-cell__bd"
+      :style="contentStyle"
       @click="handleLeftClick"
       @touchstart="handleTouchStart"
       @touchmove="handleTouchMove"
@@ -9,15 +10,18 @@
     >
       <slot />
     </div>
-    <div class="weui-slideview__right">
-      <div
+    <div class="weui-cell__ft">
+      <a
         v-for="(btn, index) in buttons"
         :key="index"
         :class="buttonClass(btn)"
-        @click="handleButtonClick(btn, index)"
+        :style="buttonStyle(btn)"
+        role="button"
+        href="javascript:"
+        @click.prevent="handleButtonClick(btn, index)"
       >
         {{ btn.text }}
-      </div>
+      </a>
     </div>
   </div>
 </template>
@@ -40,6 +44,8 @@ export interface SlideButton {
   text: string
   /** 按钮类型，warn 为警告样式 */
   type?: 'default' | 'warn'
+  /** 操作按钮宽度，单位 px */
+  width?: number
 }
 
 export interface WeuiSlideviewProps {
@@ -78,17 +84,24 @@ watch(
 )
 
 const rootClass = computed(() => {
-  const classes: string[] = ['weui-slideview']
-  if (innerShow.value) classes.push('weui-slideview_show')
+  const classes: string[] = ['weui-cell', 'weui-cell_swiped', 'weui-slideview']
   if (props.extClass) classes.push(props.extClass)
   return classes
 })
 
 const buttonClass = (btn: SlideButton) => {
-  const classes: string[] = ['weui-slideview__btn']
-  if (btn.type === 'warn') classes.push('weui-slideview__btn_warn')
+  const classes: string[] = ['weui-swiped-btn', `weui-swiped-btn_${btn.type ?? 'default'}`]
   return classes
 }
+
+const buttonStyle = (btn: SlideButton) => ({ width: `${btn.width ?? 68}px` })
+
+const contentStyle = computed(() => ({
+  transform: innerShow.value
+    ? `translateX(-${props.buttons.reduce((width, btn) => width + (btn.width ?? 68), 0)}px)`
+    : undefined,
+  transition: 'transform .3s ease',
+}))
 
 const close = () => {
   innerShow.value = false
@@ -140,41 +153,3 @@ const handleTouchEnd = () => {
   isMoving.value = false
 }
 </script>
-
-<style lang="scss">
-/* WeUI npm 包不含 slideview 样式（属 weui-miniprogram 仓库），在此补充自定义实现 */
-.weui-slideview {
-  position: relative;
-  overflow: hidden;
-}
-.weui-slideview__left {
-  position: relative;
-  z-index: 2;
-  transition: transform 0.3s ease;
-}
-.weui-slideview__right {
-  position: absolute;
-  top: 0;
-  right: 0;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  z-index: 1;
-}
-.weui-slideview__btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 16px;
-  height: 100%;
-  color: #fff;
-  font-size: 14px;
-  background: #c7c7cc;
-}
-.weui-slideview__btn_warn {
-  background: #fa5151;
-}
-.weui-slideview_show .weui-slideview__left {
-  transform: translateX(-100%);
-}
-</style>
