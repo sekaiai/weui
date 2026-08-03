@@ -123,7 +123,74 @@ pnpm dev:example:h5
 
 # 类型检查
 pnpm typecheck
+
+# 本地打包组件库
+pnpm pack:local
 ```
+
+## 本地打包使用
+
+执行本地打包命令后，会先构建 Vue 3 ESM 产物、类型声明和 uni-app SFC 产物，再在仓库根目录生成 npm tarball：
+
+```bash
+pnpm pack:local
+```
+
+默认输出路径为：
+
+```text
+local-packages/weui-design-vue-0.2.0.tgz
+```
+
+可在本机其他项目中通过文件路径安装该包，用于发布前联调：
+
+```bash
+pnpm add /path/to/weui/local-packages/weui-design-vue-0.2.0.tgz
+```
+
+如果在当前仓库相邻目录测试，也可以使用相对路径：
+
+```bash
+pnpm add ../weui/local-packages/weui-design-vue-0.2.0.tgz
+```
+
+### uni-app 独立组件目录
+
+如果希望组件像项目自有组件一样放在 `src/components/` 中，可以先生成独立组件目录：
+
+```bash
+pnpm build:uni-app-components
+```
+
+生成目录为：
+
+```text
+packages/components/dist/uni-app-components/
+```
+
+将该目录中的内容复制到目标 uni-app 项目的 `src/components/`：
+
+```bash
+cp -R packages/components/dist/uni-app-components/. ../your-uni-app/src/components/
+```
+
+Windows PowerShell 可以使用：
+
+```powershell
+Copy-Item packages/components/dist/uni-app-components/* ../your-uni-app/src/components/ -Recurse -Force
+```
+
+目标项目开启 easycom 自动扫描后，即可直接使用：
+
+```vue
+<template>
+  <weui-cell-group title="账号信息">
+    <weui-input placeholder="请输入手机号" />
+  </weui-cell-group>
+</template>
+```
+
+这种方式不需要为普通组件增加 `pages.json` 的自定义映射，但仍需要在 `App.vue` 中引入 `weui/dist/style/weui.css`，并确保目标工程支持 Sass 编译。独立组件目录只包含 SFC 组件；`Dialog.show()`、`Toast.show()` 等命令式 API 仍通过 npm 包使用。
 
 ## 仓库结构
 

@@ -6,6 +6,7 @@
     "declarationMap": false,
     "emitDeclarationOnly": true,
     "outDir": "dist/vue3/types",
+    "types": [],
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]

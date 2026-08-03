@@ -54,6 +54,12 @@ import 'weui-design-vue/dist/vue3/style.css'
 - [项目仓库](https://github.com/sekaiai/weui)
 - [完整接入文档](https://github.com/sekaiai/weui/blob/main/docs/guide/getting-started.md)
 
+## uni-app 独立组件目录
+
+执行 `pnpm build:uni-app-components` 后，会生成 `dist/uni-app-components/`。将该目录中的内容复制到 uni-app 项目的 `src/components/`，并开启 easycom 自动扫描，即可直接使用 `<weui-button />` 等组件，无需额外配置 `pages.json` 映射。
+
+组件目录仍需要在 `App.vue` 中引入 `weui/dist/style/weui.css`，并确保目标工程支持 Sass 编译。该目录只包含 SFC 组件，`Dialog.show()`、`Toast.show()` 等命令式 API 仍通过 npm 包使用。
+
 ## License
 
 [MIT](./LICENSE)

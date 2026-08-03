@@ -11,6 +11,7 @@ unpackage/
 .env*
 .env.local
 coverage/
+local-packages/
 *.tgz
 *.tsbuildinfo
 .eslintcache
