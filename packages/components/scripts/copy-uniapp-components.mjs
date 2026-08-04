@@ -9,9 +9,9 @@ const outBase = join(__dirname, '..', 'dist', 'uni-app-components')
 const internalDir = join(outBase, '_internal')
 
 const standaloneImportMap = {
-  '../cells': '../weui-cells',
-  '../icon/icon.vue': '../weui-icon/weui-icon.vue',
-  './picker-group.vue': '../weui-picker-group/weui-picker-group.vue',
+  '../cells': '../cells',
+  '../icon/icon.vue': '../icon/icon.vue',
+  './picker-group.vue': '../picker-group/picker-group.vue',
 }
 
 function rewriteStandaloneImports(source) {
@@ -80,13 +80,13 @@ async function copyInternalFiles() {
 }
 
 async function writeCellsCompatibilityIndex() {
-  await mkdir(join(outBase, 'weui-cells'), { recursive: true })
+  await mkdir(join(outBase, 'cells'), { recursive: true })
   await writeFile(
-    join(outBase, 'weui-cells', 'index.ts'),
+    join(outBase, 'cells', 'index.ts'),
     [
-      "export { default as WeuiCells } from './weui-cells.vue'",
-      "export { default as WeuiCellsTitle } from '../weui-cells-title/weui-cells-title.vue'",
-      "export { default as WeuiCellsTips } from '../weui-cells-tips/weui-cells-tips.vue'",
+      "export { default as WeuiCells } from './cells.vue'",
+      "export { default as WeuiCellsTitle } from '../cells-title/cells-title.vue'",
+      "export { default as WeuiCellsTips } from '../cells-tips/cells-tips.vue'",
       '',
     ].join('\n'),
     'utf-8',
@@ -102,7 +102,7 @@ async function main() {
 
   for (const sourcePath of sourceFiles) {
     const componentName = basename(sourcePath, '.vue')
-    const outputName = `weui-${componentName}`
+    const outputName = componentName
 
     if (componentNames.has(outputName)) {
       throw new Error(`Duplicate uni-app component output name: ${outputName}`)
