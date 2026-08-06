@@ -5,13 +5,16 @@ import { transformUniAppSource } from './uni-app-transform.mjs'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const srcDir = join(__dirname, '..', 'src')
-const outBase = join(__dirname, '..', 'dist', 'uni-app-components')
+const outBase = join(__dirname, '..', 'dist', 'uni-app')
 const internalDir = join(outBase, '_internal')
 
+// Remap specifiers that point at sibling components. In the flat output every
+// component lives directly under `outBase`, so cross-component imports use a
+// single leading dot (`./`) instead of `../`.
 const standaloneImportMap = {
-  '../cells': '../cells',
-  '../icon/icon.vue': '../icon/icon.vue',
-  './picker-group.vue': '../picker-group/picker-group.vue',
+  '../cells': './cells',
+  '../icon/icon.vue': './icon.vue',
+  './picker-group.vue': './picker-group.vue',
 }
 
 function rewriteStandaloneImports(source) {
@@ -20,17 +23,17 @@ function rewriteStandaloneImports(source) {
     let rewritten = standaloneImportMap[specifier] ?? specifier
 
     if (rewritten.startsWith('../utils/')) {
-      rewritten = rewritten.replace('../utils/', '../_internal/utils/')
+      rewritten = rewritten.replace('../utils/', './_internal/utils/')
     }
 
     if (rewritten === '../globals.d.ts') {
-      rewritten = '../_internal/globals.d.ts'
+      rewritten = './_internal/globals.d.ts'
     }
 
     return `${quote}${rewritten}${quote}`
   })
 
-  return result.replaceAll('../globals.d.ts', '../_internal/globals.d.ts')
+  return result.replaceAll('../globals.d.ts', './_internal/globals.d.ts')
 }
 
 async function findVueFiles(currentDir) {
@@ -79,16 +82,30 @@ async function copyInternalFiles() {
   }
 }
 
+// Flat compatibility shim so `cell-group.vue` (which pulls the named exports
+// `WeuiCells`/`WeuiCellsTitle`/`WeuiCellsTips` from `../cells`) still resolves.
+// Placed at the root as `cells.ts` so the output stays flat.
 async function writeCellsCompatibilityIndex() {
-  await mkdir(join(outBase, 'cells'), { recursive: true })
   await writeFile(
-    join(outBase, 'cells', 'index.ts'),
+    join(outBase, 'cells.ts'),
     [
       "export { default as WeuiCells } from './cells.vue'",
-      "export { default as WeuiCellsTitle } from '../cells-title/cells-title.vue'",
-      "export { default as WeuiCellsTips } from '../cells-tips/cells-tips.vue'",
+      "export type { WeuiCellsProps } from './cells.vue'",
+      "export { default as WeuiCellsTitle } from './cells-title.vue'",
+      "export type { WeuiCellsTitleProps } from './cells-title.vue'",
+      "export { default as WeuiCellsTips } from './cells-tips.vue'",
+      "export type { WeuiCellsTipsProps } from './cells-tips.vue'",
       '',
     ].join('\n'),
+    'utf-8',
+  )
+}
+
+async function writeBarrelIndex() {
+  await writeFile(
+    join(outBase, 'index.ts'),
+    '// uni-app flat SFC components for easycom\n'
+    + '// Usage: easycom pattern "^weui-(.*)": "weui-design-vue/dist/uni-app/$1.vue"\n',
     'utf-8',
   )
 }
@@ -109,19 +126,18 @@ async function main() {
     }
     componentNames.add(outputName)
 
-    const outputDir = join(outBase, outputName)
-    const outputPath = join(outputDir, `${outputName}.vue`)
+    const outputPath = join(outBase, `${outputName}.vue`)
     const source = await readFile(sourcePath, 'utf-8')
     const transformed = rewriteStandaloneImports(
       transformUniAppSource(source, sourcePath),
     )
 
-    await mkdir(outputDir, { recursive: true })
     await writeFile(outputPath, transformed, 'utf-8')
   }
 
   await copyInternalFiles()
   await writeCellsCompatibilityIndex()
+  await writeBarrelIndex()
 
   console.log(`Generated ${sourceFiles.length} uni-app easycom components in ${outBase}`)
 }
