@@ -25,7 +25,7 @@ Vue 3 产物为预打包 ESM（类似 Element Plus / Arco），支持全量注�
 import { createApp } from 'vue'
 import WeuiDesignVue from 'weui-design-vue'
 import 'weui/dist/style/weui.css'
-import 'weui-design-vue/dist/vue3/style.css'
+import 'weui-design-vue/style.css'
 import App from './App.vue'
 
 const app = createApp(App)
@@ -40,7 +40,7 @@ app.mount('#app')
 ```ts
 import { WeuiButton, WeuiCell, WeuiCellGroup } from 'weui-design-vue'
 import 'weui/dist/style/weui.css'
-import 'weui-design-vue/dist/vue3/style.css'
+import 'weui-design-vue/style.css'
 ```
 
 ### 3. 使用组件
@@ -55,7 +55,7 @@ import 'weui-design-vue/dist/vue3/style.css'
 
 ## 在 uni-app 项目中使用（小程序 / App / uni-app H5）
 
-uni-app 产物为 SFC 源码形式（位于 `weui-design-vue/dist/uni-app/`），通过 easycom 自动引入，无需手动 import。
+uni-app 产物为扁平 SFC 形式（位于 `weui-design-vue/dist/uni-app/`），所有组件均在根目录下，easycom 只需一条规则即可自动引入，无需手动 import。
 
 ### 1. 配置 easycom
 
@@ -66,14 +66,7 @@ uni-app 产物为 SFC 源码形式（位于 `weui-design-vue/dist/uni-app/`）�
   "easycom": {
     "autoscan": true,
     "custom": {
-      "^weui-cell-group$": "weui-design-vue/dist/uni-app/src/cell/cell-group.vue",
-      "^weui-checkbox-group$": "weui-design-vue/dist/uni-app/src/checkbox/checkbox-group.vue",
-      "^weui-flex-item$": "weui-design-vue/dist/uni-app/src/flex/flex-item.vue",
-      "^weui-grid-item$": "weui-design-vue/dist/uni-app/src/grid/grid-item.vue",
-      "^weui-navbar-item$": "weui-design-vue/dist/uni-app/src/navbar/navbar-item.vue",
-      "^weui-tabbar-item$": "weui-design-vue/dist/uni-app/src/tabbar/tabbar-item.vue",
-      "^weui-picker-group$": "weui-design-vue/dist/uni-app/src/picker/picker-group.vue",
-      "^weui-(.*)": "weui-design-vue/dist/uni-app/src/$1/$1.vue"
+      "^weui-(.*)": "weui-design-vue/dist/uni-app/$1.vue"
     }
   }
 }

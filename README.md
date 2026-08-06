@@ -51,21 +51,14 @@ import 'weui-design-vue/dist/vue3/style.css'
 
 ## 在 uni-app 项目中使用
 
-组件库提供位于 `dist/uni-app/` 的 SFC 产物，可通过 easycom 自动引入。为组合组件增加明确映射，再使用兜底规则匹配普通组件：
+组件库提供位于 `dist/uni-app/` 的扁平 SFC 产物，所有组件（包括复合组件如 `cell-group`、`checkbox-group`）均在根目录下，easycom 只需一条规则：
 
 ```json
 {
   "easycom": {
     "autoscan": true,
     "custom": {
-      "^weui-cell-group$": "weui-design-vue/dist/uni-app/src/cell/cell-group.vue",
-      "^weui-checkbox-group$": "weui-design-vue/dist/uni-app/src/checkbox/checkbox-group.vue",
-      "^weui-radio-group$": "weui-design-vue/dist/uni-app/src/radio/radio-group.vue",
-      "^weui-flex-item$": "weui-design-vue/dist/uni-app/src/flex/flex-item.vue",
-      "^weui-grid-item$": "weui-design-vue/dist/uni-app/src/grid/grid-item.vue",
-      "^weui-navbar-item$": "weui-design-vue/dist/uni-app/src/navbar/navbar-item.vue",
-      "^weui-tabbar-item$": "weui-design-vue/dist/uni-app/src/tabbar/tabbar-item.vue",
-      "^weui-(.*)": "weui-design-vue/dist/uni-app/src/$1/$1.vue"
+      "^weui-(.*)": "weui-design-vue/dist/uni-app/$1.vue"
     }
   }
 }
@@ -124,73 +117,62 @@ pnpm dev:example:h5
 # 类型检查
 pnpm typecheck
 
-# 本地打包组件库
-pnpm pack:local
+# 构建全部产物（Vue 3 ESM + 类型声明 + uni-app 扁平 SFC）
+pnpm build
 ```
 
 ## 本地打包使用
 
-执行本地打包命令后，会先构建 Vue 3 ESM 产物、类型声明和 uni-app SFC 产物，再在仓库根目录生成 npm tarball：
+构建后使用 npm pack 生成 tarball 用于发布前联调：
 
 ```bash
-pnpm pack:local
+pnpm build
+cd packages/components && npm pack
 ```
 
-默认输出路径为：
-
-```text
-local-packages/weui-design-vue-0.2.0.tgz
-```
-
-可在本机其他项目中通过文件路径安装该包，用于发布前联调：
+可在本机其他项目中通过文件路径安装：
 
 ```bash
-pnpm add /path/to/weui/local-packages/weui-design-vue-0.2.0.tgz
+pnpm add /path/to/packages/components/weui-design-vue-0.2.0.tgz
 ```
 
-如果在当前仓库相邻目录测试，也可以使用相对路径：
+### uni-app 复制组件到项目
+
+如果不想通过 npm 安装，可以直接复制组件文件到项目中：
 
 ```bash
-pnpm add ../weui/local-packages/weui-design-vue-0.2.0.tgz
-```
-
-### uni-app 独立组件目录
-
-如果希望组件像项目自有组件一样放在 `src/components/` 中，可以先生成独立组件目录：
-
-```bash
-pnpm build:uni-app-components
+pnpm build:uni-app
 ```
 
 生成目录为：
 
 ```text
-packages/components/dist/uni-app-components/
+packages/components/dist/uni-app/
 ```
 
-将该目录中的内容复制到目标 uni-app 项目的 `src/components/`：
+将该目录中的内容复制到目标 uni-app 项目的 `src/components/weui/`：
 
 ```bash
-cp -R packages/components/dist/uni-app-components/. ../your-uni-app/src/components/
+cp -R packages/components/dist/uni-app/. ../your-uni-app/src/components/weui/
 ```
 
 Windows PowerShell 可以使用：
 
 ```powershell
-Copy-Item packages/components/dist/uni-app-components/* ../your-uni-app/src/components/ -Recurse -Force
+Copy-Item packages/components/dist/uni-app/* ../your-uni-app/src/components/weui/ -Recurse -Force
 ```
 
-目标项目开启 easycom 自动扫描后，即可直接使用：
+目标项目配置 easycom 指向本地路径：
 
-```vue
-<template>
-  <weui-cell-group title="账号信息">
-    <weui-input placeholder="请输入手机号" />
-  </weui-cell-group>
-</template>
+```json
+{
+  "easycom": {
+    "custom": {
+      "^weui-(.*)": "@/components/weui/$1.vue"
+    }
+  }
+}
 ```
-
-这种方式不需要为普通组件增加 `pages.json` 的自定义映射，但仍需要在 `App.vue` 中引入 `weui/dist/style/weui.css`，并确保目标工程支持 Sass 编译。独立组件目录只包含 SFC 组件；`Dialog.show()`、`Toast.show()` 等命令式 API 仍通过 npm 包使用。
 
 ## 仓库结构
 

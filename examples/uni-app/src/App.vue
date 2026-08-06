@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-import WeuiOverlayHost from 'weui-design-vue/dist/uni-app/src/overlay-host/overlay-host.vue'
+import WeuiOverlayHost from 'weui-design-vue/dist/uni-app/overlay-host.vue'
 
 defineOptions({
   name: 'App',

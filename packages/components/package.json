@@ -28,10 +28,7 @@
       "import": "./dist/vue3/index.mjs",
       "types": "./dist/vue3/types/index.d.ts"
     },
-    "./dist/vue3/style.css": "./dist/vue3/style.css",
-    "./uni-app": {
-      "default": "./dist/uni-app/index.ts"
-    },
+    "./style.css": "./dist/vue3/style.css",
     "./dist/uni-app/*": "./dist/uni-app/*"
   },
   "files": [
@@ -51,11 +48,9 @@
   },
   "scripts": {
     "prepack": "pnpm build",
-    "pack:local": "pnpm build && node scripts/prepare-local-pack.mjs && npm pack --ignore-scripts --pack-destination ../../local-packages",
-    "build": "pnpm build:vue3 && pnpm build:uni-app",
-    "build:vue3": "vite build --mode vue3 && pnpm build:types",
-    "build:uni-app": "node scripts/copy-uniapp-sfc.mjs && pnpm build:uni-app-components",
-    "build:uni-app-components": "node scripts/copy-uniapp-components.mjs",
+    "build": "pnpm build:vue3 && pnpm build:types && pnpm build:uni-app",
+    "build:vue3": "vite build",
+    "build:uni-app": "node scripts/copy-uniapp-components.mjs",
     "build:types": "vue-tsc -p tsconfig.build.json",
     "test": "vitest run",
     "typecheck": "vue-tsc --noEmit -p tsconfig.json",

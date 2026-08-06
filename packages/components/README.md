@@ -14,7 +14,7 @@ pnpm add weui-design-vue weui
 import { createApp } from 'vue'
 import WeuiDesignVue from 'weui-design-vue'
 import 'weui/dist/style/weui.css'
-import 'weui-design-vue/dist/vue3/style.css'
+import 'weui-design-vue/style.css'
 import App from './App.vue'
 
 createApp(App).use(WeuiDesignVue).mount('#app')
@@ -26,7 +26,7 @@ createApp(App).use(WeuiDesignVue).mount('#app')
 <script setup lang="ts">
 import { WeuiButton, WeuiCell, WeuiCellGroup } from 'weui-design-vue'
 import 'weui/dist/style/weui.css'
-import 'weui-design-vue/dist/vue3/style.css'
+import 'weui-design-vue/style.css'
 </script>
 
 <template>
@@ -39,7 +39,23 @@ import 'weui-design-vue/dist/vue3/style.css'
 
 ## uni-app 使用方式
 
-通过 easycom 从 `weui-design-vue/dist/uni-app/` 自动引入组件，并在 `App.vue` 中引入 `weui/dist/style/weui.css`。完整的 easycom 配置、平台差异和组件示例请查看项目文档。
+easycom 只需一条规则即可自动引入所有组件：
+
+```json
+{
+  "easycom": {
+    "custom": {
+      "^weui-(.*)": "weui-design-vue/dist/uni-app/$1.vue"
+    }
+  }
+}
+```
+
+在 `App.vue` 中引入 `weui/dist/style/weui.css`。
+
+## 复制组件到项目
+
+执行 `pnpm build:uni-app` 后，将 `dist/uni-app/` 中的内容复制到 uni-app 项目的 `src/components/weui/`，easycom 配置改为指向本地路径 `"^weui-(.*)": "@/components/weui/$1.vue"` 即可。内部依赖（`_internal/`）与 cells 聚合导出（`cells.ts`）会一并复制，组件内的相对引用已自动改写为扁平路径。
 
 ## 内容
 
@@ -53,12 +69,6 @@ import 'weui-design-vue/dist/vue3/style.css'
 
 - [项目仓库](https://github.com/sekaiai/weui)
 - [完整接入文档](https://github.com/sekaiai/weui/blob/main/docs/guide/getting-started.md)
-
-## uni-app 独立组件目录
-
-执行 `pnpm build:uni-app-components` 后，会生成 `dist/uni-app-components/`。将该目录中的内容复制到 uni-app 项目的 `src/components/`，并开启 easycom 自动扫描，即可直接使用 `<weui-button />` 等组件，无需额外配置 `pages.json` 映射。
-
-组件目录仍需要在 `App.vue` 中引入 `weui/dist/style/weui.css`，并确保目标工程支持 Sass 编译。该目录只包含 SFC 组件，`Dialog.show()`、`Toast.show()` 等命令式 API 仍通过 npm 包使用。
 
 ## License
 

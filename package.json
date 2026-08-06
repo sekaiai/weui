@@ -5,8 +5,8 @@
   "description": "基于 uni-app 的 WeUI 组件库 monorepo",
   "scripts": {
     "build": "pnpm --filter weui-design-vue build",
-    "build:uni-app-components": "pnpm --filter weui-design-vue build:uni-app-components",
-    "pack:local": "pnpm --filter weui-design-vue pack:local",
+    "build:vue3": "pnpm --filter weui-design-vue build:vue3",
+    "build:uni-app": "pnpm --filter weui-design-vue build:uni-app",
     "dev:docs": "pnpm --filter docs dev",
     "build:docs": "pnpm --filter docs build",
     "dev:example:mp": "pnpm --filter weui-design-vue-example dev:mp-weixin",
