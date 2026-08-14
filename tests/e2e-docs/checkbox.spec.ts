@@ -20,15 +20,19 @@ test.describe('Checkbox 文档', () => {
   test('基础用法：点击独立 checkbox 切换选中状态', async ({ page, gotoDocsPage }) => {
     await gotoDocsPage('checkbox')
     const firstDemo = page.locator('.demo-block').first()
-    // 初始状态为 false
+    const icon = firstDemo.locator('.weui-icon-checked')
+    // 初始状态为 false，图标不带选中类
     await expect(firstDemo.locator('p')).toContainText('false')
+    await expect(icon).not.toHaveClass(/weui-icon-checked_selected/)
     // 点击 checkbox label
     await firstDemo.locator('.weui-check__label').click()
-    // 验证状态变为 true
+    // 验证状态变为 true，且首次点击后图标即带选中类（数据驱动样式）
     await expect(firstDemo.locator('p')).toContainText('true')
-    // 再次点击切换回 false
+    await expect(icon).toHaveClass(/weui-icon-checked_selected/)
+    // 再次点击切换回 false，图标移除选中类
     await firstDemo.locator('.weui-check__label').click()
     await expect(firstDemo.locator('p')).toContainText('false')
+    await expect(icon).not.toHaveClass(/weui-icon-checked_selected/)
   })
 
   test('默认选中：初始状态为 true', async ({ page, gotoDocsPage }) => {

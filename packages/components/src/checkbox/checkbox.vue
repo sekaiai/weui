@@ -18,7 +18,10 @@
         :checked="isChecked"
         :disabled="isDisabled"
       />
-      <div class="weui-icon-checked" />
+      <div
+        class="weui-icon-checked"
+        :class="{ 'weui-icon-checked_selected': isChecked }"
+      />
     </div>
     <div class="weui-cell__bd">
       <slot>{{ label }}</slot>
@@ -101,3 +104,16 @@ const onH5Change = () => {
   if (group?.toggle) group.toggle(props.value)
 }
 </script>
+
+<style lang="scss">
+/*
+ * 选中图标由 Vue 数据驱动（isChecked → weui-icon-checked_selected），
+ * 不依赖原生 input 的 :checked 伪类——避免受控 input 点击时序下
+ * DOM :checked 与数据不同步导致首次点击图标不显示。
+ * 样式与官方 WeUI 选中 SVG 一致（仅机制从 :checked 伪类改为类绑定）。
+ */
+.weui-cells_checkbox .weui-check + .weui-icon-checked.weui-icon-checked_selected,
+.weui-cells_checkbox .weui-check[aria-checked='true'] + .weui-icon-checked.weui-icon-checked_selected {
+  background-image: url("data:image/svg+xml,%3Csvg width='25' height='24' viewBox='0 0 25 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0.5' width='24' height='24' rx='12' fill='%2307C160' style='fill:%2307C160;fill:color(display-p3 0.0275 0.7569 0.3765);fill-opacity:1;'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M10.2712 16.2899L6.5 12.5187L7.44281 11.5759L10.7426 14.8757L18.2851 7.33325L19.2279 8.27606L11.214 16.2899C10.9537 16.5503 10.5316 16.5503 10.2712 16.2899Z' fill='white' style='fill:white;fill-opacity:1;'/%3E%3C/svg%3E%0A");
+}
+</style>

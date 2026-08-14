@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
+import { defineComponent, ref } from 'vue'
 import WeuiCheckbox from '../checkbox.vue'
 import WeuiCheckboxGroup from '../checkbox-group.vue'
 
@@ -197,6 +198,71 @@ describe('WeuiCheckbox', () => {
       await wrapper.trigger('click')
       expect(wrapper.emitted('update:checked')).toBeUndefined()
       expect(wrapper.emitted('change')).toBeUndefined()
+    })
+  })
+
+  describe('选中样式类（数据驱动）', () => {
+    it('独立使用时 checked=true 时图标带选中类', () => {
+      const wrapper = mount(WeuiCheckbox, {
+        props: { value: '1', label: '选项', checked: true },
+      })
+      expect(wrapper.find('.weui-icon-checked').classes()).toContain('weui-icon-checked_selected')
+    })
+
+    it('独立使用时 checked=false 时图标不带选中类', () => {
+      const wrapper = mount(WeuiCheckbox, {
+        props: { value: '1', label: '选项', checked: false },
+      })
+      expect(wrapper.find('.weui-icon-checked').classes()).not.toContain('weui-icon-checked_selected')
+    })
+
+    it('独立使用时点击后图标切换选中类（v-model 联动）', async () => {
+      const checked = ref(false)
+      const wrapper = mount(
+        defineComponent({
+          components: { WeuiCheckbox },
+          template: '<weui-checkbox v-model:checked="c" value="1" label="选项" />',
+          setup() {
+            return { c: checked }
+          },
+        }),
+      )
+      expect(wrapper.find('.weui-icon-checked').classes()).not.toContain('weui-icon-checked_selected')
+      await wrapper.find('label').trigger('click')
+      expect(checked.value).toBe(true)
+      expect(wrapper.find('.weui-icon-checked').classes()).toContain('weui-icon-checked_selected')
+    })
+
+    it('独立使用时从 checked=true 点击后移除选中类', async () => {
+      const checked = ref(true)
+      const wrapper = mount(
+        defineComponent({
+          components: { WeuiCheckbox },
+          template: '<weui-checkbox v-model:checked="c" value="1" label="选项" />',
+          setup() {
+            return { c: checked }
+          },
+        }),
+      )
+      expect(wrapper.find('.weui-icon-checked').classes()).toContain('weui-icon-checked_selected')
+      await wrapper.find('label').trigger('click')
+      expect(checked.value).toBe(false)
+      expect(wrapper.find('.weui-icon-checked').classes()).not.toContain('weui-icon-checked_selected')
+    })
+
+    it('在 group 中按 modelValue 判断选中类', () => {
+      const wrapper = mount(WeuiCheckbox, {
+        props: { value: '2', label: '选项B' },
+        global: {
+          provide: {
+            weuiCheckboxGroup: {
+              modelValue: { value: ['1', '2'] },
+              disabled: { value: false },
+            },
+          },
+        },
+      })
+      expect(wrapper.find('.weui-icon-checked').classes()).toContain('weui-icon-checked_selected')
     })
   })
 })
