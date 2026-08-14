@@ -1,0 +1,22 @@
+{
+  "easycom": {
+    "autoscan": true,
+    "custom": {
+      "^weui-(.*)": "@/components/weui/$1.vue"
+    }
+  },
+  "pages": [
+    {
+      "path": "pages/index/index",
+      "style": {
+        "navigationBarTitleText": "首页"
+      }
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#EDEDED"
+  }
+}

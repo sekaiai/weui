@@ -5,7 +5,7 @@ import WeuiDesignVue from 'weui-design-vue'
 // 全局引入 weui 基础样式
 import 'weui/dist/style/weui.css'
 // 组件内联自定义样式（weui.css 不含的类，已随 SFC 打包）
-import 'weui-design-vue/dist/vue3/style.css'
+import 'weui-design-vue/style.css'
 // 文档站私有样式
 import './custom.css'
 

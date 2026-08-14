@@ -29,6 +29,7 @@
       "types": "./dist/vue3/types/index.d.ts"
     },
     "./style.css": "./dist/vue3/style.css",
+    "./dist/vue3/style.css": "./dist/vue3/style.css",
     "./dist/uni-app/*": "./dist/uni-app/*"
   },
   "files": [
