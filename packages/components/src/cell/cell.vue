@@ -6,15 +6,13 @@
       @touchstart.passive="onTouchStart"
       @touchmove.passive="onTouchMove"
     >
-      <component
-        :is="cellTag"
+      <a
         :class="cellClass"
+        data-manual-navigation
+        :href="navigationTarget || undefined"
         :hover-class="hover ? 'weui-cell_active' : undefined"
         :role="ariaRole"
-        v-bind="navigationAttrs"
         @click="handleClick"
-        @success="onNavigate"
-        @fail="onNavigateError"
       >
         <div v-if="hasHeader && hasHeaderContent" :class="['weui-cell__hd', iconClass]">
           <div v-if="hasIcon" class="weui-cell__icon">
@@ -35,20 +33,18 @@
           <slot v-if="slots.footer" name="footer" />
           <template v-else>{{ footer || value || desc }}</template>
         </div>
-      </component>
+      </a>
     </div>
     <div class="weui-cell__ft"><a role="button" href="javascript:" :class="swipeButtonClass" @click.prevent="onSwipeClick">{{ swipeText }}</a></div>
   </div>
-  <component
+  <a
     v-else
-    :is="cellTag"
     :class="cellClass"
+    data-manual-navigation
+    :href="navigationTarget || undefined"
     :hover-class="hover ? 'weui-cell_active' : undefined"
     :role="ariaRole"
-    v-bind="navigationAttrs"
     @click="handleClick"
-    @success="onNavigate"
-    @fail="onNavigateError"
   >
     <div v-if="hasHeader && hasHeaderContent" :class="['weui-cell__hd', iconClass]">
       <div v-if="hasIcon" class="weui-cell__icon">
@@ -69,7 +65,7 @@
       <slot v-if="slots.footer" name="footer" />
       <template v-else>{{ footer || value || desc }}</template>
     </div>
-  </component>
+  </a>
 </template>
 
 <script lang="ts">
@@ -151,24 +147,6 @@ const navigationTarget = computed(() => {
 const isAccess = computed(() => Boolean(props.access || props.link))
 const hasHeaderContent = computed(() => hasIcon.value || Boolean(props.label))
 const hasFooterContent = computed(() => Boolean(props.footer || props.value || props.desc || slots.footer))
-const cellTag = computed(() => {
-  if (!navigationTarget.value) return 'div'
-  // #ifdef H5
-  return 'a'
-  // #endif
-  // #ifndef H5
-  return 'navigator'
-  // #endif
-})
-const navigationAttrs = computed(() => {
-  if (!navigationTarget.value) return {}
-  // #ifdef H5
-  return { href: navigationTarget.value }
-  // #endif
-  // #ifndef H5
-  return { url: navigationTarget.value }
-  // #endif
-})
 const hasIcon = computed(() => Boolean(props.icon || slots.icon))
 const isImageIcon = computed(() => /^(?:\/|\.\/|\.\.\/|https?:|data:)/.test(props.icon ?? ''))
 const weuiIconClass = computed(() => `weui-icon-${props.icon}`)
@@ -206,14 +184,19 @@ const onTouchMove = (event: TouchEvent) => {
   if (distance < -30) swipeOpen.value = false
 }
 const onSwipeClick = () => { emit('swipe-click'); swipeOpen.value = false }
-const onNavigate = (res: unknown) => emit('navigate', res)
-const onNavigateError = (err: unknown) => emit('navigate-error', err)
 const handleClick = (event: Event) => {
   if (swipeOpen.value) { event.preventDefault(); swipeOpen.value = false; return }
   emit('click', event)
   if (!navigationTarget.value) return
   // #ifdef H5
   emit('navigate', { url: navigationTarget.value })
+  // #endif
+  // #ifndef H5
+  uni.navigateTo({
+    url: navigationTarget.value,
+    fail: (error) => emit('navigate-error', error),
+    success: (result) => emit('navigate', result),
+  })
   // #endif
 }
 </script>

@@ -41,7 +41,8 @@
           class="weui-search-bar__input"
           :value="modelValue"
           :placeholder="placeholder"
-          v-bind="uniOnlyAttrs"
+          :confirm-type="__IS_H5__ ? undefined : 'search'"
+          :focus="__IS_H5__ ? undefined : focus"
           @input="handleInput"
           @focus="handleFocus"
           @blur="handleBlur"
@@ -159,19 +160,8 @@ const showClear = computed(() => !!props.modelValue)
 const showCancelButton = computed(() => !isHomepage.value && (isOutlined.value || focused.value))
 const showSearchButton = computed(() => !isHomepage.value && isOutlined.value && !!props.searchButtonText)
 
-// 非 H5 端专属属性（H5 端浏览器忽略 confirm-type / :focus）
-// H5 端 focus 由 watch + ref.focus() 处理，不绑 :focus 属性
-// 非 H5 端通过 :focus 属性驱动 uni input 原生聚焦
-const uniOnlyAttrs = computed(() => {
-  if (__IS_H5__) return {}
-  return {
-    'confirm-type': 'search',
-    focus: props.focus || undefined,
-  }
-})
-
 // H5 端：focus prop 变化时调用 DOM focus()/blur()
-// 非 H5 端：仅同步 focused 视觉状态（:focus 属性由 uniOnlyAttrs 绑定，uni 原生组件处理）
+// 非 H5 端：仅同步 focused 视觉状态（:focus 属性直接绑定到 uni input）
 watch(() => props.focus, (val) => {
   focused.value = val
   if (__IS_H5__) {

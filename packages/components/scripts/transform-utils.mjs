@@ -19,8 +19,8 @@ export const TAG_MAP = {
 }
 
 // 条件编译注释正则（JS 注释语境，仅在 <script> 中使用）
-const IFDEF_RE = /\/\/\s*#ifdef\s+(\S+)\s*\n([\s\S]*?)\/\/\s*#endif/g
-const IFNDEF_RE = /\/\/\s*#ifndef\s+(\S+)\s*\n([\s\S]*?)\/\/\s*#endif/g
+const IFDEF_RE = /^[ \t]*\/\/\s*#ifdef\s+(\S+)\s*\n([\s\S]*?)^[ \t]*\/\/\s*#endif/gm
+const IFNDEF_RE = /^[ \t]*\/\/\s*#ifndef\s+(\S+)\s*\n([\s\S]*?)^[ \t]*\/\/\s*#endif/gm
 
 /**
  * 移除条件编译注释块，按目标平台保留对应代码
@@ -46,9 +46,9 @@ export function stripConditionalCompile(code, platform) {
     })
   }
 
-  result = result.replace(/\/\/\s*#ifdef\s+\S+[^\n]*\n/g, '')
-  result = result.replace(/\/\/\s*#ifndef\s+\S+[^\n]*\n/g, '')
-  result = result.replace(/\/\/\s*#endif[^\n]*\n?/g, '')
+  result = result.replace(/^[ \t]*\/\/\s*#ifdef\s+\S+[^\n]*\n/gm, '')
+  result = result.replace(/^[ \t]*\/\/\s*#ifndef\s+\S+[^\n]*\n/gm, '')
+  result = result.replace(/^[ \t]*\/\/\s*#endif[^\n]*\n?/gm, '')
 
   return result
 }
@@ -78,6 +78,16 @@ function transformTemplateContent(content) {
 
 function isActionAnchor(attrs) {
   return /(?:^|\s)href\s*=\s*(["'])(?:#|javascript:)[^"']*\1/i.test(attrs)
+}
+
+function isManualNavigationAnchor(attrs) {
+  return /(?:^|\s)data-manual-navigation(?:\s|=|$)/i.test(attrs)
+}
+
+function removeManualNavigationAttribute(attrs) {
+  return attrs
+    .replace(/(?:^|\s)data-manual-navigation(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+))?/gi, ' ')
+    .replace(/\s{2,}/g, ' ')
 }
 
 function removeHrefAttributes(attrs) {
@@ -116,9 +126,11 @@ function transformAnchorTags(content) {
 
     const selfClosing = /\/\s*>$/.test(tag)
     const attrs = tag.slice(2, selfClosing ? -2 : -1)
-    const action = isActionAnchor(attrs)
+    const action = isActionAnchor(attrs) || isManualNavigationAnchor(attrs)
     const targetTag = action ? 'view' : 'navigator'
-    const targetAttrs = action ? removeHrefAttributes(attrs) : convertHrefAttributes(attrs)
+    const targetAttrs = action
+      ? removeManualNavigationAttribute(removeHrefAttributes(attrs))
+      : convertHrefAttributes(attrs)
     const normalizedAttrs = targetAttrs.trim()
 
     result += `<${targetTag}${normalizedAttrs ? ` ${normalizedAttrs}` : ''}${selfClosing ? ' />' : '>'}`

@@ -25,15 +25,20 @@
     <!-- 底部：buttons 或 footer slot -->
     <div v-if="hasFooter" class="weui-form-preview__ft">
       <slot name="footer">
-        <component
-          :is="btn.url ? 'a' : 'button'"
-          v-for="(btn, index) in buttons"
-          :key="index"
-          :href="btn.url"
-          :type="btn.url ? undefined : 'button'"
-          :class="['weui-form-preview__btn', btnClass(btn)]"
-          @click="handleButtonTap(btn, index)"
-        >{{ btn.text }}</component>
+        <template v-for="(btn, index) in buttons" :key="index">
+          <a
+            v-if="btn.url"
+            :href="btn.url"
+            :class="['weui-form-preview__btn', btnClass(btn)]"
+            @click="handleButtonTap(btn, index)"
+          >{{ btn.text }}</a>
+          <button
+            v-else
+            type="button"
+            :class="['weui-form-preview__btn', btnClass(btn)]"
+            @click="handleButtonTap(btn, index)"
+          >{{ btn.text }}</button>
+        </template>
       </slot>
     </div>
   </div>

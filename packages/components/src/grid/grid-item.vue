@@ -1,7 +1,7 @@
 <template>
-  <component
-    :is="url ? 'a' : 'div'"
+  <a
     :class="rootClass"
+    data-manual-navigation
     :href="url"
     role="button"
     :hover-class="'weui-grid_active'"
@@ -18,7 +18,7 @@
         <slot v-else name="label" />
       </p>
     </template>
-  </component>
+  </a>
 </template>
 
 <script lang="ts">

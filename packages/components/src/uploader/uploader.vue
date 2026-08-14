@@ -163,12 +163,19 @@ const handleChoose = () => {
     fileInput.value?.click()
   } else {
     // 小程序/App：用 uni API
-    const success = (res: { tempFilePaths: string[]; tempFiles?: Array<{ path: string; size: number }> }) => {
-      if (props.files.length + res.tempFilePaths.length > props.count) {
+    type PickerResult = UniNamespace.ChooseImageSuccessCallbackResult | UniNamespace.ChooseFileSuccessCallbackResult
+    const success = (res: PickerResult) => {
+      const tempFilePaths = Array.isArray(res.tempFilePaths) ? res.tempFilePaths : [res.tempFilePaths]
+      if (props.files.length + tempFilePaths.length > props.count) {
         emit('exceed', props.count)
         return
       }
-      emit('select', { tempFilePaths: res.tempFilePaths, tempFiles: res.tempFiles })
+      const rawFiles = Array.isArray(res.tempFiles) ? res.tempFiles : res.tempFiles ? [res.tempFiles] : []
+      const tempFiles = rawFiles.map((file) => {
+        const item = file as unknown as { path?: string; size?: number }
+        return { path: item.path || '', size: Number(item.size) || 0 }
+      })
+      emit('select', { tempFilePaths, tempFiles })
     }
     const fail = (err: { errMsg: string }) => {
       emit('select-fail', err)
@@ -184,8 +191,8 @@ const handleChoose = () => {
 const handleFileChange = (event: Event) => {
   if (__IS_H5__) {
     const target = event.target as HTMLInputElement
-    const files = target.files
-    if (!files || files.length === 0) return
+    const files = target.files || []
+    if (files.length === 0) return
 
     const remaining = props.count - props.files.length
     if (files.length > remaining) {

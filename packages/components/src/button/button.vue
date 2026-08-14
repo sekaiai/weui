@@ -1,9 +1,9 @@
 <template>
   <button
-    v-bind="nativeAttrs"
-    :class="rootClass"
+    :class="[rootClass, $attrs.class]"
     :disabled="disabled"
     :aria-disabled="disabled || undefined"
+    :open-type="openType"
     @click="handleClick"
   >
     <template v-if="isStandardButton">
@@ -39,7 +39,7 @@ export default {
 
 <script setup lang="ts">
 /// <reference path="../globals.d.ts" />
-import { computed, useAttrs, useSlots } from 'vue'
+import { computed, useSlots } from 'vue'
 
 export interface WeuiButtonProps {
   /** 视觉类型，对齐 WeUI 的 primary / default / warn。 */
@@ -85,17 +85,10 @@ const props = withDefaults(defineProps<WeuiButtonProps>(), {
 })
 
 const emit = defineEmits<WeuiButtonEmits>()
-const attrs = useAttrs()
 const slots = useSlots()
 
 const isStandardButton = computed(() => !props.cell && !props.vcode)
 const hasContent = computed(() => Boolean(slots.default))
-
-// open-type 是微信小程序原生 button 属性；其他未声明属性和原生事件同样原样透传。
-const nativeAttrs = computed(() => {
-  if (__IS_H5__ || !isStandardButton.value) return attrs
-  return { ...attrs, 'open-type': props.openType }
-})
 
 const rootClass = computed(() => {
   if (props.vcode) {

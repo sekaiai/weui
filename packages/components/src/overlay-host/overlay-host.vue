@@ -1,11 +1,11 @@
 <template>
   <div class="weui-overlay-host">
     <!-- 命令式弹层在此渲染 -->
-    <component
-      :is="item.component"
+    <OverlayRenderer
       v-for="item in items"
       :key="item.id"
-      v-bind="item.props"
+      :component="item.component"
+      :component-props="item.props"
       @weui-close="handleClose(item.id)"
     />
   </div>
@@ -22,8 +22,8 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { ref, shallowRef, onMounted, onBeforeUnmount } from 'vue'
-import type { Component } from 'vue'
+import { defineComponent, h, ref, shallowRef, onMounted, onBeforeUnmount } from 'vue'
+import type { Component, PropType } from 'vue'
 import { overlayManager } from '../utils/overlay'
 import { setOverlayHost } from '../utils/overlay-host-ref'
 
@@ -33,6 +33,21 @@ export interface OverlayItem {
   props: Record<string, unknown>
   zIndex: number
 }
+
+const OverlayRenderer = defineComponent({
+  name: 'WeuiOverlayRenderer',
+  props: {
+    component: { type: [Object, Function] as PropType<Component>, required: true },
+    componentProps: { type: Object as PropType<Record<string, unknown>>, default: () => ({}) },
+  },
+  emits: ['weui-close'],
+  setup(props, { emit }) {
+    return () => h(props.component, {
+      ...props.componentProps,
+      onWeuiClose: () => emit('weui-close'),
+    })
+  },
+})
 
 const items = shallowRef<OverlayItem[]>([])
 const nextId = ref(1)

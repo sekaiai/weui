@@ -1,11 +1,14 @@
 <template>
   <div v-if="clearable" class="weui-input__wrapper">
     <input
-      v-bind="nativeAttrs"
       ref="inputRef"
-      :class="inputClass"
+      :class="[inputClass, $attrs.class]"
       :value="modelValue"
       :type="inputType"
+      :focus="__IS_H5__ ? undefined : effectiveFocus"
+      :confirm-type="__IS_H5__ ? undefined : confirmType"
+      :password="__IS_H5__ ? undefined : type === 'password'"
+      :enterkeyhint="__IS_H5__ ? confirmType : undefined"
       :placeholder="placeholder"
       :disabled="disabled"
       :readonly="readonly"
@@ -27,12 +30,15 @@
     />
   </div>
   <input
-    v-bind="nativeAttrs"
     v-else
     ref="inputRef"
-    :class="inputClass"
+    :class="[inputClass, $attrs.class]"
     :value="modelValue"
     :type="inputType"
+    :focus="__IS_H5__ ? undefined : effectiveFocus"
+    :confirm-type="__IS_H5__ ? undefined : confirmType"
+    :password="__IS_H5__ ? undefined : type === 'password'"
+    :enterkeyhint="__IS_H5__ ? confirmType : undefined"
     :placeholder="placeholder"
     :disabled="disabled"
     :readonly="readonly"
@@ -61,7 +67,7 @@ export default {
 
 <script setup lang="ts">
 /// <reference path="../globals.d.ts" />
-import { computed, onMounted, ref, useAttrs, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 
 export interface WeuiInputProps {
   /** v-model 绑定值 */
@@ -113,8 +119,6 @@ const props = withDefaults(defineProps<WeuiInputProps>(), {
 })
 
 const emit = defineEmits<WeuiInputEmits>()
-const attrs = useAttrs()
-
 const inputRef = ref<HTMLInputElement | null>(null)
 
 const inputClass = computed(() => {
@@ -132,18 +136,6 @@ const inputType = computed(() => {
 })
 
 const effectiveFocus = computed(() => props.focus || props.autoFocus)
-
-// 未声明的小程序官方属性由 attrs 原样透传；这里仅处理需要跨端转换的高频 prop。
-const platformAttrs = computed(() => {
-  if (__IS_H5__) return { enterkeyhint: props.confirmType }
-  const attrs: Record<string, any> = {
-    focus: effectiveFocus.value || undefined,
-    'confirm-type': props.confirmType,
-  }
-  if (props.type === 'password') attrs['password'] = true
-  return attrs
-})
-const nativeAttrs = computed(() => ({ ...attrs, ...platformAttrs.value }))
 
 const showClear = computed(
   () => props.clearable && !!props.modelValue && !props.disabled,
