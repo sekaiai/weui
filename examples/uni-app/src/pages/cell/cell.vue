@@ -56,8 +56,10 @@
         </weui-cell>
         <weui-switch label="通知开关" :model-value="true" />
         <weui-cell vcode label="验证码">
-          <input class="weui-input" placeholder="请输入验证码" />
-          <weui-button vcode>获取验证码</weui-button>
+          <weui-input placeholder="请输入验证码" />
+          <template #footer>
+            <weui-button vcode>获取验证码</weui-button>
+          </template>
         </weui-cell>
         <weui-cell access title="添加更多" />
       </weui-cell-group>

@@ -107,7 +107,7 @@ const cycle = <T>(value: { value: T }, options: T[]) => {
   <weui-form title="验证码" desc="验证手机号样式。">
     <weui-cell-group form>
       <weui-cell label="手机号"><weui-input type="number" model-value="12345678907" placeholder="请输入手机号" /></weui-cell>
-      <weui-cell label="验证码" vcode wrap><weui-input ext-class="weui-cell__control weui-cell__control_flex" placeholder="输入验证码" /><button class="weui-cell__control weui-btn weui-btn_default weui-vcode-btn">获取验证码</button></weui-cell>
+      <weui-cell label="验证码" vcode><weui-input placeholder="输入验证码" /><template #footer><weui-button vcode>获取验证码</weui-button></template></weui-cell>
     </weui-cell-group>
     <template #footer><weui-form-tips><weui-agree>阅读并同意<a href="javascript:">《相关条款》</a></weui-agree></weui-form-tips><weui-form-opr><weui-button type="primary">确定</weui-button></weui-form-opr></template>
   </weui-form>
@@ -117,7 +117,10 @@ const cycle = <T>(value: { value: T }, options: T[]) => {
 ```vue
 <weui-cell-group form>
   <weui-cell label="手机号"><weui-input type="number" placeholder="请输入手机号" /></weui-cell>
-  <weui-cell label="验证码" vcode wrap><weui-input ext-class="weui-cell__control weui-cell__control_flex" placeholder="输入验证码" /><button class="weui-cell__control weui-btn weui-btn_default weui-vcode-btn">获取验证码</button></weui-cell>
+  <weui-cell label="验证码" vcode>
+    <weui-input placeholder="输入验证码" />
+    <template #footer><weui-button vcode>获取验证码</weui-button></template>
+  </weui-cell>
 </weui-cell-group>
 ```
 :::

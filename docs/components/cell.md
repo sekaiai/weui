@@ -2,6 +2,7 @@
 import { onBeforeUnmount, ref } from 'vue'
 
 const clickResult = ref('')
+const vcode = ref('')
 const vcodeSeconds = ref(0)
 let vcodeTimer: ReturnType<typeof setInterval> | undefined
 
@@ -55,9 +56,9 @@ Cell 由 header、body 与 footer 构成，适用于表单项、设置项和列�
 
 ## 表单标签
 
-`label` 渲染表单标签；验证码场景使用 `vcode`，输入框与发送按钮都放在默认插槽。点击按钮会模拟发送并从“已发送(59)”开始倒计时。
+`label` 渲染表单标签；验证码场景使用 `vcode`，输入框放在默认插槽，发送按钮放在 `#footer` 插槽。点击按钮会模拟发送并从“已发送(59)”开始倒计时。
 
-<div class="demo-block vp-raw"><div class="demo-mobile"><weui-cell-group form title="表单标签"><weui-cell label="手机号"><weui-input type="number" placeholder="请输入手机号" /></weui-cell><weui-cell label="验证码" vcode wrap><weui-input type="number" ext-class="weui-cell__control weui-cell__control_flex" placeholder="请输入验证码" /><button class="weui-cell__control weui-btn weui-btn_default weui-vcode-btn" :disabled="vcodeSeconds > 0" @click="sendVcode">{{ vcodeSeconds ? `已发送(${vcodeSeconds})` : '获取验证码' }}</button></weui-cell></weui-cell-group></div></div>
+<div class="demo-block vp-raw"><div class="demo-mobile"><weui-cell-group form title="表单标签"><weui-cell label="手机号"><weui-input type="number" placeholder="请输入手机号" /></weui-cell><weui-cell label="验证码" vcode><weui-input v-model="vcode" type="number" placeholder="请输入验证码" /><template #footer><weui-button vcode :disabled="vcodeSeconds > 0" @click="sendVcode">{{ vcodeSeconds ? `已发送(${vcodeSeconds})` : '获取验证码' }}</weui-button></template></weui-cell></weui-cell-group></div></div>
 
 ::: details 查看代码
 ```vue
@@ -65,6 +66,7 @@ Cell 由 header、body 与 footer 构成，适用于表单项、设置项和列�
 import { ref } from 'vue'
 
 const seconds = ref(0)
+const code = ref('')
 let timer: ReturnType<typeof setInterval> | undefined
 const send = () => {
   if (seconds.value) return
@@ -79,9 +81,13 @@ const send = () => {
 <template>
   <weui-cell-group form title="表单标签">
     <weui-cell label="手机号"><weui-input type="number" placeholder="请输入手机号" /></weui-cell>
-    <weui-cell label="验证码" vcode wrap>
-      <weui-input type="number" ext-class="weui-cell__control weui-cell__control_flex" placeholder="请输入验证码" />
-      <button class="weui-cell__control weui-btn weui-btn_default weui-vcode-btn" :disabled="seconds > 0" @click="send">{{ seconds ? `已发送(${seconds})` : '获取验证码' }}</button>
+    <weui-cell label="验证码" vcode>
+      <weui-input v-model="code" type="number" placeholder="请输入验证码" />
+      <template #footer>
+        <weui-button vcode :disabled="seconds > 0" @click="send">
+          {{ seconds ? `已发送(${seconds})` : '获取验证码' }}
+        </weui-button>
+      </template>
     </weui-cell>
   </weui-cell-group>
 </template>
