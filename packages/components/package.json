@@ -52,6 +52,7 @@
     "build": "pnpm build:vue3 && pnpm build:types && pnpm build:uni-app",
     "build:vue3": "vite build",
     "build:uni-app": "node scripts/copy-uniapp-components.mjs",
+    "check:uni-app": "node scripts/check-uni-app-compat.mjs",
     "build:types": "vue-tsc -p tsconfig.build.json",
     "test": "vitest run",
     "typecheck": "vue-tsc --noEmit -p tsconfig.json",

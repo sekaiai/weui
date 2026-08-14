@@ -157,11 +157,20 @@ describe('WeuiPanel', () => {
       expect(link.classes()).toContain('weui-cell_access')
     })
 
-    it('footerHref 默认为 javascript:void(0);', () => {
+    it('footerHref 默认值在 H5 保留原有伪链接行为', () => {
       const wrapper = mount(WeuiPanel, {
         props: { footerText: '查看更多' },
       })
+      expect(wrapper.find('.weui-cell_link').element.tagName).toBe('A')
       expect(wrapper.find('.weui-cell_link').attributes('href')).toBe('javascript:void(0);')
+    })
+
+    it('提供 footerHref 时保留真实链接', () => {
+      const wrapper = mount(WeuiPanel, {
+        props: { footerText: '查看更多', footerHref: '/pages/more' },
+      })
+      expect(wrapper.find('.weui-cell_link').element.tagName).toBe('A')
+      expect(wrapper.find('.weui-cell_link').attributes('href')).toBe('/pages/more')
     })
 
     it('footer slot 优先于 footerText', () => {

@@ -308,7 +308,7 @@ const items = ref([{ id: 1, thumb: '...', title: '标题', desc: '描述' }])
 | title | 头部标题 | `string` | — |
 | type | 面板类型，access 模式追加 `weui-panel_access` 类 | `'default' \| 'access'` | `'default'` |
 | footer-text | 底部"查看更多"文字，传入时自动渲染为 link cell | `string` | — |
-| footer-href | footer 链接地址 | `string` | `'javascript:void(0);'` |
+| footer-href | footer 链接地址；默认值仅触发 `footer-click`，提供真实地址时在 uni-app 中使用 `navigator/url` | `string` | `'javascript:void(0);'` |
 | ext-class | 附加在根元素上的扩展类名 | `string` | — |
 
 ### MediaBox
@@ -319,7 +319,7 @@ const items = ref([{ id: 1, thumb: '...', title: '标题', desc: '描述' }])
 | thumb | 缩略图 URL。传入时自动渲染为 `appmsg` 图文模式，否则为 `text` 纯文字模式 | `string` | — |
 | title | 标题 | `string` | — |
 | desc | 描述 | `string` | — |
-| href | 链接地址，传入时用 `<a>` 包裹（仅非 cells 模式有效） | `string` | — |
+| href | 链接地址，传入时用 `<a>` 包裹（uni-app 构建时转换为 `navigator/url`，仅非 cells 模式有效） | `string` | — |
 | ext-class | 扩展类名 | `string` | — |
 
 ## Events

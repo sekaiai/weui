@@ -56,7 +56,7 @@ const links = [
 
 ## 链接带 URL
 
-当 `FooterLink` 提供 `url` 时，链接渲染为 `<a>` 标签（H5 中可点击跳转；uni-app 构建时由 build-plugin 自动转换为 `<navigator>`）。
+当 `FooterLink` 提供 `url` 时，链接渲染为 `<a>` 标签（H5 中可点击跳转；uni-app 构建时由 build-plugin 自动转换为 `<navigator url="...">`）。
 
 <div class="demo-block vp-raw">
   <weui-footer :links="linksWithUrl" text="Copyright © 2026 weui.design" />
@@ -142,7 +142,7 @@ const linksWithUrl = [
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | text | 链接文字 | `string` | — |
-| url | 链接地址，提供时渲染为 `<a>`（uni-app 构建时自动转换为 `<navigator>`） | `string` | — |
+| url | 链接地址，提供时渲染为 `<a>`（uni-app 构建时自动转换为 `<navigator url="...">`） | `string` | — |
 
 ## Slots
 

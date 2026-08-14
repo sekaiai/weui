@@ -8,6 +8,10 @@ export const TAG_MAP = {
   span: 'text',
   img: 'image',
   a: 'navigator',
+  article: 'view',
+  em: 'text',
+  h2: 'text',
+  i: 'text',
   strong: 'text',
   p: 'view',
   ul: 'view',
@@ -58,12 +62,88 @@ export function transformTemplateTags(source) {
   let lastIndex = 0
   let match
   while ((match = scriptBlockRegex.exec(source)) !== null) {
-    result += transformTags(source.slice(lastIndex, match.index))
+    result += transformTemplateContent(source.slice(lastIndex, match.index))
     result += match[0]
     lastIndex = match.index + match[0].length
   }
-  result += transformTags(source.slice(lastIndex))
+  result += transformTemplateContent(source.slice(lastIndex))
   return result
+}
+
+function transformTemplateContent(content) {
+  let transformed = transformAnchorTags(content)
+  transformed = transformDynamicComponentTags(transformed)
+  return transformTags(transformed)
+}
+
+function isActionAnchor(attrs) {
+  return /(?:^|\s)href\s*=\s*(["'])(?:#|javascript:)[^"']*\1/i.test(attrs)
+}
+
+function removeHrefAttributes(attrs) {
+  return attrs
+    .replace(/(?:^|\s)(?::|v-bind:)?href\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+)/gi, ' ')
+    .replace(/\s{2,}/g, ' ')
+}
+
+function convertHrefAttributes(attrs) {
+  return attrs.replace(
+    /(^|\s)(:|v-bind:)?href(\s*=)/gi,
+    '$1$2url$3',
+  )
+}
+
+/**
+ * Convert anchors without relying on unsupported WXSS/HTML semantics in uni-app.
+ * Literal #/javascript links are event controls; real links become navigator/url.
+ */
+function transformAnchorTags(content) {
+  const anchorTagRegex = /<\/?a\b[^>]*>/gi
+  const tagStack = []
+  let result = ''
+  let lastIndex = 0
+  let match
+
+  while ((match = anchorTagRegex.exec(content)) !== null) {
+    result += content.slice(lastIndex, match.index)
+    const tag = match[0]
+
+    if (/^<\//.test(tag)) {
+      result += `</${tagStack.pop() ?? 'navigator'}>`
+      lastIndex = anchorTagRegex.lastIndex
+      continue
+    }
+
+    const selfClosing = /\/\s*>$/.test(tag)
+    const attrs = tag.slice(2, selfClosing ? -2 : -1)
+    const action = isActionAnchor(attrs)
+    const targetTag = action ? 'view' : 'navigator'
+    const targetAttrs = action ? removeHrefAttributes(attrs) : convertHrefAttributes(attrs)
+    const normalizedAttrs = targetAttrs.trim()
+
+    result += `<${targetTag}${normalizedAttrs ? ` ${normalizedAttrs}` : ''}${selfClosing ? ' />' : '>'}`
+    if (!selfClosing) tagStack.push(targetTag)
+    lastIndex = anchorTagRegex.lastIndex
+  }
+
+  result += content.slice(lastIndex)
+  return result
+}
+
+function transformDynamicComponentTags(content) {
+  let transformed = content.replace(
+    /(:is\s*=\s*)(["'])([\s\S]*?)\2/g,
+    (_, prefix, quote, expression) => {
+      const mappedExpression = expression.replace(/(['"])a\1/g, '$1navigator$1')
+        .replace(/(['"])div\1/g, '$1view$1')
+      return `${prefix}${quote}${mappedExpression}${quote}`
+    },
+  )
+
+  return transformed.replace(/<component\b([^>]*)>/gi, (match, attrs) => {
+    if (!/:is\s*=/.test(attrs)) return match
+    return `<component${convertHrefAttributes(attrs)}>`
+  })
 }
 
 /**

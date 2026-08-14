@@ -17,11 +17,11 @@
         @fail="onNavigateError"
       >
         <div v-if="hasHeader && hasHeaderContent" :class="['weui-cell__hd', iconClass]">
-          <span v-if="hasIcon" class="weui-cell__icon">
-            <img v-if="isImageIcon" :src="icon" alt="" />
+          <div v-if="hasIcon" class="weui-cell__icon">
+            <img v-if="isImageIcon" class="weui-cell__icon-image" :src="icon" alt="" />
             <span v-else-if="icon" :class="weuiIconClass" aria-hidden="true" />
             <slot v-else name="icon" />
-          </span>
+          </div>
           <label v-if="label" class="weui-label">{{ label }}</label>
         </div>
         <div v-if="hasBody" :class="bodyClassName">
@@ -51,11 +51,11 @@
     @fail="onNavigateError"
   >
     <div v-if="hasHeader && hasHeaderContent" :class="['weui-cell__hd', iconClass]">
-      <span v-if="hasIcon" class="weui-cell__icon">
-        <img v-if="isImageIcon" :src="icon" alt="" />
+      <div v-if="hasIcon" class="weui-cell__icon">
+        <img v-if="isImageIcon" class="weui-cell__icon-image" :src="icon" alt="" />
         <span v-else-if="icon" :class="weuiIconClass" aria-hidden="true" />
         <slot v-else name="icon" />
-      </span>
+      </div>
       <label v-if="label" class="weui-label">{{ label }}</label>
     </div>
     <div v-if="hasBody" :class="bodyClassName">
@@ -228,23 +228,18 @@ const handleClick = (event: Event) => {
   justify-content: center;
   margin-right: 16px;
   vertical-align: middle;
+  font-size: 8.333333px;
 }
 
-.weui-cell__icon > img {
+.weui-cell__icon-image {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: contain;
 }
 
-/* WeUI icons use a 2.4em square. Keep their native sizing model within the 20px cell icon area. */
-.weui-cell__icon > [class^="weui-icon-"],
-.weui-cell__icon > [class*=" weui-icon-"] {
-  font-size: 8.333333px;
-}
-
 /* 只读内容不可编辑，但仍保持表单正文的默认颜色；禁用状态继续使用 WeUI 的置灰样式。 */
-.weui-cell_readonly .weui-input[readonly] {
+.weui-cell_readonly .weui-input {
   color: inherit;
 }
 </style>

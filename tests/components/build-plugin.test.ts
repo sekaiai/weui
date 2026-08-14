@@ -131,6 +131,39 @@ describe('transformTemplateTags', () => {
     expect(result).toContain('<text>是</text>')
     expect(result).toContain('<text>否</text>')
   })
+  it('maps semantic tags to uni-app tags', () => {
+    const src = '<template><article><h2><em><i>text</i></em></h2></article></template>'
+    const result = transformTemplateTags(src)
+    expect(result).toContain('<view><text><text><text>text</text></text></text></view>')
+    expect(result).not.toMatch(/<\/?(?:article|h2|em|i)\b/)
+  })
+
+  it('maps real links to navigator/url', () => {
+    const src = '<template><a :href="url" class="link">link</a></template>'
+    const result = transformTemplateTags(src)
+    expect(result).toContain('<navigator :url="url" class="link">')
+    expect(result).toContain('</navigator>')
+    expect(result).not.toContain(':href=')
+  })
+
+  it('maps action pseudo-links to view without href', () => {
+    const src = '<template><a href="javascript:" class="action">delete</a><a href="#">back</a></template>'
+    const result = transformTemplateTags(src)
+    expect(result).toContain('<view class="action">')
+    expect(result).toContain('<view>back</view>')
+    expect(result).not.toContain('javascript:')
+    expect(result).not.toContain('href=')
+    expect(result).not.toContain('<navigator')
+  })
+
+  it('maps dynamic component tags and href bindings', () => {
+    const src = '<template><component :is="url ? \'a\' : \'div\'" :href="url">content</component></template>'
+    const result = transformTemplateTags(src)
+    expect(result).toContain(":is=\"url ? 'navigator' : 'view'\"")
+    expect(result).toContain(':url="url"')
+    expect(result).not.toContain("'a'")
+    expect(result).not.toContain("'div'")
+  })
 })
 
 describe('platformTransform', () => {

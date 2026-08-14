@@ -13,15 +13,16 @@
     <!-- 底部：footer slot 优先，否则用 footerText -->
     <div v-if="footerText || $slots.footer" class="weui-panel__ft">
       <slot name="footer">
-        <a
+        <component
           v-if="footerText"
-          :href="footerHref"
+          :is="isFooterAction ? (__IS_H5__ ? 'a' : 'div') : 'a'"
+          :href="__IS_H5__ || !isFooterAction ? footerHref : undefined"
           class="weui-cell weui-cell_active weui-cell_access weui-cell_link"
           @click="emit('footer-click', $event)"
         >
           <span class="weui-cell__bd">{{ footerText }}</span>
           <span class="weui-cell__ft" />
-        </a>
+        </component>
       </slot>
     </div>
   </div>
@@ -73,4 +74,6 @@ const rootClass = computed(() => {
   if (props.extClass) classes.push(props.extClass)
   return classes
 })
+
+const isFooterAction = computed(() => /^(?:#|javascript:)/i.test(props.footerHref ?? ''))
 </script>

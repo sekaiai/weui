@@ -104,7 +104,9 @@ describe('WeuiCell', () => {
       const wrapper = mount(WeuiCell, {
         props: { icon: '/static/icon.png' },
       })
-      const img = wrapper.find('.weui-cell__icon')
+      const icon = wrapper.find('.weui-cell__icon')
+      const img = wrapper.find('.weui-cell__icon-image')
+      expect(icon.element.tagName).toBe('DIV')
       expect(img.exists()).toBe(true)
       expect(img.attributes('src')).toBe('/static/icon.png')
     })
