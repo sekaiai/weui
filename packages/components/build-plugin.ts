@@ -1,6 +1,7 @@
 import type { Plugin } from 'vite'
 import {
   stripConditionalCompile as _stripConditionalCompile,
+  stripTemplateConditionalCompile as _stripTemplateConditionalCompile,
   replacePlatformConstant as _replacePlatformConstant,
   transformTemplateTags as _transformTemplateTags,
 } from './scripts/transform-utils.mjs'
@@ -13,6 +14,10 @@ type TransformPlatform = 'vue3' | 'uni-app'
 
 export function stripConditionalCompile(code: string, platform: TransformPlatform): string {
   return _stripConditionalCompile(code, platform)
+}
+
+export function stripTemplateConditionalCompile(code: string, platform: TransformPlatform): string {
+  return _stripTemplateConditionalCompile(code, platform)
 }
 
 export function replacePlatformConstant(source: string, platform: TransformPlatform): string {

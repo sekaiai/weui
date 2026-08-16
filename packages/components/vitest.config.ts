@@ -1,6 +1,6 @@
 import { defineConfig } from 'vitest/config'
 import vue from '@vitejs/plugin-vue'
-import { replacePlatformConstant } from './build-plugin'
+import { replacePlatformConstant, stripTemplateConditionalCompile } from './build-plugin'
 import type { Plugin } from 'vite'
 
 // uni-app 原生组件标签，在测试环境中标记为自定义元素
@@ -38,8 +38,9 @@ function minimalPlatformTransform(): Plugin {
       if (!id.endsWith('.vue')) {
         return null
       }
-      // 仅替换 __IS_H5__ 常量，不做条件编译移除、不做标签转换
-      return replacePlatformConstant(code, 'vue3')
+      // Render only the H5 template branch while preserving script test paths.
+      const transformed = stripTemplateConditionalCompile(code, 'vue3')
+      return replacePlatformConstant(transformed, 'vue3')
     },
   }
 }

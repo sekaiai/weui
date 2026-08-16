@@ -3,7 +3,7 @@ import vue from '@vitejs/plugin-vue'
 import { platformTransform } from './build-plugin'
 
 const UNI_NATIVE_TAGS = [
-  'checkbox', 'radio',
+  'checkbox', 'radio', 'switch',
   'checkbox-group', 'radio-group',
   'navigator',
   'swiper', 'swiper-item', 'scroll-view',

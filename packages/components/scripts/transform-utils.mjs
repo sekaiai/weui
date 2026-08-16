@@ -21,6 +21,10 @@ export const TAG_MAP = {
 // 条件编译注释正则（JS 注释语境，仅在 <script> 中使用）
 const IFDEF_RE = /^[ \t]*\/\/\s*#ifdef\s+(\S+)\s*\n([\s\S]*?)^[ \t]*\/\/\s*#endif/gm
 const IFNDEF_RE = /^[ \t]*\/\/\s*#ifndef\s+(\S+)\s*\n([\s\S]*?)^[ \t]*\/\/\s*#endif/gm
+const TEMPLATE_IFDEF_RE = /<!--[ \t]*#ifdef\s+(\S+)[ \t]*-->[ \t\r\n]*([\s\S]*?)[ \t\r\n]*<!--[ \t]*#endif[ \t]*-->/g
+const TEMPLATE_IFNDEF_RE = /<!--[ \t]*#ifndef\s+(\S+)[ \t]*-->[ \t\r\n]*([\s\S]*?)[ \t\r\n]*<!--[ \t]*#endif[ \t]*-->/g
+const STYLE_IFDEF_RE = /\/\*[ \t]*#ifdef\s+(\S+)[ \t]*\*\/[ \t\r\n]*([\s\S]*?)[ \t\r\n]*\/\*[ \t]*#endif[ \t]*\*\//g
+const STYLE_IFNDEF_RE = /\/\*[ \t]*#ifndef\s+(\S+)[ \t]*\*\/[ \t\r\n]*([\s\S]*?)[ \t\r\n]*\/\*[ \t]*#endif[ \t]*\*\//g
 
 /**
  * 移除条件编译注释块，按目标平台保留对应代码
@@ -49,8 +53,47 @@ export function stripConditionalCompile(code, platform) {
   result = result.replace(/^[ \t]*\/\/\s*#ifdef\s+\S+[^\n]*\n/gm, '')
   result = result.replace(/^[ \t]*\/\/\s*#ifndef\s+\S+[^\n]*\n/gm, '')
   result = result.replace(/^[ \t]*\/\/\s*#endif[^\n]*\n?/gm, '')
+  return stripStyleConditionalCompile(stripTemplateConditionalCompile(result, platform), platform)
+}
 
-  return result
+export function stripTemplateConditionalCompile(code, platform) {
+  let result = code
+
+  if (platform === 'vue3') {
+    result = result.replace(TEMPLATE_IFNDEF_RE, (match, platformName) => {
+      return platformName === 'H5' ? '' : match
+    })
+    result = result.replace(TEMPLATE_IFDEF_RE, (_, platformName, content) => {
+      if (platformName === 'H5') return content
+      return ''
+    })
+  } else {
+    result = result.replace(TEMPLATE_IFDEF_RE, (match, platformName) => {
+      return platformName === 'H5' ? '' : match
+    })
+    result = result.replace(TEMPLATE_IFNDEF_RE, (_, platformName, content) => {
+      if (platformName === 'H5') return content
+      return ''
+    })
+  }
+
+  return result.replace(/<!--[ \t]*#(?:ifdef|ifndef|endif)(?:\s+\S+)?[ \t]*-->/g, '')
+}
+
+export function stripStyleConditionalCompile(code, platform) {
+  let result = code
+  if (platform === 'vue3') {
+    result = result.replace(STYLE_IFNDEF_RE, (match, platformName) =>
+      platformName === 'H5' ? '' : match)
+    result = result.replace(STYLE_IFDEF_RE, (_, platformName, content) =>
+      platformName === 'H5' ? content : '')
+  } else {
+    result = result.replace(STYLE_IFDEF_RE, (match, platformName) =>
+      platformName === 'H5' ? '' : match)
+    result = result.replace(STYLE_IFNDEF_RE, (_, platformName, content) =>
+      platformName === 'H5' ? content : '')
+  }
+  return result.replace(/\/\*[ \t]*#(?:ifdef|ifndef|endif)(?:\s+\S+)?[ \t]*\*\//g, '')
 }
 
 /**
