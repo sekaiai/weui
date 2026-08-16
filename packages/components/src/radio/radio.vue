@@ -2,6 +2,7 @@
   <label :class="rootClass">
     <div class="weui-cell__bd"><p><slot>{{ label }}</slot></p></div>
     <div class="weui-cell__ft">
+      <!-- #ifdef H5 -->
       <input
         type="radio"
         class="weui-check"
@@ -11,7 +12,25 @@
         :name="group?.name?.value"
         @change="onChange"
       />
+      <!-- #endif -->
+      <!-- #ifndef H5 -->
+      <radio-group v-if="!group" @change="onNativeChange">
+        <radio
+          :value="value"
+          :checked="isChecked"
+          :disabled="isDisabled"
+        />
+      </radio-group>
+      <radio
+        v-else
+        :value="value"
+        :checked="isChecked"
+        :disabled="isDisabled"
+      />
+      <!-- #endif -->
+      <!-- #ifdef H5 -->
       <span class="weui-icon-checked"></span>
+      <!-- #endif -->
     </div>
   </label>
 </template>
@@ -69,5 +88,14 @@ const onChange = () => {
   } else {
     emit('change', props.value)
   }
+}
+
+const onNativeChange = (event: Event & { detail?: { value?: string } }) => {
+  // Native radio-group owns grouped changes. Standalone radios still emit.
+  if (group) return
+  const value = event.detail?.value
+    ?? (event.target as HTMLInputElement | null)?.value
+    ?? props.value
+  emit('change', value)
 }
 </script>

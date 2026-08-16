@@ -1,8 +1,8 @@
 <template>
-  <label :class="rootClass" @click="handleClick">
+  <label :class="rootClass" @click="__IS_H5__ ? handleClick : undefined">
     <div class="weui-cell__hd">
+      <!-- #ifdef H5 -->
       <input
-        v-if="__IS_H5__"
         type="checkbox"
         class="weui-check"
         :value="value"
@@ -11,17 +11,30 @@
         @click.stop
         @change.stop="onH5Change"
       />
+      <!-- #endif -->
+      <!-- #ifndef H5 -->
+      <checkbox-group v-if="!group" @change="onNativeChange">
+        <checkbox
+          :value="value"
+          :checked="isChecked"
+          :disabled="isDisabled"
+          @click.stop
+        />
+      </checkbox-group>
       <checkbox
         v-else
-        class="weui-check"
         :value="value"
         :checked="isChecked"
         :disabled="isDisabled"
+        @click.stop
       />
+      <!-- #endif -->
+      <!-- #ifdef H5 -->
       <div
         class="weui-icon-checked"
         :class="{ 'weui-icon-checked_selected': isChecked }"
       />
+      <!-- #endif -->
     </div>
     <div class="weui-cell__bd">
       <slot>{{ label }}</slot>
@@ -103,9 +116,23 @@ const handleClick = () => {
 const onH5Change = () => {
   if (group?.toggle) group.toggle(props.value)
 }
+
+const onNativeChange = (event: Event & { detail?: { checked?: boolean; value?: boolean | string[] } }) => {
+  if (group) return
+  const rawValue = event.detail?.value
+  const checked = Array.isArray(rawValue)
+    ? rawValue.includes(props.value)
+    : event.detail?.checked
+      ?? rawValue
+    ?? (event.target as HTMLInputElement | null)?.checked
+    ?? !isChecked.value
+  emit('update:checked', checked)
+  emit('change', checked)
+}
 </script>
 
 <style lang="scss">
+/* #ifdef H5 */
 /*
  * 选中图标由 Vue 数据驱动（isChecked → weui-icon-checked_selected），
  * 不依赖原生 input 的 :checked 伪类——避免受控 input 点击时序下
@@ -115,4 +142,5 @@ const onH5Change = () => {
 .weui-cells_checkbox .weui-icon-checked.weui-icon-checked_selected {
   background-image: url("data:image/svg+xml,%3Csvg width='25' height='24' viewBox='0 0 25 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0.5' width='24' height='24' rx='12' fill='%2307C160' style='fill:%2307C160;fill:color(display-p3 0.0275 0.7569 0.3765);fill-opacity:1;'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M10.2712 16.2899L6.5 12.5187L7.44281 11.5759L10.7426 14.8757L18.2851 7.33325L19.2279 8.27606L11.214 16.2899C10.9537 16.5503 10.5316 16.5503 10.2712 16.2899Z' fill='white' style='fill:white;fill-opacity:1;'/%3E%3C/svg%3E%0A");
 }
+/* #endif */
 </style>

@@ -1,5 +1,6 @@
 <template>
   <label :class="rootClass">
+    <!-- #ifdef H5 -->
     <input
       type="checkbox"
       class="weui-agree__checkbox"
@@ -7,6 +8,16 @@
       :disabled="disabled"
       @change="handleChange"
     />
+    <!-- #endif -->
+    <!-- #ifndef H5 -->
+    <checkbox-group @change="handleChange">
+      <checkbox
+        value="__weui_agree__"
+        :checked="modelValue"
+        :disabled="disabled"
+      />
+    </checkbox-group>
+    <!-- #endif -->
     <span class="weui-agree__text">
       <slot />
     </span>
@@ -58,8 +69,14 @@ const rootClass = computed(() => {
   return classes
 })
 
-const handleChange = (event: Event) => {
-  const checked = (event.target as HTMLInputElement).checked
+const handleChange = (event: Event & { detail?: { value?: boolean | string[]; checked?: boolean } }) => {
+  const rawValue = event.detail?.value
+  const checked = Array.isArray(rawValue)
+    ? rawValue.includes('__weui_agree__')
+    : event.detail?.checked
+      ?? rawValue
+    ?? (event.target as HTMLInputElement | null)?.checked
+    ?? false
   emit('update:modelValue', checked)
   emit('change', checked)
 }

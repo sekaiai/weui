@@ -2,14 +2,14 @@
   <div :class="groupClass" :role="ariaRole">
     <div v-if="title" class="weui-cells__title">{{ title }}</div>
     <div :class="cellsClass">
-      <template v-if="__IS_H5__">
+      <!-- #ifdef H5 -->
+      <slot />
+      <!-- #endif -->
+      <!-- #ifndef H5 -->
+      <checkbox-group @change="onChange">
         <slot />
-      </template>
-      <template v-else>
-        <checkbox-group @change="onChange">
-          <slot />
-        </checkbox-group>
-      </template>
+      </checkbox-group>
+      <!-- #endif -->
     </div>
     <div v-if="footer" class="weui-cells__tips">{{ footer }}</div>
   </div>

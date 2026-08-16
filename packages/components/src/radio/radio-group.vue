@@ -2,7 +2,14 @@
   <div :class="groupClass">
     <div v-if="title" class="weui-cells__title">{{ title }}</div>
     <div :class="cellsClass">
+      <!-- #ifdef H5 -->
       <slot />
+      <!-- #endif -->
+      <!-- #ifndef H5 -->
+      <radio-group @change="onNativeChange">
+        <slot />
+      </radio-group>
+      <!-- #endif -->
     </div>
     <div v-if="footer" class="weui-cells__tips">{{ footer }}</div>
   </div>
@@ -64,6 +71,10 @@ const cellsClass = computed(() => {
 const onChange = (value: string) => {
   emit('update:modelValue', value)
   emit('change', value)
+}
+
+const onNativeChange = (event: Event & { detail?: { value?: string } }) => {
+  onChange(event.detail?.value ?? '')
 }
 
 provide('weuiRadioGroup', {

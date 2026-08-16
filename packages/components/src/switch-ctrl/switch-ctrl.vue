@@ -2,6 +2,7 @@
   <label :class="rootClass">
     <div class="weui-cell__bd">{{ label }}</div>
     <div class="weui-cell__ft">
+      <!-- #ifdef H5 -->
       <span v-if="cp" class="weui-switch-cp">
         <input
           class="weui-switch-cp__input"
@@ -20,6 +21,14 @@
         :disabled="disabled"
         @change="onChange"
       />
+      <!-- #endif -->
+      <!-- #ifndef H5 -->
+      <switch
+        :checked="modelValue"
+        :disabled="disabled"
+        @change="onChange"
+      />
+      <!-- #endif -->
     </div>
   </label>
 </template>
@@ -65,8 +74,8 @@ const rootClass = computed(() => {
   return classes
 })
 
-const onChange = (event: Event) => {
-  const checked = (event.target as HTMLInputElement).checked
+const onChange = (event: Event & { detail?: { value?: boolean } }) => {
+  const checked = event.detail?.value ?? (event.target as HTMLInputElement | null)?.checked ?? false
   emit('update:modelValue', checked)
   emit('change', checked)
 }
