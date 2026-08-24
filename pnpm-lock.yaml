@@ -29,7 +29,7 @@ importers:
       weui:
         specifier: ^2.4.3
         version: 2.6.26
-      weui-design-vue:
+      weui-uniapp-design:
         specifier: workspace:*
         version: link:../packages/components
     devDependencies:
@@ -54,7 +54,7 @@ importers:
       weui:
         specifier: ^2.4.3
         version: 2.6.26
-      weui-design-vue:
+      weui-uniapp-design:
         specifier: workspace:*
         version: link:../../packages/components
     devDependencies:

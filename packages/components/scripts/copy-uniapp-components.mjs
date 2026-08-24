@@ -101,7 +101,7 @@ async function writeBarrelIndex() {
   await writeFile(
     join(outBase, 'index.ts'),
     '// uni-app flat SFC components for easycom\n'
-    + '// Usage: easycom pattern "^weui-(.*)": "weui-design-vue/dist/uni-app/$1.vue"\n',
+    + '// Usage: easycom pattern "^weui-(.*)": "weui-uniapp-design/dist/uni-app/$1.vue"\n',
     'utf-8',
   )
 }

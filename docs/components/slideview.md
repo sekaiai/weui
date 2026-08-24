@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { SlideButton } from 'weui-design-vue'
+import type { SlideButton } from 'weui-uniapp-design'
 
 const show1 = ref(false)
 const show2 = ref(false)
@@ -67,7 +67,7 @@ const onButtonClick = (btn: SlideButton, index: number) => {
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { SlideButton } from 'weui-design-vue'
+import type { SlideButton } from 'weui-uniapp-design'
 
 const show = ref(false)
 const buttons: SlideButton[] = [
@@ -104,7 +104,7 @@ const onButtonClick = (btn: SlideButton, index: number) => {
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { SlideButton } from 'weui-design-vue'
+import type { SlideButton } from 'weui-uniapp-design'
 
 const show = ref(false)
 const buttons: SlideButton[] = [
@@ -138,7 +138,7 @@ const buttons: SlideButton[] = [
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { SlideButton } from 'weui-design-vue'
+import type { SlideButton } from 'weui-uniapp-design'
 
 const show = ref(false)
 const buttons: SlideButton[] = [
@@ -172,7 +172,7 @@ const buttons: SlideButton[] = [
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { SlideButton } from 'weui-design-vue'
+import type { SlideButton } from 'weui-uniapp-design'
 
 const show = ref(false)
 const buttons: SlideButton[] = [
@@ -225,7 +225,7 @@ const onButtonClick = (btn: SlideButton, index: number) => {
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { SlideButton } from 'weui-design-vue'
+import type { SlideButton } from 'weui-uniapp-design'
 
 const show = ref(false)
 const buttons: SlideButton[] = [

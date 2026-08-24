@@ -89,7 +89,7 @@ export default {
 </script>
 
 <script setup lang="ts">
-import type { PreviewItem, PreviewButton } from 'weui-design-vue'
+import type { PreviewItem, PreviewButton } from 'weui-uniapp-design'
 
 const basicItems: PreviewItem[] = [
   { label: '商品', value: 'WeUI 设计指南' },

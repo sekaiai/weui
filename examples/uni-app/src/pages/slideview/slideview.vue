@@ -82,7 +82,7 @@ export default {
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { SlideButton } from 'weui-design-vue'
+import type { SlideButton } from 'weui-uniapp-design'
 
 const showBasic = ref(false)
 const showWarn = ref(false)

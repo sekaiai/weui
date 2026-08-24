@@ -68,7 +68,7 @@ export default {
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { UploaderFile } from 'weui-design-vue'
+import type { UploaderFile } from 'weui-uniapp-design'
 
 const basicFiles = ref<UploaderFile[]>([
   { url: 'https://weui.io/images/pic_160.png' },

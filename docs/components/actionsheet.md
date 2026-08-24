@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Actionsheet, type ActionsheetItem } from 'weui-design-vue'
+import { Actionsheet, type ActionsheetItem } from 'weui-uniapp-design'
 
 const show1 = ref(false)
 const show2 = ref(false)
@@ -75,7 +75,7 @@ const onImperative = async () => {
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { ActionsheetItem } from 'weui-design-vue'
+import type { ActionsheetItem } from 'weui-uniapp-design'
 
 const show = ref(false)
 const items: ActionsheetItem[] = [
@@ -137,7 +137,7 @@ const onSelect = (item: ActionsheetItem, index: number) => {
 </template>
 
 <script setup lang="ts">
-import type { ActionsheetItem } from 'weui-design-vue'
+import type { ActionsheetItem } from 'weui-uniapp-design'
 const warnItems: ActionsheetItem[] = [
   { label: '编辑' },
   { label: '删除', warn: true },
@@ -168,7 +168,7 @@ const warnItems: ActionsheetItem[] = [
 </template>
 
 <script setup lang="ts">
-import type { ActionsheetItem } from 'weui-design-vue'
+import type { ActionsheetItem } from 'weui-uniapp-design'
 const tipsItems: ActionsheetItem[] = [
   { label: '复制', tips: '复制到剪贴板' },
   { label: '转发', tips: '转发给好友' },
@@ -244,7 +244,7 @@ const tipsItems: ActionsheetItem[] = [
 </template>
 
 <script setup lang="ts">
-import { Actionsheet, type ActionsheetItem } from 'weui-design-vue'
+import { Actionsheet, type ActionsheetItem } from 'weui-uniapp-design'
 
 const items: ActionsheetItem[] = [
   { label: '拍照' },

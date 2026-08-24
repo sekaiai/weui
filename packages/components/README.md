@@ -5,16 +5,16 @@
 ## 安装
 
 ```bash
-pnpm add weui-design-vue weui
+pnpm add weui-uniapp-design weui
 ```
 
 ## Vue 3 使用方式
 
 ```ts
 import { createApp } from 'vue'
-import WeuiDesignVue from 'weui-design-vue'
+import WeuiDesignVue from 'weui-uniapp-design'
 import 'weui/dist/style/weui.css'
-import 'weui-design-vue/style.css'
+import 'weui-uniapp-design/style.css'
 import App from './App.vue'
 
 createApp(App).use(WeuiDesignVue).mount('#app')
@@ -24,9 +24,9 @@ createApp(App).use(WeuiDesignVue).mount('#app')
 
 ```vue
 <script setup lang="ts">
-import { WeuiButton, WeuiCell, WeuiCells } from 'weui-design-vue'
+import { WeuiButton, WeuiCell, WeuiCells } from 'weui-uniapp-design'
 import 'weui/dist/style/weui.css'
-import 'weui-design-vue/style.css'
+import 'weui-uniapp-design/style.css'
 </script>
 
 <template>
@@ -45,7 +45,7 @@ easycom 只需一条规则即可自动引入所有组件：
 {
   "easycom": {
     "custom": {
-      "^weui-(.*)": "weui-design-vue/dist/uni-app/$1.vue"
+      "^weui-(.*)": "weui-uniapp-design/dist/uni-app/$1.vue"
     }
   }
 }

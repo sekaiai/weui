@@ -95,8 +95,8 @@ export default {
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Picker } from 'weui-design-vue'
-import type { PickerColumn } from 'weui-design-vue'
+import { Picker } from 'weui-uniapp-design'
+import type { PickerColumn } from 'weui-uniapp-design'
 
 const showBasic = ref(false)
 const showMulti = ref(false)

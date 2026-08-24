@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Toptips } from 'weui-design-vue'
+import { Toptips } from 'weui-uniapp-design'
 
 const showBasic = ref(false)
 const showPersistent = ref(false)
@@ -91,7 +91,7 @@ const show = ref(false)
 <template><weui-overlay-host /></template>
 
 <script setup lang="ts">
-import { Toptips } from 'weui-design-vue'
+import { Toptips } from 'weui-uniapp-design'
 
 Toptips.warn('请注意警告内容')
 </script>

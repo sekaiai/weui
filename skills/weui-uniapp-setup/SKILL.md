@@ -1,14 +1,14 @@
 ---
 name: weui-uniapp-setup
-description: "为在 uni-app 项目（微信小程序 / H5）中集成 weui-design-vue 组件库提供完整参考：46 个组件的 Props/Events/Slots/代码示例/平台差异、WeUI 设计规范（色彩、排版、间距、圆角）、easycom 配置。当用户询问 weui-design-vue 组件用法、某个组件（如 cell、button、dialog、picker）的 API 细节、WeUI 样式规范，或需要 easycom 集成配置时使用。"
+description: "为在 uni-app 项目（微信小程序 / H5）中集成 weui-uniapp-design 组件库提供完整参考：46 个组件的 Props/Events/Slots/代码示例/平台差异、WeUI 设计规范（色彩、排版、间距、圆角）、easycom 配置。当用户询问 weui-uniapp-design 组件用法、某个组件（如 cell、button、dialog、picker）的 API 细节、WeUI 样式规范，或需要 easycom 集成配置时使用。"
 agent_created: true
 ---
 
-# weui-design-vue uni-app 组件集成
+# weui-uniapp-design uni-app 组件集成
 
 ## 用途
 
-本 Skill 为在 uni-app 项目中使用 `weui-design-vue` 组件库提供完整指引：
+本 Skill 为在 uni-app 项目中使用 `weui-uniapp-design` 组件库提供完整指引：
 
 1. **组件使用指南** — 46 个组件的 Props/Events/Slots/示例/平台差异
 2. **WeUI + 微信设计规范** — 色彩体系、排版、间距、圆角、小程序设计规则

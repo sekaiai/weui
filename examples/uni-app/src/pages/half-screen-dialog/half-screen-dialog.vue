@@ -99,8 +99,8 @@ export default {
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { HalfScreenDialog } from 'weui-design-vue'
-import type { HalfScreenDialogButton } from 'weui-design-vue'
+import { HalfScreenDialog } from 'weui-uniapp-design'
+import type { HalfScreenDialogButton } from 'weui-uniapp-design'
 
 const showBasic = ref(false)
 const showSingle = ref(false)

@@ -63,7 +63,7 @@ export default {
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Toptips } from 'weui-design-vue'
+import { Toptips } from 'weui-uniapp-design'
 
 const showBasic = ref(false)
 const showPersistent = ref(false)

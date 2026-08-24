@@ -3,7 +3,7 @@
 ## 安装
 
 ```bash
-pnpm add weui-design-vue
+pnpm add weui-uniapp-design
 ```
 
 WeUI Design Vue 提供两套独立产物，覆盖三类使用场景：
@@ -23,9 +23,9 @@ Vue 3 产物为预打包 ESM（类似 Element Plus / Arco），支持全量注�
 
 ```ts
 import { createApp } from 'vue'
-import WeuiDesignVue from 'weui-design-vue'
+import WeuiDesignVue from 'weui-uniapp-design'
 import 'weui/dist/style/weui.css'
-import 'weui-design-vue/style.css'
+import 'weui-uniapp-design/style.css'
 import App from './App.vue'
 
 const app = createApp(App)
@@ -38,9 +38,9 @@ app.mount('#app')
 只需引入用到的组件，Tree-shaking 自动裁剪未使用部分：
 
 ```ts
-import { WeuiButton, WeuiCell, WeuiCellGroup } from 'weui-design-vue'
+import { WeuiButton, WeuiCell, WeuiCellGroup } from 'weui-uniapp-design'
 import 'weui/dist/style/weui.css'
-import 'weui-design-vue/style.css'
+import 'weui-uniapp-design/style.css'
 ```
 
 ### 3. 使用组件
@@ -55,7 +55,7 @@ import 'weui-design-vue/style.css'
 
 ## 在 uni-app 项目中使用（小程序 / App / uni-app H5）
 
-uni-app 产物为扁平 SFC 形式（位于 `weui-design-vue/dist/uni-app/`），所有组件均在根目录下，easycom 只需一条规则即可自动引入，无需手动 import。
+uni-app 产物为扁平 SFC 形式（位于 `weui-uniapp-design/dist/uni-app/`），所有组件均在根目录下，easycom 只需一条规则即可自动引入，无需手动 import。
 
 ### 1. 配置 easycom
 
@@ -66,7 +66,7 @@ uni-app 产物为扁平 SFC 形式（位于 `weui-design-vue/dist/uni-app/`）�
   "easycom": {
     "autoscan": true,
     "custom": {
-      "^weui-(.*)": "weui-design-vue/dist/uni-app/$1.vue"
+      "^weui-(.*)": "weui-uniapp-design/dist/uni-app/$1.vue"
     }
   }
 }

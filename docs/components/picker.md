@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Picker, type PickerColumn } from 'weui-design-vue'
+import { Picker, type PickerColumn } from 'weui-uniapp-design'
 
 const show1 = ref(false)
 const show2 = ref(false)
@@ -118,7 +118,7 @@ const onImperative = async () => {
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { PickerColumn } from 'weui-design-vue'
+import type { PickerColumn } from 'weui-uniapp-design'
 
 const show = ref(false)
 const columns: PickerColumn[] = [
@@ -166,7 +166,7 @@ const onConfirm = (indexes: number[], values: (string | number)[]) => {
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { PickerColumn } from 'weui-design-vue'
+import type { PickerColumn } from 'weui-uniapp-design'
 
 const show = ref(false)
 const columns: PickerColumn[] = [
@@ -225,7 +225,7 @@ const columns: PickerColumn[] = [
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { PickerColumn } from 'weui-design-vue'
+import type { PickerColumn } from 'weui-uniapp-design'
 
 const show = ref(false)
 const columns: PickerColumn[] = [
@@ -271,7 +271,7 @@ const columns: PickerColumn[] = [
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { PickerColumn } from 'weui-design-vue'
+import type { PickerColumn } from 'weui-uniapp-design'
 
 const show = ref(false)
 const columns: PickerColumn[] = [
@@ -317,7 +317,7 @@ const columns: PickerColumn[] = [
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { PickerColumn } from 'weui-design-vue'
+import type { PickerColumn } from 'weui-uniapp-design'
 
 const show = ref(false)
 const columns: PickerColumn[] = [
@@ -360,7 +360,7 @@ const columns: PickerColumn[] = [
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { PickerColumn } from 'weui-design-vue'
+import type { PickerColumn } from 'weui-uniapp-design'
 
 const show = ref(false)
 const columns: PickerColumn[] = [{ options: [{ label: '选项一', value: 'a' }] }]
@@ -385,7 +385,7 @@ const columns: PickerColumn[] = [{ options: [{ label: '选项一', value: 'a' }]
 </template>
 
 <script setup lang="ts">
-import { Picker, type PickerColumn } from 'weui-design-vue'
+import { Picker, type PickerColumn } from 'weui-uniapp-design'
 
 const columns: PickerColumn[] = [
   {

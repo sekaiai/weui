@@ -111,7 +111,7 @@ export default {
 </script>
 
 <script setup lang="ts">
-import type { MsgButton } from 'weui-design-vue'
+import type { MsgButton } from 'weui-uniapp-design'
 
 const successButtons: MsgButton[] = [
   { text: '辅助操作', type: 'default' },

@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "predev": "pnpm --filter weui-design-vue build:vue3",
+    "predev": "pnpm --filter weui-uniapp-design build:vue3",
     "dev": "vitepress dev --port 5174",
-    "prebuild": "pnpm --filter weui-design-vue build:vue3",
+    "prebuild": "pnpm --filter weui-uniapp-design build:vue3",
     "build": "vitepress build",
     "serve": "vitepress serve",
     "typecheck": "vue-tsc --noEmit"
@@ -13,7 +13,7 @@
   "dependencies": {
     "vue": "^3.4.0",
     "weui": "^2.4.3",
-    "weui-design-vue": "workspace:*"
+    "weui-uniapp-design": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^26.2.0",

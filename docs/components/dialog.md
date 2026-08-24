@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Dialog, type DialogButton } from 'weui-design-vue'
+import { Dialog, type DialogButton } from 'weui-uniapp-design'
 
 const show1 = ref(false)
 const show2 = ref(false)
@@ -78,7 +78,7 @@ const onConfirm = async () => {
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { DialogButton } from 'weui-design-vue'
+import type { DialogButton } from 'weui-uniapp-design'
 
 const show = ref(false)
 const buttons: DialogButton[] = [
@@ -148,7 +148,7 @@ const onButtonTap = (btn: DialogButton, index: number) => {
 </template>
 
 <script setup lang="ts">
-import type { DialogButton } from 'weui-design-vue'
+import type { DialogButton } from 'weui-uniapp-design'
 const threeButtons: DialogButton[] = [
   { label: '取消' },
   { label: '确定' },
@@ -263,7 +263,7 @@ const threeButtons: DialogButton[] = [
 </template>
 
 <script setup lang="ts">
-import { Dialog } from 'weui-design-vue'
+import { Dialog } from 'weui-uniapp-design'
 
 const onAlert = async () => {
   await Dialog.alert({ title: '提示', content: '这是一个 alert 对话框' })
@@ -289,7 +289,7 @@ const onAlert = async () => {
 </template>
 
 <script setup lang="ts">
-import { Dialog } from 'weui-design-vue'
+import { Dialog } from 'weui-uniapp-design'
 
 const onConfirm = async () => {
   const ok = await Dialog.confirm({ title: '确认', content: '确定删除吗？' })

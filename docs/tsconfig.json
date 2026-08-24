@@ -4,8 +4,8 @@
     "types": ["vitest/globals", "node"],
     "baseUrl": ".",
     "paths": {
-      "weui-design-vue": ["../packages/components/src/index"],
-      "weui-design-vue/*": ["../packages/components/src/*"]
+      "weui-uniapp-design": ["../packages/components/src/index"],
+      "weui-uniapp-design/*": ["../packages/components/src/*"]
     }
   },
   "include": [

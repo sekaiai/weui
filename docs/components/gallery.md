@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Gallery } from 'weui-design-vue'
+import { Gallery } from 'weui-uniapp-design'
 
 const show1 = ref(false)
 const show2 = ref(false)
@@ -227,7 +227,7 @@ const onDelete = () => {
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Gallery } from 'weui-design-vue'
+import { Gallery } from 'weui-uniapp-design'
 
 const lastResult = ref('')
 const imgSrc = 'https://picsum.photos/seed/weui-gallery/600/400'

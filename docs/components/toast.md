@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Toast } from 'weui-design-vue'
+import { Toast } from 'weui-uniapp-design'
 
 const show1 = ref(false)
 const showLoading = ref(false)
@@ -242,7 +242,7 @@ const show = ref(false)
 </template>
 
 <script setup lang="ts">
-import { Toast } from 'weui-design-vue'
+import { Toast } from 'weui-uniapp-design'
 
 const showImpSuccess = () => Toast.success('操作成功')
 const showImpWarning = () => Toast.warning('请注意警告')
@@ -270,7 +270,7 @@ const showImpText = () => Toast.text('纯文本提示')
 </template>
 
 <script setup lang="ts">
-import { Toast } from 'weui-design-vue'
+import { Toast } from 'weui-uniapp-design'
 
 const showImpLoading = () => Toast.loading('加载中...')
 const showImpHide = () => Toast.hide()

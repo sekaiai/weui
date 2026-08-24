@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { HalfScreenDialog, type HalfScreenDialogButton } from 'weui-design-vue'
+import { HalfScreenDialog, type HalfScreenDialogButton } from 'weui-uniapp-design'
 
 const show1 = ref(false)
 const show2 = ref(false)
@@ -86,7 +86,7 @@ const onImperative = async () => {
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { HalfScreenDialogButton } from 'weui-design-vue'
+import type { HalfScreenDialogButton } from 'weui-uniapp-design'
 
 const show = ref(false)
 const buttons: HalfScreenDialogButton[] = [
@@ -156,7 +156,7 @@ const onButtonTap = (btn: HalfScreenDialogButton, index: number) => {
 </template>
 
 <script setup lang="ts">
-import type { HalfScreenDialogButton } from 'weui-design-vue'
+import type { HalfScreenDialogButton } from 'weui-uniapp-design'
 const threeButtons: HalfScreenDialogButton[] = [
   { label: '取消' },
   { label: '确定' },
@@ -284,7 +284,7 @@ const threeButtons: HalfScreenDialogButton[] = [
 </template>
 
 <script setup lang="ts">
-import { HalfScreenDialog } from 'weui-design-vue'
+import { HalfScreenDialog } from 'weui-uniapp-design'
 
 const showImperative = async () => {
   const result = await HalfScreenDialog.show({

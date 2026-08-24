@@ -4,8 +4,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Gallery } from 'weui-design-vue'
-import type { UploaderFile } from 'weui-design-vue'
+import { Gallery } from 'weui-uniapp-design'
+import type { UploaderFile } from 'weui-uniapp-design'
 
 const basicFiles = ref<UploaderFile[]>([
   { url: 'https://weui.io/images/pic_160.png' },
@@ -83,7 +83,7 @@ const onExceed = (count: number) => {
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { UploaderFile } from 'weui-design-vue'
+import type { UploaderFile } from 'weui-uniapp-design'
 
 const files = ref<UploaderFile[]>([
   { url: 'https://weui.io/images/pic_160.png' },
@@ -118,7 +118,7 @@ const onPreview = (file: UploaderFile, index: number) => {
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { UploaderFile } from 'weui-design-vue'
+import type { UploaderFile } from 'weui-uniapp-design'
 
 const files = ref<UploaderFile[]>([
   { url: 'https://weui.io/images/pic_160.png', status: 'success' },
@@ -153,7 +153,7 @@ const files = ref<UploaderFile[]>([
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { UploaderFile } from 'weui-design-vue'
+import type { UploaderFile } from 'weui-uniapp-design'
 
 const files = ref<UploaderFile[]>([
   { url: 'https://weui.io/images/pic_160.png' },
@@ -184,7 +184,7 @@ const onExceed = (count: number) => {
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { UploaderFile } from 'weui-design-vue'
+import type { UploaderFile } from 'weui-uniapp-design'
 
 const files = ref<UploaderFile[]>([
   { url: 'https://weui.io/images/pic_160.png' },
@@ -211,7 +211,7 @@ const files = ref<UploaderFile[]>([
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { UploaderFile } from 'weui-design-vue'
+import type { UploaderFile } from 'weui-uniapp-design'
 
 const files = ref<UploaderFile[]>([
   { url: 'https://weui.io/images/pic_160.png' },
@@ -250,7 +250,7 @@ const files = ref<UploaderFile[]>([
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { UploaderFile } from 'weui-design-vue'
+import type { UploaderFile } from 'weui-uniapp-design'
 
 const files = ref<UploaderFile[]>([
   { url: 'https://weui.io/images/pic_160.png' },

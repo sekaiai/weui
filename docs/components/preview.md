@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { PreviewItem, PreviewButton } from 'weui-design-vue'
+import type { PreviewItem, PreviewButton } from 'weui-uniapp-design'
 
 const basicItems: PreviewItem[] = [
   { label: '商品', value: 'WeUI 设计指南' },
@@ -70,7 +70,7 @@ const onTap = (btn: PreviewButton, index: number) => {
 </template>
 
 <script setup lang="ts">
-import type { PreviewItem, PreviewButton } from 'weui-design-vue'
+import type { PreviewItem, PreviewButton } from 'weui-uniapp-design'
 
 const items: PreviewItem[] = [
   { label: '商品', value: 'WeUI 设计指南' },
@@ -110,7 +110,7 @@ const onButtonTap = (btn: PreviewButton, index: number) => {
 </template>
 
 <script setup lang="ts">
-import type { PreviewItem } from 'weui-design-vue'
+import type { PreviewItem } from 'weui-uniapp-design'
 
 const items: PreviewItem[] = [
   { label: '付款方', value: '张三' },
@@ -143,7 +143,7 @@ const items: PreviewItem[] = [
 </template>
 
 <script setup lang="ts">
-import type { PreviewItem, PreviewButton } from 'weui-design-vue'
+import type { PreviewItem, PreviewButton } from 'weui-uniapp-design'
 
 const items: PreviewItem[] = [
   { label: '状态', value: '待支付' },

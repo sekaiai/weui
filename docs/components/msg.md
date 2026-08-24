@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { MsgButton } from 'weui-design-vue'
+import type { MsgButton } from 'weui-uniapp-design'
 
 const successButtons: MsgButton[] = [
   { text: '推荐操作', type: 'primary' },
@@ -50,7 +50,7 @@ const onTap = (btn: MsgButton, index: number) => {
 </template>
 
 <script setup lang="ts">
-import type { MsgButton } from 'weui-design-vue'
+import type { MsgButton } from 'weui-uniapp-design'
 
 const buttons: MsgButton[] = [
   { text: '推荐操作', type: 'primary' },

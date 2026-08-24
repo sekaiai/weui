@@ -1,5 +1,5 @@
 {
-  "name": "weui-design-vue-example",
+  "name": "weui-uniapp-design-example",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,7 +9,7 @@
     "build:h5": "uni build"
   },
   "dependencies": {
-    "weui-design-vue": "workspace:*",
+    "weui-uniapp-design": "workspace:*",
     "weui": "^2.4.3",
     "vue": "^3.4.0"
   },

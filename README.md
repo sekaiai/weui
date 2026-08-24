@@ -13,7 +13,7 @@
 ## 安装
 
 ```bash
-pnpm add weui-design-vue weui
+pnpm add weui-uniapp-design weui
 ```
 
 要求：Node.js 18+、pnpm 8+、Vue 3.4+。
@@ -24,9 +24,9 @@ pnpm add weui-design-vue weui
 
 ```ts
 import { createApp } from 'vue'
-import WeuiDesignVue from 'weui-design-vue'
+import WeuiDesignVue from 'weui-uniapp-design'
 import 'weui/dist/style/weui.css'
-import 'weui-design-vue/dist/vue3/style.css'
+import 'weui-uniapp-design/dist/vue3/style.css'
 import App from './App.vue'
 
 createApp(App).use(WeuiDesignVue).mount('#app')
@@ -36,9 +36,9 @@ createApp(App).use(WeuiDesignVue).mount('#app')
 
 ```vue
 <script setup lang="ts">
-import { WeuiButton, WeuiCell, WeuiCells } from 'weui-design-vue'
+import { WeuiButton, WeuiCell, WeuiCells } from 'weui-uniapp-design'
 import 'weui/dist/style/weui.css'
-import 'weui-design-vue/dist/vue3/style.css'
+import 'weui-uniapp-design/dist/vue3/style.css'
 </script>
 
 <template>
@@ -58,7 +58,7 @@ import 'weui-design-vue/dist/vue3/style.css'
   "easycom": {
     "autoscan": true,
     "custom": {
-      "^weui-(.*)": "weui-design-vue/dist/uni-app/$1.vue"
+      "^weui-(.*)": "weui-uniapp-design/dist/uni-app/$1.vue"
     }
   }
 }
@@ -158,7 +158,7 @@ cd packages/components && npm pack
 可在本机其他项目中通过文件路径安装：
 
 ```bash
-pnpm add /path/to/packages/components/weui-design-vue-0.2.0.tgz
+pnpm add /path/to/packages/components/weui-uniapp-design-0.2.0.tgz
 ```
 
 ### uni-app 复制组件到项目
@@ -209,4 +209,4 @@ docs/                 VitePress 文档与交互案例
 
 ## 开发说明
 
-组件源代码位于 `packages/components/src/`。修改组件后，使用 `pnpm --filter weui-design-vue typecheck` 检查类型；需要同时验证文档时执行 `pnpm build:docs`。
+组件源代码位于 `packages/components/src/`。修改组件后，使用 `pnpm --filter weui-uniapp-design typecheck` 检查类型；需要同时验证文档时执行 `pnpm build:docs`。

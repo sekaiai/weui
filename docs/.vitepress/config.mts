@@ -144,7 +144,7 @@ const config: UserConfig = {
   },
   vite: {
     optimizeDeps: {
-      exclude: ['weui-design-vue'],
+      exclude: ['weui-uniapp-design'],
     },
     // 启用样式隔离：给 .vp-doc 选择器追加 :not(:where(.vp-raw, .vp-raw *)) 前缀
     // 配合 demo-block 上的 vp-raw 类，阻断文档默认样式污染 demo

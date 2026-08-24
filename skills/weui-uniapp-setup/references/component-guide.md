@@ -1,10 +1,10 @@
-# weui-design-vue uni-app 组件使用指南
+# weui-uniapp-design uni-app 组件使用指南
 
 ## 前置条件
 
 在使用组件前，确保 uni-app 项目已满足以下条件：
 
-1. **安装依赖**：`pnpm add weui-design-vue weui`
+1. **安装依赖**：`pnpm add weui-uniapp-design weui`
 2. **引入 WeUI CSS**：在 `App.vue` 的 `<style>` 中或 `main.ts` 中引入 `import 'weui/dist/style/weui.css'`
 3. **挂载 OverlayHost**：在根组件模板中放置 `<weui-overlay-host />`（弹层组件依赖）
 4. **支持 Sass**：目标工程需安装 `sass` 依赖
@@ -763,7 +763,7 @@ Form 中的普通 Cells 控件区统一使用 `CellGroup(form) → Cells`；Chec
 
 <!-- 命令式 -->
 <script setup>
-import { Dialog } from 'weui-design-vue'
+import { Dialog } from 'weui-uniapp-design'
 const result = await Dialog.confirm({ title: '提示', content: '确认删除？' })
 if (result) { /* 确认 */ }
 </script>
@@ -789,7 +789,7 @@ if (result) { /* 确认 */ }
 **示例**：
 ```html
 <script setup>
-import { Actionsheet } from 'weui-design-vue'
+import { Actionsheet } from 'weui-uniapp-design'
 const item = await Actionsheet.show({
   title: '请选择',
   items: [{ label: '拍照' }, { label: '从相册选择' }]
@@ -837,7 +837,7 @@ console.log(item.index)
 **示例**：
 ```html
 <script setup>
-import { Toast } from 'weui-design-vue'
+import { Toast } from 'weui-uniapp-design'
 Toast.success('保存成功')
 Toast.loading('加载中...')
 setTimeout(() => Toast.hide(), 3000)
@@ -884,7 +884,7 @@ setTimeout(() => Toast.hide(), 3000)
 **示例**：
 ```html
 <script setup>
-import { Picker } from 'weui-design-vue'
+import { Picker } from 'weui-uniapp-design'
 const result = await Picker.show({
   title: '选择地区',
   columns: [{
