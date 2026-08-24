@@ -12,6 +12,8 @@
 
 组件通过 easycom 自定义规则自动解析，标签名遵循 `weui-<name>` 格式。
 
+生成的每个 uni-app Vue 组件都包含 `options: { virtualHost: true }`，用于统一启用虚拟节点宿主；该配置由构建转换器自动注入，业务页面不需要手动补写。
+
 ---
 
 ## 基础组件
@@ -216,8 +218,8 @@
 | desc | `string` | — | 描述文字 |
 | icon | `string` | — | WeUI 图标名或图片 URL |
 | footer | `string` | `''` | 右侧底部文字 |
-| access | `boolean \| string` | `false` | 右侧箭头（字符串作导航目标） |
-| link | `boolean \| string` | `false` | 主操作入口（字符串作导航目标） |
+| access | `boolean \| string` | `false` | 普通访问箭头（字符串作导航目标） |
+| link | `boolean \| string` | `false` | 链接样式和访问箭头（字符串作导航目标） |
 | url | `string` | `''` | 导航 URL |
 | vcode | `boolean` | `false` | 验证码 cell |
 | warn | `boolean` | `false` | 警告样式 |
@@ -266,47 +268,39 @@
 
 | Prop | 类型 | 默认值 | 说明 |
 |------|------|--------|------|
-| title | `string` | — | 组标题 |
-| footer | `string` | — | 底部说明 |
 | form | `boolean` | `false` | 表单型组 |
 | primary | `boolean` | `false` | 反色表单样式，需与 `form` 一起使用 |
-| radio | `boolean` | `false` | 单选项组 |
-| checkbox | `boolean` | `false` | 复选框组 |
 | extClass | `string` | — | 扩展类名 |
+| ariaRole | `string` | — | 根元素 aria-role |
 
-**Slots**：`title`、`default`、`footer`
+**Slots**：`default`
 
-> **uni-app 产物限制**：为避免组件内部依赖 easycom 自动引入，`dist/uni-app/cell-group.vue` 只保留 `weui-cells__group` 外层框架。`title`、`footer`、`title/default/footer` slots 以及内部 `cells` 容器在 uni-app 产物中不渲染；Vue 3/H5 产物保持完整行为。
+`CellGroup` 是纯分组外壳，H5 与 uni-app 都渲染同一个 `.weui-cells__group` 和 `default` slot。它不负责标题、提示或 `.weui-cells` 主体，也不再接受 `title`、`footer`、`radio`、`checkbox`。
 
 **示例**：
 ```html
-<weui-cells-title title="个人信息" />
-<weui-cells form>
-  <weui-cell title="姓名" value="张三" />
-  <weui-cell title="手机" value="138****1234" />
-</weui-cells>
+<weui-cell-group form primary>
+  <weui-cells title="个人信息">
+    <weui-cell title="姓名" value="张三" />
+    <weui-cell title="手机" value="138****1234" />
+  </weui-cells>
+</weui-cell-group>
 ```
 
-在 uni-app 页面中，表单容器优先使用 `<weui-cells form>`；`<weui-cell-group form>` 仅适用于 Vue 3/H5，因为 uni-app 产物的 CellGroup 只保留 group 外壳。
+单个列表无需使用 CellGroup，直接使用 `<weui-cells>`；多个列表或需要分组级 `form` / `primary` 样式时再使用 CellGroup 包裹多个 Cells。
 
 ---
 
-### `<weui-cells>` / `<weui-cells-title>` / `<weui-cells-tips>`
+### `<weui-cells>`
 
-**weui-cells**：纯容器，支持 `form`、`radio`、`checkbox`、`after-title` 语义属性，以及 `extClass` 自定义扩展类 + `default` slot。内置 modifier 使用这些属性，不要写入 `extClass`；Vue 模板中使用 kebab-case，例如 `<weui-cells after-title>`。
-
-**weui-cells-title**：`title` prop / `default` slot
-
-**weui-cells-tips**：`tips` prop / `default` slot
+**weui-cells**：完整 Cells 容器，支持 `title`、`tips`、`form`、`radio`、`checkbox`、`after-title` 语义属性，以及 `title`、`default`、`tips` slots。内置 modifier 使用这些属性，不要写入 `extClass`；Vue 模板中使用 kebab-case，例如 `<weui-cells after-title>`。
 
 **示例**：
 ```html
-<weui-cells-title title="列表标题" />
-<weui-cells form>
+<weui-cells title="列表标题" tips="这是底部提示" form>
   <weui-cell title="行1" />
   <weui-cell title="行2" />
 </weui-cells>
-<weui-cells-tips tips="这是底部提示" />
 ```
 
 ---
@@ -433,7 +427,7 @@
 </weui-form>
 ```
 
-Form 的 `title`、`desc`、`tips`、`opr`、`tips-b`、`extra` 只填充对应固定节点；`default` 是唯一的控件区域内容入口。不要在 Form 内使用 `weui-form-control`、`weui-form-tips`、`weui-form-opr` 或 `weui-form-extra`。
+Form 的 `title`、`desc`、`tips`、`opr`、`tips-b`、`extra` 只填充对应固定节点；`default` 是唯一的控件区域内容入口。Form 是唯一的表单结构组件，不需要额外的 Form 容器组件。
 
 ---
 
@@ -559,11 +553,13 @@ Form 的 `title`、`desc`、`tips`、`opr`、`tips-b`、`extra` 只填充对应�
 | modelValue | `string[]` | `[]` | 选中值数组 |
 | disabled | `boolean` | `false` | 全部禁用 |
 | title | `string` | — | 组标题 |
-| footer | `string` | — | 底部说明 |
+| tips | `string` | — | 底部提示；`#tips` 可自定义 |
 | form | `boolean` | `false` | 表单组 |
 | extClass | `string` | — | 扩展类名 |
 
 **Events**：`update:modelValue`、`change`
+
+**Slots**：`title`、`default`、`tips`
 
 **示例**：
 ```html
@@ -593,11 +589,13 @@ Form 的 `title`、`desc`、`tips`、`opr`、`tips-b`、`extra` 只填充对应�
 | modelValue | `string` | `''` | 当前选中值 |
 | disabled | `boolean` | `false` | 全部禁用 |
 | title | `string` | — | 组标题 |
-| footer | `string` | — | 底部说明 |
+| tips | `string` | — | 底部提示；`#tips` 可自定义 |
 | form | `boolean` | `false` | 表单组 |
 | extClass | `string` | — | 扩展类名 |
 
 **Events**：`update:modelValue`、`change`
+
+**Slots**：`title`、`default`、`tips`
 
 **示例**：
 ```html
@@ -711,32 +709,6 @@ Form 的 `title`、`desc`、`tips`、`opr`、`tips-b`、`extra` 只填充对应�
 ---
 
 ## 表单容器
-
-### `<weui-form-control>` / `<weui-form-tips>` / `<weui-form-opr>` / `<weui-form-extra>` 独立容器
-
-四个纯容器组件，都有 `extClass` prop + `default` slot：
-
-> 这些组件仍可单独使用，但不要把它们作为 `weui-form` 内部结构的依赖。Form 已经内联 `.weui-form__control-area`、`.weui-form__tips-area`、`.weui-form__opr-area` 和 `.weui-form__extra-area`；uni-app 页面应直接在 `tips`、`opr`、`tips-b`、`extra` slot 中写原生 `view`/`p` 结构。
-
-| 组件 | 用途 |
-|------|------|
-| `<weui-form-control>` | 表单控件区域 |
-| `<weui-form-tips>` | 提示文字 |
-| `<weui-form-opr>` | 操作按钮区 |
-| `<weui-form-extra>` | 附加内容 |
-
-**示例**：
-```html
-<weui-form-control>
-  <weui-cell title="姓名">
-    <weui-input v-model="name" />
-  </weui-cell>
-</weui-form-control>
-<weui-form-tips>请填写真实姓名</weui-form-tips>
-<weui-form-opr>
-  <weui-button type="primary" display="block">提交</weui-button>
-</weui-form-opr>
-```
 
 ---
 

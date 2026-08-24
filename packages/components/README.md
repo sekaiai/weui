@@ -24,15 +24,15 @@ createApp(App).use(WeuiDesignVue).mount('#app')
 
 ```vue
 <script setup lang="ts">
-import { WeuiButton, WeuiCell, WeuiCellGroup } from 'weui-design-vue'
+import { WeuiButton, WeuiCell, WeuiCells } from 'weui-design-vue'
 import 'weui/dist/style/weui.css'
 import 'weui-design-vue/style.css'
 </script>
 
 <template>
-  <weui-cell-group>
+  <weui-cells>
     <weui-cell title="账号" footer="已绑定" link="/account" />
-  </weui-cell-group>
+  </weui-cells>
   <weui-button type="primary">保存</weui-button>
 </template>
 ```
@@ -55,7 +55,11 @@ easycom 只需一条规则即可自动引入所有组件：
 
 > **uni-app 复合组件限制：** easycom 只保证页面中使用的顶层组件，不保证组件内部继续自动解析子组件。`cell-group` 在 uni-app 产物中只保留 group 外壳；`form` 内联完整结构，使用 `default`、`title`、`desc`、`tips`、`opr`、`tips-b`、`extra` slots，不提供自由 `footer` slot，也不依赖 Form 子组件。
 
-内置 modifier 使用语义属性，例如 `<weui-cells form>`、`<weui-cells checkbox>`、`<weui-cell-group form primary>` 和 `<weui-icon msg>`；`extClass` 仅用于业务自定义 class。
+内置 modifier 使用语义属性，例如 `<weui-cells form>`、`<weui-cells checkbox>`、`<weui-cell access>`、`<weui-cell link>`、`<weui-cell-group form primary>` 和 `<weui-icon msg>`；`extClass` 仅用于业务自定义 class。
+
+`weui-cells` 是完整的列表容器组件，支持 `title`、`tips` props，以及 `title`、`default`、`tips` slots。
+
+`weui-cell-group` 只负责 `.weui-cells__group` 外壳和分组级 `form` / `primary` 样式；需要列表内容时显式组合 `<weui-cell-group><weui-cells>...</weui-cells></weui-cell-group>`，H5 与 uni-app 结构一致。
 
 ## 复制组件到项目
 

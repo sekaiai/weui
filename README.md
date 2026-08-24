@@ -36,15 +36,15 @@ createApp(App).use(WeuiDesignVue).mount('#app')
 
 ```vue
 <script setup lang="ts">
-import { WeuiButton, WeuiCell, WeuiCellGroup } from 'weui-design-vue'
+import { WeuiButton, WeuiCell, WeuiCells } from 'weui-design-vue'
 import 'weui/dist/style/weui.css'
 import 'weui-design-vue/dist/vue3/style.css'
 </script>
 
 <template>
-  <weui-cell-group>
+  <weui-cells>
     <weui-cell title="账号" subtitle="管理登录与安全" footer="已绑定" link="/account" />
-  </weui-cell-group>
+  </weui-cells>
   <weui-button type="primary">保存</weui-button>
 </template>
 ```
@@ -88,7 +88,11 @@ import 'weui-design-vue/dist/vue3/style.css'
 
 > **uni-app 复合组件限制：** easycom 只保证页面中使用的顶层组件。`cell-group` 在 uni-app 产物中只保留 group 外壳，内部 title、cells、tips 和 slot 不渲染；`form` 使用内联原生结构，固定提供 `default`、`title`、`desc`、`tips`、`opr`、`tips-b`、`extra` slots，不依赖 Form 子组件。`msg` 的默认图标和 `picker` 的列区域也有对应平台限制，详见接入文档。
 
-WeUI 内置 modifier 使用语义属性表达，例如 `<weui-cells form>`、`<weui-cells checkbox>`、`<weui-cell-group form primary>` 和 `<weui-icon msg>`；`extClass` 仅用于业务自定义 class，不要传入 `weui-*` 内置 class。
+WeUI 内置 modifier 使用语义属性表达，例如 `<weui-cells form>`、`<weui-cells checkbox>`、`<weui-cell access>`、`<weui-cell link>`、`<weui-cell-group form primary>` 和 `<weui-icon msg>`；`extClass` 仅用于业务自定义 class，不要传入 `weui-*` 内置 class。
+
+`weui-cells` 已整合标题、列表主体和底部提示结构，使用 `title`、`tips` props 或同名 slots 配置。
+
+`weui-cell-group` 只负责 `.weui-cells__group` 外壳和分组级 `form` / `primary` 样式；需要列表内容时显式组合 `<weui-cell-group><weui-cells>...</weui-cells></weui-cell-group>`，H5 与 uni-app 结构一致。
 
 小程序项目也可改用 `weui-wxss`，但不要与 `weui.css` 同时引入。更多平台差异与完整配置请查看 [`docs/guide/getting-started.md`](./docs/guide/getting-started.md)。
 

@@ -18,6 +18,11 @@ export function collectUniAppCompatibilityIssues(source, filePath = '<source>') 
   const issues = []
   const template = extractTemplate(source)
 
+  if (/<script\b[\s\S]*?export\s+default\s*\{/.test(source)
+    && !/\boptions\s*:\s*\{[\s\S]*?\bvirtualHost\s*:\s*true\b/.test(source)) {
+    issues.push(`${filePath}: missing options.virtualHost = true`)
+  }
+
   for (const tag of UNSUPPORTED_TAGS) {
     if (new RegExp(`<${tag}\\b`, 'i').test(template)) {
       issues.push(`${filePath}: unresolved template tag <${tag}>`)

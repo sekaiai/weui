@@ -106,6 +106,7 @@ easycom 会自动引入组件，无需手动 import。
   - uploader 使用 `<input type="file">` 选文件
   - cell / grid-item 不自动跳转，emit `navigate` 事件由用户处理
 - **uni-app 产物**：移除 `#ifdef H5` 块，保留 `#ifndef H5` 块；`__IS_H5__` 常量替换为 `false`；标签转换为 `view`/`text`/`image`
+- **uni-app 组件选项**：每个生成的 Vue SFC 自动包含 `options.virtualHost = true`，无需在业务页面重复配置。
   - uploader 使用 `uni.chooseImage` / `uni.chooseFile`
   - cell / grid-item 调用 `uni.navigateTo` 自动跳转
 
@@ -113,7 +114,8 @@ easycom 会自动引入组件，无需手动 import。
 
 easycom 只保证业务页面使用的顶层组件，不保证组件库复合组件内部的子组件自动解析。当前平台约束如下：
 
-- `cell-group`：uni-app 产物只保留 group 外壳，内部 title、cells、tips 和 slot 不渲染。
+- `cell-group`：H5 与 uni-app 都是只渲染 `.weui-cells__group` 的纯外壳；列表标题、主体和提示由显式嵌套的 `cells` 提供。
+- `cells`：标题、列表主体和底部提示已整合在单一组件中，使用 `title`、`tips` props 或同名 slots。
 - `form`：表单外壳、标题、描述、双 tips、操作区和附加区使用内联结构；通过 `default`、`title`、`desc`、`tips`、`opr`、`tips-b`、`extra` slots 填充，组件内部使用 `v-if` 控制可选区域。
 - `msg`：默认 `weui-icon` 不在 uni-app 产物中内部自动引入，需要图标时通过 `icon` slot 显式传入。
 - `picker`：保留 picker 遮罩和外层结构，内部列区域不自动引入 `weui-picker-group`；需要完整列交互时请在业务页面显式组合或使用适配后的页面结构。

@@ -37,12 +37,10 @@ describe('uni-app compatibility audit', () => {
       {
         relativePath: 'cell/cell-group.vue',
         forbiddenTemplate: [
-          'weui-cells-title',
-          'weui-cells',
-          'weui-cells-tips',
-          '<slot',
+          '<weui-cells',
+          '<weui-cell',
         ],
-        forbiddenScript: ['WeuiCellsTitle', 'WeuiCells', 'WeuiCellsTips'],
+        forbiddenScript: [],
       },
       {
         relativePath: 'msg/msg.vue',
@@ -82,7 +80,9 @@ describe('uni-app compatibility audit', () => {
       cellGroupSource,
       join(sourceRoot(), 'cell/cell-group.vue'),
     ).match(/<template\b[^>]*>([\s\S]*?)<\/template>/i)?.[1] ?? ''
-    expect(cellGroupTemplate.match(/<([a-z][\w-]*)\b/gi)).toEqual(['<view'])
+    expect(cellGroupTemplate.match(/<([a-z][\w-]*)\b/gi)).toEqual(['<view', '<slot'])
+    expect(cellGroupTemplate).toContain(':class="groupClass"')
+    expect(cellGroupSource).toContain("['weui-cells__group']")
 
     const formSourcePath = join(sourceRoot(), 'form/form.vue')
     const formTransformed = transformUniAppSource(
@@ -101,6 +101,27 @@ describe('uni-app compatibility audit', () => {
       expect(formTemplate, `removed form slot ${removedSlot}`).not.toContain(`name="${removedSlot}"`)
     }
     expect(formTemplate).not.toMatch(/<weui-form-(?:tips|opr|extra)\b/i)
+  })
+
+  it('does not retain standalone Cells title/tips sources', () => {
+    for (const componentName of ['cells-title', 'cells-tips']) {
+      expect(existsSync(join(sourceRoot(), 'cells', `${componentName}.vue`)), componentName).toBe(false)
+    }
+  })
+
+  it('adds options.virtualHost = true to every uni-app component', () => {
+    for (const filePath of findVueFiles(sourceRoot())) {
+      const transformed = transformUniAppSource(readFileSync(filePath, 'utf-8'), filePath)
+      expect(transformed, filePath).toMatch(
+        /options\s*:\s*\{[\s\S]*?virtualHost\s*:\s*true\b/,
+      )
+    }
+  })
+
+  it('does not retain standalone Form component sources for uni-app generation', () => {
+    for (const componentName of ['form-control', 'form-tips', 'form-opr', 'form-extra']) {
+      expect(existsSync(join(sourceRoot(), componentName)), componentName).toBe(false)
+    }
   })
 
   it('uses native mini-program form controls without retaining H5 fallbacks', () => {

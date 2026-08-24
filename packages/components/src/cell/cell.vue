@@ -154,6 +154,7 @@ const weuiIconClass = computed(() => `weui-icon-${props.icon}`)
 const cellClass = computed(() => {
   const classes = ['weui-cell']
   if (isAccess.value) classes.push('weui-cell_access')
+  if (props.link) classes.push('weui-cell_link')
   if (props.vcode) classes.push('weui-cell_vcode')
   if (props.warn) classes.push('weui-cell_warn')
   if (props.uploader) classes.push('weui-cell_uploader')

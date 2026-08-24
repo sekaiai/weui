@@ -21,7 +21,17 @@ export function transformUniAppSource(source, filePath) {
 
   if (extension === '.vue') {
     transformed = transformTemplateTags(transformed)
+    transformed = ensureUniAppVirtualHost(transformed)
   }
 
   return transformed
+}
+
+function ensureUniAppVirtualHost(source) {
+  const optionsObject = /\boptions\s*:\s*\{/m
+  if (!optionsObject.test(source) || /\bvirtualHost\s*:\s*true\b/.test(source)) {
+    return source
+  }
+
+  return source.replace(optionsObject, (match) => `${match}\n    virtualHost: true,`)
 }
