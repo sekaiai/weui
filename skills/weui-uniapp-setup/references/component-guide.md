@@ -275,7 +275,7 @@
 
 **Slots**：`default`
 
-`CellGroup` 是纯分组外壳，H5 与 uni-app 都渲染同一个 `.weui-cells__group` 和 `default` slot。它不负责标题、提示或 `.weui-cells` 主体，也不再接受 `title`、`footer`、`radio`、`checkbox`。
+`CellGroup` 是纯分组外壳（边界规则见 SKILL.md「uni-app 复合组件构建约束」），渲染 `.weui-cells__group` 和 `default` slot，不负责标题、提示或 `.weui-cells` 主体，也不再接受 `title`、`footer`、`radio`、`checkbox`。
 
 **示例**：
 ```html
@@ -287,13 +287,11 @@
 </weui-cell-group>
 ```
 
-单个列表无需使用 CellGroup，直接使用 `<weui-cells>`；多个列表或需要分组级 `form` / `primary` 样式时再使用 CellGroup 包裹多个 Cells。
-
 ---
 
 ### `<weui-cells>`
 
-**weui-cells**：完整 Cells 容器，支持 `title`、`tips`、`form`、`radio`、`checkbox`、`after-title` 语义属性，以及 `title`、`default`、`tips` slots。内置 modifier 使用这些属性，不要写入 `extClass`；Vue 模板中使用 kebab-case，例如 `<weui-cells after-title>`。
+**weui-cells**：完整 Cells 容器，支持 `title`、`tips`、`form`、`radio`、`checkbox`、`after-title` 语义属性，以及 `title`、`default`、`tips` slots；Vue 模板中使用 kebab-case，例如 `<weui-cells after-title>`。
 
 **示例**：
 ```html

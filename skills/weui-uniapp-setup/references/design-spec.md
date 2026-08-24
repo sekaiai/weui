@@ -263,7 +263,7 @@ WeUI 提供完整的暗色主题 Token 映射，建议在支持 DarkMode 的小�
 
 ### 6.1 extClass 扩展
 
-大部分组件支持 `extClass` prop，向根元素注入业务自定义 class 名。组件内置的 WeUI modifier 必须优先使用语义 props，不要把 `weui-*` class 名直接传给 `extClass`：
+大部分组件支持 `extClass` prop，向根元素注入业务自定义 class 名。内置 modifier 通过语义 props 使用（规则见 SKILL.md「uni-app 复合组件构建约束」）：
 
 ```html
 <weui-button type="primary" ext-class="my-custom-btn">提交</weui-button>
@@ -271,10 +271,6 @@ WeUI 提供完整的暗色主题 Token 映射，建议在支持 DarkMode 的小�
 <weui-cells form />
 <weui-icon type="success" msg />
 ```
-
-### Cells 与 CellGroup 边界
-
-`weui-cells` 是完整列表内容容器，负责 `.weui-cells__title`、`.weui-cells`、`.weui-cells__tips` 和 `form`、`radio`、`checkbox` 等 modifier。`weui-cell-group` 只负责 `.weui-cells__group` 外壳及分组级 `form` / `primary` 样式；需要分组多个列表时显式嵌套一个或多个 `weui-cells`。两者在 H5 与 uni-app 使用相同结构，不依赖内部 easycom 自动解析。
 
 ```css
 .my-custom-btn {

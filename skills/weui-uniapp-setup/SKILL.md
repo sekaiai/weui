@@ -17,13 +17,9 @@ agent_created: true
 ## uni-app 复合组件构建约束
 
 - easycom 只保证业务页面或页面组件使用的顶层 `<weui-*>` 组件，不保证组件库组件内部继续自动解析子组件。
-- 生成到 `dist/uni-app/` 的复合组件不得依赖内部 WeUI 子组件的自动引入；模板中不得残留未显式注册的 `<weui-*>` 子组件标签。
-- 所有生成的 uni-app Vue SFC 都必须在 `export default.options` 中包含 `virtualHost: true`，由统一转换器注入并由 `pnpm check:uni-app` 校验。
-- 内部结构应优先使用 uni-app 原生标签或完整内联结构；如果某个内部能力无法安全内联，则按组件约定保留外层框架并留空。
 - `weui-form` 是唯一的表单结构组件，必须在组件内部保留完整的原生表单外壳；业务内容直接通过固定 slots 传入，不依赖额外的 Form 容器组件。
 - Form 只提供 `default`、`title`、`desc`、`tips`、`opr`、`tips-b`、`extra` slots；Form 内部固定生成双 tips、opr、extra 结构，不提供 `control`、`title-content` 或 `footer` slot。
 - `default` 始终渲染到 `.weui-form__control-area`；底部 slot 固定按 `tips → opr → tips-b → extra` 顺序渲染，并由组件内部使用 `v-if` 控制。
-- 修改复合组件时，必须同时验证源码转换结果、生成的 uni-app SFC 和 `pnpm check:uni-app`，避免只验证 Vue 3/H5 产物。
 - WeUI 内置 modifier 必须通过语义 props 使用，例如 `weui-cells form`、`weui-cells checkbox`、`weui-cell access`、`weui-cell link`、`weui-cell-group form primary`、`weui-icon msg`；`extClass` 仅用于业务自定义 class，不要传入 `weui-*` 内置 class。
 - `weui-cells` 是完整内容容器，负责标题、主体、提示和 Cells modifier；`weui-cell-group` 只是 `.weui-cells__group` 外壳，保留 `default` slot 以及 `form` / `primary` 分组样式。业务必须显式组合 `<weui-cell-group><weui-cells>...</weui-cells></weui-cell-group>`，H5 与 uni-app 结构一致。
 - Form 的普通 Cells 控件区统一使用 `<weui-cell-group form><weui-cells>...</weui-cells></weui-cell-group>`；`weui-checkbox-group` / `weui-radio-group` 已经自带分组与 Cells 结构，不额外嵌套 CellGroup。
@@ -59,4 +55,4 @@ agent_created: true
 - 弹层组件同时说明声明式和命令式两种用法
 - 设计问题回答时引用 WeUI CSS 变量名和具体 px 值
 - 提醒必须挂载 `weui-overlay-host`（弹层依赖）
-- 组件 API 以 `packages/components/src` 源码为准；本指南是静态参考，若与源码不一致，以源码为准
+- 组件 API 以本指南为准；若与已安装的发布版本不一致，以发布版本为准
