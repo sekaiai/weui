@@ -72,12 +72,13 @@
 | type | `string` | **必填** | WeUI 内置图标名 |
 | size | `number \| string` | — | 尺寸，数字为 px |
 | color | `string` | — | 颜色 |
-| extClass | `string` | — | 扩展类名（如 `weui-icon_msg`） |
+| msg | `boolean` | `false` | 消息页大图标样式 |
+| extClass | `string` | — | 业务自定义扩展类名 |
 
 **示例**：
 ```html
 <weui-icon type="success" size="64" color="#07C160" />
-<weui-icon type="warn" ext-class="weui-icon_msg" />
+<weui-icon type="warn" msg />
 ```
 
 ---
@@ -268,25 +269,31 @@
 | title | `string` | — | 组标题 |
 | footer | `string` | — | 底部说明 |
 | form | `boolean` | `false` | 表单型组 |
+| primary | `boolean` | `false` | 反色表单样式，需与 `form` 一起使用 |
 | radio | `boolean` | `false` | 单选项组 |
 | checkbox | `boolean` | `false` | 复选框组 |
 | extClass | `string` | — | 扩展类名 |
 
 **Slots**：`title`、`default`、`footer`
 
+> **uni-app 产物限制**：为避免组件内部依赖 easycom 自动引入，`dist/uni-app/cell-group.vue` 只保留 `weui-cells__group` 外层框架。`title`、`footer`、`title/default/footer` slots 以及内部 `cells` 容器在 uni-app 产物中不渲染；Vue 3/H5 产物保持完整行为。
+
 **示例**：
 ```html
-<weui-cell-group title="个人信息" form>
+<weui-cells-title title="个人信息" />
+<weui-cells form>
   <weui-cell title="姓名" value="张三" />
   <weui-cell title="手机" value="138****1234" />
-</weui-cell-group>
+</weui-cells>
 ```
+
+在 uni-app 页面中，表单容器优先使用 `<weui-cells form>`；`<weui-cell-group form>` 仅适用于 Vue 3/H5，因为 uni-app 产物的 CellGroup 只保留 group 外壳。
 
 ---
 
 ### `<weui-cells>` / `<weui-cells-title>` / `<weui-cells-tips>`
 
-**weui-cells**：纯容器，`extClass` 属性 + `default` slot
+**weui-cells**：纯容器，支持 `form`、`radio`、`checkbox`、`after-title` 语义属性，以及 `extClass` 自定义扩展类 + `default` slot。内置 modifier 使用这些属性，不要写入 `extClass`；Vue 模板中使用 kebab-case，例如 `<weui-cells after-title>`。
 
 **weui-cells-title**：`title` prop / `default` slot
 
@@ -295,7 +302,7 @@
 **示例**：
 ```html
 <weui-cells-title title="列表标题" />
-<weui-cells>
+<weui-cells form>
   <weui-cell title="行1" />
   <weui-cell title="行2" />
 </weui-cells>
@@ -392,21 +399,41 @@
 | bottomFixed | `boolean` | `false` | 底部悬浮 |
 | extClass | `string` | — | 扩展类名 |
 
-**Slots**：`title`、`default`、`footer`
+**Slots**：`default`、`title`、`desc`、`tips`、`opr`、`tips-b`、`extra`
+
+> **uni-app 平台限制**：Form 的 `.weui-form__bd`、`.weui-form__text-area`、`.weui-form__control-area`、`.weui-form__ft`、双 `.weui-form__tips-area`、`.weui-form__opr-area` 和 `.weui-form__extra-area` 使用内联结构生成，不依赖 Form 子组件的内部自动引入。`default` 始终渲染到 control-area，底部区域固定按 `tips → opr → tips-b → extra` 顺序使用 `v-if` 渲染。
 
 **示例**：
 ```html
-<weui-form title="编辑资料" desc="请填写真实信息">
-  <weui-cell-group form>
-    <weui-cell title="姓名">
-      <weui-input v-model="name" placeholder="请输入" />
-    </weui-cell>
-  </weui-cell-group>
-  <template #footer>
-    <weui-button type="primary" display="block">提交</weui-button>
+<weui-form
+  title="表单结构"
+  desc="展示表单页面的信息结构样式，分别由头部区域、控件区域、提示区域、操作区域和底部信息区域组成。"
+>
+  <template #default>
+    <weui-cells form>
+      <weui-cell label="微信号">
+        <weui-input placeholder="填写本人微信号" />
+      </weui-cell>
+      <weui-cell label="昵称">
+        <weui-input placeholder="填写本人微信号的昵称" />
+      </weui-cell>
+      <weui-cell label="联系电话">
+        <weui-input type="number" placeholder="填写绑定的电话号码" />
+      </weui-cell>
+    </weui-cells>
+  </template>
+  <template #tips>表单页提示，居中对齐</template>
+  <template #opr>
+    <weui-button type="primary" display="block">确定</weui-button>
+  </template>
+  <template #tips-b>表单页提示，居中对齐</template>
+  <template #extra>
+    <div class="weui-footer">Copyright © weui.io</div>
   </template>
 </weui-form>
 ```
+
+Form 的 `title`、`desc`、`tips`、`opr`、`tips-b`、`extra` 只填充对应固定节点；`default` 是唯一的控件区域内容入口。不要在 Form 内使用 `weui-form-control`、`weui-form-tips`、`weui-form-opr` 或 `weui-form-extra`。
 
 ---
 
@@ -685,9 +712,11 @@
 
 ## 表单容器
 
-### `<weui-form-control>` / `<weui-form-tips>` / `<weui-form-opr>` / `<weui-form-extra>`
+### `<weui-form-control>` / `<weui-form-tips>` / `<weui-form-opr>` / `<weui-form-extra>` 独立容器
 
 四个纯容器组件，都有 `extClass` prop + `default` slot：
+
+> 这些组件仍可单独使用，但不要把它们作为 `weui-form` 内部结构的依赖。Form 已经内联 `.weui-form__control-area`、`.weui-form__tips-area`、`.weui-form__opr-area` 和 `.weui-form__extra-area`；uni-app 页面应直接在 `tips`、`opr`、`tips-b`、`extra` slot 中写原生 `view`/`p` 结构。
 
 | 组件 | 用途 |
 |------|------|
@@ -876,6 +905,8 @@ setTimeout(() => Toast.hide(), 3000)
 
 **命令式 API**：`Picker.show(options)` → `Promise<{ action: 'confirm' | 'cancel', indexes, values }>`（取消时 indexes/values 为空数组）
 
+> **uni-app 产物限制**：`weui-picker` 保留遮罩、头部和外层 picker 结构，但不在内部自动引入 `weui-picker-group`；生成产物的列区域为空。
+
 **示例**：
 ```html
 <script setup>
@@ -1036,6 +1067,8 @@ console.log(result.values) // ['beijing']
 **Events**：`buttontap`
 
 **Slots**：`icon`、`default`、`tips`、`footer`
+
+> **uni-app 产物限制**：默认图标不会通过内部自动引入的 `weui-icon` 渲染；需要图标时请通过 `icon` slot 显式传入 `<weui-icon>`。其他外层结构和 slots 保持可用。
 
 **示例**：
 ```html

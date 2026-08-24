@@ -51,11 +51,9 @@
       <!-- 列表加载场景 -->
       <view class="demo-section">
         <view class="demo-section__title">列表加载场景</view>
-        <view class="weui-cells__group weui-cells__group_form">
-          <view class="weui-cell" v-for="item in list" :key="item.id">
-            <view class="weui-cell__bd">{{ item.text }}</view>
-          </view>
-        </view>
+        <weui-cells>
+          <weui-cell v-for="item in list" :key="item.id">{{ item.text }}</weui-cell>
+        </weui-cells>
         <weui-loadmore v-if="loading" text="正在加载" />
         <weui-loadmore v-else type="line" text="暂无更多数据" />
       </view>

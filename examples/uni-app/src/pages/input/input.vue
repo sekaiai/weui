@@ -6,85 +6,52 @@
     </view>
 
     <view class="page__bd">
-      <!-- 基础用法 -->
-      <view class="weui-cells__title">基础用法</view>
-      <view class="weui-cells weui-cells_form">
-        <view class="weui-cell weui-cell_active">
-          <view class="weui-cell__hd"><text class="weui-label">文本</text></view>
-          <view class="weui-cell__bd">
-            <weui-input v-model="text" placeholder="请输入文本" />
-          </view>
-        </view>
-      </view>
+      <weui-cells-title title="基础用法" />
+      <weui-cells form>
+        <weui-cell active label="文本">
+          <weui-input v-model="text" placeholder="请输入文本" />
+        </weui-cell>
+      </weui-cells>
 
-      <!-- 输入类型 -->
-      <view class="weui-cells__title">输入类型</view>
-      <view class="weui-cells weui-cells_form">
-        <view class="weui-cell weui-cell_active">
-          <view class="weui-cell__hd"><text class="weui-label">数字</text></view>
-          <view class="weui-cell__bd">
-            <weui-input v-model="number" type="number" placeholder="请输入数字" />
-          </view>
-        </view>
-        <view class="weui-cell weui-cell_active">
-          <view class="weui-cell__hd"><text class="weui-label">身份证</text></view>
-          <view class="weui-cell__bd">
-            <weui-input v-model="idcard" type="idcard" placeholder="请输入身份证号" />
-          </view>
-        </view>
-        <view class="weui-cell weui-cell_active">
-          <view class="weui-cell__hd"><text class="weui-label">小数</text></view>
-          <view class="weui-cell__bd">
-            <weui-input v-model="digit" type="digit" placeholder="请输入数字（带小数）" />
-          </view>
-        </view>
-        <view class="weui-cell weui-cell_active">
-          <view class="weui-cell__hd"><text class="weui-label">密码</text></view>
-          <view class="weui-cell__bd">
-            <weui-input v-model="password" type="password" placeholder="请输入密码" />
-          </view>
-        </view>
-      </view>
+      <weui-cells-title title="输入类型" />
+      <weui-cells form>
+        <weui-cell active label="数字">
+          <weui-input v-model="number" type="number" placeholder="请输入数字" />
+        </weui-cell>
+        <weui-cell active label="身份证">
+          <weui-input v-model="idcard" type="idcard" placeholder="请输入身份证号" />
+        </weui-cell>
+        <weui-cell active label="小数">
+          <weui-input v-model="digit" type="digit" placeholder="请输入数字（带小数）" />
+        </weui-cell>
+        <weui-cell active label="密码">
+          <weui-input v-model="password" type="password" placeholder="请输入密码" />
+        </weui-cell>
+      </weui-cells>
 
-      <!-- 最大长度 -->
-      <view class="weui-cells__title">最大长度（最多 5 字）</view>
-      <view class="weui-cells weui-cells_form">
-        <view class="weui-cell weui-cell_active">
-          <view class="weui-cell__bd">
-            <weui-input v-model="limited" :maxlength="5" placeholder="最多输入 5 个字" />
-          </view>
-        </view>
-      </view>
+      <weui-cells-title title="最大长度（最多 5 字）" />
+      <weui-cells form>
+        <weui-cell active>
+          <weui-input v-model="limited" :maxlength="5" placeholder="最多输入 5 个字" />
+        </weui-cell>
+      </weui-cells>
 
-      <!-- 清除按钮 -->
-      <view class="weui-cells__title">清除按钮</view>
-      <view class="weui-cells weui-cells_form">
-        <view class="weui-cell weui-cell_active">
-          <view class="weui-cell__hd"><text class="weui-label">可清除</text></view>
-          <view class="weui-cell__bd">
-            <weui-input
-              v-model="clearable"
-              clearable
-              placeholder="输入后点击右侧清除"
-            />
-          </view>
-        </view>
-      </view>
+      <weui-cells-title title="清除按钮" />
+      <weui-cells form>
+        <weui-cell active label="可清除">
+          <weui-input v-model="clearable" clearable placeholder="输入后点击右侧清除" />
+        </weui-cell>
+      </weui-cells>
 
-      <!-- 禁用状态 -->
-      <view class="weui-cells__title">禁用状态</view>
-      <view class="weui-cells weui-cells_form">
-        <view class="weui-cell weui-cell_active">
-          <view class="weui-cell__hd"><text class="weui-label">禁用</text></view>
-          <view class="weui-cell__bd">
-            <weui-input v-model="disabled" disabled placeholder="不可编辑" />
-          </view>
-        </view>
-      </view>
+      <weui-cells-title title="禁用状态" />
+      <weui-cells form>
+        <weui-cell active label="禁用">
+          <weui-input v-model="disabled" disabled placeholder="不可编辑" />
+        </weui-cell>
+      </weui-cells>
 
-      <!-- 小程序官方能力 -->
-      <view class="weui-cells__title">小程序官方能力</view>
-      <view class="weui-cells weui-cells_form">
+      <weui-cells-title title="小程序官方能力" />
+      <weui-cells form>
         <weui-cell label="确认键">
           <weui-input v-model="confirmValue" confirm-type="search" placeholder="点击搜索键" @confirm="onConfirm" />
         </weui-cell>
@@ -94,7 +61,7 @@
         <weui-cell label="键盘布局">
           <weui-input cursor-spacing="16" confirm-hold hold-keyboard :adjust-position="false" placeholder="小程序属性透传" @keyboardheightchange="onKeyboardHeightChange" />
         </weui-cell>
-      </view>
+      </weui-cells>
 
       <!-- 当前值 -->
       <view class="result-section">

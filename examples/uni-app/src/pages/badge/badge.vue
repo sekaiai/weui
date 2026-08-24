@@ -59,27 +59,25 @@
       <!-- 列表项角标场景 -->
       <view class="demo-section">
         <view class="demo-section__title">列表项角标场景</view>
-        <view class="weui-cell weui-cell_access">
-          <view class="weui-cell__bd">单行列表</view>
-          <view class="weui-cell__ft weui-cell__ft_in-style">
+        <weui-cell access>
+          <template #title>单行列表</template>
+          <template #footer>
             <text>详细信息</text>
             <weui-badge aria-label="，有更新" />
-          </view>
-        </view>
-        <view class="weui-cell weui-cell_access">
-          <view class="weui-cell__bd">
+          </template>
+        </weui-cell>
+        <weui-cell access>
+          <template #title>
             <text>单行列表</text>
             <weui-badge content="8" aria-label="，8个新通知" />
-          </view>
-          <view class="weui-cell__ft"></view>
-        </view>
-        <view class="weui-cell weui-cell_access">
-          <view class="weui-cell__bd">
+          </template>
+        </weui-cell>
+        <weui-cell access>
+          <template #title>
             <text>单行列表</text>
             <weui-badge content="New" />
-          </view>
-          <view class="weui-cell__ft"></view>
-        </view>
+          </template>
+        </weui-cell>
       </view>
     </view>
   </view>

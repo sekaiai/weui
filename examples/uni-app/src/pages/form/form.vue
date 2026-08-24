@@ -10,24 +10,10 @@
       <view class="demo-section">
         <view class="demo-section__title">基础用法</view>
         <weui-form title="表单标题">
-          <view class="weui-cells weui-cells_form">
-            <view class="weui-cell">
-              <view class="weui-cell__hd">
-                <label class="weui-label">姓名</label>
-              </view>
-              <view class="weui-cell__bd">
-                <input class="weui-input" placeholder="请输入姓名" />
-              </view>
-            </view>
-            <view class="weui-cell">
-              <view class="weui-cell__hd">
-                <label class="weui-label">手机号</label>
-              </view>
-              <view class="weui-cell__bd">
-                <input class="weui-input" placeholder="请输入手机号" />
-              </view>
-            </view>
-          </view>
+          <weui-cells form>
+            <weui-cell label="姓名"><weui-input placeholder="请输入姓名" /></weui-cell>
+            <weui-cell label="手机号"><weui-input type="number" placeholder="请输入手机号" /></weui-cell>
+          </weui-cells>
         </weui-form>
       </view>
 
@@ -35,23 +21,16 @@
       <view class="demo-section">
         <view class="demo-section__title">标题与描述</view>
         <weui-form title="表单标题" desc="表单描述文字">
-          <view class="weui-cells weui-cells_form">
-            <view class="weui-cell">
-              <view class="weui-cell__bd">控件内容</view>
-            </view>
-          </view>
+          <weui-cells form><weui-cell>控件内容</weui-cell></weui-cells>
         </weui-form>
       </view>
 
       <!-- 提示文字 -->
       <view class="demo-section">
         <view class="demo-section__title">提示文字</view>
-        <weui-form title="表单标题" tips="底部提示文字">
-          <view class="weui-cells weui-cells_form">
-            <view class="weui-cell">
-              <view class="weui-cell__bd">控件内容</view>
-            </view>
-          </view>
+        <weui-form title="表单标题">
+          <weui-cells form><weui-cell>控件内容</weui-cell></weui-cells>
+          <template #tips>底部提示文字</template>
         </weui-form>
       </view>
 
@@ -59,15 +38,11 @@
       <view class="demo-section">
         <view class="demo-section__title">操作按钮区域</view>
         <weui-form title="表单标题">
-          <view class="weui-cells weui-cells_form">
-            <view class="weui-cell">
-              <view class="weui-cell__bd">控件内容</view>
-            </view>
-          </view>
-          <template #footer>
+          <weui-cells form><weui-cell>控件内容</weui-cell></weui-cells>
+          <template #opr>
             <view class="weui-btn-area">
-              <button class="weui-btn weui-btn_primary">确定</button>
-              <button class="weui-btn weui-btn_default">取消</button>
+              <weui-button type="primary" display="block">确定</weui-button>
+              <weui-button display="block">取消</weui-button>
             </view>
           </template>
         </weui-form>
@@ -77,15 +52,9 @@
       <view class="demo-section">
         <view class="demo-section__title">自定义标题区域</view>
         <weui-form>
-          <template #title>
-            <view class="weui-form__title">自定义标题</view>
-            <view class="weui-form__desc">通过 title 插槽自定义整段标题区域</view>
-          </template>
-          <view class="weui-cells weui-cells_form">
-            <view class="weui-cell">
-              <view class="weui-cell__bd">控件内容</view>
-            </view>
-          </view>
+          <template #title>自定义标题</template>
+          <template #desc>通过 title 和 desc 插槽自定义内容</template>
+          <weui-cells form><weui-cell>控件内容</weui-cell></weui-cells>
         </weui-form>
       </view>
 
@@ -93,13 +62,9 @@
       <view class="demo-section">
         <view class="demo-section__title">自定义提示区域</view>
         <weui-form title="表单标题">
-          <view class="weui-cells weui-cells_form">
-            <view class="weui-cell">
-              <view class="weui-cell__bd">控件内容</view>
-            </view>
-          </view>
+          <weui-cells form><weui-cell>控件内容</weui-cell></weui-cells>
           <template #tips>
-            <view class="weui-tips">通过 tips 插槽自定义提示内容</view>
+            通过 tips 插槽自定义提示内容
           </template>
         </weui-form>
       </view>
@@ -108,11 +73,7 @@
       <view class="demo-section">
         <view class="demo-section__title">扩展类名</view>
         <weui-form title="表单标题" ext-class="custom-form">
-          <view class="weui-cells weui-cells_form">
-            <view class="weui-cell">
-              <view class="weui-cell__bd">控件内容</view>
-            </view>
-          </view>
+          <weui-cells form><weui-cell>控件内容</weui-cell></weui-cells>
         </weui-form>
       </view>
     </view>

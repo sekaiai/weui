@@ -49,7 +49,7 @@
           type="info"
           :icon-size="93"
           title="提示"
-          desc="iconSize=93 与 weui-icon_msg 官方尺寸一致"
+          desc="iconSize=93 与 icon 的 msg 属性对应的官方尺寸一致"
         />
       </view>
 

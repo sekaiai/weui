@@ -14,6 +14,17 @@ agent_created: true
 2. **WeUI + 微信设计规范** — 色彩体系、排版、间距、圆角、小程序设计规则
 3. **easycom 配置** — 开箱即用的配置片段
 
+## uni-app 复合组件构建约束
+
+- easycom 只保证业务页面或页面组件使用的顶层 `<weui-*>` 组件，不保证组件库组件内部继续自动解析子组件。
+- 生成到 `dist/uni-app/` 的复合组件不得依赖内部 WeUI 子组件的自动引入；模板中不得残留未显式注册的 `<weui-*>` 子组件标签。
+- 内部结构应优先使用 uni-app 原生标签或完整内联结构；如果某个内部能力无法安全内联，则按组件约定保留外层框架并留空。
+- `weui-form` 必须在组件内部保留完整的原生表单外壳；不要在 Form 内依赖 `weui-form-tips`、`weui-form-opr` 或 `weui-form-extra` 的 easycom 自动引入。
+- Form 只提供 `default`、`title`、`desc`、`tips`、`opr`、`tips-b`、`extra` slots；Form 内部固定生成双 tips、opr、extra 结构，不提供 `control`、`title-content` 或 `footer` slot。
+- `default` 始终渲染到 `.weui-form__control-area`；底部 slot 固定按 `tips → opr → tips-b → extra` 顺序渲染，并由组件内部使用 `v-if` 控制。
+- 修改复合组件时，必须同时验证源码转换结果、生成的 uni-app SFC 和 `pnpm check:uni-app`，避免只验证 Vue 3/H5 产物。
+- WeUI 内置 modifier 必须通过语义 props 使用，例如 `weui-cells form`、`weui-cells checkbox`、`weui-cell-group form primary`、`weui-icon msg`；`extClass` 仅用于业务自定义 class，不要传入 `weui-*` 内置 class。
+
 ## 组件索引（快速定位）
 
 | 分类 | 组件 |

@@ -263,11 +263,13 @@ WeUI 提供完整的暗色主题 Token 映射，建议在支持 DarkMode 的小�
 
 ### 6.1 extClass 扩展
 
-大部分组件支持 `extClass` prop，向根元素注入自定义 class 名：
+大部分组件支持 `extClass` prop，向根元素注入业务自定义 class 名。组件内置的 WeUI modifier 必须优先使用语义 props，不要把 `weui-*` class 名直接传给 `extClass`：
 
 ```html
 <weui-button type="primary" ext-class="my-custom-btn">提交</weui-button>
 <weui-cell title="姓名" ext-class="my-cell" />
+<weui-cells form />
+<weui-icon type="success" msg />
 ```
 
 ```css
