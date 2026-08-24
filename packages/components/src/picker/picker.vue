@@ -27,6 +27,7 @@
 
       <!-- 主体：多列 -->
       <div class="weui-picker__bd">
+        <!-- #ifdef H5 -->
         <weui-picker-group
           v-for="(col, colIndex) in columns"
           :key="colIndex"
@@ -34,6 +35,7 @@
           :index="currentIndexes[colIndex] ?? 0"
           @change="(idx) => handleChange(colIndex, idx)"
         />
+        <!-- #endif -->
       </div>
     </div>
   </div>
@@ -51,7 +53,9 @@ export default {
 
 <script setup lang="ts">
 import { ref, computed, watch, onBeforeUnmount } from 'vue'
+// #ifdef H5
 import WeuiPickerGroup from './picker-group.vue'
+// #endif
 import type { PickerOption } from './picker-group.vue'
 
 export interface PickerColumn {

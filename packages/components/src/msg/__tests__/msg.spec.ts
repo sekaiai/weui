@@ -33,7 +33,7 @@ describe('WeuiMsg', () => {
       expect(wrapper.find('.weui-msg__icon-area').exists()).toBe(false)
     })
 
-    it('默认传递 weui-icon_msg 扩展类（让 WeUI 默认 font-size:10px 生效，渲染 64px）', () => {
+    it('默认通过 msg prop 使用 weui-icon_msg（让 WeUI 默认 font-size:10px 生效，渲染 64px）', () => {
       const wrapper = mount(WeuiMsg, { props: { type: 'success' } })
       const icon = wrapper.find('.weui-icon-success')
       expect(icon.classes()).toContain('weui-icon_msg')

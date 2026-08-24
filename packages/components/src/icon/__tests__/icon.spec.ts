@@ -117,26 +117,35 @@ describe('WeuiIcon', () => {
     })
   })
 
-  describe('extClass', () => {
-    it('传入 extClass 附加到根元素', () => {
+  describe('msg', () => {
+    it('msg=true 追加消息页大图标类', () => {
       const wrapper = mount(WeuiIcon, {
-        props: { type: 'success', extClass: 'weui-icon_msg' },
+        props: { type: 'success', msg: true },
       })
       expect(wrapper.classes()).toContain('weui-icon-success')
       expect(wrapper.classes()).toContain('weui-icon_msg')
     })
 
-    it('不传 extClass 时仅含 weui-icon-{type} 类', () => {
+    it('不传 msg 时不追加消息页大图标类', () => {
       const wrapper = mount(WeuiIcon, { props: { type: 'success' } })
       expect(wrapper.classes()).toEqual(['weui-icon-success'])
     })
 
-    it('extClass 与 size 搭配使用', () => {
+    it('msg 与 size 搭配使用', () => {
       const wrapper = mount(WeuiIcon, {
-        props: { type: 'success', extClass: 'weui-icon_msg', size: 32 },
+        props: { type: 'success', msg: true, size: 32 },
       })
       expect(wrapper.classes()).toContain('weui-icon_msg')
       expect(wrapper.attributes('style')).toContain('font-size: 32px')
+    })
+  })
+
+  describe('extClass', () => {
+    it('传入业务自定义 extClass 附加到根元素', () => {
+      const wrapper = mount(WeuiIcon, {
+        props: { type: 'success', extClass: 'my-icon' },
+      })
+      expect(wrapper.classes()).toContain('my-icon')
     })
   })
 })

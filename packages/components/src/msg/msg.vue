@@ -3,7 +3,9 @@
     <slot>
       <div v-if="hasIcon" class="weui-msg__icon-area">
         <slot name="icon">
-          <weui-icon :type="type" :size="iconSize" ext-class="weui-icon_msg" />
+          <!-- #ifdef H5 -->
+          <weui-icon :type="type" :size="iconSize" msg />
+          <!-- #endif -->
         </slot>
       </div>
       <div v-if="hasText" class="weui-msg__text-area">
@@ -53,7 +55,9 @@ export default {
 
 <script setup lang="ts">
 import { computed, useSlots } from 'vue'
+// #ifdef H5
 import WeuiIcon from '../icon/icon.vue'
+// #endif
 
 export interface MsgButton {
   /** 按钮文字 */

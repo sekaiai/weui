@@ -22,7 +22,9 @@ export interface WeuiIconProps {
   size?: number | string
   /** 图标颜色 */
   color?: string
-  /** 附加在根元素上的扩展类名，例如 weui-icon_msg */
+  /** 消息页大图标样式，追加 weui-icon_msg */
+  msg?: boolean
+  /** 业务自定义扩展类名 */
   extClass?: string
 }
 
@@ -30,11 +32,13 @@ const props = withDefaults(defineProps<WeuiIconProps>(), {
   type: undefined,
   size: undefined,
   color: undefined,
+  msg: false,
   extClass: undefined,
 })
 
 const rootClass = computed(() => {
   const classes: string[] = [`weui-icon-${props.type}`]
+  if (props.msg) classes.push('weui-icon_msg')
   if (props.extClass) classes.push(props.extClass)
   return classes
 })
