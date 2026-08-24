@@ -46,6 +46,7 @@
           @input="handleInput"
           @focus="handleFocus"
           @blur="handleBlur"
+          @keydown.enter="handleConfirm"
           @confirm="handleConfirm"
         />
         <a
@@ -157,7 +158,9 @@ const rootClass = computed(() => {
 })
 
 const showClear = computed(() => !!props.modelValue)
-const showCancelButton = computed(() => !isHomepage.value && (isOutlined.value || focused.value))
+const showCancelButton = computed(
+  () => !isHomepage.value && !showSearchButton.value && (isOutlined.value || focused.value),
+)
 const showSearchButton = computed(() => !isHomepage.value && isOutlined.value && !!props.searchButtonText)
 
 // H5 端：focus prop 变化时调用 DOM focus()/blur()
@@ -165,8 +168,12 @@ const showSearchButton = computed(() => !isHomepage.value && isOutlined.value &&
 watch(() => props.focus, (val) => {
   focused.value = val
   if (__IS_H5__) {
-    if (val) inputRef.value?.focus()
-    else inputRef.value?.blur()
+    if (val) {
+      // happy-dom 等测试环境下 input.focus 可能缺失，需守卫
+      if (typeof inputRef.value?.focus === 'function') inputRef.value.focus()
+    } else {
+      inputRef.value?.blur()
+    }
   }
 })
 
@@ -210,7 +217,7 @@ const handleSearch = () => {
   emit('search', props.modelValue)
   // 点击搜索按钮后聚焦输入框（让用户能继续输入新关键词）
   focused.value = true
-  if (__IS_H5__) inputRef.value?.focus()
+  if (__IS_H5__ && typeof inputRef.value?.focus === 'function') inputRef.value.focus()
 }
 
 const handleBack = () => emit('back')
@@ -219,7 +226,7 @@ const handleCamera = () => emit('camera')
 
 const handleLabelClick = () => {
   focused.value = true
-  if (__IS_H5__) inputRef.value?.focus()
+  if (__IS_H5__ && typeof inputRef.value?.focus === 'function') inputRef.value.focus()
 }
 </script>
 

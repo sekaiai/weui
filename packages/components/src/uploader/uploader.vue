@@ -163,8 +163,12 @@ const handleChoose = () => {
     fileInput.value?.click()
   } else {
     // 小程序/App：用 uni API
-    type PickerResult = UniNamespace.ChooseImageSuccessCallbackResult | UniNamespace.ChooseFileSuccessCallbackResult
-    const success = (res: PickerResult) => {
+    // 项目未接入 @dcloudio/types，全局 UniNamespace 缺失，改用具名局部类型
+    interface PickerRes {
+      tempFilePaths: string | string[]
+      tempFiles?: Array<{ tempFilePath?: string; path?: string; size?: number }>
+    }
+    const success = (res: PickerRes) => {
       const tempFilePaths = Array.isArray(res.tempFilePaths) ? res.tempFilePaths : [res.tempFilePaths]
       if (props.files.length + tempFilePaths.length > props.count) {
         emit('exceed', props.count)

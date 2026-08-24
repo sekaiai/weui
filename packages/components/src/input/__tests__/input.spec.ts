@@ -4,9 +4,9 @@ import WeuiInput from '../input.vue'
 
 describe('WeuiInput', () => {
   describe('基础渲染', () => {
-    it('根元素为 view', () => {
+    it('非 clearable 时根元素为原生 input', () => {
       const wrapper = mount(WeuiInput)
-      expect(wrapper.element.tagName.toLowerCase()).toBe('div')
+      expect(wrapper.element.tagName.toLowerCase()).toBe('input')
     })
 
     it('根元素带 weui-input 类', () => {

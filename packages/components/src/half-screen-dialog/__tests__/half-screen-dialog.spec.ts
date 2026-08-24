@@ -81,7 +81,7 @@ describe('WeuiHalfScreenDialog', () => {
       const wrapper = mount(WeuiHalfScreenDialog, {
         props: { visible: true, buttons },
       })
-      const btns = wrapper.findAll('.weui-half-screen-dialog__btn')
+      const btns = wrapper.findAll('.weui-btn')
       expect(btns).toHaveLength(2)
       expect(btns[0].text()).toBe('取消')
       expect(btns[1].text()).toBe('确定')
@@ -96,17 +96,17 @@ describe('WeuiHalfScreenDialog', () => {
       const wrapper = mount(WeuiHalfScreenDialog, {
         props: { visible: true, buttons: [{ label: '知道了' }] },
       })
-      const btn = wrapper.find('.weui-half-screen-dialog__btn')
-      expect(btn.classes()).toContain('weui-half-screen-dialog__btn_primary')
+      const btn = wrapper.find('.weui-btn')
+      expect(btn.classes()).toContain('weui-btn_primary')
     })
 
     it('多按钮首个 default 其余 primary', () => {
       const wrapper = mount(WeuiHalfScreenDialog, {
         props: { visible: true, buttons },
       })
-      const btns = wrapper.findAll('.weui-half-screen-dialog__btn')
-      expect(btns[0].classes()).toContain('weui-half-screen-dialog__btn_default')
-      expect(btns[1].classes()).toContain('weui-half-screen-dialog__btn_primary')
+      const btns = wrapper.findAll('.weui-btn')
+      expect(btns[0].classes()).toContain('weui-btn_default')
+      expect(btns[1].classes()).toContain('weui-btn_primary')
     })
 
     it('显式指定 type 时按 type 分配类名', () => {
@@ -120,10 +120,10 @@ describe('WeuiHalfScreenDialog', () => {
           ],
         },
       })
-      const btns = wrapper.findAll('.weui-half-screen-dialog__btn')
-      expect(btns[0].classes()).toContain('weui-half-screen-dialog__btn_default')
-      expect(btns[1].classes()).toContain('weui-half-screen-dialog__btn_primary')
-      expect(btns[2].classes()).toContain('weui-half-screen-dialog__btn_warn')
+      const btns = wrapper.findAll('.weui-btn')
+      expect(btns[0].classes()).toContain('weui-btn_default')
+      expect(btns[1].classes()).toContain('weui-btn_primary')
+      expect(btns[2].classes()).toContain('weui-btn_warn')
     })
   })
 
@@ -170,7 +170,7 @@ describe('WeuiHalfScreenDialog', () => {
       const wrapper = mount(WeuiHalfScreenDialog, {
         props: { visible: true, buttons },
       })
-      await wrapper.findAll('.weui-half-screen-dialog__btn')[1].trigger('click')
+      await wrapper.findAll('.weui-btn')[1].trigger('click')
       expect(wrapper.emitted('buttontap')).toBeTruthy()
       expect(wrapper.emitted('buttontap')![0][0]).toEqual({ label: '确定' })
       expect(wrapper.emitted('buttontap')![0][1]).toBe(1)
@@ -182,7 +182,7 @@ describe('WeuiHalfScreenDialog', () => {
       const wrapper = mount(WeuiHalfScreenDialog, {
         props: { visible: true, buttons: [{ label: '确定' }] },
       })
-      await wrapper.find('.weui-half-screen-dialog__btn').trigger('click')
+      await wrapper.find('.weui-btn').trigger('click')
       expect(wrapper.emitted('weui-close')).toBeTruthy()
     })
 
@@ -216,7 +216,7 @@ describe('WeuiHalfScreenDialog', () => {
       expect(wrapper.find('.weui-half-screen-dialog__ft').exists()).toBe(true)
       expect(wrapper.find('.custom-footer').exists()).toBe(true)
       // footer slot 存在时不渲染默认按钮
-      expect(wrapper.findAll('.weui-half-screen-dialog__btn')).toHaveLength(0)
+      expect(wrapper.findAll('.weui-btn')).toHaveLength(0)
     })
   })
 })

@@ -145,11 +145,17 @@ const showClear = computed(
 // 非 H5 端：:focus 属性已由 uniOnlyAttrs 绑定，无需 watch
 if (__IS_H5__) {
   watch(effectiveFocus, (val) => {
-    if (val) inputRef.value?.focus()
-    else inputRef.value?.blur()
+    if (val) {
+      // happy-dom 等测试环境下 input.focus 可能缺失，需守卫
+      if (typeof inputRef.value?.focus === 'function') inputRef.value.focus()
+    } else {
+      inputRef.value?.blur()
+    }
   })
   onMounted(() => {
-    if (effectiveFocus.value) inputRef.value?.focus()
+    if (effectiveFocus.value && typeof inputRef.value?.focus === 'function') {
+      inputRef.value.focus()
+    }
   })
 }
 

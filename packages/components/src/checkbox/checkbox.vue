@@ -1,5 +1,5 @@
 <template>
-  <label :class="rootClass" @click="__IS_H5__ ? handleClick : undefined">
+  <label :class="rootClass" @click="__IS_H5__ ? handleClick() : undefined">
     <div class="weui-cell__hd">
       <!-- #ifdef H5 -->
       <input

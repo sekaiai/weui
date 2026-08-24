@@ -3,7 +3,7 @@
     :class="[rootClass, $attrs.class]"
     :disabled="disabled"
     :aria-disabled="disabled || undefined"
-    :open-type="openType"
+    :open-type="__IS_H5__ ? undefined : openType"
     @click="handleClick"
   >
     <template v-if="isStandardButton">

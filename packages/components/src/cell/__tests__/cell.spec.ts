@@ -19,11 +19,11 @@ describe('WeuiCell', () => {
       expect(wrapper.classes()).toContain('weui-cell')
     })
 
-    it('默认渲染 header/body/footer 三个区域', () => {
+    it('渲染 body/footer 区域（__hd 仅在含 icon/label 时渲染）', () => {
       const wrapper = mount(WeuiCell, {
         props: { title: 'T', value: 'V', footer: 'F' },
       })
-      expect(wrapper.find('.weui-cell__hd').exists()).toBe(true)
+      expect(wrapper.find('.weui-cell__hd').exists()).toBe(false)
       expect(wrapper.find('.weui-cell__bd').exists()).toBe(true)
       expect(wrapper.find('.weui-cell__ft').exists()).toBe(true)
     })
@@ -32,14 +32,14 @@ describe('WeuiCell', () => {
   describe('title', () => {
     it('渲染标题文字', () => {
       const wrapper = mount(WeuiCell, { props: { title: '标题文字' } })
-      expect(wrapper.find('.weui-cell__hd').text()).toBe('标题文字')
+      expect(wrapper.find('.weui-cell__bd').text()).toBe('标题文字')
     })
 
     it('title 为空时使用 title slot', () => {
       const wrapper = mount(WeuiCell, {
         slots: { title: '自定义标题' },
       })
-      expect(wrapper.find('.weui-cell__hd').text()).toBe('自定义标题')
+      expect(wrapper.find('.weui-cell__bd').text()).toBe('自定义标题')
     })
   })
 
@@ -120,9 +120,17 @@ describe('WeuiCell', () => {
   })
 
   describe('link', () => {
-    it('link=true 追加 weui-cell_access 类', () => {
+    it('link=true 追加 weui-cell_access 和 weui-cell_link 类', () => {
       const wrapper = mount(WeuiCell, { props: { link: true } })
       expect(wrapper.classes()).toContain('weui-cell_access')
+      expect(wrapper.classes()).toContain('weui-cell_link')
+    })
+
+    it('link 传入路径时保留两个 modifier 并输出导航地址', () => {
+      const wrapper = mount(WeuiCell, { props: { link: '/pages/detail' } })
+      expect(wrapper.classes()).toContain('weui-cell_access')
+      expect(wrapper.classes()).toContain('weui-cell_link')
+      expect(wrapper.attributes('href')).toBe('/pages/detail')
     })
 
     it('link=true 时 footer 不追加 weui-cell__ft_in-access（access 模式靠父选择器接管）', () => {
@@ -133,6 +141,7 @@ describe('WeuiCell', () => {
     it('link=false 时不追加 access 类', () => {
       const wrapper = mount(WeuiCell)
       expect(wrapper.classes()).not.toContain('weui-cell_access')
+      expect(wrapper.classes()).not.toContain('weui-cell_link')
     })
   })
 
@@ -140,6 +149,7 @@ describe('WeuiCell', () => {
     it('access=true 追加 weui-cell_access 类', () => {
       const wrapper = mount(WeuiCell, { props: { access: true } })
       expect(wrapper.classes()).toContain('weui-cell_access')
+      expect(wrapper.classes()).not.toContain('weui-cell_link')
     })
   })
 
@@ -241,9 +251,9 @@ describe('WeuiCell', () => {
       expect(wrapper.classes()).toContain('my-cell')
     })
 
-    it('iconClass 追加到 header', () => {
+    it('iconClass 追加到 header（需存在 icon 使 __hd 渲染）', () => {
       const wrapper = mount(WeuiCell, {
-        props: { iconClass: 'my-hd', title: 'T' },
+        props: { iconClass: 'my-hd', icon: 'info' },
       })
       expect(wrapper.find('.weui-cell__hd').classes()).toContain('my-hd')
     })
@@ -255,8 +265,8 @@ describe('WeuiCell', () => {
       expect(wrapper.find('.weui-cell__bd').classes()).toContain('my-bd')
     })
 
-    it('footerClass 追加到 footer', () => {
-      const wrapper = mount(WeuiCell, { props: { footerClass: 'my-ft' } })
+    it('footerClass 追加到 footer（需存在 footer 内容使 __ft 渲染）', () => {
+      const wrapper = mount(WeuiCell, { props: { footerClass: 'my-ft', footer: 'F' } })
       expect(wrapper.find('.weui-cell__ft').classes()).toContain('my-ft')
     })
   })
