@@ -192,13 +192,13 @@ const radioValue = ref('1')
 </template>
 ```
 
-## 分组底部说明
+## 分组底部提示
 
-通过 `footer` 属性在分组底部显示说明文字。
+通过 `tips` 属性或 `#tips` slot 在分组底部显示提示文字。
 
 ```vue
 <template>
-  <weui-checkbox-group v-model="values" title="复选列表" footer="底部说明文字">
+  <weui-checkbox-group v-model="values" title="复选列表" tips="底部提示文字">
     <weui-checkbox value="1" label="选项一" />
     <weui-checkbox value="2" label="选项二" />
   </weui-checkbox-group>
@@ -224,7 +224,7 @@ const radioValue = ref('1')
 | modelValue | 选中项的 value 数组（v-model） | `string[]` | `[]` |
 | disabled | 是否禁用全部子项 | `boolean` | `false` |
 | title | 组标题 | `string` | — |
-| footer | 组底部说明文字 | `string` | — |
+| tips | 组底部提示文字；`#tips` 可自定义 | `string` | — |
 | form | 是否为表单型组 | `boolean` | `false` |
 | extClass | 根元素扩展类名 | `string` | — |
 | ariaRole | 根元素 aria-role | `string` | — |
@@ -257,4 +257,6 @@ const radioValue = ref('1')
 
 | 插槽名 | 说明 |
 | --- | --- |
+| title | 组标题内容，覆盖 `title` prop |
 | default | checkbox 子项 |
+| tips | 底部提示内容，覆盖 `tips` prop |

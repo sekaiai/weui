@@ -404,17 +404,19 @@
   desc="展示表单页面的信息结构样式，分别由头部区域、控件区域、提示区域、操作区域和底部信息区域组成。"
 >
   <template #default>
-    <weui-cells form>
-      <weui-cell label="微信号">
-        <weui-input placeholder="填写本人微信号" />
-      </weui-cell>
-      <weui-cell label="昵称">
-        <weui-input placeholder="填写本人微信号的昵称" />
-      </weui-cell>
-      <weui-cell label="联系电话">
-        <weui-input type="number" placeholder="填写绑定的电话号码" />
-      </weui-cell>
-    </weui-cells>
+    <weui-cell-group form>
+      <weui-cells>
+        <weui-cell label="微信号">
+          <weui-input placeholder="填写本人微信号" />
+        </weui-cell>
+        <weui-cell label="昵称">
+          <weui-input placeholder="填写本人微信号的昵称" />
+        </weui-cell>
+        <weui-cell label="联系电话">
+          <weui-input type="number" placeholder="填写绑定的电话号码" />
+        </weui-cell>
+      </weui-cells>
+    </weui-cell-group>
   </template>
   <template #tips>表单页提示，居中对齐</template>
   <template #opr>
@@ -428,6 +430,8 @@
 ```
 
 Form 的 `title`、`desc`、`tips`、`opr`、`tips-b`、`extra` 只填充对应固定节点；`default` 是唯一的控件区域内容入口。Form 是唯一的表单结构组件，不需要额外的 Form 容器组件。
+
+Form 中的普通 Cells 控件区统一使用 `CellGroup(form) → Cells`；CheckboxGroup 和 RadioGroup 已经自带分组与 Cells 结构，不需要额外包裹 CellGroup。
 
 ---
 

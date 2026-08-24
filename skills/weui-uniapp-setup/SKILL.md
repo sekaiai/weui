@@ -26,6 +26,7 @@ agent_created: true
 - 修改复合组件时，必须同时验证源码转换结果、生成的 uni-app SFC 和 `pnpm check:uni-app`，避免只验证 Vue 3/H5 产物。
 - WeUI 内置 modifier 必须通过语义 props 使用，例如 `weui-cells form`、`weui-cells checkbox`、`weui-cell access`、`weui-cell link`、`weui-cell-group form primary`、`weui-icon msg`；`extClass` 仅用于业务自定义 class，不要传入 `weui-*` 内置 class。
 - `weui-cells` 是完整内容容器，负责标题、主体、提示和 Cells modifier；`weui-cell-group` 只是 `.weui-cells__group` 外壳，保留 `default` slot 以及 `form` / `primary` 分组样式。业务必须显式组合 `<weui-cell-group><weui-cells>...</weui-cells></weui-cell-group>`，H5 与 uni-app 结构一致。
+- Form 的普通 Cells 控件区统一使用 `<weui-cell-group form><weui-cells>...</weui-cells></weui-cell-group>`；`weui-checkbox-group` / `weui-radio-group` 已经自带分组与 Cells 结构，不额外嵌套 CellGroup。
 - `weui-checkbox-group` / `weui-radio-group` 保留原生选中联动职责，但视觉结构统一使用 `title`、`default`、`tips`；底部提示使用 `tips`，不再使用 `footer`。
 
 ## 组件索引（快速定位）

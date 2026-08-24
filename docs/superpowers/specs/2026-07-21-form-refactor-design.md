@@ -247,7 +247,7 @@ Checkbox 组件已通过 `multi` prop 同时支持 checkbox（多选）和 radio
 
 ### 6.3 CheckboxGroup 对齐
 
-当前 `form` prop 控制表单容器语义，`primary` 与 `form` 组合表示反色表单组；组件内部负责生成官方 modifier。业务页面使用 `<weui-cells form>` 或 `<weui-cell-group form primary>`，不通过 `extClass` 传入内置 class。
+当前 `form` prop 控制表单容器语义，`primary` 与 `form` 组合表示反色表单组；组件内部负责生成官方 modifier。Form 业务页面使用 `<weui-cell-group form><weui-cells>...</weui-cells></weui-cell-group>`，反色表单使用 `<weui-cell-group form primary>`，不通过 `extClass` 传入内置 class。
 
 ---
 
@@ -263,7 +263,7 @@ Checkbox 组件已通过 `multi` prop 同时支持 checkbox（多选）和 radio
 4. **复选框表单** — 对应 `form_checkbox.html`：CheckboxGroup + Agree（tips 中）
 5. **底部悬浮表单** — 对应 `form_bottom_fixed.html`：weui-bottom-fixed-opr-page + Agree
 
-Form 固定使用 `default`、`title`、`desc`、`tips`、`opr`、`tips-b`、`extra` slots；控件区必须使用 `default`，两个 tips 区域按固定顺序渲染。表单示例中的 cells 使用 `<weui-cells form>`，反色分组使用 `<weui-cell-group form primary>`。
+Form 固定使用 `default`、`title`、`desc`、`tips`、`opr`、`tips-b`、`extra` slots；控件区必须使用 `default`，两个 tips 区域按固定顺序渲染。表单示例中的普通 Cells 使用 `<weui-cell-group form><weui-cells>...</weui-cells></weui-cell-group>`，反色分组使用 `<weui-cell-group form primary>`；CheckboxGroup / RadioGroup 保留自带分组结构。
 
 ### 7.2 为原生元素补充的文档
 

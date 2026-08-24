@@ -47,11 +47,13 @@ Form 内部只使用原生节点和 slots，不依赖其他 Form 组件。这样
 ```vue
 <weui-form title="表单结构" desc="展示表单页面的信息。">
   <template #default>
-    <weui-cells form>
-      <weui-cell label="姓名">
-        <weui-input placeholder="请输入姓名" />
-      </weui-cell>
-    </weui-cells>
+    <weui-cell-group form>
+      <weui-cells>
+        <weui-cell label="姓名">
+          <weui-input placeholder="请输入姓名" />
+        </weui-cell>
+      </weui-cells>
+    </weui-cell-group>
   </template>
   <template #tips>提交前提示</template>
   <template #opr>

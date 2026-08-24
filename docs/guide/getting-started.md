@@ -120,6 +120,6 @@ easycom 只保证业务页面使用的顶层组件，不保证组件库复合组
 - `msg`：默认 `weui-icon` 不在 uni-app 产物中内部自动引入，需要图标时通过 `icon` slot 显式传入。
 - `picker`：保留 picker 遮罩和外层结构，内部列区域不自动引入 `weui-picker-group`；需要完整列交互时请在业务页面显式组合或使用适配后的页面结构。
 
-内置视觉 modifier 使用可发现的语义属性：表单容器写 `<weui-cells form>`，复选列表写 `<weui-cells checkbox>`，反色表单组写 `<weui-cell-group form primary>`，消息大图标写 `<weui-icon msg>`。`extClass` 只用于业务自定义 class，不要传入 `weui-*` 内置 class。
+内置视觉 modifier 使用可发现的语义属性：Form 中的 Cells 列表写 `<weui-cell-group form><weui-cells>...</weui-cells></weui-cell-group>`，独立复选列表写 `<weui-cells checkbox>`，反色表单组写 `<weui-cell-group form primary>`，消息大图标写 `<weui-icon msg>`。`extClass` 只用于业务自定义 class，不要传入 `weui-*` 内置 class。
 
 Vue 3/H5 产物保持完整组件行为。每次修改复合组件后，应重新执行 `pnpm build:uni-app` 和 `pnpm check:uni-app`。

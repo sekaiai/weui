@@ -76,12 +76,27 @@ import 'weui-design-vue/dist/vue3/style.css'
 
 ```vue
 <template>
-  <weui-form title="表单结构" desc="表单描述">
-    <template #default>控件区域内容</template>
+  <weui-form title="表单结构" desc="展示表单页面的信息结构样式。">
+    <template #default>
+      <weui-cell-group form>
+        <weui-cells>
+          <weui-cell label="姓名">
+            <weui-input placeholder="请输入姓名" />
+          </weui-cell>
+          <weui-cell label="联系电话">
+            <weui-input type="number" placeholder="请输入联系电话" />
+          </weui-cell>
+        </weui-cells>
+      </weui-cell-group>
+    </template>
     <template #tips>提交前提示</template>
-    <template #opr>操作区域内容</template>
+    <template #opr>
+      <weui-button type="primary" display="block">提交</weui-button>
+    </template>
     <template #tips-b>提交后提示</template>
-    <template #extra>底部信息</template>
+    <template #extra>
+      <div class="weui-footer">底部信息</div>
+    </template>
   </weui-form>
 </template>
 ```

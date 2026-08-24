@@ -61,6 +61,8 @@ easycom 只需一条规则即可自动引入所有组件：
 
 `weui-cell-group` 只负责 `.weui-cells__group` 外壳和分组级 `form` / `primary` 样式；需要列表内容时显式组合 `<weui-cell-group><weui-cells>...</weui-cells></weui-cell-group>`，H5 与 uni-app 结构一致。
 
+在 Form 的控件区域中，推荐使用 `<weui-cell-group form><weui-cells>...</weui-cells></weui-cell-group>`；`CheckboxGroup` 和 `RadioGroup` 已经自带分组与 Cells 结构，不需要额外包裹 `CellGroup`。
+
 ## 复制组件到项目
 
 执行 `pnpm build:uni-app` 后，将 `dist/uni-app/` 中的内容复制到 uni-app 项目的 `src/components/weui/`，easycom 配置改为指向本地路径 `"^weui-(.*)": "@/components/weui/$1.vue"` 即可。内部依赖（`_internal/`）与 cells 聚合导出（`cells.ts`）会一并复制，组件内的相对引用已自动改写为扁平路径。
