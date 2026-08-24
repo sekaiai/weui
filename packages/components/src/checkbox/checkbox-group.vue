@@ -1,6 +1,8 @@
 <template>
   <div :class="groupClass" :role="ariaRole">
-    <div v-if="title" class="weui-cells__title">{{ title }}</div>
+    <div v-if="hasTitle" class="weui-cells__title">
+      <slot name="title">{{ title }}</slot>
+    </div>
     <div :class="cellsClass">
       <!-- #ifdef H5 -->
       <slot />
@@ -11,7 +13,9 @@
       </checkbox-group>
       <!-- #endif -->
     </div>
-    <div v-if="footer" class="weui-cells__tips">{{ footer }}</div>
+    <div v-if="hasTips" class="weui-cells__tips">
+      <slot name="tips">{{ tips }}</slot>
+    </div>
   </div>
 </template>
 
@@ -26,7 +30,7 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { computed, provide } from 'vue'
+import { computed, provide, useSlots } from 'vue'
 
 export interface WeuiCheckboxGroupProps {
   /** 选中项的 value 数组（v-model） */
@@ -35,8 +39,8 @@ export interface WeuiCheckboxGroupProps {
   disabled?: boolean
   /** 组标题 */
   title?: string
-  /** 组底部说明文字 */
-  footer?: string
+  /** 组底部提示 */
+  tips?: string
   /** 是否为表单型组 */
   form?: boolean
   /** 根元素扩展类名 */
@@ -53,10 +57,16 @@ export interface WeuiCheckboxGroupEmits {
 const props = withDefaults(defineProps<WeuiCheckboxGroupProps>(), {
   modelValue: () => [],
   disabled: false,
+  title: undefined,
+  tips: undefined,
   form: false,
 })
 
 const emit = defineEmits<WeuiCheckboxGroupEmits>()
+const slots = useSlots()
+
+const hasTitle = computed(() => Boolean(props.title || slots.title))
+const hasTips = computed(() => Boolean(props.tips || slots.tips))
 
 const groupClass = computed(() => {
   const classes: string[] = ['weui-cells__group']

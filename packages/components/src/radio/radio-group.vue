@@ -1,6 +1,8 @@
 <template>
   <div :class="groupClass">
-    <div v-if="title" class="weui-cells__title">{{ title }}</div>
+    <div v-if="hasTitle" class="weui-cells__title">
+      <slot name="title">{{ title }}</slot>
+    </div>
     <div :class="cellsClass">
       <!-- #ifdef H5 -->
       <slot />
@@ -11,7 +13,9 @@
       </radio-group>
       <!-- #endif -->
     </div>
-    <div v-if="footer" class="weui-cells__tips">{{ footer }}</div>
+    <div v-if="hasTips" class="weui-cells__tips">
+      <slot name="tips">{{ tips }}</slot>
+    </div>
   </div>
 </template>
 
@@ -28,14 +32,14 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { computed, provide } from 'vue'
+import { computed, provide, useSlots } from 'vue'
 
 export interface WeuiRadioGroupProps {
   modelValue?: string
   name?: string
   disabled?: boolean
   title?: string
-  footer?: string
+  tips?: string
   form?: boolean
   extClass?: string
 }
@@ -44,6 +48,8 @@ const props = withDefaults(defineProps<WeuiRadioGroupProps>(), {
   modelValue: '',
   name: '',
   disabled: false,
+  title: undefined,
+  tips: undefined,
   form: false,
 })
 
@@ -54,6 +60,10 @@ const emit = defineEmits<{
 
 const generatedName = `weui-radio-group-${radioGroupId++}`
 const radioName = computed(() => props.name || generatedName)
+const slots = useSlots()
+
+const hasTitle = computed(() => Boolean(props.title || slots.title))
+const hasTips = computed(() => Boolean(props.tips || slots.tips))
 
 const groupClass = computed(() => {
   const classes: string[] = ['weui-cells__group']

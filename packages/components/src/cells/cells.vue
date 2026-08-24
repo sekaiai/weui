@@ -1,6 +1,12 @@
 <template>
+  <div v-if="hasTitle" class="weui-cells__title">
+    <slot name="title">{{ title }}</slot>
+  </div>
   <div :class="rootClass">
     <slot />
+  </div>
+  <div v-if="hasTips" class="weui-cells__tips">
+    <slot name="tips">{{ tips }}</slot>
   </div>
 </template>
 
@@ -15,9 +21,13 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, useSlots } from 'vue'
 
 export interface WeuiCellsProps {
+  /** 列表标题；可由 title slot 自定义 */
+  title?: string
+  /** 底部提示；可由 tips slot 自定义 */
+  tips?: string
   /** 表单型 cells，追加 weui-cells_form */
   form?: boolean
   /** 单选项型 cells，追加 weui-cells_radio */
@@ -31,12 +41,19 @@ export interface WeuiCellsProps {
 }
 
 const props = withDefaults(defineProps<WeuiCellsProps>(), {
+  title: undefined,
+  tips: undefined,
   form: false,
   radio: false,
   checkbox: false,
   afterTitle: false,
   extClass: undefined,
 })
+
+const slots = useSlots()
+
+const hasTitle = computed(() => Boolean(props.title || slots.title))
+const hasTips = computed(() => Boolean(props.tips || slots.tips))
 
 const rootClass = computed(() => {
   const classes: string[] = ['weui-cells']

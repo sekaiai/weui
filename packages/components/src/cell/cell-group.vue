@@ -1,16 +1,6 @@
 <template>
   <div :class="groupClass" :role="ariaRole">
-    <!-- #ifdef H5 -->
-    <weui-cells-title>
-      <slot name="title">{{ title }}</slot>
-    </weui-cells-title>
-    <weui-cells :form="form" :radio="radio" :checkbox="checkbox">
-      <slot />
-    </weui-cells>
-    <weui-cells-tips>
-      <slot name="footer">{{ footer }}</slot>
-    </weui-cells-tips>
-    <!-- #endif -->
+    <slot />
   </div>
 </template>
 
@@ -26,23 +16,12 @@ export default {
 
 <script setup lang="ts">
 import { computed } from 'vue'
-// #ifdef H5
-import { WeuiCellsTitle, WeuiCells, WeuiCellsTips } from '../cells'
-// #endif
 
 export interface WeuiCellGroupProps {
-  /** 组标题 */
-  title?: string
-  /** 组底部说明文字 */
-  footer?: string
   /** 是否为表单型组（追加 weui-cells__group_form） */
   form?: boolean
   /** 是否使用反色表单样式（需与 form 一起使用） */
   primary?: boolean
-  /** 是否为单选项组（内部 weui-cells 追加 weui-cells_radio） */
-  radio?: boolean
-  /** 是否为复选框组（内部 weui-cells 追加 weui-cells_checkbox） */
-  checkbox?: boolean
   /** 根元素扩展类名 */
   extClass?: string
   /** 根元素 aria-role */
@@ -50,12 +29,8 @@ export interface WeuiCellGroupProps {
 }
 
 const props = withDefaults(defineProps<WeuiCellGroupProps>(), {
-  title: undefined,
-  footer: undefined,
   form: false,
   primary: false,
-  radio: false,
-  checkbox: false,
   extClass: undefined,
   ariaRole: undefined,
 })

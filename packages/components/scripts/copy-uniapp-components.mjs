@@ -82,8 +82,8 @@ async function copyInternalFiles() {
   }
 }
 
-// Flat compatibility shim so `cell-group.vue` (which pulls the named exports
-// `WeuiCells`/`WeuiCellsTitle`/`WeuiCellsTips` from `../cells`) still resolves.
+// Flat compatibility shim so `cell-group.vue` (which pulls the named export
+// `WeuiCells` from `../cells`) still resolves.
 // Placed at the root as `cells.ts` so the output stays flat.
 async function writeCellsCompatibilityIndex() {
   await writeFile(
@@ -91,10 +91,6 @@ async function writeCellsCompatibilityIndex() {
     [
       "export { default as WeuiCells } from './cells.vue'",
       "export type { WeuiCellsProps } from './cells.vue'",
-      "export { default as WeuiCellsTitle } from './cells-title.vue'",
-      "export type { WeuiCellsTitleProps } from './cells-title.vue'",
-      "export { default as WeuiCellsTips } from './cells-tips.vue'",
-      "export type { WeuiCellsTipsProps } from './cells-tips.vue'",
       '',
     ].join('\n'),
     'utf-8',
