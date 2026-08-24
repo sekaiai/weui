@@ -1,6 +1,7 @@
 {
   "extends": "../tsconfig.base.json",
   "compilerOptions": {
+    "types": ["vitest/globals", "node"],
     "baseUrl": ".",
     "paths": {
       "weui-design-vue": ["../packages/components/src/index"],

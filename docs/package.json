@@ -16,6 +16,7 @@
     "weui-design-vue": "workspace:*"
   },
   "devDependencies": {
+    "@types/node": "^26.2.0",
     "sass": "^1.75.0",
     "vitepress": "^1.0.0",
     "vue-tsc": "^2.0.0"
