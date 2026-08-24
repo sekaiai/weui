@@ -83,12 +83,36 @@ describe('WeuiRadioGroup', () => {
     expect(wrapper.find('.weui-cells__title').text()).toBe('单选标题')
   })
 
-  it('渲染 footer', () => {
+  it('title slot 覆盖 title prop', () => {
     const wrapper = mount(WeuiRadioGroup, {
-      props: { modelValue: '1', footer: '提示信息' },
+      props: { modelValue: '1', title: '默认标题' },
+      slots: {
+        default: '<div>content</div>',
+        title: '<strong class="custom-title">自定义标题</strong>',
+      },
+    })
+
+    expect(wrapper.find('.custom-title').text()).toBe('自定义标题')
+  })
+
+  it('渲染 tips', () => {
+    const wrapper = mount(WeuiRadioGroup, {
+      props: { modelValue: '1', tips: '提示信息' },
       slots: { default: '<div>content</div>' },
     })
     expect(wrapper.find('.weui-cells__tips').text()).toBe('提示信息')
+  })
+
+  it('tips slot 覆盖 tips prop', () => {
+    const wrapper = mount(WeuiRadioGroup, {
+      props: { modelValue: '1', tips: '默认提示' },
+      slots: {
+        default: '<div>content</div>',
+        tips: '<strong class="custom-tips">自定义提示</strong>',
+      },
+    })
+
+    expect(wrapper.find('.custom-tips').text()).toBe('自定义提示')
   })
 
   it('生成非空 name，并且连续选择时只保留一个选中项', async () => {

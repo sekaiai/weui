@@ -27,20 +27,38 @@ describe('WeuiCheckboxGroup', () => {
       expect(title.text()).toBe('复选列表')
     })
 
+    it('title slot 覆盖 title prop', () => {
+      const wrapper = mount(WeuiCheckboxGroup, {
+        props: { title: '默认标题' },
+        slots: { title: '<strong class="custom-title">自定义标题</strong>' },
+      })
+
+      expect(wrapper.find('.custom-title').text()).toBe('自定义标题')
+    })
+
     it('不传 title 时不渲染标题', () => {
       const wrapper = mount(WeuiCheckboxGroup)
       expect(wrapper.find('.weui-cells__title').exists()).toBe(false)
     })
   })
 
-  describe('footer', () => {
-    it('渲染底部说明', () => {
+  describe('tips', () => {
+    it('渲染底部提示', () => {
       const wrapper = mount(WeuiCheckboxGroup, {
-        props: { footer: '说明文字' },
+        props: { tips: '说明文字' },
       })
       const tips = wrapper.find('.weui-cells__tips')
       expect(tips.exists()).toBe(true)
       expect(tips.text()).toBe('说明文字')
+    })
+
+    it('tips slot 覆盖 tips prop', () => {
+      const wrapper = mount(WeuiCheckboxGroup, {
+        props: { tips: '默认提示' },
+        slots: { tips: '<strong class="custom-tips">自定义提示</strong>' },
+      })
+
+      expect(wrapper.find('.custom-tips').text()).toBe('自定义提示')
     })
   })
 
