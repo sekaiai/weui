@@ -1,5 +1,5 @@
 <template>
-  <label :class="rootClass" @click="__IS_H5__ ? handleClick() : undefined">
+  <label :class="rootClass">
     <div class="weui-cell__hd">
       <!-- #ifdef H5 -->
       <input
@@ -8,8 +8,7 @@
         :value="value"
         :checked="isChecked"
         :disabled="isDisabled"
-        @click.stop
-        @change.stop="onH5Change"
+        @change="onH5Change"
       />
       <!-- #endif -->
       <!-- #ifndef H5 -->
@@ -30,10 +29,7 @@
       />
       <!-- #endif -->
       <!-- #ifdef H5 -->
-      <div
-        class="weui-icon-checked"
-        :class="{ 'weui-icon-checked_selected': isChecked }"
-      />
+      <div class="weui-icon-checked"></div>
       <!-- #endif -->
     </div>
     <div class="weui-cell__bd">
@@ -103,18 +99,17 @@ const rootClass = computed(() => {
   return classes
 })
 
-const handleClick = () => {
-  // group 模式由 group 控制，不处理独立切换
-  if (group) return
-  const newChecked = !isChecked.value
-  emit('update:checked', newChecked)
-  emit('change', newChecked)
-}
-
-// H5 端：input change 事件触发 group.toggle 联动
-// 非 H5 端：此函数不绑定（template 用 v-else 渲染 checkbox/radio 无 @change），保留无害
-const onH5Change = () => {
-  if (group?.toggle) group.toggle(props.value)
+// H5 端：input change 同步数据；视觉由官方 input:checked + .weui-icon-checked 驱动
+// 非 H5 端：此函数不绑定（template 用 v-else 渲染原生 checkbox），保留无害
+const onH5Change = (event: Event) => {
+  const checked = (event.target as HTMLInputElement | null)?.checked ?? false
+  // 唯一 H5 数据源为受控 input，视觉由官方 input:checked 驱动
+  if (group?.toggle) {
+    group.toggle(props.value) // group 模式：toggle 依据当前 modelValue 增删
+  } else {
+    emit('update:checked', checked)
+    emit('change', checked)
+  }
 }
 
 const onNativeChange = (event: Event & { detail?: { checked?: boolean; value?: boolean | string[] } }) => {
@@ -133,14 +128,6 @@ const onNativeChange = (event: Event & { detail?: { checked?: boolean; value?: b
 
 <style lang="scss">
 /* #ifdef H5 */
-/*
- * 选中图标由 Vue 数据驱动（isChecked → weui-icon-checked_selected），
- * 不依赖原生 input 的 :checked 伪类——避免受控 input 点击时序下
- * DOM :checked 与数据不同步导致首次点击图标不显示。
- * 样式与官方 WeUI 选中 SVG 一致（仅机制从 :checked 伪类改为类绑定）。
- */
-.weui-cells_checkbox .weui-icon-checked.weui-icon-checked_selected {
-  background-image: url("data:image/svg+xml,%3Csvg width='25' height='24' viewBox='0 0 25 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0.5' width='24' height='24' rx='12' fill='%2307C160' style='fill:%2307C160;fill:color(display-p3 0.0275 0.7569 0.3765);fill-opacity:1;'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M10.2712 16.2899L6.5 12.5187L7.44281 11.5759L10.7426 14.8757L18.2851 7.33325L19.2279 8.27606L11.214 16.2899C10.9537 16.5503 10.5316 16.5503 10.2712 16.2899Z' fill='white' style='fill:white;fill-opacity:1;'/%3E%3C/svg%3E%0A");
-}
+/* 选中视觉由官方 weui.css 的 input:checked + .weui-icon-checked 规则驱动，无需自定义样式 */
 /* #endif */
 </style>

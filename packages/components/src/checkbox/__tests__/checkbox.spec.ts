@@ -156,34 +156,34 @@ describe('WeuiCheckbox', () => {
   })
 
   describe('独立使用交互', () => {
-    it('独立使用时点击切换 update:checked 事件', async () => {
+    it('独立使用时勾选触发 update:checked 事件', async () => {
       const wrapper = mount(WeuiCheckbox, {
         props: { value: '1', label: '选项', checked: false },
       })
-      await wrapper.trigger('click')
+      await wrapper.find('input[type="checkbox"]').setValue(true)
       expect(wrapper.emitted('update:checked')).toHaveLength(1)
       expect(wrapper.emitted('update:checked')![0]).toEqual([true])
     })
 
-    it('独立使用时点击触发 change 事件并携带新状态', async () => {
+    it('独立使用时勾选触发 change 事件并携带新状态', async () => {
       const wrapper = mount(WeuiCheckbox, {
         props: { value: '1', label: '选项', checked: false },
       })
-      await wrapper.trigger('click')
+      await wrapper.find('input[type="checkbox"]').setValue(true)
       expect(wrapper.emitted('change')).toHaveLength(1)
       expect(wrapper.emitted('change')![0]).toEqual([true])
     })
 
-    it('独立使用时从 checked=true 点击切换为 false', async () => {
+    it('独立使用时从 checked=true 取消勾选切换为 false', async () => {
       const wrapper = mount(WeuiCheckbox, {
         props: { value: '1', label: '选项', checked: true },
       })
-      await wrapper.trigger('click')
+      await wrapper.find('input[type="checkbox"]').setValue(false)
       expect(wrapper.emitted('update:checked')![0]).toEqual([false])
       expect(wrapper.emitted('change')![0]).toEqual([false])
     })
 
-    it('在 group 中点击不触发独立 update:checked', async () => {
+    it('在 group 中勾选不触发独立 update:checked', async () => {
       const wrapper = mount(WeuiCheckbox, {
         props: { value: '1', label: '选项' },
         global: {
@@ -191,32 +191,33 @@ describe('WeuiCheckbox', () => {
             weuiCheckboxGroup: {
               modelValue: { value: [] },
               disabled: { value: false },
+              toggle: () => {},
             },
           },
         },
       })
-      await wrapper.trigger('click')
+      await wrapper.find('input[type="checkbox"]').setValue(true)
       expect(wrapper.emitted('update:checked')).toBeUndefined()
       expect(wrapper.emitted('change')).toBeUndefined()
     })
   })
 
-  describe('选中样式类（数据驱动）', () => {
-    it('独立使用时 checked=true 时图标带选中类', () => {
+  describe('选中状态（input:checked 数据驱动）', () => {
+    it('独立使用时 checked=true 时 input 选中', () => {
       const wrapper = mount(WeuiCheckbox, {
         props: { value: '1', label: '选项', checked: true },
       })
-      expect(wrapper.find('.weui-icon-checked').classes()).toContain('weui-icon-checked_selected')
+      expect(wrapper.find('input[type="checkbox"]').attributes('checked')).toBeDefined()
     })
 
-    it('独立使用时 checked=false 时图标不带选中类', () => {
+    it('独立使用时 checked=false 时 input 未选中', () => {
       const wrapper = mount(WeuiCheckbox, {
         props: { value: '1', label: '选项', checked: false },
       })
-      expect(wrapper.find('.weui-icon-checked').classes()).not.toContain('weui-icon-checked_selected')
+      expect(wrapper.find('input[type="checkbox"]').attributes('checked')).toBeUndefined()
     })
 
-    it('独立使用时点击后图标切换选中类（v-model 联动）', async () => {
+    it('独立使用时勾选后 input 状态与 v-model 联动', async () => {
       const checked = ref(false)
       const wrapper = mount(
         defineComponent({
@@ -227,13 +228,13 @@ describe('WeuiCheckbox', () => {
           },
         }),
       )
-      expect(wrapper.find('.weui-icon-checked').classes()).not.toContain('weui-icon-checked_selected')
-      await wrapper.find('label').trigger('click')
+      expect(wrapper.find('input[type="checkbox"]').attributes('checked')).toBeUndefined()
+      await wrapper.find('input[type="checkbox"]').setValue(true)
       expect(checked.value).toBe(true)
-      expect(wrapper.find('.weui-icon-checked').classes()).toContain('weui-icon-checked_selected')
+      expect(wrapper.find('input[type="checkbox"]').attributes('checked')).toBeDefined()
     })
 
-    it('独立使用时从 checked=true 点击后移除选中类', async () => {
+    it('独立使用时取消勾选后 input 状态移除', async () => {
       const checked = ref(true)
       const wrapper = mount(
         defineComponent({
@@ -244,13 +245,13 @@ describe('WeuiCheckbox', () => {
           },
         }),
       )
-      expect(wrapper.find('.weui-icon-checked').classes()).toContain('weui-icon-checked_selected')
-      await wrapper.find('label').trigger('click')
+      expect(wrapper.find('input[type="checkbox"]').attributes('checked')).toBeDefined()
+      await wrapper.find('input[type="checkbox"]').setValue(false)
       expect(checked.value).toBe(false)
-      expect(wrapper.find('.weui-icon-checked').classes()).not.toContain('weui-icon-checked_selected')
+      expect(wrapper.find('input[type="checkbox"]').attributes('checked')).toBeUndefined()
     })
 
-    it('在 group 中按 modelValue 判断选中类', () => {
+    it('在 group 中按 modelValue 判断 input 选中', () => {
       const wrapper = mount(WeuiCheckbox, {
         props: { value: '2', label: '选项B' },
         global: {
@@ -262,7 +263,7 @@ describe('WeuiCheckbox', () => {
           },
         },
       })
-      expect(wrapper.find('.weui-icon-checked').classes()).toContain('weui-icon-checked_selected')
+      expect(wrapper.find('input[type="checkbox"]').attributes('checked')).toBeDefined()
     })
   })
 })
