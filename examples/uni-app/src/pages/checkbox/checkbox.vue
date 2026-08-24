@@ -51,8 +51,8 @@
         </weui-checkbox>
       </weui-checkbox-group>
 
-      <!-- 分组底部说明 -->
-      <weui-checkbox-group v-model="footerValues" title="带底部说明" footer="底部说明文字">
+      <!-- 分组底部提示 -->
+      <weui-checkbox-group v-model="tipsValues" title="带底部提示" tips="底部提示文字">
         <weui-checkbox value="1" label="选项一" />
         <weui-checkbox value="2" label="选项二" />
       </weui-checkbox-group>
@@ -81,7 +81,7 @@ const formValues = ref<string[]>([])
 const disabledValues = ref<string[]>(['1'])
 const allDisabledValues = ref<string[]>(['1', '2'])
 const customValues = ref<string[]>([])
-const footerValues = ref<string[]>([])
+const tipsValues = ref<string[]>([])
 </script>
 
 <style scoped>

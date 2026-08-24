@@ -7,48 +7,48 @@
 
     <view class="page__bd">
       <!-- 基础用法 -->
-      <weui-cell-group title="带说明的列表项">
+      <weui-cells title="带说明的列表项">
         <weui-cell title="标题文字" footer="说明文字" />
         <weui-cell title="标题文字" footer="说明文字" />
-      </weui-cell-group>
+      </weui-cells>
 
       <!-- 带图标 -->
-      <weui-cell-group title="带图标的列表项">
+      <weui-cells title="带图标的列表项">
         <weui-cell icon="/static/pic_160.png" title="标题文字" footer="说明文字" />
         <weui-cell icon="/static/pic_160.png" title="标题文字" footer="说明文字" />
-      </weui-cell-group>
+      </weui-cells>
 
       <!-- 链接型 -->
-      <weui-cell-group title="带跳转的列表项">
+      <weui-cells title="带跳转的列表项">
         <weui-cell title="cell standard" link="/pages/index/index" />
         <weui-cell title="cell standard" link="/pages/index/index" />
         <weui-cell title="cell standard" link @click="onCellClick" />
-      </weui-cell-group>
+      </weui-cells>
 
       <!-- 带副标题 -->
-      <weui-cell-group title="带副标题的列表项">
+      <weui-cells title="带副标题的列表项">
         <weui-cell link title="标题文字" subtitle="副标题" />
         <weui-cell link title="标题文字" subtitle="副标题" />
-      </weui-cell-group>
+      </weui-cells>
 
       <!-- 上下布局 + 表单型 -->
-      <weui-cell-group form title="表单型分组（上下布局）">
+      <weui-cells form title="表单型分组（上下布局）">
         <weui-cell :inline="false" label="留言">
           <textarea class="weui-textarea" placeholder="请输入留言" />
         </weui-cell>
         <weui-cell :inline="false" label="备注">
           <input class="weui-input" placeholder="请输入备注" />
         </weui-cell>
-      </weui-cell-group>
+      </weui-cells>
 
       <!-- 分组底部说明 -->
-      <weui-cell-group title="带底部说明的列表" footer="底部说明文字">
+      <weui-cells title="带底部说明的列表" tips="底部说明文字">
         <weui-cell title="标题文字" footer="说明文字" />
         <weui-cell title="标题文字" footer="说明文字" />
-      </weui-cell-group>
+      </weui-cells>
 
       <!-- 变体示例 -->
-      <weui-cell-group title="视觉变体">
+      <weui-cells title="视觉变体">
         <weui-cell warn title="警告项">
           <template #footer>
             <text style="color: #e64340;">请输入正确的卡号</text>
@@ -62,10 +62,10 @@
           </template>
         </weui-cell>
         <weui-cell access title="添加更多" />
-      </weui-cell-group>
+      </weui-cells>
 
       <!-- 自定义插槽 -->
-      <weui-cell-group title="自定义插槽">
+      <weui-cells title="自定义插槽">
         <weui-cell>
           <template #icon>
             <view class="custom-icon">i</view>
@@ -74,14 +74,14 @@
           <template #default>自定义内容</template>
           <template #footer>自定义说明</template>
         </weui-cell>
-      </weui-cell-group>
+      </weui-cells>
 
       <!-- hasHeader/hasBody/hasFooter 控制 -->
-      <weui-cell-group title="区域控制">
+      <weui-cells title="区域控制">
         <weui-cell :has-header="false" value="无 header" />
         <weui-cell :has-body="false" title="无 body" footer="说明" />
         <weui-cell :has-footer="false" title="无 footer" value="内容" />
-      </weui-cell-group>
+      </weui-cells>
     </view>
   </view>
 </template>
