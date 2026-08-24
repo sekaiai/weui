@@ -3,6 +3,7 @@ import { extname, join, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
 const UNSUPPORTED_TAGS = ['article', 'em', 'h2', 'i', 'a', 'div', 'span', 'img']
+const NESTED_WEUI_COMPONENT_RE = /<(weui-[a-z0-9-]+)\b/gi
 
 function extractTemplate(source) {
   const template = source.match(/<template\b[^>]*>([\s\S]*?)<\/template>/i)?.[1] ?? ''
@@ -21,6 +22,13 @@ export function collectUniAppCompatibilityIssues(source, filePath = '<source>') 
     if (new RegExp(`<${tag}\\b`, 'i').test(template)) {
       issues.push(`${filePath}: unresolved template tag <${tag}>`)
     }
+  }
+
+  const nestedWeuiTags = new Set(
+    [...template.matchAll(NESTED_WEUI_COMPONENT_RE)].map((match) => match[1].toLowerCase()),
+  )
+  for (const tag of nestedWeuiTags) {
+    issues.push(`${filePath}: unresolved custom component <${tag}>`)
   }
 
   if (/:is\s*=\s*["'][^"']*(['"])a\1/i.test(template)) {

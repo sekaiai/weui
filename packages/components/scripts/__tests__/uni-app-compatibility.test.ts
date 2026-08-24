@@ -1,4 +1,4 @@
-import { readFileSync, readdirSync } from 'node:fs'
+import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { extname, join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { transformUniAppSource } from '../uni-app-transform.mjs'
@@ -23,13 +23,84 @@ function findVueFiles(root: string): string[] {
 
 describe('uni-app compatibility audit', () => {
   it('transformed component templates and WXSS pass the compatibility checker', () => {
-    const sourceRoot = join(process.cwd(), 'packages/components/src')
-    const issues = findVueFiles(sourceRoot).flatMap((filePath) => {
+    const root = sourceRoot()
+    const issues = findVueFiles(root).flatMap((filePath) => {
       const transformed = transformUniAppSource(readFileSync(filePath, 'utf-8'), filePath)
       return collectUniAppCompatibilityIssues(transformed, filePath)
     })
 
     expect(issues).toEqual([])
+  })
+
+  it('removes nested WeUI component dependencies from uni-app output', () => {
+    const cases = [
+      {
+        relativePath: 'cell/cell-group.vue',
+        forbiddenTemplate: [
+          'weui-cells-title',
+          'weui-cells',
+          'weui-cells-tips',
+          '<slot',
+        ],
+        forbiddenScript: ['WeuiCellsTitle', 'WeuiCells', 'WeuiCellsTips'],
+      },
+      {
+        relativePath: 'msg/msg.vue',
+        forbiddenTemplate: ['weui-icon'],
+        forbiddenScript: ['WeuiIcon'],
+      },
+      {
+        relativePath: 'picker/picker.vue',
+        forbiddenTemplate: ['weui-picker-group'],
+        forbiddenScript: ['import WeuiPickerGroup'],
+      },
+      {
+        relativePath: 'form/form.vue',
+        forbiddenTemplate: ['<weui-form-tips', '<weui-form-opr', '<weui-form-extra'],
+        forbiddenScript: [],
+      },
+    ] as const
+
+    for (const { relativePath, forbiddenTemplate, forbiddenScript } of cases) {
+      const sourcePath = join(sourceRoot(), relativePath)
+      const transformed = transformUniAppSource(readFileSync(sourcePath, 'utf-8'), sourcePath)
+      const template = transformed.match(/<template\b[^>]*>([\s\S]*?)<\/template>/i)?.[1] ?? ''
+
+      for (const fragment of forbiddenTemplate) {
+        expect(template, `${relativePath} template`).not.toContain(fragment)
+      }
+      for (const fragment of forbiddenScript) {
+        expect(transformed, `${relativePath} script`).not.toContain(fragment)
+      }
+    }
+
+    const cellGroupSource = readFileSync(
+      join(sourceRoot(), 'cell/cell-group.vue'),
+      'utf-8',
+    )
+    const cellGroupTemplate = transformUniAppSource(
+      cellGroupSource,
+      join(sourceRoot(), 'cell/cell-group.vue'),
+    ).match(/<template\b[^>]*>([\s\S]*?)<\/template>/i)?.[1] ?? ''
+    expect(cellGroupTemplate.match(/<([a-z][\w-]*)\b/gi)).toEqual(['<view'])
+
+    const formSourcePath = join(sourceRoot(), 'form/form.vue')
+    const formTransformed = transformUniAppSource(
+      readFileSync(formSourcePath, 'utf-8'),
+      formSourcePath,
+    )
+    const formTemplate = formTransformed.match(/<template\b[^>]*>([\s\S]*?)<\/template>/i)?.[1] ?? ''
+    expect(formTemplate).toContain('class="weui-form__bd"')
+    expect(formTemplate).toContain('weui-form__control-area')
+    expect(formTemplate).toContain('class="weui-form__ft"')
+    expect(formTemplate).toContain('<slot />')
+    for (const slotName of ['title', 'desc', 'tips', 'opr', 'tips-b', 'extra']) {
+      expect(formTemplate, `form slot ${slotName}`).toContain(`name="${slotName}"`)
+    }
+    for (const removedSlot of ['control', 'title-content', 'footer']) {
+      expect(formTemplate, `removed form slot ${removedSlot}`).not.toContain(`name="${removedSlot}"`)
+    }
+    expect(formTemplate).not.toMatch(/<weui-form-(?:tips|opr|extra)\b/i)
   })
 
   it('uses native mini-program form controls without retaining H5 fallbacks', () => {
@@ -71,8 +142,17 @@ describe('uni-app compatibility audit', () => {
       '<source>: sibling selector in WXSS: .x[readonly] + .y',
     ])
   })
+
+  it('reports unresolved nested WeUI component tags', () => {
+    expect(collectUniAppCompatibilityIssues('<template><weui-icon /></template>')).toEqual([
+      '<source>: unresolved custom component <weui-icon>',
+    ])
+  })
 })
 
 function sourceRoot(): string {
-  return join(process.cwd(), 'packages/components/src')
+  const packageRoot = existsSync(join(process.cwd(), 'src'))
+    ? process.cwd()
+    : join(process.cwd(), 'packages/components')
+  return join(packageRoot, 'src')
 }

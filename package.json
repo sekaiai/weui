@@ -7,6 +7,7 @@
     "build": "pnpm --filter weui-design-vue build",
     "build:vue3": "pnpm --filter weui-design-vue build:vue3",
     "build:uni-app": "pnpm --filter weui-design-vue build:uni-app",
+    "check:uni-app": "pnpm --filter weui-design-vue check:uni-app",
     "dev:docs": "pnpm --filter docs dev",
     "build:docs": "pnpm --filter docs build",
     "dev:example:mp": "pnpm --filter weui-design-vue-example dev:mp-weixin",

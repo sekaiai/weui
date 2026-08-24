@@ -65,6 +65,7 @@ export default defineConfig({
     include: [
       'src/**/__tests__/**/*.spec.ts',
       'src/**/__tests__/**/*.test.ts',
+      'scripts/**/__tests__/**/*.test.ts',
       '../../tests/components/**/*.test.ts',
     ],
   },
