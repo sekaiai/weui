@@ -27,7 +27,7 @@ WeUI 官方表单示例涉及 12 个页面，覆盖以下子元素：
 | `weui-cells_checkbox` + `weui-cells_radio` | Checkbox + Group（含 radio mode） | 验证 DOM 对齐，微调 |
 | `weui-vcode-btn` | Cell 有 vcode variant | Cell 补充 vcode 按钮 slot |
 | `weui-textarea-counter` | 无 | 文档展示用法 |
-| `weui-cells__group_form` + `weui-cells__group_form-primary` | CheckboxGroup 有 form prop | 验证对齐 |
+| `form` + `primary` | CellGroup 的反色表单属性组合 | 生成对应 group modifier |
 | `weui-cell_primary` | 无 | 不需要组件，Cell 已有变体 |
 
 ### 1.3 不需要独立组件的子元素
@@ -49,10 +49,12 @@ WeUI 官方表单示例涉及 12 个页面，覆盖以下子元素：
     <div class="weui-form__bd">
       <!-- 标题区域 -->
       <div v-if="hasTitle" class="weui-form__text-area">
-        <slot name="title">
-          <h2 v-if="title" class="weui-form__title">{{ title }}</h2>
-          <div v-if="desc" class="weui-form__desc">{{ desc }}</div>
-        </slot>
+        <h2 v-if="hasTitleContent" class="weui-form__title">
+          <slot name="title">{{ title }}</slot>
+        </h2>
+        <div v-if="hasDesc" class="weui-form__desc">
+          <slot name="desc">{{ desc }}</slot>
+        </div>
       </div>
 
       <!-- 控件区域 -->
@@ -61,9 +63,16 @@ WeUI 官方表单示例涉及 12 个页面，覆盖以下子元素：
       </div>
     </div>
 
-    <!-- 底部区域：完全由用户通过 footer slot 控制 -->
+    <!-- 底部区域：固定结构，由独立 slots 填充 -->
     <div v-if="hasFooter" class="weui-form__ft">
-      <slot name="footer" />
+      <div v-if="hasTips" class="weui-form__tips-area">
+        <p class="weui-form__tips"><slot name="tips" /></p>
+      </div>
+      <div v-if="hasOpr" class="weui-form__opr-area"><slot name="opr" /></div>
+      <div v-if="hasTipsB" class="weui-form__tips-area">
+        <p class="weui-form__tips"><slot name="tips-b" /></p>
+      </div>
+      <div v-if="hasExtra" class="weui-form__extra-area"><slot name="extra" /></div>
     </div>
   </div>
 </template>
@@ -82,22 +91,25 @@ WeUI 官方表单示例涉及 12 个页面，覆盖以下子元素：
 | 名称 | 说明 |
 |------|------|
 | default | 控件区域内容（内置于 `weui-form__control-area`） |
-| title | 自定义标题区域，替代 `title`/`desc` props |
-| footer | 底部区域内容（`weui-form__ft`），用户自行组合 tips-area / opr-area / extra-area |
+| title | `.weui-form__title` 内容 |
+| desc | `.weui-form__desc` 内容 |
+| tips | 第一个 `.weui-form__tips-area` 内容 |
+| opr | `.weui-form__opr-area` 内容 |
+| tips-b | 第二个 `.weui-form__tips-area` 内容 |
+| extra | `.weui-form__extra-area` 内容 |
 
 ### 2.4 变更摘要
 
 **删除：**
-- `tips` prop → 改为用户在 footer slot 中自行写 `weui-form__tips-area`
-- `tips` slot → 同上
+- `tips` prop → 改为 `tips` / `tips-b` slots 填充固定的两个 `weui-form__tips-area`
+- 自由 `footer` slot → 改为 `tips`、`opr`、`tips-b`、`extra` 固定区域 slots
 - FormPage 整个组件
 
 **保留：**
 - `title` prop, `desc` prop, `extClass` prop
-- `title` slot（替代 title/desc props）
-- `footer` slot（由用户自行组合 tips/opr/extra 区域）
+- `title`、`desc`、`tips`、`opr`、`tips-b`、`extra` slots（填充固定结构）
 
-**设计理由：** WeUI 官方允许 `ft` 内任意排列多个 `tips-area`、`opr-area`、`extra-area`。通过 slot 完全交由用户控制顺序和内容，比预设位置更灵活，也与 WeUI 官方设计理念一致。
+**设计理由：** Form 固定输出官方完整结构，slot 只负责填充各节点内容；两个 tips 区域对应官方示例中的前后提示，组件内部通过 `v-if` 控制是否渲染。
 
 ---
 
@@ -235,7 +247,7 @@ Checkbox 组件已通过 `multi` prop 同时支持 checkbox（多选）和 radio
 
 ### 6.3 CheckboxGroup 对齐
 
-当前 `form` prop 控制是否追加 `weui-cells__group_form` 和 `weui-cells_form`，已对齐官方 `weui-cells__group weui-cells__group_form` 结构。不需要调整。
+当前 `form` prop 控制表单容器语义，`primary` 与 `form` 组合表示反色表单组；组件内部负责生成官方 modifier。业务页面使用 `<weui-cells form>` 或 `<weui-cell-group form primary>`，不通过 `extClass` 传入内置 class。
 
 ---
 
@@ -250,6 +262,8 @@ Checkbox 组件已通过 `multi` prop 同时支持 checkbox（多选）和 radio
 3. **验证码表单** — 对应 `form_vcode.html`：vcode cell + Agree 组件
 4. **复选框表单** — 对应 `form_checkbox.html`：CheckboxGroup + Agree（tips 中）
 5. **底部悬浮表单** — 对应 `form_bottom_fixed.html`：weui-bottom-fixed-opr-page + Agree
+
+Form 固定使用 `default`、`title`、`desc`、`tips`、`opr`、`tips-b`、`extra` slots；控件区必须使用 `default`，两个 tips 区域按固定顺序渲染。表单示例中的 cells 使用 `<weui-cells form>`，反色分组使用 `<weui-cell-group form primary>`。
 
 ### 7.2 为原生元素补充的文档
 
@@ -275,8 +289,8 @@ Checkbox 组件已通过 `multi` prop 同时支持 checkbox（多选）和 radio
 ### 修改
 | 文件 | 变更内容 |
 |------|---------|
-| `packages/components/src/form/form.vue` | 移除 tips/tips slot，footer slot 灵活化，结构精简 |
-| `packages/components/src/form/__tests__/form.spec.ts` | 更新测试：移除 tips 相关测试，验证 footer slot |
+| `packages/components/src/form/form.vue` | 内联完整 Form 结构，使用固定区域 slots |
+| `packages/components/src/form/__tests__/form.spec.ts` | 验证 default/title/desc/tips/opr/tips-b/extra slots |
 | `packages/components/src/cell/cell.vue` | variant=switch 渲染 input.switch + v-model；variant=vcode 补充 vcode slot |
 | `packages/components/src/cell/__tests__/cell.spec.ts` | 新增 switch/vcode 变体测试 |
 | `packages/components/src/index.ts` | 移除 FormPage 导出，新增 Agree 导出 |
@@ -312,18 +326,14 @@ Checkbox 组件已通过 `multi` prop 同时支持 checkbox（多选）和 radio
 <!-- 迁移前 -->
 <weui-form-page title="标题" desc="描述">
   <slot />
-  <template #footer>
-    <div class="weui-form__opr-area">...</div>
-  </template>
+  <template #opr>...</template>
 </weui-form-page>
 
 <!-- 迁移后 -->
 <weui-form title="标题" desc="描述">
   <slot />
-  <template #footer>
-    <div class="weui-form__opr-area">...</div>
-  </template>
+  <template #opr>...</template>
 </weui-form>
 ```
 
-API 完全兼容（title/desc/footer slot 语义不变），只需把 `<weui-form-page>` 改为 `<weui-form>`。
+API 使用固定的 `default/title/desc/tips/opr/tips-b/extra` slots；不再使用自由 `footer` slot。

@@ -89,6 +89,17 @@ describe('WeuiCellGroup', () => {
       const wrapper = mount(WeuiCellGroup)
       expect(wrapper.classes()).not.toContain('weui-cells__group_form')
     })
+
+    it('form + primary 追加反色表单组类', () => {
+      const wrapper = mount(WeuiCellGroup, { props: { form: true, primary: true } })
+      expect(wrapper.classes()).toContain('weui-cells__group_form')
+      expect(wrapper.classes()).toContain('weui-cells__group_form-primary')
+    })
+
+    it('primary 不与 form 一起使用时不追加反色表单组类', () => {
+      const wrapper = mount(WeuiCellGroup, { props: { primary: true } })
+      expect(wrapper.classes()).not.toContain('weui-cells__group_form-primary')
+    })
   })
 
   describe('radio', () => {

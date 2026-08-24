@@ -1,32 +1,20 @@
 # 表单组件封装设计
 
-> 基于 WeUI 官方 15 个 form 示例，将高频复用的表单子元素封装为独立组件，
-> Cell 回归纯 CSS 布局容器角色，配套文档 demo 覆盖所有 variant 和组件用法。
+> 基于 WeUI 官方 15 个 form 示例，Form 负责提供完整的内联结构，
+> Cell 回归纯 CSS 布局容器角色；FormTips/FormOpr/FormExtra 等组件仅作为独立容器保留，Form 本身不依赖它们。
 
 ## 一、整体架构
 
 ```
 WeuiForm (容器)
-└── .weui-form__bd
+├── .weui-form__bd
     ├── .weui-form__text-area (由 Form 的 title slot 控制)
-    └── .weui-form__control-area → WeuiFormControl
-        └── WeuiFormGroup (.weui-cells__group_form)
-            ├── .weui-cells__title (title prop)
-            ├── WeuiCellGroup (.weui-cells)
-            │   ├── WeuiCell (纯布局, variant 只加 CSS 类)
-            │   ├── WeuiTextarea (自渲染 weui-cell)
-            │   ├── WeuiSwitch (自渲染 weui-cell_switch)
-            │   ├── WeuiSelect (自渲染 weui-cell_select)
-            │   ├── WeuiRadio / WeuiRadioGroup (自渲染 weui-check__label)
-            │   ├── WeuiInput (已有)
-            │   ├── WeuiCheckbox / WeuiCheckboxGroup (已有)
-            │   └── WeuiAgree (已有)
-            └── .weui-cells__tips (tips prop)
-└── .weui-form__ft (由 Form 的 footer slot 控制)
-    ├── WeuiFormTips (.weui-form__tips-area)
-    ├── WeuiFormOpr (.weui-form__opr-area)
-    └── WeuiFormExtra (.weui-form__extra-area)
+    └── .weui-form__control-area (由 `default` slot 填充)
+        └── 页面控件内容
+└── .weui-form__ft (由 tips / opr / tips-b / extra slots 按固定结构填充)
 ```
+
+Form 的外层节点和官方 class 固定在 `form.vue` 内部。为了避免 uni-app 组件内部依赖 easycom，Form 不嵌套 FormControl、FormTips、FormOpr 或 FormExtra；固定的 tips、opr、tips-b、extra 节点由对应 slot 和 `v-if` 控制。
 
 ### Cell 回归纯布局
 
@@ -40,42 +28,40 @@ WeuiForm (容器)
 
 ## 二、新增组件详细设计
 
-### 2.1 FormGroup
+### 2.1 CellGroup
 
-**用途：** 封装 `weui-cells__group weui-cells__group_form` + title + cells + tips
+**用途：** Vue 3/H5 中封装表单分组；内置 modifier 使用 `form`、`primary` 等语义属性，调用方不需要记忆 WeUI class 名称。uni-app 产物只保留 group 外壳，页面中应直接使用 `<weui-cells form>`。
 
 **模板：**
 ```html
-<div class="weui-cells__group weui-cells__group_form">
-  <div v-if="title" class="weui-cells__title">{{ title }}</div>
+<weui-cell-group form primary title="表单分组">
   <slot />
-  <div v-if="tips" class="weui-cells__tips">{{ tips }}</div>
-</div>
+</weui-cell-group>
 ```
 
-**Props：** title (`string`)、tips (`string`)、extClass (`string`)
+**Props：** title (`string`)、footer (`string`)、form (`boolean`)、primary (`boolean`)、extClass (`string`)
 
-**Slots：** default（控件内容）、title（替代 title prop）、tips（替代 tips prop）
+**Slots：** default（控件内容）、title（替代 title prop）、footer（替代 footer prop）
 
-### 2.2 FormControl
+### 2.2 FormControl（独立容器）
 
 **用途：** 包装 `weui-form__control-area`
 
 **模板：** `<div class="weui-form__control-area"><slot /></div>`
 
-### 2.3 FormTips
+### 2.3 FormTips（独立容器）
 
 **用途：** 包装 `weui-form__tips-area`
 
 **模板：** `<div class="weui-form__tips-area"><p class="weui-form__tips"><slot /></p></div>`
 
-### 2.4 FormOpr
+### 2.4 FormOpr（独立容器）
 
 **用途：** 包装 `weui-form__opr-area`
 
 **模板：** `<div class="weui-form__opr-area"><slot /></div>`
 
-### 2.5 FormExtra
+### 2.5 FormExtra（独立容器）
 
 **用途：** 包装 `weui-form__extra-area`
 
