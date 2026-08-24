@@ -145,24 +145,24 @@ const onClickIcon = (t: string) => {
 ```
 :::
 
-## 扩展类名（大图标）
+## 消息页大图标
 
-通过 `extClass` 传入 `weui-icon_msg` 可渲染大尺寸图标（宽高 `6.4em`），常用于结果页（Msg）的主视觉图标。
+通过 `msg` 属性渲染消息页大尺寸图标（宽高 `6.4em`），常用于结果页（Msg）的主视觉图标。
 
 <div class="demo-block vp-raw">
   <div class="demo-row">
-    <weui-icon type="success" ext-class="weui-icon_msg" />
-    <weui-icon type="info-circle" ext-class="weui-icon_msg" />
-    <weui-icon type="warn" ext-class="weui-icon_msg" />
+    <weui-icon type="success" msg />
+    <weui-icon type="info-circle" msg />
+    <weui-icon type="warn" msg />
   </div>
 </div>
 
 ::: details 查看代码
 ```vue
 <template>
-  <weui-icon type="success" ext-class="weui-icon_msg" />
-  <weui-icon type="info-circle" ext-class="weui-icon_msg" />
-  <weui-icon type="warn" ext-class="weui-icon_msg" />
+  <weui-icon type="success" msg />
+  <weui-icon type="info-circle" msg />
+  <weui-icon type="warn" msg />
 </template>
 ```
 :::
@@ -174,7 +174,8 @@ const onClickIcon = (t: string) => {
 | type | 图标类型，对应 `weui-icon-{type}` 类，见上方「图标类型」 | `string` | — |
 | size | 图标尺寸；数字按 px 处理，带单位字符串原样映射到 `font-size` | `number \| string` | — |
 | color | 图标颜色 | `string` | — |
-| extClass | 附加在根元素上的扩展类名，例如 `weui-icon_msg` | `string` | — |
+| msg | 消息页大图标样式 | `boolean` | `false` |
+| extClass | 业务自定义扩展类名 | `string` | — |
 
 <style>
 .icon-grid {

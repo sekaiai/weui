@@ -53,6 +53,10 @@ easycom 只需一条规则即可自动引入所有组件：
 
 在 `App.vue` 中引入 `weui/dist/style/weui.css`。
 
+> **uni-app 复合组件限制：** easycom 只保证页面中使用的顶层组件，不保证组件内部继续自动解析子组件。`cell-group` 在 uni-app 产物中只保留 group 外壳；`form` 内联完整结构，使用 `default`、`title`、`desc`、`tips`、`opr`、`tips-b`、`extra` slots，不提供自由 `footer` slot，也不依赖 Form 子组件。
+
+内置 modifier 使用语义属性，例如 `<weui-cells form>`、`<weui-cells checkbox>`、`<weui-cell-group form primary>` 和 `<weui-icon msg>`；`extClass` 仅用于业务自定义 class。
+
 ## 复制组件到项目
 
 执行 `pnpm build:uni-app` 后，将 `dist/uni-app/` 中的内容复制到 uni-app 项目的 `src/components/weui/`，easycom 配置改为指向本地路径 `"^weui-(.*)": "@/components/weui/$1.vue"` 即可。内部依赖（`_internal/`）与 cells 聚合导出（`cells.ts`）会一并复制，组件内的相对引用已自动改写为扁平路径。

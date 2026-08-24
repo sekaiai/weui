@@ -2,6 +2,8 @@
 
 底部滑入式选择器组件，支持单列和多列选择。支持声明式和命令式两种调用方式。滚动列采用触摸交互，松手后自动归位到最近一项。
 
+> **uni-app 平台限制：** 产物保留遮罩、头部和外层 picker 结构，但不在组件内部自动引入 `weui-picker-group`，因此列区域为空。Vue 3/H5 保持完整列渲染行为。
+
 <script setup lang="ts">
 import { ref } from 'vue'
 import { Picker, type PickerColumn } from 'weui-design-vue'

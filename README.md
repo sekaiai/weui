@@ -76,13 +76,19 @@ import 'weui-design-vue/dist/vue3/style.css'
 
 ```vue
 <template>
-  <weui-cell-group form>
-    <weui-cell label="手机号">
-      <weui-input v-model="phone" type="number" placeholder="请输入手机号" />
-    </weui-cell>
-  </weui-cell-group>
+  <weui-form title="表单结构" desc="表单描述">
+    <template #default>控件区域内容</template>
+    <template #tips>提交前提示</template>
+    <template #opr>操作区域内容</template>
+    <template #tips-b>提交后提示</template>
+    <template #extra>底部信息</template>
+  </weui-form>
 </template>
 ```
+
+> **uni-app 复合组件限制：** easycom 只保证页面中使用的顶层组件。`cell-group` 在 uni-app 产物中只保留 group 外壳，内部 title、cells、tips 和 slot 不渲染；`form` 使用内联原生结构，固定提供 `default`、`title`、`desc`、`tips`、`opr`、`tips-b`、`extra` slots，不依赖 Form 子组件。`msg` 的默认图标和 `picker` 的列区域也有对应平台限制，详见接入文档。
+
+WeUI 内置 modifier 使用语义属性表达，例如 `<weui-cells form>`、`<weui-cells checkbox>`、`<weui-cell-group form primary>` 和 `<weui-icon msg>`；`extClass` 仅用于业务自定义 class，不要传入 `weui-*` 内置 class。
 
 小程序项目也可改用 `weui-wxss`，但不要与 `weui.css` 同时引入。更多平台差异与完整配置请查看 [`docs/guide/getting-started.md`](./docs/guide/getting-started.md)。
 

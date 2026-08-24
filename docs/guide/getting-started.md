@@ -100,7 +100,7 @@ easycom 会自动引入组件，无需手动 import。
 
 ## 平台差异说明
 
-组件库源码统一使用 `div`/`span`/`img` 标签，并在 3 处不通用点（uploader 选文件、cell 跳转、grid-item 跳转）通过条件编译注释处理：
+组件库源码统一使用 `div`/`span`/`img` 标签，并通过条件编译和构建转换处理平台差异：
 
 - **Vue 3 产物**：保留 `#ifdef H5` 块，移除 `#ifndef H5` 块；`__IS_H5__` 常量替换为 `true`
   - uploader 使用 `<input type="file">` 选文件
@@ -108,3 +108,16 @@ easycom 会自动引入组件，无需手动 import。
 - **uni-app 产物**：移除 `#ifdef H5` 块，保留 `#ifndef H5` 块；`__IS_H5__` 常量替换为 `false`；标签转换为 `view`/`text`/`image`
   - uploader 使用 `uni.chooseImage` / `uni.chooseFile`
   - cell / grid-item 调用 `uni.navigateTo` 自动跳转
+
+### 复合组件与 easycom 限制
+
+easycom 只保证业务页面使用的顶层组件，不保证组件库复合组件内部的子组件自动解析。当前平台约束如下：
+
+- `cell-group`：uni-app 产物只保留 group 外壳，内部 title、cells、tips 和 slot 不渲染。
+- `form`：表单外壳、标题、描述、双 tips、操作区和附加区使用内联结构；通过 `default`、`title`、`desc`、`tips`、`opr`、`tips-b`、`extra` slots 填充，组件内部使用 `v-if` 控制可选区域。
+- `msg`：默认 `weui-icon` 不在 uni-app 产物中内部自动引入，需要图标时通过 `icon` slot 显式传入。
+- `picker`：保留 picker 遮罩和外层结构，内部列区域不自动引入 `weui-picker-group`；需要完整列交互时请在业务页面显式组合或使用适配后的页面结构。
+
+内置视觉 modifier 使用可发现的语义属性：表单容器写 `<weui-cells form>`，复选列表写 `<weui-cells checkbox>`，反色表单组写 `<weui-cell-group form primary>`，消息大图标写 `<weui-icon msg>`。`extClass` 只用于业务自定义 class，不要传入 `weui-*` 内置 class。
+
+Vue 3/H5 产物保持完整组件行为。每次修改复合组件后，应重新执行 `pnpm build:uni-app` 和 `pnpm check:uni-app`。

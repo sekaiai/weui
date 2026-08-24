@@ -118,7 +118,7 @@ const items = ref([
 
 ## 小图文组合列表
 
-`MediaBox` 指定 `type="cells"` 作为容器。这个案例的图片尺寸、正文语义和跳转箭头与通用 `Cell` 不同，因此按官方结构直接组合 `.weui-cell_example`：46px 缩略图样式由 MediaBox 内置，标题放在 `__bd.weui-cell_primary`，跳转箭头由空的 `__ft` 保留。
+`MediaBox` 指定 `type="cells"` 作为容器。这个案例的图片尺寸、正文语义和跳转箭头与通用 `Cell` 不同，因此按官方结构直接组合 `.weui-cell_example`：46px 缩略图样式由 MediaBox 内置，标题放在 `__bd.weui-cell_primary`，跳转箭头由空的 `__ft` 保留。这里是 MediaBox 专用的结构性组合；普通列表项仍应使用 `Cell` 的 `active`、`access` 等语义属性。
 
 <div class="demo-block vp-raw">
   <div class="demo-mobile">

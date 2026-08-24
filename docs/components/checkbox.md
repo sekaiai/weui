@@ -18,9 +18,9 @@ const formValues = ref(['1', '3'])
 
 <div class="demo-block vp-raw">
   <div class="demo-mobile">
-    <div class="weui-cells weui-cells_checkbox">
+    <weui-cells checkbox>
       <weui-checkbox v-model:checked="standaloneChecked" value="1" label="独立选项" />
-    </div>
+    </weui-cells>
   </div>
   <p style="margin-top: 8px; color: #576b95;">选中状态：{{ standaloneChecked }}</p>
 </div>
@@ -44,9 +44,9 @@ const checked = ref(false)
 
 <div class="demo-block vp-raw">
   <div class="demo-mobile">
-    <div class="weui-cells weui-cells_checkbox">
+    <weui-cells checkbox>
       <weui-checkbox v-model:checked="defaultChecked" value="1" label="默认选中" />
-    </div>
+    </weui-cells>
   </div>
   <p style="margin-top: 8px; color: #576b95;">选中状态：{{ defaultChecked }}</p>
 </div>
@@ -98,7 +98,7 @@ const checkedValues = ref(['1'])
 
 ## 单选列表
 
-单选列表使用独立的 `weui-radio-group` 与 `weui-radio`。它使用官方 `.weui-cells_radio` 结构，并始终只保留一个选中项。
+单选列表使用独立的 `weui-radio-group` 与 `weui-radio`。组件内部使用 `radio` 语义状态生成官方单选列表样式，并始终只保留一个选中项。
 
 <div class="demo-block vp-raw">
   <div class="demo-mobile">

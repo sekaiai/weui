@@ -22,6 +22,10 @@ onBeforeUnmount(() => vcodeTimer && clearInterval(vcodeTimer))
 
 Cell 由 header、body 与 footer 构成，适用于表单项、设置项和列表项。WeUI 的状态样式均使用明确 attr；`ext-class` 仅用于业务自定义样式。
 
+> **uni-app 平台限制：** `cell-group` 产物只保留 group 外壳，内部 title、cells、tips 和 slot 不渲染。需要显示 cell 内容时，请在业务页面直接组合可见的顶层组件，或使用 Form 的 `default` slot；Vue 3/H5 行为不变。
+
+Cells 容器的内置 modifier 使用语义属性：`<weui-cells form>`、`<weui-cells radio>`、`<weui-cells checkbox>` 和 `<weui-cells after-title>`；`ext-class` 只用于业务自定义样式。
+
 ## 基础用法
 
 `title` 渲染 body 中的列表标题，`footer` 渲染右侧说明。`icon` 位于左侧 header，`link` 可传布尔值显示跳转样式，也可直接传入页面路径。默认插槽是表单控件等自由 body 内容入口。

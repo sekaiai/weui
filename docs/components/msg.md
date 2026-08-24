@@ -18,6 +18,8 @@ const onTap = (btn: MsgButton, index: number) => {
 
 用于展示操作结果或重要信息的整页提示，常出现在操作流程的终点（如提交成功、支付完成、审核失败等），由图标、标题、描述与操作按钮组成。
 
+> **uni-app 平台限制：** 默认图标不会由组件内部自动引入 `weui-icon`。需要自定义或显式显示图标时，请通过 `icon` slot 传入页面中可解析的 `<weui-icon>`；Vue 3/H5 默认图标行为不变。
+
 ## 基础用法
 
 通过 `type` 指定图标类型（对应 `weui-icon-*`），`title`、`desc` 与 `desc-primary` 设置不同层级的文案，`buttons` 配置操作按钮。点击按钮触发 `buttontap` 事件。

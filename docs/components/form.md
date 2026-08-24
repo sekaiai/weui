@@ -24,32 +24,89 @@ const cycle = <T>(value: { value: T }, options: T[]) => {
 
 ## 表单结构
 
-标题、说明、控件区域和底部操作区域由 `weui-form` 与相关子组件组合。
+`weui-form` 自己提供完整的表单结构，业务表单控件和操作按钮通过对应 slot 传入。
 
 <div class="demo-block vp-raw"><div class="demo-mobile">
-  <weui-form title="表单结构" desc="展示表单页面的信息结构。">
-    <weui-cell-group form title="表单组标题">
-      <weui-cell label="微信号"><weui-input placeholder="填写本人微信号" /></weui-cell>
-      <weui-cell label="昵称"><weui-input placeholder="填写本人微信号的昵称" /></weui-cell>
-      <weui-cell label="联系电话"><weui-input type="number" placeholder="填写绑定的电话号码" /></weui-cell>
-      <weui-textarea label="verification address" primary placeholder="input your address" rows="3" />
-    </weui-cell-group>
-    <template #footer><weui-form-tips>表单页提示，居中对齐</weui-form-tips><weui-form-opr><weui-button type="primary" disabled>确定</weui-button></weui-form-opr><weui-form-extra><weui-footer :links="[{ text: '底部链接文本' }]" text="Copyright © weui.io" /></weui-form-extra></template>
+  <weui-form title="表单结构" desc="展示表单页面的信息结构样式，分别由头部区域、控件区域、提示区域、操作区域和底部信息区域组成。">
+    <template #default>
+      <weui-cells form>
+        <weui-cell label="微信号">
+          <weui-input placeholder="填写本人微信号" />
+        </weui-cell>
+        <weui-cell label="昵称">
+          <weui-input placeholder="填写本人微信号的昵称" />
+        </weui-cell>
+        <weui-cell label="联系电话">
+          <weui-input type="number" placeholder="填写绑定的电话号码" />
+        </weui-cell>
+      </weui-cells>
+    </template>
+    <template #tips>表单页提示，居中对齐</template>
+    <template #opr>
+      <weui-button type="primary" display="block">确定</weui-button>
+    </template>
+    <template #tips-b>表单页提示，居中对齐</template>
+    <template #extra>
+      <div class="weui-footer">Copyright © weui.io</div>
+    </template>
   </weui-form>
 </div></div>
 
 ::: details 查看代码
 ```vue
-<weui-form title="表单结构" desc="展示表单页面的信息结构。">
-  <weui-cell-group form title="表单组标题">
-    <weui-cell label="微信号"><weui-input placeholder="填写本人微信号" /></weui-cell>
-    <weui-cell label="昵称"><weui-input placeholder="填写本人微信号的昵称" /></weui-cell>
-    <weui-cell label="联系电话"><weui-input type="number" placeholder="填写绑定的电话号码" /></weui-cell>
-  </weui-cell-group>
-  <template #footer><weui-form-tips>表单页提示，居中对齐</weui-form-tips><weui-form-opr><weui-button type="primary">确定</weui-button></weui-form-opr></template>
+<weui-form title="表单结构" desc="展示表单页面的信息结构样式，分别由头部区域、控件区域、提示区域、操作区域和底部信息区域组成。">
+  <template #default>
+    <weui-cells form>
+      <weui-cell label="微信号">
+        <weui-input placeholder="填写本人微信号" />
+      </weui-cell>
+      <weui-cell label="昵称">
+        <weui-input placeholder="填写本人微信号的昵称" />
+      </weui-cell>
+      <weui-cell label="联系电话">
+        <weui-input type="number" placeholder="填写绑定的电话号码" />
+      </weui-cell>
+    </weui-cells>
+  </template>
+  <template #tips>表单页提示，居中对齐</template>
+  <template #opr>
+    <weui-button type="primary" display="block">确定</weui-button>
+  </template>
+  <template #tips-b>表单页提示，居中对齐</template>
+  <template #extra>
+    <div class="weui-footer">Copyright © weui.io</div>
+  </template>
 </weui-form>
 ```
 :::
+
+## Slots 与固定结构
+
+`default` slot 始终渲染到 `.weui-form__control-area`；`title` 和 `desc` 分别填充标题、描述节点。
+
+| Slot | 渲染位置 |
+| --- | --- |
+| `default` | `.weui-form__control-area` |
+| `title` | `.weui-form__title` |
+| `desc` | `.weui-form__desc` |
+| `tips` | 第一个 `.weui-form__tips-area` |
+| `opr` | `.weui-form__opr-area` |
+| `tips-b` | 第二个 `.weui-form__tips-area` |
+| `extra` | `.weui-form__extra-area` |
+
+底部结构由 Form 固定生成，slot 顺序为 `tips → opr → tips-b → extra`。每个区域根据对应 slot 是否存在使用 `v-if` 渲染：
+
+```vue
+<weui-form title="表单结构" desc="表单描述">
+  <template #default>控件区域内容</template>
+  <template #tips>提交前提示</template>
+  <template #opr>操作区域内容</template>
+  <template #tips-b>提交后提示</template>
+  <template #extra>底部信息</template>
+</weui-form>
+```
+
+在 uni-app 产物中，Form 的结构已内联，不要在 Form 内使用 `weui-form-control`、`weui-form-tips`、`weui-form-opr` 或 `weui-form-extra`。
 
 ## 反色表单
 
@@ -57,7 +114,7 @@ const cycle = <T>(value: { value: T }, options: T[]) => {
 
 <div class="demo-block vp-raw"><div class="demo-mobile">
   <weui-form title="反色表单" desc="深色背景上的表单展示。">
-    <weui-cell-group form ext-class="weui-cells__group_form-primary" title="表单组标题">
+    <weui-cell-group form primary title="表单组标题">
       <weui-cell label="微信号"><weui-input placeholder="填写本人微信号" /></weui-cell>
       <weui-cell label="昵称"><weui-input placeholder="填写本人微信号的昵称" /></weui-cell>
     </weui-cell-group>
@@ -67,7 +124,7 @@ const cycle = <T>(value: { value: T }, options: T[]) => {
 ::: details 查看代码
 ```vue
 <weui-form title="反色表单" desc="深色背景上的表单展示。">
-  <weui-cell-group form ext-class="weui-cells__group_form-primary" title="表单组标题">
+  <weui-cell-group form primary title="表单组标题">
     <weui-cell label="微信号"><weui-input placeholder="填写本人微信号" /></weui-cell>
     <weui-cell label="昵称"><weui-input placeholder="填写本人微信号的昵称" /></weui-cell>
   </weui-cell-group>
@@ -109,7 +166,8 @@ const cycle = <T>(value: { value: T }, options: T[]) => {
       <weui-cell label="手机号"><weui-input type="number" model-value="12345678907" placeholder="请输入手机号" /></weui-cell>
       <weui-cell label="验证码" vcode><weui-input placeholder="输入验证码" /><template #footer><weui-button vcode>获取验证码</weui-button></template></weui-cell>
     </weui-cell-group>
-    <template #footer><weui-form-tips><weui-agree>阅读并同意<a href="javascript:">《相关条款》</a></weui-agree></weui-form-tips><weui-form-opr><weui-button type="primary">确定</weui-button></weui-form-opr></template>
+    <template #tips><weui-agree>阅读并同意<a href="javascript:">《相关条款》</a></weui-agree></template>
+    <template #opr><weui-button type="primary">确定</weui-button></template>
   </weui-form>
 </div></div>
 
@@ -132,7 +190,8 @@ const cycle = <T>(value: { value: T }, options: T[]) => {
 <div class="demo-block vp-raw"><div class="demo-mobile">
   <weui-form bottom-fixed title="底部悬浮表单" desc="操作区固定于底部。">
     <weui-cell-group form><weui-cell label="手机号"><weui-input type="number" placeholder="请输入手机号" /></weui-cell></weui-cell-group>
-    <template #footer><weui-form-tips><weui-agree>阅读并同意<a href="javascript:">《相关条款》</a></weui-agree></weui-form-tips><weui-form-opr><weui-button type="primary">确定</weui-button></weui-form-opr></template>
+    <template #tips><weui-agree>阅读并同意<a href="javascript:">《相关条款》</a></weui-agree></template>
+    <template #opr><weui-button type="primary">确定</weui-button></template>
   </weui-form>
 </div></div>
 
@@ -140,7 +199,7 @@ const cycle = <T>(value: { value: T }, options: T[]) => {
 ```vue
 <weui-form bottom-fixed title="底部悬浮表单" desc="操作区固定于底部。">
   <weui-cell-group form><weui-cell label="手机号"><weui-input type="number" placeholder="请输入手机号" /></weui-cell></weui-cell-group>
-  <template #footer><weui-form-opr><weui-button type="primary">确定</weui-button></weui-form-opr></template>
+  <template #opr><weui-button type="primary">确定</weui-button></template>
 </weui-form>
 ```
 :::
@@ -152,7 +211,7 @@ const cycle = <T>(value: { value: T }, options: T[]) => {
 <div class="demo-block vp-raw"><div class="demo-mobile">
   <weui-form title="复选框样式展示">
     <weui-checkbox-group v-model="checkboxValues" form><weui-checkbox value="1" label="standard is dealt for u." /><weui-checkbox value="2" label="standard is dealicient for u." /></weui-checkbox-group>
-    <template #footer><weui-form-opr><weui-button type="primary">下一步</weui-button></weui-form-opr></template>
+    <template #opr><weui-button type="primary">下一步</weui-button></template>
   </weui-form>
 </div></div>
 
@@ -182,7 +241,7 @@ const cycle = <T>(value: { value: T }, options: T[]) => {
 单选组管理唯一选中值，并生成同名原生 radio 输入。
 
 <div class="demo-block vp-raw"><div class="demo-mobile">
-  <weui-form title="单选样式展示"><weui-radio-group v-model="radioValue" form><weui-radio value="1" label="选项一" /><weui-radio value="2" label="选项二" /><weui-radio value="3" label="选项三" /></weui-radio-group><template #footer><weui-form-opr><weui-button type="primary">确定</weui-button></weui-form-opr></template></weui-form>
+  <weui-form title="单选样式展示"><weui-radio-group v-model="radioValue" form><weui-radio value="1" label="选项一" /><weui-radio value="2" label="选项二" /><weui-radio value="3" label="选项三" /></weui-radio-group><template #opr><weui-button type="primary">确定</weui-button></template></weui-form>
 </div></div>
 
 ::: details 查看代码

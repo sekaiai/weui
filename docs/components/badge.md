@@ -161,25 +161,25 @@
 徽章常配合列表使用，放在 `weui-cell__ft` 中作为右侧提示。
 
 <div class="demo-block demo-mobile vp-raw">
-  <div class="weui-cell weui-cell_access">
-    <div class="weui-cell__bd">单行列表</div>
-    <div class="weui-cell__ft">
+  <weui-cell access>
+    <template #title>单行列表</template>
+    <template #footer>
       <span>详细信息</span>
       <weui-badge aria-label="有更新" />
-    </div>
-  </div>
+    </template>
+  </weui-cell>
 </div>
 
 ::: details 查看代码
 ```vue
 <template>
-  <div class="weui-cell weui-cell_access">
-    <div class="weui-cell__bd">单行列表</div>
-    <div class="weui-cell__ft">
+  <weui-cell access>
+    <template #title>单行列表</template>
+    <template #footer>
       <span>详细信息</span>
       <weui-badge aria-label="有更新" />
-    </div>
-  </div>
+    </template>
+  </weui-cell>
 </template>
 ```
 :::
