@@ -25,7 +25,6 @@ Vue 3 产物为预打包 ESM（类似 Element Plus / Arco），支持全量注�
 import { createApp } from 'vue'
 import WeuiDesignVue from 'weui-uniapp-design'
 import 'weui/dist/style/weui.css'
-import 'weui-uniapp-design/style.css'
 import App from './App.vue'
 
 const app = createApp(App)
@@ -40,7 +39,6 @@ app.mount('#app')
 ```ts
 import { WeuiButton, WeuiCell, WeuiCellGroup } from 'weui-uniapp-design'
 import 'weui/dist/style/weui.css'
-import 'weui-uniapp-design/style.css'
 ```
 
 ### 3. 使用组件
@@ -51,7 +49,7 @@ import 'weui-uniapp-design/style.css'
 </template>
 ```
 
-> **说明：** `weui.css` 提供所有 `.weui-*` 类的基础样式与 CSS 变量；`style.css` 提供 `weui.css` 不含的组件补充样式（如 `.weui-slideview`、`.weui-cell__icon`），这些样式已随各组件 SFC 内联并打包。
+> **说明：** `weui.css` 提供所有 `.weui-*` 类的基础样式与 CSS 变量；组件补充样式（如 `.weui-slideview`、`.weui-cell__icon`）已由 `weui-uniapp-design` 的 JS 产物自动引入，无需手动加载。
 
 ## 在 uni-app 项目中使用（小程序 / App / uni-app H5）
 

@@ -20,7 +20,7 @@ pnpm add weui-uniapp-design weui
 
 ## 在 Vue 3 项目中使用
 
-先引入 WeUI 基础样式和组件补充样式，再全量或按需注册组件。
+先引入 WeUI 基础样式（组件补充样式由包自动引入），再全量或按需注册组件。
 
 ### 全量注册
 
@@ -28,7 +28,6 @@ pnpm add weui-uniapp-design weui
 import { createApp } from 'vue'
 import WeuiDesignVue from 'weui-uniapp-design'
 import 'weui/dist/style/weui.css'
-import 'weui-uniapp-design/dist/vue3/style.css'
 import App from './App.vue'
 
 createApp(App).use(WeuiDesignVue).mount('#app')
@@ -40,7 +39,6 @@ createApp(App).use(WeuiDesignVue).mount('#app')
 <script setup lang="ts">
 import { WeuiButton, WeuiCell, WeuiCells } from 'weui-uniapp-design'
 import 'weui/dist/style/weui.css'
-import 'weui-uniapp-design/dist/vue3/style.css'
 </script>
 
 <template>

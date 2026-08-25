@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import { libInjectCss } from 'vite-plugin-lib-inject-css'
 import { platformTransform } from './build-plugin'
 
 const UNI_NATIVE_TAGS = [
@@ -21,6 +22,8 @@ export default defineConfig({
         },
       },
     }),
+    // 把抽取的样式通过 import 注入 index.mjs，使用者无需手动引入 style.css
+    libInjectCss(),
   ],
   build: {
     outDir: 'dist/vue3',
@@ -31,6 +34,9 @@ export default defineConfig({
     },
     rollupOptions: {
       external: ['vue'],
+      output: {
+        assetFileNames: (assetInfo) => assetInfo.name ?? 'style.css',
+      },
     },
   },
 })

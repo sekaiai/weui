@@ -4,8 +4,7 @@ import WeuiDesignVue from 'weui-uniapp-design'
 
 // 全局引入 weui 基础样式
 import 'weui/dist/style/weui.css'
-// 组件内联自定义样式（weui.css 不含的类，已随 SFC 打包）
-import 'weui-uniapp-design/style.css'
+// 组件补充样式已由 weui-uniapp-design 的 JS 产物自动引入
 // 文档站私有样式
 import './custom.css'
 

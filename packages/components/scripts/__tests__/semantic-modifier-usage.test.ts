@@ -37,6 +37,7 @@ const formDocPath = join(repositoryRoot, 'docs/components/form.md')
 function collectPublicFiles(): string[] {
   return publicRoots.flatMap((root) => {
     const absolutePath = join(repositoryRoot, root)
+    if (!existsSync(absolutePath)) return []
     if (extname(absolutePath)) return [absolutePath]
     return collectFiles(absolutePath)
   })
