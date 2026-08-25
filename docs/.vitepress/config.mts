@@ -42,6 +42,7 @@ const componentSidebar = [
     items: [
       { text: '介绍', link: '/guide/introduce' },
       { text: '快速上手', link: '/guide/getting-started' },
+      { text: 'Skills', link: '/guide/skills' },
       { text: '定制主题', link: '/guide/customize-theme' },
     ],
   },
