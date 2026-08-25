@@ -27,15 +27,18 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          # OIDC 需要 npm >= 11.5.1，对应 Node 22.14+
           # 注意：不能设置 registry-url，否则会写入 _authToken 遮蔽 OIDC 认证
           node-version: 22
           cache: pnpm
+
+      - name: Upgrade npm
+        # Trusted Publishing 需要 npm CLI >= 11.5.1；Node 22 内置 npm 10.x 不支持 OIDC
+        run: npm install -g npm@latest
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
       - name: Publish to npm
         # prepack 脚本会自动执行 pnpm build
-        # 无 NODE_AUTH_TOKEN 时 pnpm publish 自动走 OIDC Trusted Publishing
-        run: pnpm --filter weui-uniapp-design publish --no-git-checks
+        # npm publish 在 GitHub Actions 下自动检测 OIDC 环境，走 Trusted Publishing（无需 token）
+        run: cd packages/components && npm publish --provenance --access public
