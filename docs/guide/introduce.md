@@ -1,6 +1,6 @@
 # 介绍
 
-WeUI Design Vue 是一套基于 uni-app 的 WeUI 组件库，主目标微信小程序，兼 H5。
+WeUI Uniapp Design 是一套基于 uni-app 的 WeUI 组件库，主目标微信小程序，兼 H5。
 
 ## 特性
 

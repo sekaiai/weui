@@ -1,6 +1,6 @@
 # 定制主题
 
-WeUI Design Vue 通过 CSS 变量提供主题定制能力。`weui.css` 已内置全部 `--weui-*` CSS 变量（含暗色模式），你只需在自己的项目样式中覆盖对应变量即可。
+WeUI Uniapp Design 通过 CSS 变量提供主题定制能力。`weui.css` 已内置全部 `--weui-*` CSS 变量（含暗色模式），你只需在自己的项目样式中覆盖对应变量即可。
 
 ## 覆盖变量
 

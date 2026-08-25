@@ -1,4 +1,4 @@
-# WeUI Design Vue
+# WeUI Uniapp Design
 
 面向 Vue 3 与 uni-app 的 WeUI 组件库。组件遵循腾讯 [WeUI](https://weui.io/) 的视觉语言和结构规范，优先服务微信小程序，同时支持纯 Vue 3 H5 项目。
 

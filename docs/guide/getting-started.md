@@ -6,7 +6,7 @@
 pnpm add weui-uniapp-design
 ```
 
-WeUI Design Vue 提供两套独立产物，覆盖三类使用场景：
+WeUI Uniapp Design 提供两套独立产物，覆盖三类使用场景：
 
 | 产物 | 适用场景 | 引入方式 |
 | --- | --- | --- |

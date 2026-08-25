@@ -117,7 +117,7 @@ const sidebar = {
 const config: UserConfig = {
   // GitHub Pages 子路径部署：CI 注入 VITE_BASE=/weui/；本地不设置时保持根路径
   base: process.env.VITE_BASE || '/',
-  title: 'WeUI Design Vue',
+  title: 'WeUI Uniapp Design',
   description: '基于 uni-app 的 WeUI 组件库',
   lang: 'zh-CN',
   lastUpdated: true,
