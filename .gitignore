@@ -21,3 +21,5 @@ playwright-report/
 /tests
 /.workbuddy
 /.trae
+# npm 包 README 由 prepack 从根 README.md 自动复制，避免重复维护
+/packages/components/README.md
