@@ -127,12 +127,12 @@ describe('Toptips 命令式 API', () => {
       expect(addedItems).toHaveLength(1)
       expect(addedItems[0].props.visible).toBe(true)
       expect(addedItems[0].props.content).toBe('提示')
-      expect(addedItems[0].props.type).toBeUndefined()
+      expect(addedItems[0].props.type).toBe('warn')
     })
 
     it('不传递非官方 type 属性', () => {
       Toptips.show({ content: 'x' })
-      expect(addedItems[0].props.type).toBeUndefined()
+      expect(addedItems[0].props.type).toBe('warn')
     })
 
     it('未传 duration 时默认 2000', () => {

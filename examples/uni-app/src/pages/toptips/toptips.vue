@@ -12,7 +12,8 @@
         <weui-button type="default" @click="showBasic = true">显示 Toptips</weui-button>
         <weui-toptips
           v-model:visible="showBasic"
-          content="请注意提示内容"
+          content="操作成功"
+          type="success"
           :duration="2000"
         />
       </view>
@@ -29,6 +30,15 @@
         />
       </view>
 
+      <view class="demo-section">
+        <view class="demo-section__title">提示类型</view>
+        <weui-button type="default" @click="showType('info')">info</weui-button>
+        <weui-button type="default" @click="showType('success')">success</weui-button>
+        <weui-button type="default" @click="showType('warn')">warn</weui-button>
+        <weui-button type="default" @click="showType('error')">error</weui-button>
+        <weui-toptips v-model:visible="showTyped" :type="typedType" content="类型提示" />
+      </view>
+
       <!-- 自定义时长 -->
       <view class="demo-section">
         <view class="demo-section__title">自定义时长（4秒）</view>
@@ -43,7 +53,10 @@
       <!-- 命令式调用 -->
       <view class="demo-section">
         <view class="demo-section__title">命令式调用</view>
+        <weui-button type="default" @click="runInfo">Toptips.info</weui-button>
+        <weui-button type="default" @click="runSuccess">Toptips.success</weui-button>
         <weui-button type="default" @click="runWarn">Toptips.warn</weui-button>
+        <weui-button type="default" @click="runError">Toptips.error</weui-button>
       </view>
     </view>
 
@@ -63,13 +76,23 @@ export default {
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Toptips } from 'weui-uniapp-design'
+import { Toptips } from 'weui-uniapp-design/uni-app'
 
 const showBasic = ref(false)
 const showPersistent = ref(false)
 const showLong = ref(false)
+const showTyped = ref(false)
+const typedType = ref<'info' | 'success' | 'warn' | 'error'>('info')
+
+const showType = (type: typeof typedType.value) => {
+  typedType.value = type
+  showTyped.value = true
+}
 
 const runWarn = () => Toptips.warn('请注意警告')
+const runInfo = () => Toptips.info('信息提示')
+const runSuccess = () => Toptips.success('操作成功')
+const runError = () => Toptips.error('操作失败')
 </script>
 
 <style scoped>

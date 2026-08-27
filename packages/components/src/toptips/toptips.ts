@@ -3,6 +3,7 @@
 // 调用前需确保应用中已挂载 <weui-overlay-host />
 
 import WeuiToptips from './toptips.vue'
+import type { ToptipsType } from './toptips.vue'
 import { getOverlayHost } from '../utils/overlay-host-ref'
 
 export type { ToptipsType } from './toptips.vue'
@@ -10,6 +11,7 @@ export type { ToptipsType } from './toptips.vue'
 export interface ToptipsShowOptions {
   /** 提示文字 */
   content?: string
+  type?: ToptipsType
   /** 显示时长 ms，0 为不自动关闭，默认 2000 */
   duration?: number
   /** 自定义附加类名 */
@@ -30,6 +32,7 @@ function showInternal(options: ToptipsShowOptions): void {
   const props: Record<string, unknown> = {
     visible: true,
     content: options.content ?? '',
+    type: options.type ?? 'warn',
     duration: options.duration ?? DEFAULT_DURATION,
     extClass: options.extClass,
   }
@@ -50,6 +53,15 @@ export const Toptips = {
    * 警告提示
    */
   warn(content: string, duration?: number): void {
-    showInternal({ content, duration })
+    showInternal({ content, duration, type: 'warn' })
+  },
+  info(content: string, duration?: number): void {
+    showInternal({ content, duration, type: 'info' })
+  },
+  success(content: string, duration?: number): void {
+    showInternal({ content, duration, type: 'success' })
+  },
+  error(content: string, duration?: number): void {
+    showInternal({ content, duration, type: 'error' })
   },
 }
