@@ -3,6 +3,7 @@ import { dirname, extname, join, resolve } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { transformUniAppSource } from '../uni-app-transform.mjs'
 import { collectUniAppCompatibilityIssues } from '../check-uni-app-compat.mjs'
+import { generateUniAppOutput } from '../copy-uniapp-components.mjs'
 
 function findVueFiles(root: string): string[] {
   const files: string[] = []
@@ -124,10 +125,14 @@ describe('uni-app compatibility audit', () => {
     }
   })
 
-  it('publishes an easycom file for every component tag used by the example', () => {
+  it('publishes an easycom file for every component tag used by the example', async () => {
     const packageRoot = dirname(sourceRoot())
     const exampleRoot = resolve(packageRoot, '../../examples/uni-app/src')
     const outputRoot = join(packageRoot, 'dist/uni-app')
+
+    // CI 全新 checkout 时 dist 尚未构建，测试自行生成 uni-app 产物后再校验发布契约
+    await generateUniAppOutput()
+
     const tags = new Set<string>()
 
     for (const filePath of findVueFiles(exampleRoot)) {

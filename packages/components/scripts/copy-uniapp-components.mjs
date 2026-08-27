@@ -147,7 +147,7 @@ async function copyServiceFiles() {
   }
 }
 
-async function main() {
+export async function generateUniAppOutput() {
   await rm(outBase, { recursive: true, force: true })
   await mkdir(outBase, { recursive: true })
 
@@ -179,7 +179,9 @@ async function main() {
   console.log(`Generated ${sourceFiles.length} uni-app easycom components in ${outBase}`)
 }
 
-main().catch((error) => {
-  console.error(error)
-  process.exit(1)
-})
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  generateUniAppOutput().catch((error) => {
+    console.error(error)
+    process.exit(1)
+  })
+}
