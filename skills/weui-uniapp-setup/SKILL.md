@@ -14,6 +14,13 @@ agent_created: true
 2. **WeUI + 微信设计规范** — 色彩体系、排版、间距、圆角、小程序设计规则
 3. **easycom 配置** — 开箱即用的配置片段
 
+## 入口与样式约定
+
+- **Vue 3 / H5**：从 `weui-uniapp-design` 根入口或 `weui-uniapp-design/vue` 导入时，组件补充样式会由构建产物自动加载；官方基础样式仍需在应用入口引入 `weui/dist/style/weui.css`。
+- **SSR / Node**：服务端需要避免 CSS import 时，使用 `weui-uniapp-design/ssr`。该入口与 Vue 3 根入口导出相同组件和类型，但不加载组件补充 CSS。
+- **uni-app**：组件通过 `weui-uniapp-design/uni-app/*.vue` easycom 子入口加载。组件内的 `<style>` 会随 SFC 由 uni-app 编译，不要在 uni-app 页面中导入 Vue 3 根入口或 `/ssr`。
+- **显式 CSS**：需要控制加载顺序、主题覆盖或 CSP 时，可显式引入 `weui-uniapp-design/index.css`；重复引入不会改变样式内容。
+
 ## uni-app 复合组件构建约束
 
 - easycom 只保证业务页面或页面组件使用的顶层 `<weui-*>` 组件，不保证组件库组件内部继续自动解析子组件。

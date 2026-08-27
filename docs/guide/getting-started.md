@@ -49,11 +49,21 @@ import 'weui/dist/style/weui.css'
 </template>
 ```
 
-> **说明：** `weui.css` 提供所有 `.weui-*` 类的基础样式与 CSS 变量；组件补充样式（如 `.weui-slideview`、`.weui-cell__icon`）已由 `weui-uniapp-design` 的 JS 产物自动引入，无需手动加载。
+> **说明：** `weui.css` 提供所有 `.weui-*` 类的基础样式与 CSS 变量；组件库默认入口会自动加载 `.weui-slideview`、`.weui-cell__icon` 等组件补充样式。
+
+### 4. SSR 无样式入口
+
+默认入口使用静态 CSS import。需要让 Node 直接加载组件库、或由 SSR 构建自行管理样式时，可改用无样式入口：
+
+```ts
+import { WeuiButton } from 'weui-uniapp-design/ssr'
+```
+
+客户端仍可使用默认入口，或显式引入 `weui-uniapp-design/index.css`。
 
 ## 在 uni-app 项目中使用（小程序 / App / uni-app H5）
 
-uni-app 产物为扁平 SFC 形式（位于 `weui-uniapp-design/dist/uni-app/`），所有组件均在根目录下，easycom 只需一条规则即可自动引入，无需手动 import。
+uni-app 产物通过稳定的 `weui-uniapp-design/uni-app/*.vue` 子入口公开，easycom 只需一条规则即可自动引入，无需依赖包内 `dist` 布局。
 
 ### 1. 配置 easycom
 
@@ -64,13 +74,11 @@ uni-app 产物为扁平 SFC 形式（位于 `weui-uniapp-design/dist/uni-app/`�
   "easycom": {
     "autoscan": true,
     "custom": {
-      "^weui-(.*)": "weui-uniapp-design/dist/uni-app/$1.vue"
+      "^weui-(.*)": "weui-uniapp-design/uni-app/$1.vue"
     }
   }
 }
 ```
-
-> **前置条件：** 使用前需先运行 `pnpm build:uni-app`（或在 monorepo 中通过 workspace 链接）生成 `dist/uni-app/` 产物。
 
 ### 2. 全局引入样式
 
@@ -91,6 +99,12 @@ uni-app 产物为扁平 SFC 形式（位于 `weui-uniapp-design/dist/uni-app/`�
 ```
 
 easycom 会自动引入组件，无需手动 import。
+
+命令式反馈 API 使用 uni-app 专用入口，不要从 Vue 产物根入口导入：
+
+```ts
+import { Dialog, Picker, Toast } from 'weui-uniapp-design/uni-app'
+```
 
 ### 小程序端 weui-wxss 说明
 
@@ -116,7 +130,7 @@ easycom 只保证业务页面使用的顶层组件，不保证组件库复合组
 - `cells`：标题、列表主体和底部提示已整合在单一组件中，使用 `title`、`tips` props 或同名 slots。
 - `form`：表单外壳、标题、描述、双 tips、操作区和附加区使用内联结构；通过 `default`、`title`、`desc`、`tips`、`opr`、`tips-b`、`extra` slots 填充，组件内部使用 `v-if` 控制可选区域。
 - `msg`：默认 `weui-icon` 不在 uni-app 产物中内部自动引入，需要图标时通过 `icon` slot 显式传入。
-- `picker`：保留 picker 遮罩和外层结构，内部列区域不自动引入 `weui-picker-group`；需要完整列交互时请在业务页面显式组合或使用适配后的页面结构。
+- `picker`：Vue 3/H5 与 uni-app 产物均使用 WeUI 官方半屏弹窗结构，内置 `weui-picker-group` 列区域，支持单列、多列、禁用项和触摸滚动；关闭按钮使用 `close-text`（旧版 `cancel-text` 仍兼容）。
 
 内置视觉 modifier 使用可发现的语义属性：Form 中的 Cells 列表写 `<weui-cell-group form><weui-cells>...</weui-cells></weui-cell-group>`，独立复选列表写 `<weui-cells checkbox>`，反色表单组写 `<weui-cell-group form primary>`，消息大图标写 `<weui-icon msg>`。`extClass` 只用于业务自定义 class，不要传入 `weui-*` 内置 class。
 

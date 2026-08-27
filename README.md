@@ -16,11 +16,11 @@
 pnpm add weui-uniapp-design
 ```
 
-要求：Node.js 18+、pnpm 8+、Vue 3.4+。`weui`（官方基础样式包）会作为依赖自动安装，无需手动安装，在项目中直接 `import 'weui/dist/style/weui.css'` 即可。
+要求：Node.js 18+、Vue 3.4+。`weui`（官方基础样式包）会作为依赖自动安装。
 
 ## 在 Vue 3 项目中使用
 
-先引入 WeUI 基础样式（组件补充样式由包自动引入），再全量或按需注册组件。
+先显式引入 WeUI 基础样式，再全量或按需注册组件。组件补充样式由默认入口自动加载。
 
 ### 全量注册
 
@@ -49,16 +49,26 @@ import 'weui/dist/style/weui.css'
 </template>
 ```
 
+### SSR 无样式入口
+
+默认入口通过静态 CSS import 自动加载组件补充样式。需要让 Node 直接加载组件库、或由 SSR 构建自行管理样式时，使用不包含 CSS import 的子入口：
+
+```ts
+import { WeuiButton } from 'weui-uniapp-design/ssr'
+```
+
+客户端仍可使用默认入口，或显式引入 `weui-uniapp-design/index.css`。
+
 ## 在 uni-app 项目中使用
 
-组件库提供位于 `dist/uni-app/` 的扁平 SFC 产物，所有组件均在根目录下，easycom 只需一条规则：
+组件库通过稳定的 `uni-app/*.vue` 子入口提供扁平 SFC 产物，easycom 只需一条规则，无需依赖包内 `dist` 布局：
 
 ```json
 {
   "easycom": {
     "autoscan": true,
     "custom": {
-      "^weui-(.*)": "weui-uniapp-design/dist/uni-app/$1.vue"
+      "^weui-(.*)": "weui-uniapp-design/uni-app/$1.vue"
     }
   }
 }
@@ -86,6 +96,12 @@ import 'weui/dist/style/weui.css'
   </weui-cells>
   <weui-button type="primary" display="block">提交</weui-button>
 </template>
+```
+
+uni-app 中的命令式反馈 API 使用独立入口，确保和 easycom 组件共享同一运行时：
+
+```ts
+import { Dialog, Picker, Toast } from 'weui-uniapp-design/uni-app'
 ```
 
 > 内置视觉 modifier 使用语义属性表达，例如 `<weui-cells form>`、`<weui-cells checkbox>`、`<weui-cell access>`、`<weui-cell link>`；`extClass` 仅用于业务自定义 class。
@@ -181,7 +197,7 @@ docs/                 VitePress 文档与交互案例
 | WorkBuddy | `.workbuddy/skills/` |
 | Cursor | `.cursor/skills/` |
 
-安装与使用详情见 [Skills 指南](./docs/guide/skills.md) 或文档站：[https://sekaiai.github.io/weui/guide/skills.html](https://sekaiai.github.io/weui/guide/skills.html)
+安装与使用详情见文档站：[https://sekaiai.github.io/weui/guide/skills.html](https://sekaiai.github.io/weui/guide/skills.html)
 
 ## 开发说明
 

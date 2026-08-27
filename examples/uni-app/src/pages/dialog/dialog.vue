@@ -113,7 +113,7 @@ export default {
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Dialog } from 'weui-uniapp-design'
+import { Dialog } from 'weui-uniapp-design/uni-app'
 import type { DialogButton } from 'weui-uniapp-design'
 
 const showBasic = ref(false)

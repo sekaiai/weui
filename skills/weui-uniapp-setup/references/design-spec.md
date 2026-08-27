@@ -2,6 +2,8 @@
 
 本文档描述基于 WeUI 设计体系与微信小程序设计指南的样式规范，适用于使用 `weui-uniapp-design` 组件库的第三方 uni-app 项目。
 
+组件补充样式随 `weui-uniapp-design/uni-app/*.vue` 的 SFC 一起由 uni-app 编译，无需在业务页面额外引入组件库的 Vue 3 CSS 入口。业务仍需按平台引入官方基础样式：uni-app H5 使用 `weui/dist/style/weui.css`，微信小程序可使用 `weui-wxss` 扩展库。
+
 ## 适用范围
 
 本文档包含两部分内容，注意区分：

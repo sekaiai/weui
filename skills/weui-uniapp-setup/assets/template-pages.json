@@ -2,7 +2,7 @@
   "easycom": {
     "autoscan": true,
     "custom": {
-      "^weui-(.*)": "@/components/weui/$1.vue"
+      "^weui-(.*)": "weui-uniapp-design/uni-app/$1.vue"
     }
   },
   "pages": [

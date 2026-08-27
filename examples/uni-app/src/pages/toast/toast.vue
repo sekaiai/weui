@@ -93,7 +93,7 @@ export default {
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Toast } from 'weui-uniapp-design'
+import { Toast } from 'weui-uniapp-design/uni-app'
 
 const showSuccess = ref(false)
 const showLoading = ref(false)

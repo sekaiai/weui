@@ -5,12 +5,27 @@
 在使用组件前，确保 uni-app 项目已满足以下条件：
 
 1. **安装依赖**：`pnpm add weui-uniapp-design weui`
-2. **引入 WeUI CSS**：在 `App.vue` 的 `<style>` 中或 `main.ts` 中引入 `import 'weui/dist/style/weui.css'`
+2. **引入 WeUI CSS**：在 `App.vue` 的 `<style>` 中或 `main.ts` 中引入 `import 'weui/dist/style/weui.css'`。组件自身的补充样式位于 SFC `<style>`，会随 easycom 组件由 uni-app 自动编译。
 3. **挂载 OverlayHost**：在根组件模板中放置 `<weui-overlay-host />`（弹层组件依赖）
 4. **支持 Sass**：目标工程需安装 `sass` 依赖
 5. **easycom 配置**：在 `pages.json` 中添加（见项目 README）
 
 组件通过 easycom 自定义规则自动解析，标签名遵循 `weui-<name>` 格式。
+
+推荐使用发布包提供的稳定子路径：
+
+```json
+{
+  "easycom": {
+    "autoscan": true,
+    "custom": {
+      "^weui-(.*)": "weui-uniapp-design/uni-app/$1.vue"
+    }
+  }
+}
+```
+
+不要在 uni-app 页面中从 `weui-uniapp-design` 根入口导入 Vue 3 产物；命令式弹层 API 也使用 `weui-uniapp-design/uni-app` 子入口。
 
 生成的每个 uni-app Vue 组件都包含 `options: { virtualHost: true }`，用于统一启用虚拟节点宿主；该配置由构建转换器自动注入，业务页面不需要手动补写。
 
@@ -763,7 +778,7 @@ Form 中的普通 Cells 控件区统一使用 `CellGroup(form) → Cells`；Chec
 
 <!-- 命令式 -->
 <script setup>
-import { Dialog } from 'weui-uniapp-design'
+import { Dialog } from 'weui-uniapp-design/uni-app'
 const result = await Dialog.confirm({ title: '提示', content: '确认删除？' })
 if (result) { /* 确认 */ }
 </script>
@@ -789,7 +804,7 @@ if (result) { /* 确认 */ }
 **示例**：
 ```html
 <script setup>
-import { Actionsheet } from 'weui-uniapp-design'
+import { Actionsheet } from 'weui-uniapp-design/uni-app'
 const item = await Actionsheet.show({
   title: '请选择',
   items: [{ label: '拍照' }, { label: '从相册选择' }]
@@ -837,7 +852,7 @@ console.log(item.index)
 **示例**：
 ```html
 <script setup>
-import { Toast } from 'weui-uniapp-design'
+import { Toast } from 'weui-uniapp-design/uni-app'
 Toast.success('保存成功')
 Toast.loading('加载中...')
 setTimeout(() => Toast.hide(), 3000)
@@ -869,22 +884,27 @@ setTimeout(() => Toast.hide(), 3000)
 |------|------|--------|------|
 | visible | `boolean` | `false` | 显示 |
 | columns | `PickerColumn[]` | `[]` | `[{ options: [{label, value, disabled?}], index? }]` |
-| title | `string` | — | 标题 |
-| cancelText | `string` | `'取消'` | 取消文字 |
+| title | `string` | `''` | 标题 |
+| desc | `string` | — | 标题下的描述文字 |
+| showClose | `boolean` | `false` | 是否显示左上角关闭按钮；模板中写 `show-close` 即启用 |
+| closeText | `string` | `'关闭'` | 关闭按钮文字 |
+| cancelText | `string` | — | 旧版取消文字兼容别名；`closeText` 优先 |
 | confirmText | `string` | `'确定'` | 确定文字 |
 | maskClosable | `boolean` | `true` | 遮罩关闭 |
 | extClass | `string` | — | 扩展类名 |
 
 **Events**：`change`、`confirm`、`cancel`、`close`
 
-**命令式 API**：`Picker.show(options)` → `Promise<{ action: 'confirm' | 'cancel', indexes, values }>`（取消时 indexes/values 为空数组）
+**命令式 API**：`Picker.show(options)` → `Promise<{ action: 'confirm' | 'cancel', indexes, values }>`（取消时 indexes/values 为空数组）。options 同样支持 `desc`、`showClose`、`closeText`、`cancelText` 和 `confirmText`。
 
-> **uni-app 产物限制**：`weui-picker` 保留遮罩、头部和外层 picker 结构，但不在内部自动引入 `weui-picker-group`；生成产物的列区域为空。
+> Picker 采用 WeUI 官方半屏弹窗结构：顶部关闭按钮、标题/描述区域、列选择区域和底部主确认按钮。Picker 不复用 `HalfScreenDialog` 组件模板。
+
+> **跨端说明**：Vue 3/H5 与 uni-app 产物均内置 `weui-picker-group` 列区域；小程序端会将列项转换为原生 `view` 节点，支持单列、多列、禁用项和触摸滚动。
 
 **示例**：
 ```html
 <script setup>
-import { Picker } from 'weui-uniapp-design'
+import { Picker } from 'weui-uniapp-design/uni-app'
 const result = await Picker.show({
   title: '选择地区',
   columns: [{
@@ -907,13 +927,13 @@ console.log(result.values) // ['beijing']
 | visible | `boolean` | `false` | 显示 |
 | src | `string` | — | 图片地址 |
 | showDelete | `boolean` | `false` | 删除按钮 |
-| deleteText | `string` | `'删除'` | 删除文字 |
+| deleteText | `string` | `'删除'` | 删除图标按钮的无障碍标签 |
 | maskClosable | `boolean` | `true` | 遮罩关闭 |
 | extClass | `string` | — | 扩展类名 |
 
 **Events**：`delete`、`hide`
 
-**平台差异**：小程序端调用 `uni.previewImage` 系统预览，H5 端自定义 UI
+**平台差异**：小程序端调用 `uni.previewImage` 系统预览，H5 端自定义 UI；H5 图片区域遵循官方 WeUI 的 `.weui-gallery__img` 定位背景图结构（`background-size: contain`），避免远程图片尚未加载时布局塌陷。
 
 **命令式 API**：`Gallery.show(options)` → `{ close, promise }`（promise: `Promise<'delete' | 'hide'>`；点击删除 resolve 'delete'，需手动调用 close() 关闭）
 

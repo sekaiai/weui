@@ -1,6 +1,6 @@
 # Skills（AI 辅助开发）
 
-项目内置一个名为 `weui-uniapp-setup` 的 Skill，为 AI 编程工具提供组件库的完整集成参考：组件 API（Props / Events / Slots / 代码示例 / 平台差异）、WeUI 设计规范与 easycom 配置片段。使用支持 Anthropic Skills 格式的 AI 工具（Claude Code、Trae、Cursor 等）时，工具会自动匹配并加载本 Skill，无需手动粘贴文档。
+项目内置一个名为 `weui-uniapp-setup` 的 Skill，为 AI 编程工具提供组件库的完整集成参考：组件 API（Props / Events / Slots / 代码示例 / 平台差异）、WeUI 设计规范、样式入口与 easycom 配置片段。使用支持 Anthropic Skills 格式的 AI 工具（Claude Code、Trae、Cursor 等）时，工具会自动匹配并加载本 Skill，无需手动粘贴文档。
 
 ## 安装
 
@@ -25,6 +25,12 @@
 | easycom 配置片段 | `assets/template-pages.json` |
 
 回答遵循 Skill 内定义的回答规范：Props 用表格列出、提供可直接复制的代码示例、标注 H5 与小程序平台差异、弹层组件同时说明声明式与命令式用法、提醒挂载 `weui-overlay-host`。
+
+## 当前包入口约定
+
+- Vue 3 / H5 默认从 `weui-uniapp-design` 导入，组件补充 CSS 会自动加载；官方 `weui/dist/style/weui.css` 仍需由应用引入。
+- SSR 或 Node 原生加载使用 `weui-uniapp-design/ssr`，该入口不加载 CSS。
+- uni-app 使用 `weui-uniapp-design/uni-app/*.vue` 配置 easycom，命令式 API 从 `weui-uniapp-design/uni-app` 导入；不要从 Vue 3 根入口导入。
 
 ## 目录结构
 
