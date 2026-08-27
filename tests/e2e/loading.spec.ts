@@ -28,17 +28,16 @@ test.describe('Loading 组件', () => {
     await expect(text).toContainText('加载中...')
   })
 
-  test('页面模式渲染 weui-loadmore 与 __tips', async ({ page, gotoPage }) => {
+  test('列表加载渲染 weui-loadmore 与 __tips', async ({ page, gotoPage }) => {
     await gotoPage('loading')
 
-    // "页面模式" 与 "页面模式组合" 均含 "页面模式"，取第一个
-    const section = page.locator('.demo-section').filter({ hasText: '页面模式' }).first()
+    const section = page.locator('.demo-section').filter({ hasText: '列表加载' }).first()
     const loadmore = section.locator('.weui-loadmore')
     await expect(loadmore).toBeVisible()
     const tips = loadmore.locator('.weui-loadmore__tips')
     await expect(tips).toContainText('正在加载')
-    // 内部包含 weui-loading 图标
-    await expect(loadmore.locator('.weui-loading')).toBeVisible()
+    // 内部包含官方 primary loading 图标
+    await expect(loadmore.locator('.weui-primary-loading')).toBeVisible()
   })
 
   test('透明背景渲染 weui-loading_transparent 类', async ({ page, gotoPage }) => {
@@ -73,10 +72,10 @@ test.describe('Loading 组件', () => {
     await expect(text).toContainText('自定义加载文字')
   })
 
-  test('页面模式组合渲染多个 weui-loadmore', async ({ page, gotoPage }) => {
+  test('列表加载组合渲染多个 weui-loadmore', async ({ page, gotoPage }) => {
     await gotoPage('loading')
 
-    const section = page.locator('.demo-section').filter({ hasText: '页面模式组合' })
+    const section = page.locator('.demo-section').filter({ hasText: '列表加载组合' })
     const loadmores = section.locator('.weui-loadmore')
     await expect(loadmores).toHaveCount(2)
     await expect(loadmores.first()).toBeVisible()

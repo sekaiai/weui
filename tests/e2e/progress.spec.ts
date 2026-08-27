@@ -55,7 +55,7 @@ test.describe('Progress 组件', () => {
   test('隐藏百分比文字时不渲染 info', async ({ page, gotoPage }) => {
     await gotoPage('progress')
 
-    const section = page.locator('.demo-section').filter({ hasText: '隐藏百分比文字' })
+    const section = page.locator('.demo-section').filter({ hasText: '隐藏辅助文本与取消操作' })
     const progress = section.locator('.weui-progress')
     await expect(progress).toBeVisible()
 

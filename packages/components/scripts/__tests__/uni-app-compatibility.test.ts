@@ -45,7 +45,7 @@ describe('uni-app compatibility audit', () => {
       },
       {
         relativePath: 'msg/msg.vue',
-        forbiddenTemplate: ['weui-icon'],
+        forbiddenTemplate: ['<weui-icon'],
         forbiddenScript: ['WeuiIcon'],
       },
       {
@@ -108,6 +108,17 @@ describe('uni-app compatibility audit', () => {
       expect(formTemplate, `removed form slot ${removedSlot}`).not.toContain(`name="${removedSlot}"`)
     }
     expect(formTemplate).not.toMatch(/<weui-form-(?:tips|opr|extra)\b/i)
+  })
+
+  it('inlines the default Msg icon in generated uni-app output', async () => {
+    await generateUniAppOutput()
+
+    const outputPath = join(dirname(sourceRoot()), 'dist/uni-app/msg.vue')
+    const generated = readFileSync(outputPath, 'utf-8')
+
+    expect(generated).toContain("['weui-icon-' + type, 'weui-icon_msg']")
+    expect(generated).toContain(':style="iconStyle"')
+    expect(generated).not.toMatch(/<weui-icon\b/i)
   })
 
   it('does not retain standalone Cells title/tips sources', () => {

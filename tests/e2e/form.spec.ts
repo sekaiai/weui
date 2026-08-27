@@ -86,7 +86,7 @@ test.describe('Form 组件', () => {
     // title slot 触发 text-area 渲染，slot 内含自定义 title/desc
     await expect(form.locator('.weui-form__text-area')).toBeVisible()
     await expect(form.locator('.weui-form__text-area .weui-form__title')).toContainText('自定义标题')
-    await expect(form.locator('.weui-form__text-area .weui-form__desc')).toContainText('通过 title 插槽')
+    await expect(form.locator('.weui-form__text-area .weui-form__desc')).toContainText('通过 title 和 desc 插槽')
   })
 
   test('扩展类名 section 含 custom-form 扩展类', async ({ page, gotoPage }) => {

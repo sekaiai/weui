@@ -85,7 +85,7 @@ test.describe('Searchbar 组件', () => {
     const section = page.locator('.section').filter({ hasText: '搜索按钮' })
 
     // 搜索按钮存在
-    const searchBtn = section.locator('.weui-search-bar__btn')
+    const searchBtn = section.locator('.weui-search-bar__search-btn')
     await expect(searchBtn).toBeVisible()
     await expect(searchBtn).toContainText('搜索')
 

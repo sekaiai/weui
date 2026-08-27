@@ -6,6 +6,13 @@
           <!-- #ifdef H5 -->
           <weui-icon :type="type" :size="iconSize" msg />
           <!-- #endif -->
+          <!-- #ifndef H5 -->
+          <span
+            :class="['weui-icon-' + type, 'weui-icon_msg']"
+            :style="iconStyle"
+            aria-hidden="true"
+          />
+          <!-- #endif -->
         </slot>
       </div>
       <div v-if="hasText" class="weui-msg__text-area">
@@ -115,6 +122,10 @@ const hasIcon = computed(() => Boolean(props.type || slots.icon))
 const hasText = computed(() => Boolean(props.title || props.desc || props.descPrimary))
 const hasOpr = computed(() => Boolean(props.buttons && props.buttons.length > 0))
 const hasTips = computed(() => Boolean(props.tips || slots.tips))
+const iconStyle = computed(() => {
+  if (props.iconSize == null) return undefined
+  return { fontSize: `${props.iconSize}px` }
+})
 
 const buttonClass = (btn: MsgButton) => {
   return ['weui-btn', `weui-btn_${btn.type || 'default'}`]

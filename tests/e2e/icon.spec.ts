@@ -67,9 +67,10 @@ test.describe('Icon 组件', () => {
 
     const section = page.locator('.demo-section').filter({ hasText: '字符串 size' })
     const icons = section.locator('[class*="weui-icon-"]')
-    await expect(icons).toHaveCount(2)
+    await expect(icons).toHaveCount(3)
     await expect(icons.nth(0)).toHaveCSS('font-size', '28px')
     await expect(icons.nth(1)).toHaveCSS('font-size', '28px')
+    await expect(icons.nth(2)).toHaveAttribute('style', /font-size:\s*1em/i)
   })
 
   test('不传 color 时不输出 color 内联样式', async ({ page, gotoPage }) => {

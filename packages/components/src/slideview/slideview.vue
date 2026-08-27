@@ -159,3 +159,13 @@ const handleTouchEnd = () => {
   isMoving.value = false
 }
 </script>
+
+<style lang="scss">
+/* The official swiped-button rule adds horizontal padding. Keep the configured
+ * width as the complete hit target so it matches contentStyle's translation. */
+.weui-slideview__btn {
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  justify-content: center;
+}
+</style>

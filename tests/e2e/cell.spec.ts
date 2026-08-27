@@ -30,12 +30,12 @@ test.describe('Cell 组件', () => {
     const firstCell = page.locator('.weui-cell').first()
     await expect(firstCell).toBeVisible()
 
-    // 验证标题文字（在 __hd 中）
-    const cellTitle = firstCell.locator('.weui-cell__hd')
+    // 标题文字位于 body 区域，说明文字位于 footer 区域
+    const cellTitle = firstCell.locator('.weui-cell__bd')
     await expect(cellTitle).toContainText('标题文字')
 
-    // 验证说明文字（在 __bd 中）
-    const cellValue = firstCell.locator('.weui-cell__bd')
+    // 验证说明文字
+    const cellValue = firstCell.locator('.weui-cell__ft')
     await expect(cellValue).toContainText('说明文字')
   })
 

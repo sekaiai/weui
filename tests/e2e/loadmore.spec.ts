@@ -21,7 +21,7 @@ test.describe('Loadmore 组件', () => {
     // 第一个：默认文字"正在加载"
     const first = loadmores.nth(0)
     await expect(first).toBeVisible()
-    await expect(first.locator('.weui-loading')).toBeVisible()
+    await expect(first.locator('.weui-primary-loading')).toBeVisible()
     await expect(first.locator('.weui-loadmore__tips')).toContainText('正在加载')
 
     // 第二个：自定义文字"加载中..."
@@ -40,8 +40,8 @@ test.describe('Loadmore 组件', () => {
     await expect(loadmores.nth(1)).toHaveClass(/weui-loadmore_line/)
 
     // line 类型不应有 loading 图标
-    await expect(loadmores.nth(0).locator('.weui-loading')).toHaveCount(0)
-    await expect(loadmores.nth(1).locator('.weui-loading')).toHaveCount(0)
+    await expect(loadmores.nth(0).locator('.weui-primary-loading')).toHaveCount(0)
+    await expect(loadmores.nth(1).locator('.weui-primary-loading')).toHaveCount(0)
   })
 
   test('点点样式有 dot 类名', async ({ page, gotoPage }) => {
@@ -62,12 +62,14 @@ test.describe('Loadmore 组件', () => {
     const loadmores = section.locator('.weui-loadmore')
     await expect(loadmores).toHaveCount(2)
 
-    // showText=false 时不应有 tips 文字
+    // default 模式 showText=false 时不渲染可见 tips
     await expect(loadmores.nth(0).locator('.weui-loadmore__tips')).toHaveCount(0)
-    await expect(loadmores.nth(1).locator('.weui-loadmore__tips')).toHaveCount(0)
+    // dot 模式保留空 tips 元素作为视觉点点容器
+    await expect(loadmores.nth(1).locator('.weui-loadmore__tips')).toHaveCount(1)
+    await expect(loadmores.nth(1).locator('.weui-loadmore__tips')).toHaveText('')
 
-    // default 类型仍保留 loading 图标
-    await expect(loadmores.nth(0).locator('.weui-loading')).toBeVisible()
+    // default 类型仍保留 primary loading 图标
+    await expect(loadmores.nth(0).locator('.weui-primary-loading')).toBeVisible()
   })
 
   test('扩展类名正确应用', async ({ page, gotoPage }) => {

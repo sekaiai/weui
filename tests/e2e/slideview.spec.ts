@@ -14,12 +14,12 @@ test.describe('Slideview 组件', () => {
   test('渲染基础类名结构', async ({ page, gotoPage }) => {
     await gotoPage('slideview')
 
-    // 基础用法 section 的 slideview 应包含 left/right 与按钮
+    // 基础用法 section 的 slideview 应包含左侧内容、官方 Cell footer 与按钮
     const section = page.locator('.demo-section').filter({ hasText: '基础用法' })
     const slideview = section.locator('.weui-slideview').first()
     await expect(slideview).toBeVisible()
     await expect(slideview.locator('.weui-slideview__left')).toBeVisible()
-    await expect(slideview.locator('.weui-slideview__right')).toBeVisible()
+    await expect(slideview.locator('.weui-cell__ft')).toBeVisible()
 
     // 基础用法有 2 个按钮（收藏、编辑）
     const buttons = slideview.locator('.weui-slideview__btn')
