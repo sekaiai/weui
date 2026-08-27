@@ -5,6 +5,11 @@ on:
     tags:
       - 'v*'
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'Package version to publish (without v)'
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -21,8 +26,7 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          # 与 pnpm-lock.yaml 的 lockfileVersion 9.0（pnpm 9/10）保持一致
-          version: 10
+          version: 10.33.2
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -32,13 +36,35 @@ jobs:
           cache: pnpm
 
       - name: Upgrade npm
-        # Trusted Publishing 需要 npm CLI >= 11.5.1；Node 22 内置 npm 10.x 不支持 OIDC
-        run: npm install -g npm@latest
+        run: npm install -g npm@12.0.2
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Validate release version
+        env:
+          RELEASE_TAG: ${{ github.event_name == 'workflow_dispatch' && format('v{0}', inputs.version) || github.ref_name }}
+        run: pnpm --filter weui-uniapp-design check:release-version
+
+      - name: Unit and type checks
+        run: pnpm test && pnpm typecheck
+
+      - name: Build and verify package tarball
+        run: pnpm --filter weui-uniapp-design prepack
+
+      - name: Build consumers and docs
+        run: |
+          pnpm --filter weui-uniapp-design-vue3-example build
+          pnpm --filter weui-uniapp-design-example build:h5
+          pnpm --filter weui-uniapp-design-example build:mp-weixin
+          pnpm build:docs
+
+      - name: Install Playwright Chromium
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: End-to-end tests
+        run: pnpm e2e
+
       - name: Publish to npm
-        # prepack 脚本会自动执行 pnpm build
-        # npm publish 在 GitHub Actions 下自动检测 OIDC 环境，走 Trusted Publishing（无需 token）
-        run: cd packages/components && npm publish --provenance --access public
+        # 上述 prepack 已验证当前目录；publish 禁止重复执行生命周期脚本。
+        run: cd packages/components && npm publish --ignore-scripts --provenance --access public

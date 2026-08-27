@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Unit and type checks
+        run: pnpm test && pnpm typecheck
+      - name: Package contract
+        run: pnpm --filter weui-uniapp-design prepack
+      - name: Consumer builds
+        run: |
+          pnpm --filter weui-uniapp-design-vue3-example build
+          pnpm --filter weui-uniapp-design-example build:h5
+          pnpm --filter weui-uniapp-design-example build:mp-weixin
+          pnpm build:docs
+
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter weui-uniapp-design build:uni-app
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm e2e
