@@ -32,7 +32,12 @@ export function collectUniAppCompatibilityIssues(source, filePath = '<source>') 
   const nestedWeuiTags = new Set(
     [...template.matchAll(NESTED_WEUI_COMPONENT_RE)].map((match) => match[1].toLowerCase()),
   )
+  const localComponentTags = new Set(
+    [...source.matchAll(/import\s+([A-Z][\w]*)\s+from\s+['"][^'"]+\.vue['"]/g)]
+      .map((match) => match[1].replace(/([a-z\d])([A-Z])/g, '$1-$2').toLowerCase()),
+  )
   for (const tag of nestedWeuiTags) {
+    if (localComponentTags.has(tag)) continue
     issues.push(`${filePath}: unresolved custom component <${tag}>`)
   }
 

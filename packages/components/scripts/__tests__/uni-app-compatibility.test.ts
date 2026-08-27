@@ -1,5 +1,5 @@
 import { existsSync, readFileSync, readdirSync } from 'node:fs'
-import { extname, join } from 'node:path'
+import { dirname, extname, join, resolve } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { transformUniAppSource } from '../uni-app-transform.mjs'
 import { collectUniAppCompatibilityIssues } from '../check-uni-app-compat.mjs'
@@ -49,8 +49,8 @@ describe('uni-app compatibility audit', () => {
       },
       {
         relativePath: 'picker/picker.vue',
-        forbiddenTemplate: ['weui-picker-group'],
-        forbiddenScript: ['import WeuiPickerGroup'],
+        forbiddenTemplate: [],
+        forbiddenScript: [],
       },
       {
         relativePath: 'form/form.vue',
@@ -71,6 +71,12 @@ describe('uni-app compatibility audit', () => {
         expect(transformed, `${relativePath} script`).not.toContain(fragment)
       }
     }
+
+    const pickerTransformed = transformUniAppSource(
+      readFileSync(join(sourceRoot(), 'picker/picker.vue'), 'utf-8'),
+      join(sourceRoot(), 'picker/picker.vue'),
+    )
+    expect(pickerTransformed).toContain("import WeuiPickerGroup from './picker-group.vue'")
 
     const cellGroupSource = readFileSync(
       join(sourceRoot(), 'cell/cell-group.vue'),
@@ -116,6 +122,26 @@ describe('uni-app compatibility audit', () => {
         /options\s*:\s*\{[\s\S]*?virtualHost\s*:\s*true\b/,
       )
     }
+  })
+
+  it('publishes an easycom file for every component tag used by the example', () => {
+    const packageRoot = dirname(sourceRoot())
+    const exampleRoot = resolve(packageRoot, '../../examples/uni-app/src')
+    const outputRoot = join(packageRoot, 'dist/uni-app')
+    const tags = new Set<string>()
+
+    for (const filePath of findVueFiles(exampleRoot)) {
+      const source = readFileSync(filePath, 'utf-8')
+      for (const match of source.matchAll(/<weui-([a-z0-9-]+)\b/gi)) {
+        tags.add(match[1].toLowerCase())
+      }
+    }
+
+    const missing = [...tags]
+      .filter((tag) => !existsSync(join(outputRoot, `${tag}.vue`)))
+      .sort()
+
+    expect(missing).toEqual([])
   })
 
   it('does not retain standalone Form component sources for uni-app generation', () => {

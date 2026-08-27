@@ -22,7 +22,8 @@ export default defineConfig({
         },
       },
     }),
-    // 把抽取的样式通过 import 注入 index.mjs，使用者无需手动引入 style.css
+    // Keep the default Vue entry zero-config: its extracted component styles
+    // are referenced through a static CSS import in dist/vue3/index.mjs.
     libInjectCss(),
   ],
   build: {
@@ -30,12 +31,14 @@ export default defineConfig({
     lib: {
       entry: 'src/index.ts',
       formats: ['es'],
-      fileName: 'index',
+      fileName: () => 'index.mjs',
     },
     rollupOptions: {
       external: ['vue'],
       output: {
-        assetFileNames: (assetInfo) => assetInfo.name ?? 'style.css',
+        assetFileNames: (assetInfo) => assetInfo.name === 'style.css'
+          ? 'index.css'
+          : (assetInfo.name ?? '[name][extname]'),
       },
     },
   },

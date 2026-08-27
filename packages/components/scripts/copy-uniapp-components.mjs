@@ -8,6 +8,20 @@ const srcDir = join(__dirname, '..', 'src')
 const outBase = join(__dirname, '..', 'dist', 'uni-app')
 const internalDir = join(outBase, '_internal')
 
+const componentOutputAliases = {
+  'switch-ctrl': ['switch', 'switch-ctrl'],
+}
+
+const serviceSourceFiles = [
+  'actionsheet/actionsheet.ts',
+  'dialog/dialog.ts',
+  'gallery/gallery.ts',
+  'half-screen-dialog/half-screen-dialog.ts',
+  'picker/picker.ts',
+  'toast/toast.ts',
+  'toptips/toptips.ts',
+]
+
 // Remap specifiers that point at sibling components. In the flat output every
 // component lives directly under `outBase`, so cross-component imports use a
 // single leading dot (`./`) instead of `../`.
@@ -100,10 +114,37 @@ async function writeCellsCompatibilityIndex() {
 async function writeBarrelIndex() {
   await writeFile(
     join(outBase, 'index.ts'),
-    '// uni-app flat SFC components for easycom\n'
-    + '// Usage: easycom pattern "^weui-(.*)": "weui-uniapp-design/dist/uni-app/$1.vue"\n',
+    [
+      "export { Actionsheet } from './actionsheet'",
+      "export type { ActionsheetItem, ActionsheetShowOptions, ActionsheetShowResult } from './actionsheet'",
+      "export { Dialog } from './dialog'",
+      "export type { DialogButton, DialogShowOptions, DialogAlertOptions, DialogConfirmOptions, DialogShowResult } from './dialog'",
+      "export { Gallery } from './gallery'",
+      "export type { GalleryShowOptions } from './gallery'",
+      "export { HalfScreenDialog } from './half-screen-dialog'",
+      "export type { HalfScreenDialogButton, HalfScreenDialogShowOptions, HalfScreenDialogShowResult } from './half-screen-dialog'",
+      "export { Picker } from './picker'",
+      "export type { PickerColumn, PickerOption, PickerShowOptions, PickerShowResult } from './picker'",
+      "export { Toast } from './toast'",
+      "export type { ToastType, ToastShowOptions } from './toast'",
+      "export { Toptips } from './toptips'",
+      "export type { ToptipsType, ToptipsShowOptions } from './toptips'",
+      '',
+    ].join('\n'),
     'utf-8',
   )
+}
+
+async function copyServiceFiles() {
+  for (const relativePath of serviceSourceFiles) {
+    const sourcePath = join(srcDir, relativePath)
+    const outputPath = join(outBase, basename(relativePath))
+    const source = await readFile(sourcePath, 'utf-8')
+    const transformed = rewriteStandaloneImports(
+      transformUniAppSource(source, sourcePath),
+    )
+    await writeFile(outputPath, transformed, 'utf-8')
+  }
 }
 
 async function main() {
@@ -115,23 +156,23 @@ async function main() {
 
   for (const sourcePath of sourceFiles) {
     const componentName = basename(sourcePath, '.vue')
-    const outputName = componentName
-
-    if (componentNames.has(outputName)) {
-      throw new Error(`Duplicate uni-app component output name: ${outputName}`)
-    }
-    componentNames.add(outputName)
-
-    const outputPath = join(outBase, `${outputName}.vue`)
     const source = await readFile(sourcePath, 'utf-8')
     const transformed = rewriteStandaloneImports(
       transformUniAppSource(source, sourcePath),
     )
+    const outputNames = componentOutputAliases[componentName] ?? [componentName]
 
-    await writeFile(outputPath, transformed, 'utf-8')
+    for (const outputName of outputNames) {
+      if (componentNames.has(outputName)) {
+        throw new Error(`Duplicate uni-app component output name: ${outputName}`)
+      }
+      componentNames.add(outputName)
+      await writeFile(join(outBase, `${outputName}.vue`), transformed, 'utf-8')
+    }
   }
 
   await copyInternalFiles()
+  await copyServiceFiles()
   await writeCellsCompatibilityIndex()
   await writeBarrelIndex()
 
