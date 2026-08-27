@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onBeforeUnmount, ref } from 'vue'
+import { onBeforeUnmount, reactive, ref } from 'vue'
 
 const checkboxValues = ref(['1'])
 const radioValue = ref('1')
@@ -9,9 +9,11 @@ const switchValue3 = ref(true)
 const textareaValue = ref('')
 const selectValue = ref('1')
 const selectAfterValue = ref('1')
-const mockDate = ref('2026-07-22')
-const mockPrefix = ref('+86')
-const mockTicket = ref('的士票')
+const mock = reactive({
+  mockDate: '2026-07-22',
+  mockPrefix: '+86',
+  mockTicket: '的士票',
+})
 const vcode = ref('')
 const vcodeSeconds = ref(0)
 let vcodeTimer: ReturnType<typeof setInterval> | undefined
@@ -32,8 +34,8 @@ onBeforeUnmount(() => {
   if (vcodeTimer) clearInterval(vcodeTimer)
 })
 
-const cycle = <T>(value: { value: T }, options: T[]) => {
-  value.value = options[(options.indexOf(value.value) + 1) % options.length]
+const cycle = <K extends keyof typeof mock>(key: K, options: (typeof mock)[K][]) => {
+  mock[key] = options[(options.indexOf(mock[key]) + 1) % options.length]
 }
 </script>
 
@@ -494,9 +496,9 @@ const selectAfterValue = ref('1')
   <weui-form title="模拟选择框" desc="点击各项切换模拟值。">
     <weui-cell-group form>
       <weui-cells>
-        <weui-cell select active @click="cycle(mockDate, ['2026-07-22', '2026-07-23', '2026-07-24'])">{{ mockDate }}</weui-cell>
-        <weui-cell select select-before active :title="mockPrefix" @click="cycle(mockPrefix, ['+86', '+80', '+84'])"><weui-input placeholder="请输入号码" /></weui-cell>
-        <weui-cell select select-after active label="票种" @click="cycle(mockTicket, ['的士票', '飞机票', '火车票'])">{{ mockTicket }}</weui-cell>
+        <weui-cell select active @click="cycle('mockDate', ['2026-07-22', '2026-07-23', '2026-07-24'])">{{ mock.mockDate }}</weui-cell>
+        <weui-cell select select-before active :title="mock.mockPrefix" @click="cycle('mockPrefix', ['+86', '+80', '+84'])"><weui-input placeholder="请输入号码" /></weui-cell>
+        <weui-cell select select-after active label="票种" @click="cycle('mockTicket', ['的士票', '飞机票', '火车票'])">{{ mock.mockTicket }}</weui-cell>
       </weui-cells>
     </weui-cell-group>
   </weui-form>
@@ -505,13 +507,16 @@ const selectAfterValue = ref('1')
 ::: details 查看代码
 ```vue
 <script setup lang="ts">
-import { ref } from 'vue'
+import { reactive } from 'vue'
 
-const mockDate = ref('2026-07-22')
-const mockPrefix = ref('+86')
-const mockTicket = ref('的士票')
-const cycle = <T>(value: { value: T }, options: T[]) => {
-  value.value = options[(options.indexOf(value.value) + 1) % options.length]
+const mock = reactive({
+  mockDate: '2026-07-22',
+  mockPrefix: '+86',
+  mockTicket: '的士票',
+})
+
+const cycle = <K extends keyof typeof mock>(key: K, options: (typeof mock)[K][]) => {
+  mock[key] = options[(options.indexOf(mock[key]) + 1) % options.length]
 }
 </script>
 
@@ -519,9 +524,9 @@ const cycle = <T>(value: { value: T }, options: T[]) => {
   <weui-form title="模拟选择框" desc="点击各项切换模拟值。">
     <weui-cell-group form>
       <weui-cells>
-        <weui-cell select active @click="cycle(mockDate, ['2026-07-22', '2026-07-23', '2026-07-24'])">{{ mockDate }}</weui-cell>
-        <weui-cell select select-before active :title="mockPrefix" @click="cycle(mockPrefix, ['+86', '+80', '+84'])"><weui-input placeholder="请输入号码" /></weui-cell>
-        <weui-cell select select-after active label="票种" @click="cycle(mockTicket, ['的士票', '飞机票', '火车票'])">{{ mockTicket }}</weui-cell>
+        <weui-cell select active @click="cycle('mockDate', ['2026-07-22', '2026-07-23', '2026-07-24'])">{{ mock.mockDate }}</weui-cell>
+        <weui-cell select select-before active :title="mock.mockPrefix" @click="cycle('mockPrefix', ['+86', '+80', '+84'])"><weui-input placeholder="请输入号码" /></weui-cell>
+        <weui-cell select select-after active label="票种" @click="cycle('mockTicket', ['的士票', '飞机票', '火车票'])">{{ mock.mockTicket }}</weui-cell>
       </weui-cells>
     </weui-cell-group>
   </weui-form>

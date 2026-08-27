@@ -87,7 +87,7 @@ describe('Form documentation examples', () => {
       单选框: ['radioValue'],
       开关: ['switchValue', 'switchValue2', 'switchValue3'],
       原生选择框: ['selectValue', 'selectAfterValue'],
-      模拟选择框: ['mockDate', 'mockPrefix', 'mockTicket', 'cycle'],
+      模拟选择框: ['mock', 'cycle'],
       文本域: ['textareaValue'],
     }
 
@@ -99,6 +99,12 @@ describe('Form documentation examples', () => {
       expect(details?.[1], section.title).toContain('<script setup lang="ts">')
       for (const name of names) {
         expect(details?.[1], `${section.title}: ${name}`).toMatch(new RegExp(`(?:const|let)\\s+${name}\\b`))
+      }
+
+      if (section.title === '模拟选择框') {
+        for (const refName of ['mock.mockDate', 'mock.mockPrefix', 'mock.mockTicket']) {
+          expect(details?.[1], `模拟选择框: ${refName}`).toContain(refName)
+        }
       }
     }
   })
