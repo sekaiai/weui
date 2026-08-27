@@ -356,9 +356,11 @@ describe('Dialog 命令式 API', () => {
   })
 
   describe('未挂载 overlay-host', () => {
-    it('getOverlayHost 为 null 时不抛错', () => {
+    it('getOverlayHost 为 null 时 Promise 明确拒绝', async () => {
       setOverlayHost(null)
-      expect(() => Dialog.show({ content: 'x' })).not.toThrow()
+      await expect(Dialog.show({ content: 'x' })).rejects.toThrow(
+        'WeuiOverlayHost is not mounted',
+      )
     })
   })
 })

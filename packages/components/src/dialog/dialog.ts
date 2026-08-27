@@ -72,8 +72,7 @@ function showInternal(
 ): void {
   const host = getOverlayHost()
   if (!host) {
-    // 未挂载 overlay-host 时，降级为无操作（生产环境应避免）
-    return
+    throw new Error('WeuiOverlayHost is not mounted')
   }
 
   const buttons: DialogButton[] = options.buttons ?? []

@@ -300,9 +300,11 @@ describe('HalfScreenDialog 命令式 API', () => {
   })
 
   describe('未挂载 overlay-host', () => {
-    it('getOverlayHost 为 null 时不抛错', () => {
+    it('getOverlayHost 为 null 时 Promise 明确拒绝', async () => {
       setOverlayHost(null)
-      expect(() => HalfScreenDialog.show({ content: 'x' })).not.toThrow()
+      await expect(HalfScreenDialog.show({ content: 'x' })).rejects.toThrow(
+        'WeuiOverlayHost is not mounted',
+      )
     })
   })
 })
