@@ -11,7 +11,8 @@
   "dependencies": {
     "weui-uniapp-design": "workspace:*",
     "weui": "^2.4.3",
-    "vue": "^3.4.0"
+    "vue": "3.4.21",
+    "vue-router": "4.3.2"
   },
   "devDependencies": {
     "@dcloudio/uni-app": "3.0.0-4030620241128001",
