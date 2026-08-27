@@ -54,10 +54,12 @@ test.describe('Button 组件', () => {
     await gotoPage('index')
 
     // loading 按钮应有 weui-btn_loading 类或 loading 图标
-    const loadingSection = page.locator('.demo-section').filter({ hasText: '加载状态' })
+    const loadingSection = page.locator('.demo-section').filter({
+      has: page.locator('.weui-btn_loading'),
+    })
     await expect(loadingSection).toBeVisible()
-    // 验证 loading 图标存在（WeUI 使用 weui-primary-loading 类）
-    const loadingIcon = loadingSection.locator('.weui-primary-loading').first()
+    // 验证组件自己的 loading 图标存在
+    const loadingIcon = loadingSection.locator('.weui-mask-loading').first()
     await expect(loadingIcon).toBeVisible()
   })
 

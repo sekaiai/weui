@@ -55,13 +55,15 @@ export interface WeuiRadioProps {
   extClass?: string
 }
 
+export interface WeuiRadioEmits {
+  (e: 'change', value: string): void
+}
+
 const props = withDefaults(defineProps<WeuiRadioProps>(), {
   disabled: false,
 })
 
-const emit = defineEmits<{
-  (e: 'change', value: string): void
-}>()
+const emit = defineEmits<WeuiRadioEmits>()
 
 interface RadioGroupContext {
   modelValue: { value: string }

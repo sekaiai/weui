@@ -1,7 +1,7 @@
 <template>
   <div :class="rootClass">
     <div
-      class="weui-cell__bd"
+      class="weui-cell__bd weui-slideview__left"
       :style="contentStyle"
       @click="handleLeftClick"
       @touchstart="handleTouchStart"
@@ -85,12 +85,18 @@ watch(
 
 const rootClass = computed(() => {
   const classes: string[] = ['weui-cell', 'weui-cell_swiped', 'weui-slideview']
+  if (innerShow.value) classes.push('weui-slideview_show')
   if (props.extClass) classes.push(props.extClass)
   return classes
 })
 
 const buttonClass = (btn: SlideButton) => {
-  const classes: string[] = ['weui-swiped-btn', `weui-swiped-btn_${btn.type ?? 'default'}`]
+  const classes: string[] = [
+    'weui-swiped-btn',
+    'weui-slideview__btn',
+    `weui-swiped-btn_${btn.type ?? 'default'}`,
+  ]
+  if (btn.type === 'warn') classes.push('weui-slideview__btn_warn')
   return classes
 }
 

@@ -11,5 +11,5 @@ WeuiRadioGroup.install = (app: App) => {
 }
 
 export { WeuiRadio, WeuiRadioGroup }
-export type { WeuiRadioProps } from './radio.vue'
-export type { WeuiRadioGroupProps } from './radio-group.vue'
+export type { WeuiRadioProps, WeuiRadioEmits } from './radio.vue'
+export type { WeuiRadioGroupProps, WeuiRadioGroupEmits } from './radio-group.vue'

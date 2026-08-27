@@ -8,7 +8,7 @@
     @touchmove.stop.prevent
   >
     <div
-      :class="['weui-half-screen-dialog', 'weui-transition', extClass, { 'weui-transition_show': innerShow }]"
+      :class="['weui-half-screen-dialog', 'weui-transition', extClass, { 'weui-transition_show': innerShow, 'weui-animate-slide-up': innerShow }]"
       role="dialog"
       aria-modal="true"
       @click.stop
@@ -35,7 +35,15 @@
               :key="index"
               href="#"
               role="button"
-              :class="['weui-btn', buttonClassName(btn, index)]"
+              :class="[
+                'weui-btn',
+                'weui-half-screen-dialog__btn',
+                buttonClassName(btn, index),
+                {
+                  'weui-half-screen-dialog__btn_primary': btn.type === 'primary' || (!btn.type && (buttons.length === 1 || index > 0)),
+                  'weui-half-screen-dialog__btn_warn': btn.type === 'warn',
+                },
+              ]"
               @click.prevent="handleButtonTap(btn, index)"
             >{{ btn.label }}</a>
           </div>
@@ -163,15 +171,17 @@ onBeforeUnmount(() => {
 const buttonClassName = (btn: HalfScreenDialogButton, index: number): string => {
   if (btn.type) {
     return btn.type === 'primary'
-      ? 'weui-btn_primary'
+      ? 'weui-btn_primary weui-half-screen-dialog__btn_primary'
       : btn.type === 'warn'
-        ? 'weui-btn_warn'
+        ? 'weui-btn_warn weui-half-screen-dialog__btn_warn'
         : 'weui-btn_default'
   }
   if (props.buttons.length === 1) {
     return 'weui-btn_primary'
   }
-  return index === 0 ? 'weui-btn_default' : 'weui-btn_primary'
+    return index === 0
+      ? 'weui-btn_default'
+      : 'weui-btn_primary weui-half-screen-dialog__btn_primary'
 }
 
 const close = () => {

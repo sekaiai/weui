@@ -132,4 +132,15 @@ describe('WeuiRadioGroup', () => {
     expect((inputs[0].element as HTMLInputElement).checked).toBe(false)
     expect((inputs[1].element as HTMLInputElement).checked).toBe(true)
   })
+
+  it('在不同应用实例中生成稳定的 name', () => {
+    const first = mount(WeuiRadioGroup, { slots: { default: '<div />' } })
+    const second = mount(WeuiRadioGroup, { slots: { default: '<div />' } })
+
+    const getName = (wrapper: typeof first) =>
+      (wrapper.vm as unknown as { radioName: string }).radioName
+
+    expect(getName(first)).toBe('weui-radio-group-0')
+    expect(getName(second)).toBe('weui-radio-group-0')
+  })
 })

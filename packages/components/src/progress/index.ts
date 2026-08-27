@@ -6,4 +6,4 @@ WeuiProgress.install = (app: App) => {
 }
 
 export { WeuiProgress }
-export type { WeuiProgressProps } from './progress.vue'
+export type { WeuiProgressProps, WeuiProgressEmits } from './progress.vue'

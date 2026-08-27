@@ -11,5 +11,5 @@ WeuiCheckboxGroup.install = (app: App) => {
 }
 
 export { WeuiCheckbox, WeuiCheckboxGroup }
-export type { WeuiCheckboxProps } from './checkbox.vue'
+export type { WeuiCheckboxProps, WeuiCheckboxEmits } from './checkbox.vue'
 export type { WeuiCheckboxGroupProps, WeuiCheckboxGroupEmits } from './checkbox-group.vue'

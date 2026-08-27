@@ -15,7 +15,7 @@
     >
       <slot name="operation"><i role="img" :aria-label="cancelText" class="weui-icon-cancel" /></slot>
     </a>
-    <span v-if="showInfo" role="alert" class="weui-hidden_abs">{{ displayPercent }}%</span>
+    <span v-if="showInfo" role="alert" class="weui-hidden_abs weui-progress__info">{{ displayPercent }}%</span>
   </div>
 </template>
 
@@ -51,6 +51,11 @@ export interface WeuiProgressProps {
   extClass?: string
 }
 
+export interface WeuiProgressEmits {
+  /** 点击取消操作时触发 */
+  (e: 'cancel'): void
+}
+
 const props = withDefaults(defineProps<WeuiProgressProps>(), {
   showInfo: true,
   showOperation: true,
@@ -61,10 +66,7 @@ const props = withDefaults(defineProps<WeuiProgressProps>(), {
   extClass: undefined,
 })
 
-const emit = defineEmits<{
-  /** 点击取消操作时触发 */
-  (e: 'cancel'): void
-}>()
+const emit = defineEmits<WeuiProgressEmits>()
 
 const rootClass = computed(() => {
   const classes: string[] = ['weui-progress']

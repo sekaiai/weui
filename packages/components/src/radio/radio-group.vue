@@ -20,8 +20,6 @@
 </template>
 
 <script lang="ts">
-let radioGroupId = 0
-
 export default {
   name: 'WeuiRadioGroup',
   options: {
@@ -33,6 +31,7 @@ export default {
 
 <script setup lang="ts">
 import { computed, provide, useSlots } from 'vue'
+import { useStableId } from '../utils/use-stable-id'
 
 export interface WeuiRadioGroupProps {
   modelValue?: string
@@ -44,6 +43,11 @@ export interface WeuiRadioGroupProps {
   extClass?: string
 }
 
+export interface WeuiRadioGroupEmits {
+  (e: 'update:modelValue', value: string): void
+  (e: 'change', value: string): void
+}
+
 const props = withDefaults(defineProps<WeuiRadioGroupProps>(), {
   modelValue: '',
   name: '',
@@ -53,12 +57,9 @@ const props = withDefaults(defineProps<WeuiRadioGroupProps>(), {
   form: false,
 })
 
-const emit = defineEmits<{
-  (e: 'update:modelValue', value: string): void
-  (e: 'change', value: string): void
-}>()
+const emit = defineEmits<WeuiRadioGroupEmits>()
 
-const generatedName = `weui-radio-group-${radioGroupId++}`
+const generatedName = useStableId('weui-radio-group-')
 const radioName = computed(() => props.name || generatedName)
 const slots = useSlots()
 
