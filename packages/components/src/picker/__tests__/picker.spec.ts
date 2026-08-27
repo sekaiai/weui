@@ -181,6 +181,7 @@ describe('WeuiPicker', () => {
       })
       expect(wrapper.find('.weui-mask').exists()).toBe(true)
       expect(wrapper.find('.weui-picker').exists()).toBe(true)
+      expect(wrapper.find('.weui-half-screen-dialog').classes()).toContain('weui-picker')
     })
   })
 
@@ -189,7 +190,7 @@ describe('WeuiPicker', () => {
       const wrapper = mount(WeuiPicker, {
         props: { visible: true, title: '请选择', columns: [{ options: sampleOptions }] },
       })
-      const title = wrapper.find('.weui-picker__title')
+      const title = wrapper.find('.weui-half-screen-dialog__title')
       expect(title.exists()).toBe(true)
       expect(title.text()).toBe('请选择')
     })
@@ -198,30 +199,69 @@ describe('WeuiPicker', () => {
       const wrapper = mount(WeuiPicker, {
         props: { visible: true, columns: [{ options: sampleOptions }] },
       })
-      expect(wrapper.find('.weui-picker__title').exists()).toBe(false)
+      expect(wrapper.find('.weui-half-screen-dialog__title').exists()).toBe(true)
+      expect(wrapper.find('.weui-half-screen-dialog__title').text()).toBe('')
     })
   })
 
-  describe('cancelText / confirmText', () => {
-    it('默认显示 "取消" 和 "确定"', () => {
+  describe('closeText / cancelText / confirmText', () => {
+    it('默认隐藏关闭按钮，仅显示官方确认按钮', () => {
       const wrapper = mount(WeuiPicker, {
         props: { visible: true, columns: [{ options: sampleOptions }] },
       })
-      expect(wrapper.find('.weui-picker__action_cancel').text()).toBe('取消')
-      expect(wrapper.find('.weui-picker__action_confirm').text()).toBe('确定')
+      expect(wrapper.find('.weui-half-screen-dialog__hd__side').exists()).toBe(false)
+      expect(wrapper.find('.weui-picker__btn').text()).toBe('确定')
     })
 
-    it('自定义按钮文字', () => {
+    it('showClose=true 时显示官方关闭按钮', () => {
+      const wrapper = mount(WeuiPicker, {
+        props: { visible: true, showClose: true, columns: [{ options: sampleOptions }] },
+      })
+      expect(wrapper.find('.weui-half-screen-dialog__hd__side button').text()).toContain('关闭')
+    })
+
+    it('自定义 closeText 和 confirmText', () => {
       const wrapper = mount(WeuiPicker, {
         props: {
           visible: true,
-          cancelText: '关闭',
+          showClose: true,
+          closeText: '返回',
           confirmText: '完成',
           columns: [{ options: sampleOptions }],
         },
       })
-      expect(wrapper.find('.weui-picker__action_cancel').text()).toBe('关闭')
-      expect(wrapper.find('.weui-picker__action_confirm').text()).toBe('完成')
+      expect(wrapper.find('.weui-half-screen-dialog__hd__side button').text()).toContain('返回')
+      expect(wrapper.find('.weui-picker__btn').text()).toBe('完成')
+    })
+
+    it('cancelText 作为兼容别名，closeText 优先', async () => {
+      const wrapper = mount(WeuiPicker, {
+        props: {
+          visible: true,
+          showClose: true,
+          cancelText: '取消旧文案',
+          columns: [{ options: sampleOptions }],
+        },
+      })
+      expect(wrapper.find('.weui-half-screen-dialog__hd__side button').text()).toContain('取消旧文案')
+
+      await wrapper.setProps({ closeText: '关闭新文案' })
+      expect(wrapper.find('.weui-half-screen-dialog__hd__side button').text()).toContain('关闭新文案')
+    })
+
+    it('showClose=false 时隐藏关闭按钮', () => {
+      const wrapper = mount(WeuiPicker, {
+        props: { visible: true, showClose: false, columns: [{ options: sampleOptions }] },
+      })
+      expect(wrapper.find('.weui-half-screen-dialog__hd__side').exists()).toBe(false)
+    })
+
+    it('渲染标题描述', () => {
+      const wrapper = mount(WeuiPicker, {
+        props: { visible: true, title: '标题', desc: '描述', columns: [{ options: sampleOptions }] },
+      })
+      expect(wrapper.find('.weui-half-screen-dialog__title').text()).toBe('标题')
+      expect(wrapper.find('.weui-half-screen-dialog__subtitle').text()).toBe('描述')
     })
   })
 
@@ -317,7 +357,7 @@ describe('WeuiPicker', () => {
       const wrapper = mount(WeuiPicker, {
         props: { visible: true, columns },
       })
-      await wrapper.find('.weui-picker__action_confirm').trigger('click')
+      await wrapper.find('.weui-picker__btn').trigger('click')
       expect(wrapper.emitted('confirm')).toBeTruthy()
       const [indexes, values] = wrapper.emitted('confirm')![0] as [number[], (string | number)[]]
       expect(indexes).toEqual([0])
@@ -328,9 +368,9 @@ describe('WeuiPicker', () => {
 
     it('点击取消触发 cancel 并关闭', async () => {
       const wrapper = mount(WeuiPicker, {
-        props: { visible: true, columns },
+        props: { visible: true, showClose: true, columns },
       })
-      await wrapper.find('.weui-picker__action_cancel').trigger('click')
+      await wrapper.find('.weui-half-screen-dialog__hd__side button').trigger('click')
       expect(wrapper.emitted('cancel')).toBeTruthy()
       expect(wrapper.emitted('close')).toBeTruthy()
       expect(wrapper.emitted('update:visible')![0]).toEqual([false])
@@ -360,15 +400,15 @@ describe('WeuiPicker', () => {
       const wrapper = mount(WeuiPicker, {
         props: { visible: true, columns: [{ options: sampleOptions }] },
       })
-      await wrapper.find('.weui-picker__action_confirm').trigger('click')
+      await wrapper.find('.weui-picker__btn').trigger('click')
       expect(wrapper.emitted('weui-close')).toBeTruthy()
     })
 
     it('点击取消触发 weui-close', async () => {
       const wrapper = mount(WeuiPicker, {
-        props: { visible: true, columns: [{ options: sampleOptions }] },
+        props: { visible: true, showClose: true, columns: [{ options: sampleOptions }] },
       })
-      await wrapper.find('.weui-picker__action_cancel').trigger('click')
+      await wrapper.find('.weui-half-screen-dialog__hd__side button').trigger('click')
       expect(wrapper.emitted('weui-close')).toBeTruthy()
     })
 
@@ -398,19 +438,18 @@ describe('WeuiPicker', () => {
       vi.useRealTimers()
     })
 
-    it('visible=true 后 16ms 添加滑入动画（translate(0,0)）', async () => {
+    it('visible=true 后 16ms 添加官方滑入动画类', async () => {
       const wrapper = mount(WeuiPicker, {
         props: { visible: true, columns: [{ options: sampleOptions }] },
       })
       // 挂载时 wrapperShow 立即为 true，但 showSheet=false（picker 在屏幕下方）
       expect(wrapper.find('.weui-picker').exists()).toBe(true)
-      let style = wrapper.find('.weui-picker').attributes('style') || ''
-      expect(style).toContain('translate(0, 100%)')
+      expect(wrapper.find('.weui-picker').classes()).not.toContain('weui-transition_show')
       // 推进 16ms 触发滑入
       vi.advanceTimersByTime(16)
       await nextTick()
-      style = wrapper.find('.weui-picker').attributes('style') || ''
-      expect(style).toContain('translate(0, 0)')
+      expect(wrapper.find('.weui-picker').classes()).toContain('weui-transition_show')
+      expect(wrapper.find('.weui-picker').classes()).toContain('weui-animate-slide-up')
     })
 
     it('visible=false 后滑出，300ms 后卸载外层', async () => {
@@ -422,9 +461,8 @@ describe('WeuiPicker', () => {
 
       // 触发隐藏
       await wrapper.setProps({ visible: false })
-      // 立即滑出（picker 移到屏幕下方）
-      let style = wrapper.find('.weui-picker').attributes('style') || ''
-      expect(style).toContain('translate(0, 100%)')
+      // 立即滑出，使用官方 slide-down 类
+      expect(wrapper.find('.weui-picker').classes()).toContain('weui-animate-slide-down')
       // 外层仍然挂载
       expect(wrapper.find('.weui-mask').exists()).toBe(true)
       // 推进 300ms 后卸载
@@ -446,8 +484,7 @@ describe('WeuiPicker', () => {
       // 16ms 后应再次滑入
       vi.advanceTimersByTime(16)
       await nextTick()
-      const style = wrapper.find('.weui-picker').attributes('style') || ''
-      expect(style).toContain('translate(0, 0)')
+      expect(wrapper.find('.weui-picker').classes()).toContain('weui-transition_show')
     })
   })
 })
@@ -487,14 +524,26 @@ describe('Picker 命令式 API', () => {
       expect(addedItems[0].props.title).toBe('请选择')
     })
 
-    it('默认 cancelText 为 "取消"', () => {
+    it('默认 closeText 使用官方默认值 "关闭"', () => {
       Picker.show({ columns: [{ options: sampleOptions }] })
-      expect(addedItems[0].props.cancelText).toBe('取消')
+      expect(addedItems[0].props.closeText).toBeUndefined()
+      expect(addedItems[0].props.showClose).toBe(false)
     })
 
-    it('自定义 cancelText', () => {
-      Picker.show({ cancelText: '关闭', columns: [{ options: sampleOptions }] })
-      expect(addedItems[0].props.cancelText).toBe('关闭')
+    it('透传 desc 和 showClose', () => {
+      Picker.show({ desc: '描述', showClose: false, columns: [{ options: sampleOptions }] })
+      expect(addedItems[0].props.desc).toBe('描述')
+      expect(addedItems[0].props.showClose).toBe(false)
+    })
+
+    it('自定义 closeText', () => {
+      Picker.show({ closeText: '返回', columns: [{ options: sampleOptions }] })
+      expect(addedItems[0].props.closeText).toBe('返回')
+    })
+
+    it('兼容透传 cancelText', () => {
+      Picker.show({ cancelText: '取消旧文案', columns: [{ options: sampleOptions }] })
+      expect(addedItems[0].props.cancelText).toBe('取消旧文案')
     })
 
     it('默认 confirmText 为 "确定"', () => {

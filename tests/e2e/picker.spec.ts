@@ -25,14 +25,22 @@ test.describe('Picker 组件', () => {
     // 验证遮罩存在
     await expect(page.locator('.weui-mask')).toBeVisible()
 
-    // 验证 picker 结构类名
-    await expect(picker.locator('.weui-picker__hd')).toBeVisible()
-    await expect(picker.locator('.weui-picker__bd')).toBeVisible()
-    await expect(picker.locator('.weui-picker__title')).toContainText('请选择')
+    // 验证官方半屏 Picker 结构类名
+    await expect(picker).toHaveClass(/weui-half-screen-dialog/)
+    await expect(picker.locator('.weui-half-screen-dialog__hd')).toBeVisible()
+    await expect(picker.locator('.weui-half-screen-dialog__bd')).toBeVisible()
+    await expect(picker.locator('.weui-half-screen-dialog__ft')).toBeVisible()
+    await expect(picker.locator('.weui-half-screen-dialog__hd__side .weui-btn_icon')).toBeVisible()
+    await expect(picker.locator('.weui-half-screen-dialog__title')).toContainText('请选择')
 
-    // 验证取消/确定按钮
-    await expect(picker.locator('.weui-picker__action_cancel')).toContainText('取消')
-    await expect(picker.locator('.weui-picker__action_confirm')).toContainText('确定')
+    // 验证官方关闭/确认按钮
+    await expect(picker.locator('.weui-half-screen-dialog__hd__side .weui-btn_icon')).toContainText('关闭')
+    await expect(picker.locator('.weui-half-screen-dialog__hd__side .weui-icon-close-thin')).toBeVisible()
+    await expect(picker.locator('.weui-picker__btn')).toContainText('确定')
+    await expect(picker.locator('.weui-picker__btn')).toHaveClass(/weui-btn_primary/)
+
+    // 对齐官方 WeUI Picker：列区运行时高度 280px
+    await expect(picker.locator('.weui-picker__bd')).toHaveCSS('height', '280px')
 
     // 验证 picker-group 结构
     await expect(picker.locator('.weui-picker__group')).toHaveCount(1)
@@ -57,7 +65,7 @@ test.describe('Picker 组件', () => {
     await expect(picker.locator('.weui-picker__group')).toHaveCount(3)
 
     // 验证标题
-    await expect(picker.locator('.weui-picker__title')).toContainText('请选择日期')
+    await expect(picker.locator('.weui-half-screen-dialog__title')).toContainText('请选择日期')
   })
 
   test('点击确定关闭 Picker 并显示选中结果', async ({ page, gotoPage }) => {
@@ -70,7 +78,7 @@ test.describe('Picker 组件', () => {
     await expect(picker).toBeVisible({ timeout: 5_000 })
 
     // 点击确定按钮
-    await picker.locator('.weui-picker__action_confirm').click()
+    await picker.locator('.weui-picker__btn').click()
 
     // picker 应消失
     await expect(picker).not.toBeVisible({ timeout: 2_000 })
@@ -89,7 +97,7 @@ test.describe('Picker 组件', () => {
     await expect(picker).toBeVisible({ timeout: 5_000 })
 
     // 点击取消按钮
-    await picker.locator('.weui-picker__action_cancel').click()
+    await picker.locator('.weui-half-screen-dialog__hd__side .weui-btn_icon').click()
 
     // picker 应消失
     await expect(picker).not.toBeVisible({ timeout: 2_000 })
@@ -130,25 +138,40 @@ test.describe('Picker 组件', () => {
     await expect(picker).toBeVisible()
 
     // 点击取消关闭
-    await picker.locator('.weui-picker__action_cancel').click()
+    await picker.locator('.weui-half-screen-dialog__hd__side .weui-btn_icon').click()
     await expect(picker).not.toBeVisible({ timeout: 2_000 })
   })
 
-  test('自定义按钮文字', async ({ page, gotoPage }) => {
+  test('自定义关闭与确认文案', async ({ page, gotoPage }) => {
     await gotoPage('picker')
 
-    const customSection = page.locator('.demo-section').filter({ hasText: '自定义按钮文字' })
+    const customSection = page.locator('.demo-section').filter({ hasText: '自定义关闭与确认文案' })
     await customSection.locator('.weui-btn').first().click()
 
     const picker = page.locator('.weui-picker')
     await expect(picker).toBeVisible({ timeout: 5_000 })
 
-    // 验证自定义按钮文字
-    await expect(picker.locator('.weui-picker__action_cancel')).toContainText('关闭')
-    await expect(picker.locator('.weui-picker__action_confirm')).toContainText('完成')
+    // 验证自定义关闭/确认文案
+    await expect(picker.locator('.weui-half-screen-dialog__hd__side .weui-btn_icon')).toContainText('返回')
+    await expect(picker.locator('.weui-picker__btn')).toContainText('完成')
 
     // 关闭 picker
-    await picker.locator('.weui-picker__action_cancel').click()
+    await picker.locator('.weui-half-screen-dialog__hd__side .weui-btn_icon').click()
+  })
+
+  test('showClose=false 时隐藏顶部关闭按钮并保留确认按钮', async ({ page, gotoPage }) => {
+    await gotoPage('picker')
+
+    const noCloseSection = page.locator('.demo-section').filter({ hasText: '隐藏关闭按钮' })
+    await noCloseSection.locator('.weui-btn').first().click()
+
+    const picker = page.locator('.weui-picker')
+    await expect(picker).toBeVisible({ timeout: 5_000 })
+    await expect(picker.locator('.weui-half-screen-dialog__hd__side')).toHaveCount(0)
+    await expect(picker.locator('.weui-picker__btn')).toBeVisible()
+
+    await picker.locator('.weui-picker__btn').click()
+    await expect(picker).not.toBeVisible({ timeout: 2_000 })
   })
 
   test('命令式 Picker.show 调用', async ({ page, gotoPage }) => {
@@ -161,10 +184,10 @@ test.describe('Picker 组件', () => {
     await expect(picker).toBeVisible({ timeout: 5_000 })
 
     // 验证标题（命令式调用传入了 title="命令式选择"）
-    await expect(picker.locator('.weui-picker__title')).toContainText('命令式选择')
+    await expect(picker.locator('.weui-half-screen-dialog__title')).toContainText('命令式选择')
 
     // 点击确定
-    await picker.locator('.weui-picker__action_confirm').click()
+    await picker.locator('.weui-picker__btn').click()
 
     // picker 应消失
     await expect(picker).not.toBeVisible({ timeout: 2_000 })
@@ -183,7 +206,7 @@ test.describe('Picker 组件', () => {
     await expect(picker).toBeVisible({ timeout: 5_000 })
 
     // 点击取消
-    await picker.locator('.weui-picker__action_cancel').click()
+    await picker.locator('.weui-half-screen-dialog__hd__side .weui-btn_icon').click()
 
     // picker 应消失
     await expect(picker).not.toBeVisible({ timeout: 2_000 })

@@ -1,8 +1,8 @@
 # Picker 选择器
 
-底部滑入式选择器组件，支持单列和多列选择。支持声明式和命令式两种调用方式。滚动列采用触摸交互，松手后自动归位到最近一项。
+底部滑入式选择器组件，采用 WeUI 官方半屏弹窗结构，支持单列和多列选择。支持声明式和命令式两种调用方式。滚动列采用触摸交互，松手后自动归位到最近一项。
 
-> **uni-app 平台限制：** 产物保留遮罩、头部和外层 picker 结构，但不在组件内部自动引入 `weui-picker-group`，因此列区域为空。Vue 3/H5 保持完整列渲染行为。
+组件在 Vue 3/H5 与 uni-app 产物中都渲染完整的列区域；小程序端会将列项转换为原生 `view` 节点，触摸滚动和选中状态保持一致。
 
 <script setup lang="ts">
 import { ref } from 'vue'
@@ -14,6 +14,7 @@ const show3 = ref(false)
 const show4 = ref(false)
 const show5 = ref(false)
 const show6 = ref(false)
+const show7 = ref(false)
 const lastResult = ref('')
 
 const singleColumn: PickerColumn[] = [
@@ -91,7 +92,7 @@ const onImperative = async () => {
 
 ## 基础用法
 
-通过 `v-model:visible` 控制显示，`columns` 设置列配置，`title` 设置标题。点击确定触发 `confirm` 事件，回调参数为 `(indexes, values)`。
+通过 `v-model:visible` 控制显示，`columns` 设置列配置，`title` 设置标题。Picker 默认只显示底部官方样式的主确认按钮；需要顶部关闭图标时写入 `show-close`。点击确认触发 `confirm` 事件，回调参数为 `(indexes, values)`。
 
 <div class="demo-block vp-raw">
   <weui-button type="primary" @click="show1 = true">显示 Picker</weui-button>
@@ -99,6 +100,7 @@ const onImperative = async () => {
   <weui-picker
     v-model:visible="show1"
     title="请选择"
+    show-close
     :columns="singleColumn"
     @confirm="onConfirm"
   />
@@ -111,6 +113,7 @@ const onImperative = async () => {
   <weui-picker
     v-model:visible="show"
     title="请选择"
+    show-close
     :columns="columns"
     @confirm="onConfirm"
   />
@@ -287,16 +290,57 @@ const columns: PickerColumn[] = [
 ```
 :::
 
-## 自定义按钮文字
+## 描述与关闭按钮
 
-通过 `cancel-text` 和 `confirm-text` 自定义取消/确定按钮文字。
+通过 `desc` 设置标题下的描述文字。Picker 默认不显示左上角关闭按钮，写入 `show-close`（或 `:show-close="true"`）后才显示；关闭按钮默认文案为官方的“关闭”。
 
 <div class="demo-block vp-raw">
-  <weui-button type="primary" @click="show5 = true">显示自定义按钮 Picker</weui-button>
+  <weui-button type="primary" @click="show5 = true">显示描述 Picker</weui-button>
   <weui-picker
     v-model:visible="show5"
+    title="请选择地区"
+    desc="请选择一个常用城市"
+    show-close
+    :columns="singleColumn"
+  />
+</div>
+
+::: details 查看代码
+```vue
+<template>
+  <weui-picker
+    v-model:visible="show"
+    title="请选择地区"
+    desc="请选择一个常用城市"
+    show-close
+    :columns="columns"
+    @confirm="onConfirm"
+  />
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const show = ref(false)
+const columns = [{ options: [{ label: '北京', value: 'beijing' }] }]
+const onConfirm = (indexes: number[], values: (string | number)[]) => {
+  console.log(indexes, values)
+}
+</script>
+```
+:::
+
+## 自定义关闭与确认文案
+
+通过官方命名的 `close-text` 和 `confirm-text` 自定义关闭/确认按钮文字。`cancel-text` 仍可作为旧版本兼容别名。
+
+<div class="demo-block vp-raw">
+  <weui-button type="primary" @click="show6 = true">显示自定义文案 Picker</weui-button>
+  <weui-picker
+    v-model:visible="show6"
     title="请选择"
-    cancel-text="关闭"
+    show-close
+    close-text="返回"
     confirm-text="完成"
     :columns="singleColumn"
   />
@@ -305,11 +349,12 @@ const columns: PickerColumn[] = [
 ::: details 查看代码
 ```vue
 <template>
-  <weui-button type="primary" @click="show = true">显示自定义按钮 Picker</weui-button>
+  <weui-button type="primary" @click="show = true">显示自定义文案 Picker</weui-button>
   <weui-picker
     v-model:visible="show"
     title="请选择"
-    cancel-text="关闭"
+    show-close
+    close-text="返回"
     confirm-text="完成"
     :columns="columns"
   />
@@ -334,13 +379,14 @@ const columns: PickerColumn[] = [
 
 ## 禁用遮罩点击
 
-通过 `:mask-closable="false"` 禁用点击遮罩关闭，用户必须点击取消或确定。
+通过 `:mask-closable="false"` 禁用点击遮罩关闭，用户必须点击关闭或确定。
 
 <div class="demo-block vp-raw">
-  <weui-button type="primary" @click="show6 = true">显示 Picker</weui-button>
+  <weui-button type="primary" @click="show7 = true">显示 Picker</weui-button>
   <weui-picker
-    v-model:visible="show6"
+    v-model:visible="show7"
     title="点击遮罩不关闭"
+    show-close
     :mask-closable="false"
     :columns="singleColumn"
   />
@@ -353,6 +399,7 @@ const columns: PickerColumn[] = [
   <weui-picker
     v-model:visible="show"
     title="点击遮罩不关闭"
+    show-close
     :mask-closable="false"
     :columns="columns"
   />
@@ -413,7 +460,10 @@ const showImp = async () => {
 | visible (v-model) | 是否显示 | boolean | false |
 | columns | 多列配置 | PickerColumn[] | [] |
 | title | 标题 | string | — |
-| cancel-text | 取消按钮文字 | string | '取消' |
+| desc | 标题下的描述文字 | string | — |
+| show-close | 是否显示左上角关闭按钮；写入该布尔属性即可启用 | boolean | false |
+| close-text | 关闭按钮文字 | string | '关闭' |
+| cancel-text | 旧版取消文字兼容别名（`close-text` 优先） | string | — |
 | confirm-text | 确定按钮文字 | string | '确定' |
 | mask-closable | 点击遮罩是否关闭 | boolean | true |
 | ext-class | 自定义附加类名 | string | — |
@@ -453,8 +503,11 @@ const showImp = async () => {
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | title | 标题 | string | — |
+| desc | 标题下的描述文字 | string | — |
 | columns | 多列配置 | PickerColumn[] | — |
-| cancelText | 取消按钮文字 | string | '取消' |
+| showClose | 是否显示左上角关闭按钮 | boolean | false |
+| closeText | 关闭按钮文字 | string | '关闭' |
+| cancelText | 旧版取消文字兼容别名（`closeText` 优先） | string | — |
 | confirmText | 确定按钮文字 | string | '确定' |
 | maskClosable | 点击遮罩是否关闭 | boolean | true |
 | extClass | 自定义附加类名 | string | — |

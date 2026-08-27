@@ -12,9 +12,15 @@ export type { PickerOption } from './picker-group.vue'
 export interface PickerShowOptions {
   /** 标题 */
   title?: string
+  /** 副标题描述 */
+  desc?: string
   /** 多列配置 */
   columns: PickerColumn[]
-  /** 取消按钮文字，默认 "取消" */
+  /** 是否显示左上角关闭按钮，默认 false；传入 showClose: true 即启用 */
+  showClose?: boolean
+  /** 官方命名的关闭按钮文字，默认 "关闭" */
+  closeText?: string
+  /** 兼容旧版本的取消按钮文字；closeText 优先 */
   cancelText?: string
   /** 确定按钮文字，默认 "确定" */
   confirmText?: string
@@ -51,8 +57,11 @@ export const Picker = {
       const props: Record<string, unknown> = {
         visible: true,
         title: options.title,
+        desc: options.desc,
         columns: options.columns,
-        cancelText: options.cancelText ?? '取消',
+        showClose: options.showClose ?? false,
+        closeText: options.closeText,
+        cancelText: options.cancelText,
         confirmText: options.confirmText ?? '确定',
         maskClosable: options.maskClosable ?? true,
         extClass: options.extClass,

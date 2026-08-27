@@ -14,6 +14,7 @@
         <weui-picker
           v-model:visible="showBasic"
           title="请选择"
+          show-close
           :columns="basicColumns"
           @confirm="onBasicConfirm"
         />
@@ -44,15 +45,30 @@
         />
       </view>
 
-      <!-- 自定义按钮文字 -->
+      <!-- 自定义关闭与确认文案 -->
       <view class="demo-section">
-        <view class="demo-section__title">自定义按钮文字</view>
-        <weui-button type="default" @click="showCustom = true">显示自定义按钮 Picker</weui-button>
+        <view class="demo-section__title">自定义关闭与确认文案</view>
+        <weui-button type="default" @click="showCustom = true">显示自定义文案 Picker</weui-button>
         <weui-picker
           v-model:visible="showCustom"
           title="请选择"
-          cancel-text="关闭"
+          show-close
+          close-text="返回"
           confirm-text="完成"
+          :columns="basicColumns"
+          @confirm="onBasicConfirm"
+        />
+      </view>
+
+      <!-- 隐藏关闭按钮 -->
+      <view class="demo-section">
+        <view class="demo-section__title">隐藏关闭按钮（show-close=false）</view>
+        <weui-button type="default" @click="showNoClose = true">显示无关闭按钮 Picker</weui-button>
+        <weui-picker
+          v-model:visible="showNoClose"
+          title="请选择"
+          desc="请点击底部按钮完成选择"
+          :show-close="false"
           :columns="basicColumns"
           @confirm="onBasicConfirm"
         />
@@ -65,6 +81,7 @@
         <weui-picker
           v-model:visible="showNoMask"
           title="点击遮罩不关闭"
+          show-close
           :mask-closable="false"
           :columns="basicColumns"
           @confirm="onBasicConfirm"
@@ -95,13 +112,14 @@ export default {
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Picker } from 'weui-uniapp-design'
+import { Picker } from 'weui-uniapp-design/uni-app'
 import type { PickerColumn } from 'weui-uniapp-design'
 
 const showBasic = ref(false)
 const showMulti = ref(false)
 const showInitial = ref(false)
 const showCustom = ref(false)
+const showNoClose = ref(false)
 const showNoMask = ref(false)
 
 const basicResult = ref('')
@@ -176,6 +194,7 @@ const onInitialConfirm = (indexes: number[], values: (string | number)[]) => {
 const runImperative = async () => {
   const result = await Picker.show({
     title: '命令式选择',
+    showClose: true,
     columns: basicColumns,
   })
   if (result.action === 'confirm') {

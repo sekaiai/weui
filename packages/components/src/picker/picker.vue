@@ -1,41 +1,67 @@
 <template>
-  <div
-    v-if="wrapperShow"
-    class="weui-mask"
-    :style="maskStyle"
-    @click="handleMaskClick"
-    @touchmove.stop.prevent
-  >
+  <div v-if="wrapperShow" class="weui-picker-host">
     <div
-      class="weui-picker"
-      :class="extClass"
+      class="weui-mask weui-transition"
+      :class="{
+        'weui-transition_show': showSheet,
+        'weui-animate-fade-in': showSheet,
+        'weui-animate-fade-out': isClosing,
+      }"
+      :style="maskStyle"
+      @click="handleMaskClick"
+      @touchmove.stop.prevent
+    />
+
+    <div
+      class="weui-half-screen-dialog weui-picker weui-transition"
+      :class="[
+        extClass,
+        {
+          'weui-transition_show': showSheet,
+          'weui-animate-slide-up': showSheet,
+          'weui-animate-slide-down': isClosing,
+        },
+      ]"
       :style="pickerStyle"
+      role="dialog"
+      aria-modal="true"
+      tabindex="-1"
       @click.stop
     >
-      <!-- 头部：取消 / 标题 / 确定 -->
-      <div class="weui-picker__hd">
-        <div
-          class="weui-picker__action weui-picker__action_cancel"
-          @click="handleCancel"
-        >{{ cancelText }}</div>
-        <div v-if="title" class="weui-picker__title">{{ title }}</div>
-        <div
-          class="weui-picker__action weui-picker__action_confirm"
-          @click="handleConfirm"
-        >{{ confirmText }}</div>
+      <div class="weui-half-screen-dialog__hd">
+        <div v-if="showClose" class="weui-half-screen-dialog__hd__side">
+          <button
+            type="button"
+            class="weui-btn_icon weui-wa-hotarea"
+            @click="handleCancel"
+          >{{ resolvedCloseText }}<i class="weui-icon-close-thin" /></button>
+        </div>
+        <div class="weui-half-screen-dialog__hd__main">
+          <strong class="weui-half-screen-dialog__title">{{ title }}</strong>
+          <span v-if="desc" class="weui-half-screen-dialog__subtitle">{{ desc }}</span>
+        </div>
       </div>
 
-      <!-- 主体：多列 -->
-      <div class="weui-picker__bd">
-        <!-- #ifdef H5 -->
-        <weui-picker-group
-          v-for="(col, colIndex) in columns"
-          :key="colIndex"
-          :options="col.options"
-          :index="currentIndexes[colIndex] ?? 0"
-          @change="(idx) => handleChange(colIndex, idx)"
-        />
-        <!-- #endif -->
+      <div class="weui-half-screen-dialog__bd">
+        <div class="weui-picker__bd" :style="pickerBodyStyle">
+          <weui-picker-group
+            v-for="(col, colIndex) in columns"
+            :key="colIndex"
+            :options="col.options"
+            :index="currentIndexes[colIndex] ?? 0"
+            @change="(idx) => handleChange(colIndex, idx)"
+          />
+        </div>
+      </div>
+
+      <div class="weui-half-screen-dialog__ft">
+        <div class="weui-hidden_abs" aria-hidden="true" />
+        <a
+          href="javascript:;"
+          role="button"
+          class="weui-btn weui-btn_primary weui-picker__btn"
+          @click.prevent="handleConfirm"
+        >{{ confirmText }}</a>
       </div>
     </div>
   </div>
@@ -53,9 +79,7 @@ export default {
 
 <script setup lang="ts">
 import { ref, computed, watch, onBeforeUnmount } from 'vue'
-// #ifdef H5
 import WeuiPickerGroup from './picker-group.vue'
-// #endif
 import type { PickerOption } from './picker-group.vue'
 
 export interface PickerColumn {
@@ -72,7 +96,13 @@ export interface WeuiPickerProps {
   columns?: PickerColumn[]
   /** 标题 */
   title?: string
-  /** 取消按钮文字，默认 "取消" */
+  /** 副标题描述 */
+  desc?: string
+  /** 是否显示左上角关闭按钮，默认 false；写入 show-close 即启用 */
+  showClose?: boolean
+  /** 官方命名的关闭按钮文字，默认 "关闭" */
+  closeText?: string
+  /** 兼容旧版本的取消按钮文字；closeText 优先 */
   cancelText?: string
   /** 确定按钮文字，默认 "确定" */
   confirmText?: string
@@ -94,10 +124,16 @@ export interface WeuiPickerEmits {
   (e: 'weui-close'): void
 }
 
+const PICKER_HEIGHT = 280
+
 const props = withDefaults(defineProps<WeuiPickerProps>(), {
   visible: false,
   columns: () => [],
-  cancelText: '取消',
+  title: '',
+  desc: undefined,
+  showClose: false,
+  closeText: undefined,
+  cancelText: undefined,
   confirmText: '确定',
   maskClosable: true,
 })
@@ -126,6 +162,8 @@ const getInitialIndexes = (columns: PickerColumn[]) =>
 const wrapperShow = ref(false)
 /** 控制滑入/滑出动画状态 */
 const showSheet = ref(false)
+/** 标记关闭阶段，避免初次挂载时触发 slide-down */
+const isClosing = ref(false)
 
 /** 每列当前选中索引（内部状态） */
 const currentIndexes = ref<number[]>(
@@ -151,30 +189,42 @@ const maskStyle = computed(() => {
   return style
 })
 
-const pickerStyle = computed(() => ({
-  transform: showSheet.value ? 'translate(0, 0)' : 'translate(0, 100%)',
-}))
+const pickerStyle = computed(() => {
+  if (props.zIndex === undefined) return undefined
+  return { zIndex: String(props.zIndex) }
+})
+
+const pickerBodyStyle = { height: `${PICKER_HEIGHT}px` }
+
+const resolvedCloseText = computed(() => props.closeText ?? props.cancelText ?? '关闭')
 
 watch(
   () => props.visible,
   (val) => {
     if (val) {
+      isClosing.value = false
       wrapperShow.value = true
       if (hideTimer) {
         clearTimeout(hideTimer)
         hideTimer = null
       }
+      if (showTimer) clearTimeout(showTimer)
       showTimer = setTimeout(() => {
         showSheet.value = true
+        showTimer = null
       }, 16)
     } else if (wrapperShow.value) {
       showSheet.value = false
+      isClosing.value = true
       if (showTimer) {
         clearTimeout(showTimer)
         showTimer = null
       }
+      if (hideTimer) clearTimeout(hideTimer)
       hideTimer = setTimeout(() => {
         wrapperShow.value = false
+        isClosing.value = false
+        hideTimer = null
       }, 300)
     }
   },
