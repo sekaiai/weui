@@ -25,13 +25,14 @@ describe('WeuiGallery', () => {
   })
 
   describe('src', () => {
-    it('渲染 image 标签并设置 src', () => {
+    it('渲染官方背景图节点并设置 background-image', () => {
       const wrapper = mount(WeuiGallery, {
         props: { visible: true, src: 'test.jpg' },
       })
-      const img = wrapper.find('.weui-gallery__img')
-      expect(img.exists()).toBe(true)
-      expect(img.attributes('src')).toBe('test.jpg')
+      const image = wrapper.find('.weui-gallery__img')
+      expect(image.exists()).toBe(true)
+      expect(image.element.tagName).toBe('SPAN')
+      expect(image.attributes('style')).toContain('test.jpg')
     })
   })
 
@@ -54,18 +55,20 @@ describe('WeuiGallery', () => {
   })
 
   describe('deleteText', () => {
-    it('默认删除按钮文字为"删除"', () => {
+    it('默认删除按钮使用官方删除图标并设置无障碍标签', () => {
       const wrapper = mount(WeuiGallery, {
         props: { visible: true, src: 'a.jpg', showDelete: true },
       })
-      expect(wrapper.find('.weui-gallery__del').text()).toBe('删除')
+      const del = wrapper.find('.weui-gallery__del')
+      expect(del.attributes('aria-label')).toBe('删除')
+      expect(del.find('i.weui-icon-delete.weui-icon_gallery-delete').exists()).toBe(true)
     })
 
-    it('自定义删除按钮文字', () => {
+    it('自定义删除按钮无障碍标签', () => {
       const wrapper = mount(WeuiGallery, {
         props: { visible: true, src: 'a.jpg', showDelete: true, deleteText: '移除' },
       })
-      expect(wrapper.find('.weui-gallery__del').text()).toBe('移除')
+      expect(wrapper.find('.weui-gallery__del').attributes('aria-label')).toBe('移除')
     })
   })
 

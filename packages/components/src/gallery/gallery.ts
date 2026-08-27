@@ -10,7 +10,7 @@ export interface GalleryShowOptions {
   src?: string
   /** 是否显示删除按钮 */
   showDelete?: boolean
-  /** 删除按钮文字 */
+  /** 删除图标按钮的无障碍标签 */
   deleteText?: string
   /** 点击遮罩是否关闭，默认 true */
   maskClosable?: boolean

@@ -28,10 +28,10 @@
         />
       </view>
 
-      <!-- 自定义删除文字 -->
+      <!-- 自定义删除无障碍标签 -->
       <view class="demo-section">
-        <view class="demo-section__title">自定义删除文字</view>
-        <weui-button type="default" @click="showCustomText = true">自定义文字</weui-button>
+        <view class="demo-section__title">自定义删除无障碍标签</view>
+        <weui-button type="default" @click="showCustomText = true">自定义标签</weui-button>
         <weui-gallery
           v-model:visible="showCustomText"
           src="https://res.wx.qq.com/a/wx_fed/weui/res/favicon.ico"

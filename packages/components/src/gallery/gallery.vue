@@ -1,23 +1,44 @@
 <template>
   <div
     v-if="wrapperShow"
-    :class="['weui-gallery', 'weui-transition', extClass, { 'weui-transition_show': innerShow }]"
+    :class="['weui-gallery', 'weui-transition', extClass, { 'weui-transition_show': innerShow, 'weui-animate-fade-in': innerShow }]"
     :style="maskStyle"
     role="dialog"
     aria-modal="true"
     @click="handleClick"
     @touchmove.stop.prevent
   >
-    <img class="weui-gallery__img" :src="src" />
+    <!--
+      WeUI gallery uses a positioned background image rather than an <img>.
+      The latter is a replaced element and collapses to zero height when the
+      remote image has not loaded yet, which makes the H5 demo appear blank.
+    -->
+    <span
+      v-if="!isMini"
+      class="weui-gallery__img"
+      role="img"
+      alt="图片详情"
+      aria-label="图片详情"
+      :style="imageStyle"
+    />
+    <image
+      v-else
+      class="weui-gallery__img"
+      :src="src"
+      mode="aspectFit"
+      aria-label="图片详情"
+    />
     <div v-if="hasOpr" class="weui-gallery__opr" @click.stop>
       <slot>
         <a
           role="button"
-          aria-label="删除"
+          :aria-label="deleteText"
           href="javascript:"
           class="weui-gallery__del"
           @click="handleDelete"
-        >{{ deleteText }}</a>
+        >
+          <i class="weui-icon-delete weui-icon_gallery-delete" aria-hidden="true" />
+        </a>
       </slot>
     </div>
   </div>
@@ -44,7 +65,7 @@ export interface WeuiGalleryProps {
   src?: string
   /** 是否显示删除按钮 */
   showDelete?: boolean
-  /** 删除按钮文字 */
+  /** 删除图标按钮的无障碍标签 */
   deleteText?: string
   /** 点击遮罩是否关闭，默认 true */
   maskClosable?: boolean
@@ -74,6 +95,11 @@ const props = withDefaults(defineProps<WeuiGalleryProps>(), {
 
 const emit = defineEmits<WeuiGalleryEmits>()
 const slots = useSlots()
+const isMini = isMiniProgram()
+
+const imageStyle = computed(() => ({
+  backgroundImage: props.src ? `url(${JSON.stringify(props.src)})` : 'none',
+}))
 
 /** 控制外层节点是否挂载 */
 const wrapperShow = ref(false)
@@ -100,7 +126,7 @@ const maskStyle = computed(() => {
 watch(
   () => props.visible,
   (val) => {
-    if (isMiniProgram()) {
+    if (isMini) {
       // 小程序端：调用 uni.previewImage 系统预览，不渲染自定义 UI
       // wrapperShow 始终为 false，模板 v-if="wrapperShow" 自然不渲染
       if (val) {

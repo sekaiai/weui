@@ -2,6 +2,8 @@
 
 全屏图片预览组件，用于展示图片并提供删除等操作入口。支持声明式和命令式两种调用方式，命令式调用通过 `Gallery.show` 返回 `Promise<'delete' | 'hide'>`，便于在异步流程中获知用户操作。
 
+H5 图片区域遵循官方 WeUI 的 `.weui-gallery__img` 背景图结构，并使用 `contain` 保持图片比例；小程序端则调用 `uni.previewImage` 系统预览。
+
 <script setup lang="ts">
 import { ref } from 'vue'
 import { Gallery } from 'weui-uniapp-design'
@@ -80,7 +82,7 @@ const imgSrc = 'https://picsum.photos/seed/weui-gallery/600/400'
 
 ## 显示删除按钮
 
-通过 `show-delete` 显示底部删除按钮，`delete-text` 自定义按钮文字。点击删除按钮触发 `delete` 事件，**不会自动关闭画廊**，需在回调中手动将 `visible` 置为 `false`。
+通过 `show-delete` 显示底部官方删除图标，`delete-text` 自定义图标按钮的无障碍标签。点击删除按钮触发 `delete` 事件，**不会自动关闭画廊**，需在回调中手动将 `visible` 置为 `false`。
 
 <div class="demo-block vp-raw">
   <weui-button type="primary" @click="show2 = true">预览并删除</weui-button>
@@ -260,7 +262,7 @@ const onImperative = async () => {
 | visible (v-model) | 是否显示 | boolean | false |
 | src | 图片地址 | string | — |
 | show-delete | 是否显示删除按钮 | boolean | false |
-| delete-text | 删除按钮文字 | string | 删除 |
+| delete-text | 删除图标按钮的无障碍标签 | string | 删除 |
 | mask-closable | 点击遮罩是否关闭 | boolean | true |
 | ext-class | 自定义附加类名 | string | — |
 | z-index | z-index（命令式调用时由 overlay-host 注入） | number | — |
@@ -290,7 +292,7 @@ const onImperative = async () => {
 | --- | --- | --- | --- |
 | src | 图片地址 | string | — |
 | showDelete | 是否显示删除按钮 | boolean | false |
-| deleteText | 删除按钮文字 | string | 删除 |
+| deleteText | 删除图标按钮的无障碍标签 | string | 删除 |
 | maskClosable | 点击遮罩是否关闭 | boolean | true |
 | extClass | 自定义附加类名 | string | — |
 

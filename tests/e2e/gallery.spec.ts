@@ -28,8 +28,13 @@ test.describe('Gallery 组件', () => {
     const gallery = page.locator('.weui-gallery')
     await expect(gallery).toBeVisible({ timeout: 5_000 })
 
-    // 应有图片元素
-    await expect(gallery.locator('.weui-gallery__img')).toBeVisible()
+    // 官方 WeUI 使用定位背景图节点，未加载远程图片时也应保留完整区域
+    const image = gallery.locator('.weui-gallery__img')
+    await expect(image).toBeVisible()
+    await expect(image).toHaveAttribute('role', 'img')
+    await expect(image).toHaveCSS('position', 'absolute')
+    await expect(image).toHaveCSS('background-size', 'contain')
+    expect(await image.evaluate((el) => el.getBoundingClientRect().height)).toBeGreaterThan(0)
 
     // 基础用法无操作区（无 show-delete、无 slot）
     await expect(gallery.locator('.weui-gallery__opr')).toHaveCount(0)
@@ -62,25 +67,26 @@ test.describe('Gallery 组件', () => {
     const opr = gallery.locator('.weui-gallery__opr')
     await expect(opr).toBeVisible()
 
-    // 应有删除按钮，默认文字"删除"
+    // 应有官方删除图标，默认无障碍标签为"删除"
     const del = opr.locator('.weui-gallery__del')
     await expect(del).toBeVisible()
-    await expect(del).toContainText('删除')
+    await expect(del).toHaveAttribute('aria-label', '删除')
+    await expect(del.locator('.weui-icon-delete.weui-icon_gallery-delete')).toHaveCount(1)
   })
 
-  test('自定义删除文字渲染正确', async ({ page, gotoPage }) => {
+  test('自定义删除无障碍标签渲染正确', async ({ page, gotoPage }) => {
     await gotoPage('gallery')
 
-    const section = page.locator('.demo-section').filter({ hasText: '自定义删除文字' })
+    const section = page.locator('.demo-section').filter({ hasText: '自定义删除无障碍标签' })
     await section.locator('.weui-btn').first().click()
     await page.waitForTimeout(200)
 
     const gallery = page.locator('.weui-gallery')
     await expect(gallery).toBeVisible({ timeout: 5_000 })
 
-    // 删除按钮文字应为"移除"
+    // 删除图标按钮的无障碍标签应为"移除"
     const del = gallery.locator('.weui-gallery__del')
-    await expect(del).toContainText('移除')
+    await expect(del).toHaveAttribute('aria-label', '移除')
   })
 
   test('自定义操作区 slot 渲染', async ({ page, gotoPage }) => {
