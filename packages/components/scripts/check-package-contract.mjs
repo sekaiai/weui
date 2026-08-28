@@ -20,12 +20,20 @@ const packageReadme = await readFile(join(packageRoot, 'README.md'), 'utf-8')
 const rootReadme = await readFile(join(repoRoot, 'README.md'), 'utf-8')
 assert(packageReadme === rootReadme, 'package README must match the repository README')
 
-const packResult = JSON.parse(execFileSync(
+const packOutput = JSON.parse(execFileSync(
   'npm',
   ['pack', '--json', '--dry-run', '--ignore-scripts'],
   { cwd: packageRoot, encoding: 'utf-8' },
 ))
-const packedFiles = new Set(packResult[0].files.map((file) => file.path))
+// npm 10 returns an array, while npm 12 returns an object keyed by package
+// name. Normalize both shapes so the release contract is version-agnostic.
+const packResult = Array.isArray(packOutput)
+  ? packOutput[0]
+  : packOutput.files
+    ? packOutput
+    : packOutput[manifest.name] ?? Object.values(packOutput).find((value) => value?.files)
+assert(packResult && Array.isArray(packResult.files), 'npm pack returned an unsupported JSON shape')
+const packedFiles = new Set(packResult.files.map((file) => file.path))
 for (const requiredFile of [
   'README.md',
   'LICENSE',
