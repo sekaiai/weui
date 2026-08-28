@@ -125,6 +125,9 @@ const config: UserConfig = {
   themeConfig: {
     nav,
     sidebar,
+    socialLinks: [
+      { icon: 'github', link: 'https://github.com/sekaiai/weui' },
+    ],
     smoothScroll: true,
   },
   // @vitejs/plugin-vue 选项（顶层）：用于把 uni-app 内置标签编译为自定义元素，

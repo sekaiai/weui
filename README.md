@@ -2,6 +2,12 @@
 
 面向 Vue 3 与 uni-app 的 WeUI 组件库。组件遵循腾讯 [WeUI](https://weui.io/) 的视觉语言和结构规范，优先服务微信小程序，同时支持纯 Vue 3 H5 项目。
 
+## 在线文档
+
+组件 API、可交互示例、复合组件限制与平台差异说明，请查看在线文档：
+
+<https://sekaiai.github.io/weui/>
+
 ## 特性
 
 - 基于 Vue 3 与 TypeScript，提供完整的组件与类型导出
@@ -147,12 +153,6 @@ pnpm build:uni-app
 | 表单 | Form、Input、Textarea、Select、Checkbox、Radio、Switch、Searchbar、Uploader、Agree |
 | 操作反馈 | Actionsheet、Dialog、HalfScreenDialog、Picker、Toast、Toptips、Gallery、Slideview |
 | 导航 | Navbar、Tabbar、Steps |
-
-## 文档站
-
-组件 API、可交互示例、复合组件限制与平台差异说明，请查看文档站：
-
-<https://sekaiai.github.io/weui/>
 
 ## 本地开发
 
