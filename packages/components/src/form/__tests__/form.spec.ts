@@ -54,7 +54,7 @@ describe('WeuiForm', () => {
       expect(descEl.text()).toBe('表单描述')
     })
 
-    it('不传 title/desc 且无 title slot 时不渲染 .weui-form__text-area', () => {
+    it('不传 title/desc 时不渲染 .weui-form__text-area', () => {
       const wrapper = mount(WeuiForm)
       expect(wrapper.find('.weui-form__text-area').exists()).toBe(false)
     })
@@ -67,25 +67,59 @@ describe('WeuiForm', () => {
       expect(ta.find('.weui-form__desc').text()).toBe('只有描述')
     })
 
-    it('title slot 自定义标题内容', () => {
+    it('title slot 不覆盖 title 属性内容', () => {
       const wrapper = mount(WeuiForm, {
         props: { title: '默认标题' },
         slots: { title: '<span class="custom-title">自定义标题</span>' },
       })
       const ta = wrapper.find('.weui-form__text-area')
       expect(ta.exists()).toBe(true)
-      expect(ta.find('.custom-title').exists()).toBe(true)
-      expect(ta.find('.weui-form__title').text()).toBe('自定义标题')
+      expect(ta.find('.custom-title').exists()).toBe(false)
+      expect(ta.find('.weui-form__title').text()).toBe('默认标题')
     })
 
-    it('desc slot 自定义描述元素内容', () => {
+    it('desc slot 不再渲染描述内容', () => {
       const wrapper = mount(WeuiForm, {
         slots: { desc: '<span class="custom-desc">自定义描述</span>' },
       })
-      const descEl = wrapper.find('.weui-form__desc')
-      expect(descEl.exists()).toBe(true)
-      expect(descEl.find('.custom-desc').exists()).toBe(true)
-      expect(descEl.text()).toBe('自定义描述')
+      expect(wrapper.find('.weui-form__text-area').exists()).toBe(false)
+      expect(wrapper.find('.custom-desc').exists()).toBe(false)
+    })
+
+    it.each([
+      ['left', 'left'],
+      ['right', 'right'],
+    ] as const)('textAlign=%s 时以内联样式对齐文字区域', (textAlign, expected) => {
+      const wrapper = mount(WeuiForm, {
+        props: { title: '表单标题', textAlign },
+      })
+      const textArea = wrapper.find('.weui-form__text-area').element as HTMLElement
+      expect(textArea.style.textAlign).toBe(expected)
+    })
+
+    it('未传 textAlign 时保留 WeUI 默认对齐', () => {
+      const wrapper = mount(WeuiForm, { props: { title: '表单标题' } })
+      expect(wrapper.find('.weui-form__text-area').attributes('style')).toBeUndefined()
+    })
+  })
+
+  describe('hd slot', () => {
+    it('直接渲染到 bd 内并位于 text-area 前', () => {
+      const wrapper = mount(WeuiForm, {
+        props: { title: '默认标题' },
+        slots: { hd: '<div class="custom-hd">自定义头部</div>' },
+      })
+      const children = wrapper.findAll('.weui-form__bd > *')
+      expect(children[0].classes()).toContain('custom-hd')
+      expect(children[1].classes()).toContain('weui-form__text-area')
+      expect(wrapper.find('.custom-hd').element.parentElement?.classList).toContain('weui-form__bd')
+    })
+
+    it('不提供 hd 时不渲染头部内容或包装节点', () => {
+      const wrapper = mount(WeuiForm, { props: { title: '默认标题' } })
+      const children = wrapper.findAll('.weui-form__bd > *')
+      expect(children[0].classes()).toContain('weui-form__text-area')
+      expect(wrapper.find('.weui-form__hd').exists()).toBe(false)
     })
   })
 

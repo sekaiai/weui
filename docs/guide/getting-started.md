@@ -128,7 +128,7 @@ easycom 只保证业务页面使用的顶层组件，不保证组件库复合组
 
 - `cell-group`：H5 与 uni-app 都是只渲染 `.weui-cells__group` 的纯外壳；列表标题、主体和提示由显式嵌套的 `cells` 提供。
 - `cells`：标题、列表主体和底部提示已整合在单一组件中，使用 `title`、`tips` props 或同名 slots。
-- `form`：表单外壳、标题、描述、双 tips、操作区和附加区使用内联结构；通过 `default`、`title`、`desc`、`tips`、`opr`、`tips-b`、`extra` slots 填充，组件内部使用 `v-if` 控制可选区域。
+- `form`：表单外壳、标题、描述、双 tips、操作区和附加区使用内联结构；标题和描述通过 `title`、`desc` 属性传入，`text-align` 控制默认标题区域左右对齐，`hd`、`default`、`tips`、`opr`、`tips-b`、`extra` slots 填充自定义区域。
 - `msg`：默认 `weui-icon` 不在 uni-app 产物中内部自动引入，需要图标时通过 `icon` slot 显式传入。
 - `picker`：Vue 3/H5 与 uni-app 产物均使用 WeUI 官方半屏弹窗结构，内置 `weui-picker-group` 列区域，支持单列、多列、禁用项和触摸滚动；关闭按钮使用 `close-text`（旧版 `cancel-text` 仍兼容）。
 

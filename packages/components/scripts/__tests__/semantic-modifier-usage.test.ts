@@ -124,6 +124,6 @@ describe('semantic modifier usage', () => {
     expect(structureSection?.match(/<weui-cell-group form>/g)).toHaveLength(2)
     expect(structureSection?.match(/<weui-cells>/g)).toHaveLength(2)
     expect(source).not.toMatch(/<weui-form\b[^>]*\b(?:footer|control|title-content)(?:\s|=|>)/)
-    expect(source).not.toMatch(/<template\s+#(?:control|title-content)>/)
+    expect(source).not.toMatch(/<template\s+#(?:title|desc|control|title-content)>/)
   })
 })

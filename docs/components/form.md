@@ -109,25 +109,28 @@ const cycle = <K extends keyof typeof mock>(key: K, options: (typeof mock)[K][])
 
 ## Slots 与固定结构
 
-`default` slot 始终渲染到 `.weui-form__control-area`；`title` 和 `desc` 分别填充标题、描述节点。
+`default` slot 始终渲染到 `.weui-form__control-area`；`hd` 无包装节点地渲染在 `.weui-form__bd` 内，并位于默认 `.weui-form__text-area` 前。标题和描述仅通过 `title`、`desc` 属性传入。
 
 | Slot | 渲染位置 |
 | --- | --- |
+| `hd` | `.weui-form__bd` 内、`.weui-form__text-area` 前，无包装节点 |
 | `default` | `.weui-form__control-area` |
-| `title` | `.weui-form__title` |
-| `desc` | `.weui-form__desc` |
 | `tips` | 第一个 `.weui-form__tips-area` |
 | `opr` | `.weui-form__opr-area` |
 | `tips-b` | 第二个 `.weui-form__tips-area` |
 | `extra` | `.weui-form__extra-area` |
 
-底部结构由 Form 固定生成，slot 顺序为 `tips → opr → tips-b → extra`。每个区域根据对应 slot 是否存在使用 `v-if` 渲染：
+`hd` 可用于完全接管标题区域；下面的写法使用官方类名完整模拟默认标题和描述。底部结构由 Form 固定生成，slot 顺序为 `tips → opr → tips-b → extra`：
 
 ```vue
 <template>
   <weui-form>
-    <template #title>表单结构</template>
-    <template #desc>展示表单页面的信息结构样式。</template>
+    <template #hd>
+      <div class="weui-form__text-area">
+        <h2 class="weui-form__title">自定义表单标题</h2>
+        <div class="weui-form__desc">通过 hd 插槽完整模拟默认标题和描述。</div>
+      </div>
+    </template>
     <template #default>
       <weui-cell-group form>
         <weui-cells>
@@ -146,6 +149,15 @@ const cycle = <K extends keyof typeof mock>(key: K, options: (typeof mock)[K][])
       <div class="weui-footer">底部信息</div>
     </template>
   </weui-form>
+</template>
+```
+
+默认标题区域支持左右对齐；未传 `text-align` 时仍使用 WeUI 默认居中：
+
+```vue
+<template>
+  <weui-form title="左对齐标题" desc="标题和描述向左对齐。" text-align="left" />
+  <weui-form title="右对齐标题" desc="标题和描述向右对齐。" text-align="right" />
 </template>
 ```
 
@@ -598,6 +610,7 @@ const textareaValue = ref('')
 | --- | --- | --- | --- |
 | title | 表单标题 | `string` | — |
 | desc | 表单描述 | `string` | — |
+| text-align | 默认标题文字区域的对齐方式，可选 `left`、`right` | `'left' \| 'right'` | WeUI 默认居中 |
 | bottom-fixed | 底部悬浮模式，内置最小高度 | `boolean` | `false` |
 | ext-class | 纯自定义样式扩展类 | `string` | — |
 
@@ -605,9 +618,8 @@ const textareaValue = ref('')
 
 | 名称 | 说明 |
 | --- | --- |
+| hd | 自定义头部内容，无包装节点，渲染在默认标题区域前 |
 | default | 控件区域内容 |
-| title | 标题内容 |
-| desc | 描述内容 |
 | tips | 第一个提示区域内容 |
 | opr | 操作区域内容 |
 | tips-b | 第二个提示区域内容 |

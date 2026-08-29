@@ -20,7 +20,10 @@
       <!-- 标题与描述 -->
       <view class="demo-section">
         <view class="demo-section__title">标题与描述</view>
-        <weui-form title="表单标题" desc="表单描述文字">
+        <weui-form title="左对齐标题" desc="标题和描述通过属性传入" text-align="left">
+          <weui-cells form><weui-cell>控件内容</weui-cell></weui-cells>
+        </weui-form>
+        <weui-form title="右对齐标题" desc="标题和描述向右对齐" text-align="right">
           <weui-cells form><weui-cell>控件内容</weui-cell></weui-cells>
         </weui-form>
       </view>
@@ -48,12 +51,16 @@
         </weui-form>
       </view>
 
-      <!-- 自定义标题区域 -->
+      <!-- hd 自定义标题区域 -->
       <view class="demo-section">
-        <view class="demo-section__title">自定义标题区域</view>
+        <view class="demo-section__title">hd 自定义标题区域</view>
         <weui-form>
-          <template #title>自定义标题</template>
-          <template #desc>通过 title 和 desc 插槽自定义内容</template>
+          <template #hd>
+            <view class="weui-form__text-area">
+              <text class="weui-form__title">自定义表单标题</text>
+              <view class="weui-form__desc">通过 hd 插槽完整模拟默认标题和描述</view>
+            </view>
+          </template>
           <weui-cells form><weui-cell>控件内容</weui-cell></weui-cells>
         </weui-form>
       </view>

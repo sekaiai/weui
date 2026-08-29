@@ -65,6 +65,32 @@
         </weui-form>
       </div>
 
+      <!-- 标题区域 -->
+      <div class="demo-section">
+        <div class="demo-section__title">标题区域</div>
+        <weui-form title="左对齐标题" desc="标题和描述通过属性传入" text-align="left">
+          <weui-cell-group form>
+            <weui-cells><weui-cell>左对齐标题区域</weui-cell></weui-cells>
+          </weui-cell-group>
+        </weui-form>
+        <weui-form title="右对齐标题" desc="标题和描述向右对齐" text-align="right">
+          <weui-cell-group form>
+            <weui-cells><weui-cell>右对齐标题区域</weui-cell></weui-cells>
+          </weui-cell-group>
+        </weui-form>
+        <weui-form>
+          <template #hd>
+            <div class="weui-form__text-area">
+              <h2 class="weui-form__title">自定义表单标题</h2>
+              <div class="weui-form__desc">通过 hd 插槽完整模拟默认标题和描述</div>
+            </div>
+          </template>
+          <weui-cell-group form>
+            <weui-cells><weui-cell>自定义标题区域</weui-cell></weui-cells>
+          </weui-cell-group>
+        </weui-form>
+      </div>
+
       <!-- CellGroup 分组容器 -->
       <div class="demo-section">
         <div class="demo-section__title">CellGroup 分组容器</div>

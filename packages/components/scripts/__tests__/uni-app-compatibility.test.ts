@@ -101,12 +101,14 @@ describe('uni-app compatibility audit', () => {
     expect(formTemplate).toContain('weui-form__control-area')
     expect(formTemplate).toContain('class="weui-form__ft"')
     expect(formTemplate).toContain('<slot />')
-    for (const slotName of ['title', 'desc', 'tips', 'opr', 'tips-b', 'extra']) {
+    for (const slotName of ['hd', 'tips', 'opr', 'tips-b', 'extra']) {
       expect(formTemplate, `form slot ${slotName}`).toContain(`name="${slotName}"`)
     }
-    for (const removedSlot of ['control', 'title-content', 'footer']) {
+    for (const removedSlot of ['title', 'desc', 'control', 'title-content', 'footer']) {
       expect(formTemplate, `removed form slot ${removedSlot}`).not.toContain(`name="${removedSlot}"`)
     }
+    expect(formTemplate.indexOf('name="hd"')).toBeLessThan(formTemplate.indexOf('weui-form__text-area'))
+    expect(formTemplate).not.toContain('weui-form__hd')
     expect(formTemplate).not.toMatch(/<weui-form-(?:tips|opr|extra)\b/i)
   })
 

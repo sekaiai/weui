@@ -65,7 +65,7 @@ describe('Form documentation examples', () => {
       expect(countMarker(example.code, 'weui-footer'), example.title).toBe(
         countMarker(example.demo, 'weui-footer'),
       )
-      expect(example.code).not.toMatch(/<template\s+#(?:control|title-content)>/)
+      expect(example.code).not.toMatch(/<template\s+#(?:title|desc|control|title-content)>/)
 
       if (example.demo.includes('<weui-cells')) {
         expect(example.demo, example.title).toMatch(/<weui-cell-group\b[^>]*\bform\b/)
@@ -135,12 +135,22 @@ describe('Form documentation examples', () => {
     const example = slotsSection?.match(/```vue\n([\s\S]*?)\n```/)?.[1]
 
     expect(example).toBeDefined()
-    for (const slot of ['title', 'desc', 'default', 'tips', 'opr', 'tips-b', 'extra']) {
+    for (const slot of ['hd', 'default', 'tips', 'opr', 'tips-b', 'extra']) {
       expect(example).toContain(`<template #${slot}>`)
     }
+    expect(example).not.toMatch(/<template\s+#(?:title|desc)>/)
+    expect(example).toContain('<div class="weui-form__text-area">')
+    expect(example).toContain('<h2 class="weui-form__title">')
+    expect(example).toContain('<div class="weui-form__desc">')
     expect(example).toContain('<weui-cell-group form>')
     expect(example).toContain('<weui-cells>')
     expect(example).toContain('<weui-input')
     expect(example).toContain('<weui-button')
+  })
+
+  it('documents title alignment without restoring removed title slots', () => {
+    expect(source).toContain('text-align="left"')
+    expect(source).toContain('text-align="right"')
+    expect(source).not.toMatch(/<template\s+#(?:title|desc)>/)
   })
 })
