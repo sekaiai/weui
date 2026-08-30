@@ -2,7 +2,7 @@ import { test, expect, expectNoErrors } from './helpers'
 
 /**
  * Form 组件 E2E 测试
- * 验证：页面可访问性 + WeUI 类名 + title/desc/tips/footer/title slot 渲染 + 扩展类名
+ * 验证：页面可访问性 + WeUI 类名 + title/desc/tips/footer/hd slot 渲染 + 扩展类名
  */
 test.describe('Form 组件', () => {
   test('页面正常加载，无 console 错误', async ({ page, gotoPage, consoleErrors, pageErrors }) => {
@@ -39,14 +39,14 @@ test.describe('Form 组件', () => {
     await expect(form.locator('.weui-label').nth(1)).toContainText('手机号')
   })
 
-  test('标题与描述 section 渲染 title 与 desc', async ({ page, gotoPage }) => {
+  test('标题与描述 section 通过属性渲染 title 与 desc', async ({ page, gotoPage }) => {
     await gotoPage('form')
 
     const section = page.locator('.demo-section').filter({ hasText: '标题与描述' })
     const form = section.locator('.weui-form').first()
 
-    await expect(form.locator('.weui-form__title')).toContainText('表单标题')
-    await expect(form.locator('.weui-form__desc')).toContainText('表单描述文字')
+    await expect(form.locator('.weui-form__title')).toContainText('左对齐标题')
+    await expect(form.locator('.weui-form__desc')).toContainText('标题和描述通过属性传入')
   })
 
   test('提示文字 section 渲染（footer slot 中包含 tips-area）', async ({ page, gotoPage }) => {
@@ -77,16 +77,16 @@ test.describe('Form 组件', () => {
     await expect(form.locator('.weui-btn-area .weui-btn_default').first()).toContainText('取消')
   })
 
-  test('自定义标题区域 section 通过 title slot 渲染', async ({ page, gotoPage }) => {
+  test('hd 自定义标题区域 section 通过 hd slot 渲染', async ({ page, gotoPage }) => {
     await gotoPage('form')
 
-    const section = page.locator('.demo-section').filter({ hasText: '自定义标题区域' })
+    const section = page.locator('.demo-section').filter({ hasText: 'hd 自定义标题区域' })
     const form = section.locator('.weui-form').first()
 
-    // title slot 触发 text-area 渲染，slot 内含自定义 title/desc
+    // hd slot 直接渲染自定义 text-area，组件不添加额外包装节点
     await expect(form.locator('.weui-form__text-area')).toBeVisible()
-    await expect(form.locator('.weui-form__text-area .weui-form__title')).toContainText('自定义标题')
-    await expect(form.locator('.weui-form__text-area .weui-form__desc')).toContainText('通过 title 和 desc 插槽')
+    await expect(form.locator('.weui-form__text-area .weui-form__title')).toContainText('自定义表单标题')
+    await expect(form.locator('.weui-form__text-area .weui-form__desc')).toContainText('通过 hd 插槽完整模拟默认标题和描述')
   })
 
   test('扩展类名 section 含 custom-form 扩展类', async ({ page, gotoPage }) => {
