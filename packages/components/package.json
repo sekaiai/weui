@@ -1,6 +1,6 @@
 {
   "name": "weui-uniapp-design",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "type": "module",
   "description": "支持 uni-app 的 WeUI Vue 3 组件库",
   "keywords": [
