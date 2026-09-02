@@ -108,6 +108,13 @@ describe('WeuiActionsheet', () => {
       })
       expect(wrapper.find('.weui-actionsheet').classes()).toContain('my-actionsheet')
     })
+
+    it('将 wrapperClass 绑定到遮罩结构层', () => {
+      const wrapper = mount(WeuiActionsheet, {
+        props: { visible: true, wrapperClass: 'sheet-wrapper' },
+      })
+      expect(wrapper.find('.weui-mask').classes()).toContain('sheet-wrapper')
+    })
   })
 
   describe('zIndex', () => {

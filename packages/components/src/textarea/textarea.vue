@@ -1,5 +1,5 @@
 <template>
-  <div :class="rootClass">
+  <div :class="rootClass" v-bind="$attrs">
     <div v-if="label" class="weui-cell__hd"><label class="weui-label">{{ label }}</label></div>
     <div class="weui-cell__bd">
       <textarea
@@ -22,6 +22,7 @@
 <script lang="ts">
 export default {
   name: 'WeuiTextarea',
+  inheritAttrs: false,
   options: {
     styleIsolation: 'apply-shared',
     addGlobalClass: true,

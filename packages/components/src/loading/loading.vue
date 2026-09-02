@@ -1,5 +1,5 @@
 <template>
-  <div :class="rootClass" :style="rootStyle">
+  <div :class="rootClass" :style="rootStyle" v-bind="$attrs">
     <div
       class="weui-loading"
       :class="{ 'weui-loading_transparent': transparent }"
@@ -14,6 +14,7 @@
 <script lang="ts">
 export default {
   name: 'WeuiLoading',
+  inheritAttrs: false,
   options: {
     styleIsolation: 'apply-shared',
     addGlobalClass: true,
@@ -38,6 +39,8 @@ export interface WeuiLoadingProps {
   text?: string
   /** 透明背景模式 */
   transparent?: boolean
+  /** 加载图标和文字容器的扩展类名。 */
+  extClass?: string
 }
 
 const props = withDefaults(defineProps<WeuiLoadingProps>(), {
@@ -45,13 +48,14 @@ const props = withDefaults(defineProps<WeuiLoadingProps>(), {
   color: '#999',
   text: undefined,
   transparent: false,
+  extClass: undefined,
 })
 
 const slots = useSlots()
 
 const hasText = computed(() => props.text !== undefined || !!slots.default)
 
-const rootClass = computed(() => [])
+const rootClass = computed(() => props.extClass ? [props.extClass] : [])
 
 const rootStyle = computed(() => ({
     display: 'inline-flex',

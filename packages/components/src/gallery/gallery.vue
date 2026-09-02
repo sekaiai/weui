@@ -3,6 +3,7 @@
     v-if="wrapperShow"
     :class="['weui-gallery', 'weui-transition', extClass, { 'weui-transition_show': innerShow, 'weui-animate-fade-in': innerShow }]"
     :style="maskStyle"
+    v-bind="$attrs"
     role="dialog"
     aria-modal="true"
     @click="handleClick"
@@ -47,6 +48,7 @@
 <script lang="ts">
 export default {
   name: 'WeuiGallery',
+  inheritAttrs: false,
   options: {
     styleIsolation: 'apply-shared',
     addGlobalClass: true,

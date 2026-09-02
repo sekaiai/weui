@@ -1,5 +1,5 @@
 <template>
-  <div :class="rootClass">
+  <div :class="rootClass" v-bind="$attrs">
     <div v-if="showHeader" class="weui-uploader__hd">
       <div v-if="title" class="weui-uploader__title">{{ title }}</div>
       <div class="weui-uploader__info">{{ infoText }}</div>
@@ -54,6 +54,7 @@
 <script lang="ts">
 export default {
   name: 'WeuiUploader',
+  inheritAttrs: false,
   options: {
     styleIsolation: 'apply-shared',
     addGlobalClass: true,

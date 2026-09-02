@@ -21,6 +21,13 @@ agent_created: true
 - **uni-app**：组件通过 `weui-uniapp-design/uni-app/*.vue` easycom 子入口加载。组件内的 `<style>` 会随 SFC 由 uni-app 编译，不要在 uni-app 页面中导入 Vue 3 根入口或 `/ssr`。
 - **显式 CSS**：需要控制加载顺序、主题覆盖或 CSP 时，可显式引入 `weui-uniapp-design/index.css`；重复引入不会改变样式内容。
 
+## 组件局部定制约定
+
+- 所有组件都有 `ext-class`；它和原生 `class`、`style`、`aria-*`、`data-*` 一起绑定到组件的主定制锚点。回答样式问题时优先给出原生 `style` 的简洁示例。
+- `wrapper-class` 仅存在于有独立结构包装层的组件：clearable Input、swipe Cell、Actionsheet、Dialog、HalfScreenDialog、Picker、Toast。它只用于外层布局；不要把 `style` 或 `ext-class` 误导到遮罩/包装层。
+- 弹层类的主锚点是内容面板，遮罩/宿主层是 `wrapper-class` 的目标；Cell 的主锚点是 `.weui-cell`，Input 的主锚点是原生 input。
+- 内置 `weui-*` modifier 继续通过语义 prop 使用；`ext-class` 和 `wrapper-class` 只承载业务自定义 class。
+
 ## uni-app 复合组件构建约束
 
 - easycom 只保证业务页面或页面组件使用的顶层 `<weui-*>` 组件，不保证组件库组件内部继续自动解析子组件。

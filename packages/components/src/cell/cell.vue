@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isSwipe" :class="swipeClass">
+  <div v-if="isSwipe" :class="[swipeClass, wrapperClass]">
     <div
       class="weui-cell__bd"
       :style="swipeContentStyle"
@@ -8,6 +8,7 @@
     >
       <a
         :class="cellClass"
+        v-bind="$attrs"
         data-manual-navigation
         :href="navigationTarget || undefined"
         :hover-class="hover ? 'weui-cell_active' : undefined"
@@ -40,6 +41,7 @@
   <a
     v-else
     :class="cellClass"
+    v-bind="$attrs"
     data-manual-navigation
     :href="navigationTarget || undefined"
     :hover-class="hover ? 'weui-cell_active' : undefined"
@@ -69,7 +71,7 @@
 </template>
 
 <script lang="ts">
-export default { name: 'WeuiCell', options: { styleIsolation: 'apply-shared', addGlobalClass: true } }
+export default { name: 'WeuiCell', inheritAttrs: false, options: { styleIsolation: 'apply-shared', addGlobalClass: true } }
 </script>
 
 <script setup lang="ts">
@@ -107,6 +109,8 @@ export interface WeuiCellProps {
   hasBody?: boolean
   hasFooter?: boolean
   extClass?: string
+  /** 左滑模式结构包装层的扩展类名。 */
+  wrapperClass?: string
   iconClass?: string
   bodyClass?: string
   footerClass?: string
@@ -128,7 +132,7 @@ const props = withDefaults(defineProps<WeuiCellProps>(), {
   access: false, link: false, url: '', vcode: false, warn: false, uploader: false, readonly: false,
   disabled: false, primary: false, wrap: false, select: false, selectBefore: false, selectAfter: false,
   active: false, hover: true, inline: true, hasHeader: true, hasBody: true, hasFooter: true,
-  extClass: undefined, iconClass: undefined, bodyClass: undefined, footerClass: undefined, ariaRole: undefined,
+  extClass: undefined, wrapperClass: undefined, iconClass: undefined, bodyClass: undefined, footerClass: undefined, ariaRole: undefined,
   isSwipe: false, swipeText: '删除', swipeType: 'warn',
 })
 

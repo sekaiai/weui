@@ -1,5 +1,5 @@
 <template>
-  <label :class="rootClass">
+  <label :class="rootClass" v-bind="$attrs">
     <!-- #ifdef H5 -->
     <input
       type="checkbox"
@@ -27,6 +27,7 @@
 <script lang="ts">
 export default {
   name: 'WeuiAgree',
+  inheritAttrs: false,
   options: {
     styleIsolation: 'apply-shared',
     addGlobalClass: true,

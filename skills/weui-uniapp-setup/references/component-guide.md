@@ -12,6 +12,16 @@
 
 组件通过 easycom 自定义规则自动解析，标签名遵循 `weui-<name>` 格式。
 
+## 通用局部定制 API
+
+所有组件支持 `ext-class`；原生 `class`、`style`、`aria-*` 与 `data-*` 会与它绑定到同一主定制锚点。因此可以直接传入内联样式：
+
+```vue
+<weui-button type="primary" style="margin-top: 40px">确定</weui-button>
+```
+
+只有具有独立结构外壳的组件才支持 `wrapper-class`：clearable Input、swipe Cell、Actionsheet、Dialog、HalfScreenDialog、Picker、Toast。它用于包装层 CSS；`style` 和 `ext-class` 仍保持在主视觉/交互锚点。弹层组件的主锚点是内容面板，不是遮罩。
+
 推荐使用发布包提供的稳定子路径：
 
 ```json

@@ -1,6 +1,7 @@
 <template>
   <button
-    :class="[rootClass, $attrs.class]"
+    :class="rootClass"
+    v-bind="$attrs"
     :disabled="disabled"
     :aria-disabled="disabled || undefined"
     :open-type="__IS_H5__ ? undefined : openType"
@@ -64,6 +65,8 @@ export interface WeuiButtonProps {
   marginReset?: boolean
   /** 微信小程序 button 的开放能力，例如 share、getPhoneNumber。 */
   openType?: string
+  /** 主视觉锚点的扩展类名。 */
+  extClass?: string
 }
 
 export interface WeuiButtonEmits {
@@ -82,6 +85,7 @@ const props = withDefaults(defineProps<WeuiButtonProps>(), {
   overlay: false,
   marginReset: false,
   openType: undefined,
+  extClass: undefined,
 })
 
 const emit = defineEmits<WeuiButtonEmits>()
@@ -92,13 +96,14 @@ const hasContent = computed(() => Boolean(slots.default))
 
 const rootClass = computed(() => {
   if (props.vcode) {
-    return ['weui-vcode-btn', props.disabled ? 'weui-btn_disabled' : undefined]
+    return ['weui-vcode-btn', props.extClass, props.disabled ? 'weui-btn_disabled' : undefined]
   }
 
   if (props.cell) {
     return [
       'weui-btn_cell',
       `weui-btn_cell-${props.type}`,
+      props.extClass,
       props.disabled ? 'weui-btn_disabled' : undefined,
     ]
   }
@@ -113,6 +118,7 @@ const rootClass = computed(() => {
     props.marginReset ? 'weui-btn_margin-reset' : undefined,
     props.loading ? 'weui-btn_loading' : undefined,
     props.disabled ? 'weui-btn_disabled' : undefined,
+    props.extClass,
   ]
 })
 

@@ -1,5 +1,5 @@
 <template>
-  <div :class="rootClass">
+  <div :class="rootClass" v-bind="$attrs">
     <div class="weui-progress__bar" :style="barStyle">
       <div
         class="weui-progress__inner-bar"
@@ -22,6 +22,7 @@
 <script lang="ts">
 export default {
   name: 'WeuiProgress',
+  inheritAttrs: false,
   options: {
     styleIsolation: 'apply-shared',
     addGlobalClass: true,

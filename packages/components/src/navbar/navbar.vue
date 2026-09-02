@@ -1,5 +1,5 @@
 <template>
-  <div :class="rootClass" role="tablist">
+  <div :class="rootClass" role="tablist" v-bind="$attrs">
     <slot />
   </div>
 </template>
@@ -7,6 +7,7 @@
 <script lang="ts">
 export default {
   name: 'WeuiNavbar',
+  inheritAttrs: false,
   options: {
     styleIsolation: 'apply-shared',
     addGlobalClass: true,

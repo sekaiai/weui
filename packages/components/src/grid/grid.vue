@@ -1,5 +1,5 @@
 <template>
-  <div :class="rootClass">
+  <div :class="rootClass" v-bind="$attrs">
     <slot />
   </div>
 </template>
@@ -7,6 +7,7 @@
 <script lang="ts">
 export default {
   name: 'WeuiGrid',
+  inheritAttrs: false,
   options: {
     styleIsolation: 'apply-shared',
     addGlobalClass: true,

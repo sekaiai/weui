@@ -188,4 +188,17 @@ describe('WeuiButton', () => {
       expect(onClick).toHaveBeenCalledTimes(1)
     })
   })
+
+  describe('外部样式', () => {
+    it('将 extClass、class 和 style 绑定到原生 button', () => {
+      const wrapper = mount(WeuiButton, {
+        props: { extClass: 'submit-button' },
+        attrs: { class: 'page-action', style: 'margin-top: 40px' },
+      })
+
+      expect(wrapper.classes()).toContain('submit-button')
+      expect(wrapper.classes()).toContain('page-action')
+      expect(wrapper.attributes('style')).toContain('margin-top: 40px')
+    })
+  })
 })

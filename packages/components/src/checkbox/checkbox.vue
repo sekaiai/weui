@@ -1,5 +1,5 @@
 <template>
-  <label :class="rootClass">
+  <label :class="rootClass" v-bind="$attrs">
     <div class="weui-cell__hd">
       <!-- #ifdef H5 -->
       <input
@@ -41,6 +41,7 @@
 <script lang="ts">
 export default {
   name: 'WeuiCheckbox',
+  inheritAttrs: false,
   options: {
     styleIsolation: 'apply-shared',
     addGlobalClass: true,

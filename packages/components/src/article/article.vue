@@ -1,5 +1,5 @@
 <template>
-  <article :class="rootClass">
+  <article :class="rootClass" v-bind="$attrs">
     <slot />
   </article>
 </template>
@@ -7,6 +7,7 @@
 <script lang="ts">
 export default {
   name: 'WeuiArticle',
+  inheritAttrs: false,
   options: {
     styleIsolation: 'apply-shared',
     addGlobalClass: true,

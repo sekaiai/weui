@@ -1,6 +1,7 @@
 <template>
   <div
     :class="rootClass"
+    v-bind="$attrs"
     role="tab"
     :aria-selected="active"
     @click="handleClick"
@@ -36,6 +37,7 @@
 <script lang="ts">
 export default {
   name: 'WeuiTabbarItem',
+  inheritAttrs: false,
   options: {
     styleIsolation: 'apply-shared',
     addGlobalClass: true,

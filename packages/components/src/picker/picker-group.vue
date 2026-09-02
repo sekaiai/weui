@@ -1,6 +1,7 @@
 <template>
   <div
-    class="weui-picker__group"
+    :class="['weui-picker__group', extClass]"
+    v-bind="$attrs"
     @touchstart="handleTouchStart"
     @touchmove="handleTouchMove"
     @touchend="handleTouchEnd"
@@ -21,6 +22,7 @@
 <script lang="ts">
 export default {
   name: 'WeuiPickerGroup',
+  inheritAttrs: false,
   options: {
     styleIsolation: 'apply-shared',
     addGlobalClass: true,
@@ -45,6 +47,8 @@ export interface WeuiPickerGroupProps {
   options: PickerOption[]
   /** 当前选中索引 */
   index?: number
+  /** 选择列容器的扩展类名。 */
+  extClass?: string
 }
 
 export interface WeuiPickerGroupEmits {
@@ -54,6 +58,7 @@ export interface WeuiPickerGroupEmits {
 const props = withDefaults(defineProps<WeuiPickerGroupProps>(), {
   options: () => [],
   index: 0,
+  extClass: undefined,
 })
 
 const emit = defineEmits<WeuiPickerGroupEmits>()

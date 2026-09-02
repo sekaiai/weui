@@ -19,6 +19,8 @@ export interface ActionsheetShowOptions {
   maskClosable?: boolean
   /** 自定义附加类名 */
   extClass?: string
+  /** 遮罩结构包装层的扩展类名。 */
+  wrapperClass?: string
 }
 
 export interface ActionsheetShowResult {
@@ -50,6 +52,7 @@ export const Actionsheet = {
         cancelText: options.cancelText ?? '取消',
         maskClosable: options.maskClosable ?? true,
         extClass: options.extClass,
+        wrapperClass: options.wrapperClass,
         // Vue 3: onXxx 形式的 prop 会被当作事件监听器
         onSelect: (item: ActionsheetItem, index: number) => {
           resolve({ item, index })

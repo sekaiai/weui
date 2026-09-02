@@ -1,5 +1,5 @@
 <template>
-  <div :class="rootClass">
+  <div :class="rootClass" v-bind="$attrs">
     <slot>
       <div v-if="hasIcon" class="weui-msg__icon-area">
         <slot name="icon">
@@ -53,6 +53,7 @@
 <script lang="ts">
 export default {
   name: 'WeuiMsg',
+  inheritAttrs: false,
   options: {
     styleIsolation: 'apply-shared',
     addGlobalClass: true,

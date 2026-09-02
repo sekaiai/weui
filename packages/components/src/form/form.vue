@@ -1,5 +1,5 @@
 <template>
-  <div class="weui-form" :class="rootExtraClass">
+  <div class="weui-form" :class="rootExtraClass" v-bind="$attrs">
     <div class="weui-form__bd" :class="bdExtraClass">
       <slot v-if="hasHd" name="hd" />
       <div v-if="hasTitle" class="weui-form__text-area" :style="textAreaStyle">
@@ -36,6 +36,7 @@
 <script lang="ts">
 export default {
   name: 'WeuiForm',
+  inheritAttrs: false,
   options: {
     styleIsolation: 'apply-shared',
     addGlobalClass: true,

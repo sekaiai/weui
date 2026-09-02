@@ -1,12 +1,12 @@
 <template>
   <!-- cells 模式：小图文组合列表容器 -->
-  <div v-if="type === 'cells'" :class="rootClass">
+  <div v-if="type === 'cells'" :class="rootClass" v-bind="$attrs">
     <div class="weui-cells">
       <slot />
     </div>
   </div>
   <!-- appmsg 模式（有 thumb 或 hd slot） + href：用 <a> 包裹 -->
-  <a v-else-if="hasHd && href" :href="href" :class="rootClass" @click="onClick">
+  <a v-else-if="hasHd && href" :href="href" :class="rootClass" v-bind="$attrs" @click="onClick">
     <div class="weui-media-box__hd">
       <slot name="hd">
         <img v-if="thumb" class="weui-media-box__thumb" :src="thumb" />
@@ -19,7 +19,7 @@
     </div>
   </a>
   <!-- appmsg 模式（有 thumb 或 hd slot）无 href -->
-  <div v-else-if="hasHd" :class="rootClass" @click="onClick">
+  <div v-else-if="hasHd" :class="rootClass" v-bind="$attrs" @click="onClick">
     <div class="weui-media-box__hd">
       <slot name="hd">
         <img v-if="thumb" class="weui-media-box__thumb" :src="thumb" />
@@ -32,7 +32,7 @@
     </div>
   </div>
   <!-- text 模式（无 thumb 且无 hd slot） -->
-  <div v-else :class="rootClass" @click="onClick">
+  <div v-else :class="rootClass" v-bind="$attrs" @click="onClick">
     <strong v-if="title" class="weui-media-box__title">{{ title }}</strong>
     <p v-if="desc" class="weui-media-box__desc">{{ desc }}</p>
     <slot />
@@ -42,6 +42,7 @@
 <script lang="ts">
 export default {
   name: 'WeuiMediaBox',
+  inheritAttrs: false,
   options: {
     styleIsolation: 'apply-shared',
     addGlobalClass: true,

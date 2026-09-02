@@ -1,5 +1,5 @@
 <template>
-  <div :class="rootClass" :style="rootStyle">
+  <div :class="rootClass" :style="rootStyle" v-bind="$attrs">
     <slot />
   </div>
 </template>
@@ -7,6 +7,7 @@
 <script lang="ts">
 export default {
   name: 'WeuiFlex',
+  inheritAttrs: false,
   options: {
     styleIsolation: 'apply-shared',
     addGlobalClass: true,

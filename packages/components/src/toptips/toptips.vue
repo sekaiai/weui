@@ -5,6 +5,7 @@
     class="weui-toptips"
     :class="[`weui-toptips_${type}`, extClass]"
     :style="toptipsStyle"
+    v-bind="$attrs"
   >
     {{ content }}
   </div>
@@ -13,6 +14,7 @@
 <script lang="ts">
 export default {
   name: 'WeuiToptips',
+  inheritAttrs: false,
   options: {
     styleIsolation: 'apply-shared',
     addGlobalClass: true,

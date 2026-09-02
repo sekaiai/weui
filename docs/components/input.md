@@ -104,6 +104,18 @@ const value = ref('')
 ```
 :::
 
+`ext-class`、原生 `class` 与 `style` 绑定到内部原生 input；`clearable` 模式如需调整包含清除按钮的布局，使用 `wrapper-class` 绑定 `.weui-input__wrapper`：
+
+```vue
+<weui-input
+  v-model="value"
+  clearable
+  ext-class="profile-input"
+  wrapper-class="profile-input-wrapper"
+  style="margin-top: 16px"
+/>
+```
+
 ## 最大长度
 
 `maxlength` 控制最大输入长度，默认 `140`；传 `-1` 表示不限制。

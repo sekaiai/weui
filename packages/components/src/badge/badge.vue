@@ -2,12 +2,14 @@
   <span
     :class="rootClass"
     :aria-label="ariaLabel"
+    v-bind="$attrs"
   >{{ content }}</span>
 </template>
 
 <script lang="ts">
 export default {
   name: 'WeuiBadge',
+  inheritAttrs: false,
   options: {
     styleIsolation: 'apply-shared',
     addGlobalClass: true,

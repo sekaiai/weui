@@ -1,5 +1,5 @@
 <template>
-  <ul :class="rootClass">
+  <ul :class="rootClass" v-bind="$attrs">
     <li
       v-for="(step, index) in steps"
       :key="index"
@@ -16,6 +16,7 @@
 <script lang="ts">
 export default {
   name: 'WeuiSteps',
+  inheritAttrs: false,
   options: {
     styleIsolation: 'apply-shared',
     addGlobalClass: true,

@@ -21,6 +21,8 @@ export interface DialogShowOptions {
   mask?: boolean
   /** 自定义附加类名 */
   extClass?: string
+  /** 遮罩结构包装层的扩展类名。 */
+  wrapperClass?: string
   /** 按钮是否垂直排列 */
   btnWrap?: boolean
 }
@@ -92,6 +94,7 @@ function showInternal(
     maskClosable: options.maskClosable ?? true,
     mask: options.mask ?? true,
     extClass: options.extClass,
+    wrapperClass: options.wrapperClass,
     btnWrap: options.btnWrap ?? false,
     // Vue 3: onXxx 形式的 prop 会被当作事件监听器
     onButtontap: (btn: DialogButton, index: number) => {

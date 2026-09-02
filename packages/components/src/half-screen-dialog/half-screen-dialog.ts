@@ -23,6 +23,8 @@ export interface HalfScreenDialogShowOptions {
   mask?: boolean
   /** 自定义附加类名 */
   extClass?: string
+  /** 遮罩结构包装层的扩展类名。 */
+  wrapperClass?: string
 }
 
 export interface HalfScreenDialogShowResult {
@@ -69,6 +71,7 @@ function showInternal(
     maskClosable: options.maskClosable ?? true,
     mask: options.mask ?? true,
     extClass: options.extClass,
+    wrapperClass: options.wrapperClass,
     // Vue 3: onXxx 形式的 prop 会被当作事件监听器
     onButtontap: (btn: HalfScreenDialogButton, index: number) => {
       safeResolve({ button: btn, index })

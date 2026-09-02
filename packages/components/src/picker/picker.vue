@@ -1,5 +1,5 @@
 <template>
-  <div v-if="wrapperShow" class="weui-picker-host">
+  <div v-if="wrapperShow" :class="['weui-picker-host', wrapperClass]">
     <div
       class="weui-mask weui-transition"
       :class="{
@@ -23,6 +23,7 @@
         },
       ]"
       :style="pickerStyle"
+      v-bind="$attrs"
       role="dialog"
       aria-modal="true"
       tabindex="-1"
@@ -70,6 +71,7 @@
 <script lang="ts">
 export default {
   name: 'WeuiPicker',
+  inheritAttrs: false,
   options: {
     styleIsolation: 'apply-shared',
     addGlobalClass: true,
@@ -110,6 +112,8 @@ export interface WeuiPickerProps {
   maskClosable?: boolean
   /** 自定义附加类名 */
   extClass?: string
+  /** 弹层宿主包装层的扩展类名。 */
+  wrapperClass?: string
   /** 由 overlay-host 注入的 z-index */
   zIndex?: number
 }
@@ -136,6 +140,8 @@ const props = withDefaults(defineProps<WeuiPickerProps>(), {
   cancelText: undefined,
   confirmText: '确定',
   maskClosable: true,
+  extClass: undefined,
+  wrapperClass: undefined,
 })
 
 const emit = defineEmits<WeuiPickerEmits>()

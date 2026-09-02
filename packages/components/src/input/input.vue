@@ -1,8 +1,9 @@
 <template>
-  <div v-if="clearable" class="weui-input__wrapper">
+  <div v-if="clearable" :class="['weui-input__wrapper', wrapperClass]">
     <input
       ref="inputRef"
-      :class="[inputClass, $attrs.class]"
+      :class="inputClass"
+      v-bind="$attrs"
       :value="modelValue"
       :type="inputType"
       :focus="__IS_H5__ ? undefined : effectiveFocus"
@@ -32,7 +33,8 @@
   <input
     v-else
     ref="inputRef"
-    :class="[inputClass, $attrs.class]"
+    :class="inputClass"
+    v-bind="$attrs"
     :value="modelValue"
     :type="inputType"
     :focus="__IS_H5__ ? undefined : effectiveFocus"
@@ -92,6 +94,8 @@ export interface WeuiInputProps {
   confirmType?: 'send' | 'search' | 'next' | 'go' | 'done'
   /** 根元素扩展类名 */
   extClass?: string
+  /** 可清空模式的结构包装层扩展类名。 */
+  wrapperClass?: string
 }
 
 export interface WeuiInputEmits {
@@ -116,6 +120,8 @@ const props = withDefaults(defineProps<WeuiInputProps>(), {
   focus: false,
   autoFocus: false,
   confirmType: 'done',
+  extClass: undefined,
+  wrapperClass: undefined,
 })
 
 const emit = defineEmits<WeuiInputEmits>()

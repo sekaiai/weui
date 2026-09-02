@@ -1,5 +1,5 @@
 <template>
-  <label :class="rootClass">
+  <label :class="rootClass" v-bind="$attrs">
     <div class="weui-cell__bd"><p><slot>{{ label }}</slot></p></div>
     <div class="weui-cell__ft">
       <!-- #ifdef H5 -->
@@ -38,6 +38,7 @@
 <script lang="ts">
 export default {
   name: 'WeuiRadio',
+  inheritAttrs: false,
   options: {
     styleIsolation: 'apply-shared',
     addGlobalClass: true,

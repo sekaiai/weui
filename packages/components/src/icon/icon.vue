@@ -1,10 +1,11 @@
 <template>
-  <span :class="rootClass" :style="rootStyle" />
+  <span :class="rootClass" :style="rootStyle" v-bind="$attrs" />
 </template>
 
 <script lang="ts">
 export default {
   name: 'WeuiIcon',
+  inheritAttrs: false,
   options: {
     styleIsolation: 'apply-shared',
     addGlobalClass: true,

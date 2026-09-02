@@ -1,5 +1,5 @@
 <template>
-  <div :class="rootClass">
+  <div :class="rootClass" v-bind="$attrs">
     <!-- 头部：title 或 header slot -->
     <div v-if="hasHeader" class="weui-form-preview__hd">
       <slot name="header">
@@ -47,6 +47,7 @@
 <script lang="ts">
 export default {
   name: 'WeuiPreview',
+  inheritAttrs: false,
   options: {
     styleIsolation: 'apply-shared',
     addGlobalClass: true,

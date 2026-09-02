@@ -1,6 +1,6 @@
 # Skills（AI 辅助开发）
 
-项目内置一个名为 `weui-uniapp-setup` 的 Skill，为 AI 编程工具提供组件库的完整集成参考：组件 API（Props / Events / Slots / 代码示例 / 平台差异）、WeUI 设计规范、样式入口与 easycom 配置片段。使用支持 Anthropic Skills 格式的 AI 工具（Claude Code、Trae、Cursor 等）时，工具会自动匹配并加载本 Skill，无需手动粘贴文档。
+项目内置一个名为 `weui-uniapp-setup` 的 Skill，为 AI 编程工具提供组件库的完整集成参考：组件 API（Props / Events / Slots / 代码示例 / 平台差异）、WeUI 设计规范、局部样式锚点与 easycom 配置片段。使用支持 Anthropic Skills 格式的 AI 工具（Claude Code、Trae、Cursor 等）时，工具会自动匹配并加载本 Skill，无需手动粘贴文档。
 
 ## 安装
 
@@ -47,4 +47,5 @@ skills/weui-uniapp-setup/
 ## 注意事项
 
 - 组件 API 以 Skill 内参考文档为准；若与已安装的发布版本不一致，以发布版本为准。
+- Skill 说明 `ext-class`、原生 `style` 与 `wrapper-class` 的定制边界；其中 `wrapper-class` 仅适用于真实存在结构包装层的组件。
 - 修改 `skills/` 下的文件后，已安装到 `.claude/skills/` 的副本需要重新复制才会生效。

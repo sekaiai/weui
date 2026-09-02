@@ -1,5 +1,5 @@
 <template>
-  <div :class="rootClass">
+  <div :class="rootClass" v-bind="$attrs">
     <a
       v-if="showBackButton"
       href="#"
@@ -79,6 +79,7 @@
 <script lang="ts">
 export default {
   name: 'WeuiSearchbar',
+  inheritAttrs: false,
   options: {
     styleIsolation: 'apply-shared',
     addGlobalClass: true,

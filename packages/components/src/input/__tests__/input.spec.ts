@@ -193,6 +193,24 @@ describe('WeuiInput', () => {
     })
   })
 
+  describe('外部样式', () => {
+    it('将 extClass 与 style 绑定到 input，并将 wrapperClass 绑定到清除包装层', () => {
+      const wrapper = mount(WeuiInput, {
+        props: {
+          clearable: true,
+          extClass: 'profile-input',
+          wrapperClass: 'profile-input-wrapper',
+        },
+        attrs: { style: 'margin-top: 16px' },
+      })
+
+      const input = wrapper.find('input')
+      expect(input.classes()).toContain('profile-input')
+      expect(input.attributes('style')).toContain('margin-top: 16px')
+      expect(wrapper.find('.weui-input__wrapper').classes()).toContain('profile-input-wrapper')
+    })
+  })
+
   describe('事件透传', () => {
     it('focus 事件透传', async () => {
       const wrapper = mount(WeuiInput)

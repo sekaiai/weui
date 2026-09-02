@@ -1,5 +1,5 @@
 <template>
-  <div :class="groupClass" :role="ariaRole">
+  <div :class="groupClass" :role="ariaRole" v-bind="$attrs">
     <div v-if="hasTitle" class="weui-cells__title">
       <slot name="title">{{ title }}</slot>
     </div>
@@ -22,6 +22,7 @@
 <script lang="ts">
 export default {
   name: 'WeuiCheckboxGroup',
+  inheritAttrs: false,
   options: {
     styleIsolation: 'apply-shared',
     addGlobalClass: true,

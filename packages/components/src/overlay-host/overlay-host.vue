@@ -1,5 +1,5 @@
 <template>
-  <div class="weui-overlay-host">
+  <div :class="['weui-overlay-host', extClass]" v-bind="$attrs">
     <!-- 命令式弹层在此渲染 -->
     <OverlayRenderer
       v-for="item in items"
@@ -14,6 +14,7 @@
 <script lang="ts">
 export default {
   name: 'WeuiOverlayHost',
+  inheritAttrs: false,
   options: {
     styleIsolation: 'apply-shared',
     addGlobalClass: true,
@@ -33,6 +34,15 @@ export interface OverlayItem {
   props: Record<string, unknown>
   zIndex: number
 }
+
+export interface WeuiOverlayHostProps {
+  /** 宿主节点的扩展类名。 */
+  extClass?: string
+}
+
+withDefaults(defineProps<WeuiOverlayHostProps>(), {
+  extClass: undefined,
+})
 
 const OverlayRenderer = defineComponent({
   name: 'WeuiOverlayRenderer',

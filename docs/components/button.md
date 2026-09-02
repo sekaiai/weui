@@ -43,6 +43,21 @@ onUnmounted(() => clearInterval(vcodeTimer))
 
 `type` 提供 `primary`、`default` 与 `warn` 三种官方视觉类型。默认宽度适应内容；使用 `display="block"` 填满父容器，使用 `display="inline"` 在同一行排列。
 
+## 局部样式
+
+原生 `style`、`class` 与 `ext-class` 都绑定到实际的 `<button>`，可直接调整业务布局：
+
+```vue
+<weui-button
+  type="primary"
+  style="margin-top: 40px"
+  :loading="loading"
+  @click="onSubmit"
+>
+  确定
+</weui-button>
+```
+
 <div class="demo-block vp-raw">
   <weui-button type="primary" @click="onClick('点击了主要操作')">主要操作</weui-button>
   <weui-button type="default" @click="onClick('点击了次要操作')">次要操作</weui-button>

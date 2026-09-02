@@ -1,6 +1,7 @@
 <template>
   <a
     :class="rootClass"
+    v-bind="$attrs"
     data-manual-navigation
     :href="url"
     role="button"
@@ -24,6 +25,7 @@
 <script lang="ts">
 export default {
   name: 'WeuiGridItem',
+  inheritAttrs: false,
   options: {
     styleIsolation: 'apply-shared',
     addGlobalClass: true,

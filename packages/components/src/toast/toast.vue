@@ -1,5 +1,5 @@
 <template>
-  <div v-if="visible" role="alert">
+  <div v-if="visible" role="alert" :class="wrapperClass">
     <div
       v-if="mask"
       class="weui-mask_transparent"
@@ -7,7 +7,7 @@
       @touchmove.stop.prevent
     />
     <div class="weui-toast__wrp">
-      <div :class="toastClass">
+      <div :class="toastClass" v-bind="$attrs">
         <i
           v-if="type === 'success'"
           class="weui-icon_toast weui-icon-success-no-circle"
@@ -29,6 +29,7 @@
 <script lang="ts">
 export default {
   name: 'WeuiToast',
+  inheritAttrs: false,
   options: {
     styleIsolation: 'apply-shared',
     addGlobalClass: true,
@@ -54,6 +55,8 @@ export interface WeuiToastProps {
   mask?: boolean
   /** 自定义附加类名 */
   extClass?: string
+  /** Toast 结构包装层的扩展类名。 */
+  wrapperClass?: string
   /** 由 overlay-host 注入的 z-index */
   zIndex?: number
 }
@@ -72,6 +75,7 @@ const props = withDefaults(defineProps<WeuiToastProps>(), {
   duration: undefined,
   mask: true,
   extClass: undefined,
+  wrapperClass: undefined,
   zIndex: undefined,
 })
 

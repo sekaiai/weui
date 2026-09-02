@@ -1,5 +1,5 @@
 <template>
-  <div :class="groupClass" :role="ariaRole">
+  <div :class="groupClass" :role="ariaRole" v-bind="$attrs">
     <slot />
   </div>
 </template>
@@ -7,6 +7,7 @@
 <script lang="ts">
 export default {
   name: 'WeuiCellGroup',
+  inheritAttrs: false,
   options: {
     styleIsolation: 'apply-shared',
     addGlobalClass: true,

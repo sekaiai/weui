@@ -1,5 +1,5 @@
 <template>
-  <div :class="rootClass" :role="role">
+  <div :class="rootClass" :role="role" v-bind="$attrs">
     <span
       v-if="type === 'default'"
       class="weui-primary-loading"
@@ -14,6 +14,7 @@
 <script lang="ts">
 export default {
   name: 'WeuiLoadmore',
+  inheritAttrs: false,
   options: {
     styleIsolation: 'apply-shared',
     addGlobalClass: true,

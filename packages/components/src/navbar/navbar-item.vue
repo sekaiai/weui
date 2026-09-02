@@ -1,6 +1,7 @@
 <template>
   <div
     :class="rootClass"
+    v-bind="$attrs"
     role="tab"
     :aria-selected="active"
     :tabindex="active ? 0 : -1"
@@ -15,6 +16,7 @@
 <script lang="ts">
 export default {
   name: 'WeuiNavbarItem',
+  inheritAttrs: false,
   options: {
     styleIsolation: 'apply-shared',
     addGlobalClass: true,

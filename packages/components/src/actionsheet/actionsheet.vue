@@ -1,13 +1,14 @@
 <template>
   <div
     v-if="wrapperShow"
-    class="weui-mask"
+    :class="['weui-mask', wrapperClass]"
     :style="maskStyle"
     @click="handleMaskClick"
     @touchmove.stop.prevent
   >
     <div
       :class="['weui-actionsheet', extClass, { 'weui-actionsheet_toggle': showSheet }]"
+      v-bind="$attrs"
       role="dialog"
       aria-modal="true"
       @click.stop
@@ -45,6 +46,7 @@
 <script lang="ts">
 export default {
   name: 'WeuiActionsheet',
+  inheritAttrs: false,
   options: {
     styleIsolation: 'apply-shared',
     addGlobalClass: true,
@@ -77,6 +79,8 @@ export interface WeuiActionsheetProps {
   maskClosable?: boolean
   /** 自定义附加类名 */
   extClass?: string
+  /** 遮罩结构包装层的扩展类名。 */
+  wrapperClass?: string
   /** 由 overlay-host 注入的 z-index */
   zIndex?: number
 }
@@ -97,6 +101,7 @@ const props = withDefaults(defineProps<WeuiActionsheetProps>(), {
   cancelText: '取消',
   maskClosable: true,
   extClass: undefined,
+  wrapperClass: undefined,
   zIndex: undefined,
 })
 

@@ -2,13 +2,14 @@
   <div
     v-if="wrapperShow"
     class="weui-mask weui-transition"
-    :class="{ 'weui-transition_show': innerShow }"
+    :class="[{ 'weui-transition_show': innerShow }, wrapperClass]"
     :style="maskStyle"
     @click="handleMaskClick"
     @touchmove.stop.prevent
   >
     <div
       :class="['weui-half-screen-dialog', 'weui-transition', extClass, { 'weui-transition_show': innerShow, 'weui-animate-slide-up': innerShow }]"
+      v-bind="$attrs"
       role="dialog"
       aria-modal="true"
       @click.stop
@@ -56,6 +57,7 @@
 <script lang="ts">
 export default {
   name: 'WeuiHalfScreenDialog',
+  inheritAttrs: false,
   options: {
     styleIsolation: 'apply-shared',
     addGlobalClass: true,
@@ -90,6 +92,8 @@ export interface WeuiHalfScreenDialogProps {
   mask?: boolean
   /** 自定义附加类名 */
   extClass?: string
+  /** 遮罩结构包装层的扩展类名。 */
+  wrapperClass?: string
   /** 由 overlay-host 注入的 z-index */
   zIndex?: number
 }
@@ -111,6 +115,7 @@ const props = withDefaults(defineProps<WeuiHalfScreenDialogProps>(), {
   maskClosable: true,
   mask: true,
   extClass: undefined,
+  wrapperClass: undefined,
   zIndex: undefined,
 })
 

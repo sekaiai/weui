@@ -28,6 +28,34 @@ WeUI Uniapp Design 通过 CSS 变量提供主题定制能力。`weui.css` 已内
 }
 ```
 
+## 组件局部定制
+
+所有 `weui-*` 组件都支持 `ext-class`，并把原生 `class`、`style`、`aria-*` 与 `data-*` 显式绑定到同一主定制锚点。`style` 因此可以直接用于组件间距等局部布局；它不会被错误地落到弹层遮罩或条件分支的外层。
+
+```vue
+<weui-button
+  type="primary"
+  ext-class="submit-button"
+  style="margin-top: 40px"
+  :loading="loading"
+  @click="onSubmit"
+>
+  确定
+</weui-button>
+```
+
+`wrapper-class` 只由存在独立结构包装层的组件提供。它用于通过外部 CSS 调整包装层布局，和控制主视觉锚点的 `ext-class` / 原生 `style` 不同：
+
+| 组件 | `wrapper-class` 绑定位置 | `ext-class` / `style` 绑定位置 |
+| --- | --- | --- |
+| Input（`clearable`） | `.weui-input__wrapper` | 内部原生 input |
+| Cell（`is-swipe`） | 滑动容器 | 内部 `.weui-cell` |
+| Actionsheet / Dialog / HalfScreenDialog | 遮罩结构层 | 内容面板 |
+| Picker | `.weui-picker-host` | Picker 内容面板 |
+| Toast | Toast 结构包装层 | `.weui-toast` |
+
+其他组件没有独立包装层时，不提供 `wrapper-class`，避免与 `ext-class` 重复。内置 WeUI modifier 仍应使用语义 prop；不要把 `weui-*` 内置 class 传给 `ext-class`。
+
 ## 可用变量
 
 完整变量列表见 [weui.css 源码](https://github.com/Tencent/weui/blob/master/dist/style/weui.css)。常用变量包括：

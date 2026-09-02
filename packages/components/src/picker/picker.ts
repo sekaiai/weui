@@ -28,6 +28,8 @@ export interface PickerShowOptions {
   maskClosable?: boolean
   /** 自定义附加类名 */
   extClass?: string
+  /** 弹层宿主包装层的扩展类名。 */
+  wrapperClass?: string
 }
 
 export interface PickerShowResult {
@@ -65,6 +67,7 @@ export const Picker = {
         confirmText: options.confirmText ?? '确定',
         maskClosable: options.maskClosable ?? true,
         extClass: options.extClass,
+        wrapperClass: options.wrapperClass,
         // Vue 3: onXxx 形式的 prop 会被当作事件监听器
         onConfirm: (indexes: number[], values: (string | number)[]) => {
           resolve({ action: 'confirm', indexes, values })

@@ -1,5 +1,5 @@
 <template>
-  <div :class="rootClass">
+  <div :class="rootClass" v-bind="$attrs">
     <div
       class="weui-cell__bd weui-slideview__left"
       :style="contentStyle"
@@ -29,6 +29,7 @@
 <script lang="ts">
 export default {
   name: 'WeuiSlideview',
+  inheritAttrs: false,
   options: {
     styleIsolation: 'apply-shared',
     addGlobalClass: true,

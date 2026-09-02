@@ -21,6 +21,8 @@ export interface ToastShowOptions {
   mask?: boolean
   /** 自定义附加类名 */
   extClass?: string
+  /** Toast 结构包装层的扩展类名。 */
+  wrapperClass?: string
 }
 
 interface ToastTask {
@@ -51,6 +53,7 @@ const queue = new ToastQueue<ToastTask>((task) => {
     duration: task.options.duration,
     mask: task.options.mask ?? true,
     extClass: task.options.extClass,
+    wrapperClass: task.options.wrapperClass,
     // Vue 3: onClose prop 会被当作 close 事件监听器
     onClose: () => {
       currentTask = null

@@ -2,7 +2,7 @@
   <div v-if="hasTitle" class="weui-cells__title">
     <slot name="title">{{ title }}</slot>
   </div>
-  <div :class="rootClass">
+  <div :class="rootClass" v-bind="$attrs">
     <slot />
   </div>
   <div v-if="hasTips" class="weui-cells__tips">
@@ -13,6 +13,7 @@
 <script lang="ts">
 export default {
   name: 'WeuiCells',
+  inheritAttrs: false,
   options: {
     styleIsolation: 'apply-shared',
     addGlobalClass: true,

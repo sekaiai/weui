@@ -1,5 +1,5 @@
 <template>
-  <div :class="rootClass">
+  <div :class="rootClass" v-bind="$attrs">
     <div v-if="label" class="weui-cell__hd">
       <span class="weui-label">{{ label }}</span>
     </div>
@@ -15,6 +15,7 @@
 <script lang="ts">
 export default {
   name: 'WeuiSelect',
+  inheritAttrs: false,
   options: {
     styleIsolation: 'apply-shared',
     addGlobalClass: true,

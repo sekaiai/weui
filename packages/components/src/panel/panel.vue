@@ -1,5 +1,5 @@
 <template>
-  <div :class="rootClass">
+  <div :class="rootClass" v-bind="$attrs">
     <!-- 头部：header slot 优先，否则用 title -->
     <div v-if="$slots.header || title" class="weui-panel__hd">
       <slot name="header">{{ title }}</slot>
@@ -41,6 +41,7 @@
 <script lang="ts">
 export default {
   name: 'WeuiPanel',
+  inheritAttrs: false,
   options: {
     styleIsolation: 'apply-shared',
     addGlobalClass: true,

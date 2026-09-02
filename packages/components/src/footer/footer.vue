@@ -1,5 +1,5 @@
 <template>
-  <div :class="rootClass">
+  <div :class="rootClass" v-bind="$attrs">
     <slot>
       <p v-if="hasLinks" class="weui-footer__links">
         <template v-for="(link, index) in links" :key="index">
@@ -15,6 +15,7 @@
 <script lang="ts">
 export default {
   name: 'WeuiFooter',
+  inheritAttrs: false,
   options: {
     styleIsolation: 'apply-shared',
     addGlobalClass: true,
@@ -39,17 +40,21 @@ export interface WeuiFooterProps {
   links?: FooterLink[]
   /** 是否固定在底部 */
   fixed?: boolean
+  /** 主视觉锚点的扩展类名。 */
+  extClass?: string
 }
 
 const props = withDefaults(defineProps<WeuiFooterProps>(), {
   text: undefined,
   links: undefined,
   fixed: false,
+  extClass: undefined,
 })
 
 const rootClass = computed(() => {
   const classes: string[] = ['weui-footer']
   if (props.fixed) classes.push('weui-footer_fixed-bottom')
+  if (props.extClass) classes.push(props.extClass)
   return classes
 })
 
