@@ -33,6 +33,20 @@ describe('uni-app compatibility audit', () => {
     expect(issues).toEqual([])
   })
 
+  it('uses automatic fallthrough instead of unsupported $attrs bindings in uni-app output', () => {
+    const source = `
+      <template><div v-bind="$attrs" :class="rootClass" /></template>
+      <script setup lang="ts">const binding = 'v-bind="$attrs"'</script>
+    `
+
+    const transformed = transformUniAppSource(source, 'component.vue')
+
+    expect(transformed).toContain('<view :class="rootClass" />')
+    expect(transformed).toContain("const binding = 'v-bind=\"$attrs\"'")
+    expect(transformed).not.toContain('inheritAttrs: false')
+    expect(collectUniAppCompatibilityIssues(transformed)).toEqual([])
+  })
+
   it('removes nested WeUI component dependencies from uni-app output', () => {
     const cases = [
       {
@@ -205,6 +219,12 @@ describe('uni-app compatibility audit', () => {
       '<source>: unresolved href attribute',
       '<source>: attribute selector in WXSS: .x[readonly] + .y',
       '<source>: sibling selector in WXSS: .x[readonly] + .y',
+    ])
+  })
+
+  it('reports object-form v-bind directives', () => {
+    expect(collectUniAppCompatibilityIssues('<template><view v-bind="attrs" /></template>')).toEqual([
+      '<source>: unsupported object-form v-bind',
     ])
   })
 

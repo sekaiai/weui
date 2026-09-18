@@ -53,6 +53,10 @@ export function collectUniAppCompatibilityIssues(source, filePath = '<source>') 
     issues.push(`${filePath}: unresolved href attribute`)
   }
 
+  if (/\bv-bind\s*=/i.test(template)) {
+    issues.push(`${filePath}: unsupported object-form v-bind`)
+  }
+
   for (const style of extractStyleBlocks(source)) {
     const cleanStyle = style.replace(/\/\*[\s\S]*?\*\//g, '')
     const selectorBlocks = cleanStyle.match(/[^{}]+\{/g) ?? []
