@@ -4,7 +4,7 @@
 
 import WeuiToptips from './toptips.vue'
 import type { ToptipsType } from './toptips.vue'
-import { getOverlayHost } from '../utils/overlay-host-ref'
+import { addOverlay } from '../utils/overlay-service'
 
 export type { ToptipsType } from './toptips.vue'
 
@@ -23,21 +23,14 @@ const DEFAULT_DURATION = 2000
 
 /** 构造传给 WeuiToptips 的 props，通过 overlay-host 渲染 */
 function showInternal(options: ToptipsShowOptions): void {
-  const host = getOverlayHost()
-  if (!host) {
-    // 未挂载 overlay-host 时，降级为无操作（生产环境应避免）
-    return
-  }
-
-  const props: Record<string, unknown> = {
+  // overlay-host 未挂载时降级为无操作（生产环境应避免）
+  addOverlay(WeuiToptips, {
     visible: true,
     content: options.content ?? '',
     type: options.type ?? 'warn',
     duration: options.duration ?? DEFAULT_DURATION,
     extClass: options.extClass,
-  }
-
-  host.add(WeuiToptips, props)
+  })
 }
 
 export const Toptips = {

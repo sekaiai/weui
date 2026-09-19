@@ -1,9 +1,5 @@
-import type { App } from 'vue'
-import WeuiAgree from './agree.vue'
+import { withInstall } from '../utils/with-install'
+import WeuiAgreeComponent from './agree.vue'
 
-WeuiAgree.install = (app: App) => {
-  app.component(WeuiAgree.name!, WeuiAgree)
-}
-
-export { WeuiAgree }
+export const WeuiAgree = withInstall(WeuiAgreeComponent, 'WeuiAgree')
 export type { WeuiAgreeProps, WeuiAgreeEmits } from './agree.vue'

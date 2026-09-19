@@ -1,11 +1,7 @@
-import type { App } from 'vue'
-import WeuiToptips from './toptips.vue'
+import { withInstall } from '../utils/with-install'
+import WeuiToptipsComponent from './toptips.vue'
 
-WeuiToptips.install = (app: App) => {
-  app.component(WeuiToptips.name || 'WeuiToptips', WeuiToptips)
-}
-
-export { WeuiToptips }
+export const WeuiToptips = withInstall(WeuiToptipsComponent, 'WeuiToptips')
 export { Toptips } from './toptips'
 export type { WeuiToptipsProps, WeuiToptipsEmits, ToptipsType } from './toptips.vue'
 export type { ToptipsShowOptions } from './toptips'

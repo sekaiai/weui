@@ -1,11 +1,7 @@
-import type { App } from 'vue'
-import WeuiPicker from './picker.vue'
+import { withInstall } from '../utils/with-install'
+import WeuiPickerComponent from './picker.vue'
 
-WeuiPicker.install = (app: App) => {
-  app.component(WeuiPicker.name || 'WeuiPicker', WeuiPicker)
-}
-
-export { WeuiPicker }
+export const WeuiPicker = withInstall(WeuiPickerComponent, 'WeuiPicker')
 export { Picker } from './picker'
 export type { WeuiPickerProps, WeuiPickerEmits, PickerColumn } from './picker.vue'
 export type { PickerOption } from './picker-group.vue'

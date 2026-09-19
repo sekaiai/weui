@@ -1,15 +1,8 @@
-import type { App } from 'vue'
-import WeuiRadio from './radio.vue'
-import WeuiRadioGroup from './radio-group.vue'
+import { withInstall } from '../utils/with-install'
+import WeuiRadioComponent from './radio.vue'
+import WeuiRadioGroupComponent from './radio-group.vue'
 
-WeuiRadio.install = (app: App) => {
-  app.component(WeuiRadio.name || 'WeuiRadio', WeuiRadio)
-}
-
-WeuiRadioGroup.install = (app: App) => {
-  app.component(WeuiRadioGroup.name || 'WeuiRadioGroup', WeuiRadioGroup)
-}
-
-export { WeuiRadio, WeuiRadioGroup }
+export const WeuiRadio = withInstall(WeuiRadioComponent, 'WeuiRadio')
+export const WeuiRadioGroup = withInstall(WeuiRadioGroupComponent, 'WeuiRadioGroup')
 export type { WeuiRadioProps, WeuiRadioEmits } from './radio.vue'
 export type { WeuiRadioGroupProps, WeuiRadioGroupEmits } from './radio-group.vue'

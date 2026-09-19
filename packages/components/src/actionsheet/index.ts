@@ -1,11 +1,7 @@
-import type { App } from 'vue'
-import WeuiActionsheet from './actionsheet.vue'
+import { withInstall } from '../utils/with-install'
+import WeuiActionsheetComponent from './actionsheet.vue'
 
-WeuiActionsheet.install = (app: App) => {
-  app.component(WeuiActionsheet.name || 'WeuiActionsheet', WeuiActionsheet)
-}
-
-export { WeuiActionsheet }
+export const WeuiActionsheet = withInstall(WeuiActionsheetComponent, 'WeuiActionsheet')
 export { Actionsheet } from './actionsheet'
 export type { WeuiActionsheetProps, WeuiActionsheetEmits, ActionsheetItem } from './actionsheet.vue'
 export type { ActionsheetShowOptions, ActionsheetShowResult } from './actionsheet'

@@ -1,9 +1,5 @@
-import type { App } from 'vue'
-import WeuiButton from './button.vue'
+import { withInstall } from '../utils/with-install'
+import WeuiButtonComponent from './button.vue'
 
-WeuiButton.install = (app: App) => {
-  app.component(WeuiButton.name || 'WeuiButton', WeuiButton)
-}
-
-export { WeuiButton }
+export const WeuiButton = withInstall(WeuiButtonComponent, 'WeuiButton')
 export type { WeuiButtonProps, WeuiButtonEmits } from './button.vue'

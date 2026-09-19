@@ -4,7 +4,7 @@
 
 import WeuiDialog from './dialog.vue'
 import type { DialogButton } from './dialog.vue'
-import { getOverlayHost } from '../utils/overlay-host-ref'
+import { showDialogOverlay } from '../utils/overlay-service'
 
 export type { DialogButton } from './dialog.vue'
 
@@ -58,57 +58,6 @@ export interface DialogShowResult {
   index: number
 }
 
-/**
- * 构造传给 WeuiDialog 的 props + onButtontap/onClose 监听器
- *
- * 关闭来源：
- *  - 按钮点击：触发 buttontap → resolve { button, index }
- *  - 遮罩点击（maskClosable）：触发 close → resolve { button: undefined, index: -1 }
- *
- * 由于按钮点击也会顺带触发 close 事件（见 dialog.vue 的 handleButtonTap），
- * 使用 settled 标志位保证 resolve 只调用一次。
- */
-function showInternal(
-  options: DialogShowOptions,
-  resolve: (result: DialogShowResult) => void,
-): void {
-  const host = getOverlayHost()
-  if (!host) {
-    throw new Error('WeuiOverlayHost is not mounted')
-  }
-
-  const buttons: DialogButton[] = options.buttons ?? []
-
-  let settled = false
-  const safeResolve = (result: DialogShowResult) => {
-    if (settled) return
-    settled = true
-    resolve(result)
-  }
-
-  const props: Record<string, unknown> = {
-    visible: true,
-    title: options.title,
-    content: options.content,
-    buttons,
-    maskClosable: options.maskClosable ?? true,
-    mask: options.mask ?? true,
-    extClass: options.extClass,
-    wrapperClass: options.wrapperClass,
-    btnWrap: options.btnWrap ?? false,
-    // Vue 3: onXxx 形式的 prop 会被当作事件监听器
-    onButtontap: (btn: DialogButton, index: number) => {
-      safeResolve({ button: btn, index })
-    },
-    onClose: () => {
-      // 遮罩关闭：无按钮点击，index 标记为 -1
-      safeResolve({ button: undefined, index: -1 })
-    },
-  }
-
-  host.add(WeuiDialog, props)
-}
-
 export const Dialog = {
   /**
    * 显示自定义按钮的对话框
@@ -117,7 +66,21 @@ export const Dialog = {
    */
   show(options: DialogShowOptions): Promise<DialogShowResult> {
     return new Promise((resolve) => {
-      showInternal(options, resolve)
+      showDialogOverlay<DialogButton>(
+        WeuiDialog,
+        {
+          visible: true,
+          title: options.title,
+          content: options.content,
+          buttons: options.buttons ?? [],
+          maskClosable: options.maskClosable ?? true,
+          mask: options.mask ?? true,
+          extClass: options.extClass,
+          wrapperClass: options.wrapperClass,
+          btnWrap: options.btnWrap ?? false,
+        },
+        resolve,
+      )
     })
   },
 
@@ -127,8 +90,10 @@ export const Dialog = {
    */
   alert(options: DialogAlertOptions): Promise<void> {
     return new Promise((resolve) => {
-      showInternal(
+      showDialogOverlay<DialogButton>(
+        WeuiDialog,
         {
+          visible: true,
           title: options.title,
           content: options.content,
           maskClosable: options.maskClosable ?? true,
@@ -146,8 +111,10 @@ export const Dialog = {
    */
   confirm(options: DialogConfirmOptions): Promise<boolean> {
     return new Promise((resolve) => {
-      showInternal(
+      showDialogOverlay<DialogButton>(
+        WeuiDialog,
         {
+          visible: true,
           title: options.title,
           content: options.content,
           maskClosable: options.maskClosable ?? false,

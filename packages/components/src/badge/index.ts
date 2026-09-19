@@ -1,9 +1,5 @@
-import type { App } from 'vue'
-import WeuiBadge from './badge.vue'
+import { withInstall } from '../utils/with-install'
+import WeuiBadgeComponent from './badge.vue'
 
-WeuiBadge.install = (app: App) => {
-  app.component(WeuiBadge.name || 'WeuiBadge', WeuiBadge)
-}
-
-export { WeuiBadge }
+export const WeuiBadge = withInstall(WeuiBadgeComponent, 'WeuiBadge')
 export type { WeuiBadgeProps } from './badge.vue'

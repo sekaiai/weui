@@ -1,9 +1,5 @@
-import type { App } from 'vue'
-import WeuiSearchbar from './searchbar.vue'
+import { withInstall } from '../utils/with-install'
+import WeuiSearchbarComponent from './searchbar.vue'
 
-WeuiSearchbar.install = (app: App) => {
-  app.component(WeuiSearchbar.name || 'WeuiSearchbar', WeuiSearchbar)
-}
-
-export { WeuiSearchbar }
+export const WeuiSearchbar = withInstall(WeuiSearchbarComponent, 'WeuiSearchbar')
 export type { WeuiSearchbarProps, WeuiSearchbarEmits } from './searchbar.vue'

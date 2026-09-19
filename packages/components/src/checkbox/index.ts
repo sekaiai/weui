@@ -1,15 +1,8 @@
-import type { App } from 'vue'
-import WeuiCheckbox from './checkbox.vue'
-import WeuiCheckboxGroup from './checkbox-group.vue'
+import { withInstall } from '../utils/with-install'
+import WeuiCheckboxComponent from './checkbox.vue'
+import WeuiCheckboxGroupComponent from './checkbox-group.vue'
 
-WeuiCheckbox.install = (app: App) => {
-  app.component(WeuiCheckbox.name || 'WeuiCheckbox', WeuiCheckbox)
-}
-
-WeuiCheckboxGroup.install = (app: App) => {
-  app.component(WeuiCheckboxGroup.name || 'WeuiCheckboxGroup', WeuiCheckboxGroup)
-}
-
-export { WeuiCheckbox, WeuiCheckboxGroup }
+export const WeuiCheckbox = withInstall(WeuiCheckboxComponent, 'WeuiCheckbox')
+export const WeuiCheckboxGroup = withInstall(WeuiCheckboxGroupComponent, 'WeuiCheckboxGroup')
 export type { WeuiCheckboxProps, WeuiCheckboxEmits } from './checkbox.vue'
 export type { WeuiCheckboxGroupProps, WeuiCheckboxGroupEmits } from './checkbox-group.vue'

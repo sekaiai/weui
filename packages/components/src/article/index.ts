@@ -1,9 +1,5 @@
-import type { App } from 'vue'
-import WeuiArticle from './article.vue'
+import { withInstall } from '../utils/with-install'
+import WeuiArticleComponent from './article.vue'
 
-WeuiArticle.install = (app: App) => {
-  app.component(WeuiArticle.name || 'WeuiArticle', WeuiArticle)
-}
-
-export { WeuiArticle }
+export const WeuiArticle = withInstall(WeuiArticleComponent, 'WeuiArticle')
 export type { WeuiArticleProps } from './article.vue'

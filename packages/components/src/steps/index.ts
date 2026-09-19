@@ -1,9 +1,5 @@
-import type { App } from 'vue'
-import WeuiSteps from './steps.vue'
+import { withInstall } from '../utils/with-install'
+import WeuiStepsComponent from './steps.vue'
 
-WeuiSteps.install = (app: App) => {
-  app.component(WeuiSteps.name || 'WeuiSteps', WeuiSteps)
-}
-
-export { WeuiSteps }
+export const WeuiSteps = withInstall(WeuiStepsComponent, 'WeuiSteps')
 export type { WeuiStepsProps, StepItem } from './steps.vue'

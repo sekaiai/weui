@@ -1,9 +1,5 @@
-import type { App } from 'vue'
-import WeuiPanel from './panel.vue'
+import { withInstall } from '../utils/with-install'
+import WeuiPanelComponent from './panel.vue'
 
-WeuiPanel.install = (app: App) => {
-  app.component(WeuiPanel.name || 'WeuiPanel', WeuiPanel)
-}
-
-export { WeuiPanel }
+export const WeuiPanel = withInstall(WeuiPanelComponent, 'WeuiPanel')
 export type { WeuiPanelProps, WeuiPanelEmits } from './panel.vue'

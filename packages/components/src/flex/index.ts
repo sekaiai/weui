@@ -1,16 +1,9 @@
-import type { App } from 'vue'
-import WeuiFlex from './flex.vue'
-import WeuiFlexItem from './flex-item.vue'
+import { withInstall } from '../utils/with-install'
+import WeuiFlexComponent from './flex.vue'
+import WeuiFlexItemComponent from './flex-item.vue'
 
-WeuiFlex.install = (app: App) => {
-  app.component(WeuiFlex.name || 'WeuiFlex', WeuiFlex)
-}
-
-WeuiFlexItem.install = (app: App) => {
-  app.component(WeuiFlexItem.name || 'WeuiFlexItem', WeuiFlexItem)
-}
-
-export { WeuiFlex, WeuiFlexItem }
+export const WeuiFlex = withInstall(WeuiFlexComponent, 'WeuiFlex')
+export const WeuiFlexItem = withInstall(WeuiFlexItemComponent, 'WeuiFlexItem')
 export type {
   WeuiFlexProps,
   WeuiFlexDirection,

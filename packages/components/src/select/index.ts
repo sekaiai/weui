@@ -1,9 +1,5 @@
-import type { App } from 'vue'
-import WeuiSelect from './select.vue'
+import { withInstall } from '../utils/with-install'
+import WeuiSelectComponent from './select.vue'
 
-WeuiSelect.install = (app: App) => {
-  app.component(WeuiSelect.name || 'WeuiSelect', WeuiSelect)
-}
-
-export { WeuiSelect }
+export const WeuiSelect = withInstall(WeuiSelectComponent, 'WeuiSelect')
 export type { WeuiSelectProps, WeuiSelectEmits } from './select.vue'

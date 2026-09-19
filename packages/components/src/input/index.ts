@@ -1,9 +1,5 @@
-import type { App } from 'vue'
-import WeuiInput from './input.vue'
+import { withInstall } from '../utils/with-install'
+import WeuiInputComponent from './input.vue'
 
-WeuiInput.install = (app: App) => {
-  app.component(WeuiInput.name || 'WeuiInput', WeuiInput)
-}
-
-export { WeuiInput }
+export const WeuiInput = withInstall(WeuiInputComponent, 'WeuiInput')
 export type { WeuiInputProps, WeuiInputEmits } from './input.vue'

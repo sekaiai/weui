@@ -1,9 +1,5 @@
-import type { App } from 'vue'
-import WeuiForm from './form.vue'
+import { withInstall } from '../utils/with-install'
+import WeuiFormComponent from './form.vue'
 
-WeuiForm.install = (app: App) => {
-  app.component(WeuiForm.name || 'WeuiForm', WeuiForm)
-}
-
-export { WeuiForm }
+export const WeuiForm = withInstall(WeuiFormComponent, 'WeuiForm')
 export type { WeuiFormProps } from './form.vue'

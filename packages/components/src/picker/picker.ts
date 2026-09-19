@@ -4,7 +4,7 @@
 
 import WeuiPicker from './picker.vue'
 import type { PickerColumn } from './picker.vue'
-import { getOverlayHost } from '../utils/overlay-host-ref'
+import { addOverlay } from '../utils/overlay-service'
 
 export type { PickerColumn } from './picker.vue'
 export type { PickerOption } from './picker-group.vue'
@@ -49,14 +49,7 @@ export const Picker = {
    */
   show(options: PickerShowOptions): Promise<PickerShowResult> {
     return new Promise((resolve) => {
-      const host = getOverlayHost()
-      if (!host) {
-        // 未挂载 overlay-host 时，降级为取消
-        resolve({ action: 'cancel', indexes: [], values: [] })
-        return
-      }
-
-      const props: Record<string, unknown> = {
+      const handle = addOverlay(WeuiPicker, {
         visible: true,
         title: options.title,
         desc: options.desc,
@@ -78,9 +71,12 @@ export const Picker = {
         onClose: () => {
           resolve({ action: 'cancel', indexes: [], values: [] })
         },
-      }
+      })
 
-      host.add(WeuiPicker, props)
+      // 未挂载 overlay-host 时，降级为取消
+      if (!handle) {
+        resolve({ action: 'cancel', indexes: [], values: [] })
+      }
     })
   },
 }

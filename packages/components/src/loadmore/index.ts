@@ -1,9 +1,5 @@
-import type { App } from 'vue'
-import WeuiLoadmore from './loadmore.vue'
+import { withInstall } from '../utils/with-install'
+import WeuiLoadmoreComponent from './loadmore.vue'
 
-WeuiLoadmore.install = (app: App) => {
-  app.component(WeuiLoadmore.name || 'WeuiLoadmore', WeuiLoadmore)
-}
-
-export { WeuiLoadmore }
+export const WeuiLoadmore = withInstall(WeuiLoadmoreComponent, 'WeuiLoadmore')
 export type { WeuiLoadmoreProps } from './loadmore.vue'

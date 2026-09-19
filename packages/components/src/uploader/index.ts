@@ -1,9 +1,5 @@
-import type { App } from 'vue'
-import WeuiUploader from './uploader.vue'
+import { withInstall } from '../utils/with-install'
+import WeuiUploaderComponent from './uploader.vue'
 
-WeuiUploader.install = (app: App) => {
-  app.component(WeuiUploader.name || 'WeuiUploader', WeuiUploader)
-}
-
-export { WeuiUploader }
+export const WeuiUploader = withInstall(WeuiUploaderComponent, 'WeuiUploader')
 export type { WeuiUploaderProps, WeuiUploaderEmits, UploaderFile } from './uploader.vue'

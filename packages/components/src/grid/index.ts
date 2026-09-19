@@ -1,15 +1,8 @@
-import type { App } from 'vue'
-import WeuiGrid from './grid.vue'
-import WeuiGridItem from './grid-item.vue'
+import { withInstall } from '../utils/with-install'
+import WeuiGridComponent from './grid.vue'
+import WeuiGridItemComponent from './grid-item.vue'
 
-WeuiGrid.install = (app: App) => {
-  app.component(WeuiGrid.name || 'WeuiGrid', WeuiGrid)
-}
-
-WeuiGridItem.install = (app: App) => {
-  app.component(WeuiGridItem.name || 'WeuiGridItem', WeuiGridItem)
-}
-
-export { WeuiGrid, WeuiGridItem }
+export const WeuiGrid = withInstall(WeuiGridComponent, 'WeuiGrid')
+export const WeuiGridItem = withInstall(WeuiGridItemComponent, 'WeuiGridItem')
 export type { WeuiGridProps } from './grid.vue'
 export type { WeuiGridItemProps, WeuiGridItemEmits } from './grid-item.vue'

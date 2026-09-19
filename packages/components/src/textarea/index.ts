@@ -1,9 +1,5 @@
-import type { App } from 'vue'
-import WeuiTextarea from './textarea.vue'
+import { withInstall } from '../utils/with-install'
+import WeuiTextareaComponent from './textarea.vue'
 
-WeuiTextarea.install = (app: App) => {
-  app.component(WeuiTextarea.name || 'WeuiTextarea', WeuiTextarea)
-}
-
-export { WeuiTextarea }
+export const WeuiTextarea = withInstall(WeuiTextareaComponent, 'WeuiTextarea')
 export type { WeuiTextareaProps, WeuiTextareaEmits } from './textarea.vue'

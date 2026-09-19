@@ -4,7 +4,7 @@
 
 import WeuiActionsheet from './actionsheet.vue'
 import type { ActionsheetItem } from './actionsheet.vue'
-import { getOverlayHost } from '../utils/overlay-host-ref'
+import { addOverlay } from '../utils/overlay-service'
 
 export type { ActionsheetItem } from './actionsheet.vue'
 
@@ -38,14 +38,7 @@ export const Actionsheet = {
    */
   show(options: ActionsheetShowOptions): Promise<ActionsheetShowResult> {
     return new Promise((resolve) => {
-      const host = getOverlayHost()
-      if (!host) {
-        // 未挂载 overlay-host 时，降级为取消
-        resolve({ item: null, index: -1 })
-        return
-      }
-
-      const props: Record<string, unknown> = {
+      const handle = addOverlay(WeuiActionsheet, {
         visible: true,
         title: options.title,
         items: options.items ?? [],
@@ -63,9 +56,12 @@ export const Actionsheet = {
         onClose: () => {
           resolve({ item: null, index: -1 })
         },
-      }
+      })
 
-      host.add(WeuiActionsheet, props)
+      // 未挂载 overlay-host 时，降级为取消
+      if (!handle) {
+        resolve({ item: null, index: -1 })
+      }
     })
   },
 }

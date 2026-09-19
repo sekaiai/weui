@@ -1,9 +1,5 @@
-import type { App } from 'vue'
-import WeuiSlideview from './slideview.vue'
+import { withInstall } from '../utils/with-install'
+import WeuiSlideviewComponent from './slideview.vue'
 
-WeuiSlideview.install = (app: App) => {
-  app.component(WeuiSlideview.name || 'WeuiSlideview', WeuiSlideview)
-}
-
-export { WeuiSlideview }
+export const WeuiSlideview = withInstall(WeuiSlideviewComponent, 'WeuiSlideview')
 export type { WeuiSlideviewProps, WeuiSlideviewEmits, SlideButton } from './slideview.vue'

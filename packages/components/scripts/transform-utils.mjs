@@ -27,73 +27,60 @@ const STYLE_IFDEF_RE = /\/\*[ \t]*#ifdef\s+(\S+)[ \t]*\*\/[ \t\r\n]*([\s\S]*?)[ 
 const STYLE_IFNDEF_RE = /\/\*[ \t]*#ifndef\s+(\S+)[ \t]*\*\/[ \t\r\n]*([\s\S]*?)[ \t\r\n]*\/\*[ \t]*#endif[ \t]*\*\//g
 
 /**
+ * 条件编译块处理器工厂。
+ *
+ * `H5` 分支按平台取舍，其他平台的块一律原样保留（随后仅剥离标记注释）：
+ *  - vue3 产物：保留 `#ifdef H5` 内容，丢弃 `#ifndef H5` 块
+ *  - uni-app 产物：丢弃 `#ifdef H5` 块，保留 `#ifndef H5` 内容
+ *
+ * @param ifdef 匹配 `#ifdef <name>` 块的正则，须带内容分组
+ * @param ifndef 匹配 `#ifndef <name>` 块的正则，须带内容分组
+ * @param stripMarkers 剥离残留标记注释的函数
+ */
+function makeStripFn({ ifdef, ifndef, stripMarkers }) {
+  return (code, platform) => {
+    let result = code
+    if (platform === 'vue3') {
+      result = result.replace(ifndef, (match, name) => (name === 'H5' ? '' : match))
+      result = result.replace(ifdef, (_, name, content) => (name === 'H5' ? content : ''))
+    } else {
+      result = result.replace(ifdef, (match, name) => (name === 'H5' ? '' : match))
+      result = result.replace(ifndef, (_, name, content) => (name === 'H5' ? content : ''))
+    }
+    return stripMarkers(result)
+  }
+}
+
+const stripScriptBlocks = makeStripFn({
+  ifdef: IFDEF_RE,
+  ifndef: IFNDEF_RE,
+  stripMarkers: (code) =>
+    code
+      .replace(/^[ \t]*\/\/\s*#ifdef\s+\S+[^\n]*\n/gm, '')
+      .replace(/^[ \t]*\/\/\s*#ifndef\s+\S+[^\n]*\n/gm, '')
+      .replace(/^[ \t]*\/\/\s*#endif[^\n]*\n?/gm, ''),
+})
+
+export const stripTemplateConditionalCompile = makeStripFn({
+  ifdef: TEMPLATE_IFDEF_RE,
+  ifndef: TEMPLATE_IFNDEF_RE,
+  stripMarkers: (code) =>
+    code.replace(/<!--[ \t]*#(?:ifdef|ifndef|endif)(?:\s+\S+)?[ \t]*-->/g, ''),
+})
+
+export const stripStyleConditionalCompile = makeStripFn({
+  ifdef: STYLE_IFDEF_RE,
+  ifndef: STYLE_IFNDEF_RE,
+  stripMarkers: (code) =>
+    code.replace(/\/\*[ \t]*#(?:ifdef|ifndef|endif)(?:\s+\S+)?[ \t]*\*\//g, ''),
+})
+
+/**
  * 移除条件编译注释块，按目标平台保留对应代码
  */
 export function stripConditionalCompile(code, platform) {
-  let result = code
-
-  if (platform === 'vue3') {
-    result = result.replace(IFNDEF_RE, (match, platformName) => {
-      return platformName === 'H5' ? '' : match
-    })
-    result = result.replace(IFDEF_RE, (_, platformName, content) => {
-      if (platformName === 'H5') return content
-      return ''
-    })
-  } else {
-    result = result.replace(IFDEF_RE, (match, platformName) => {
-      return platformName === 'H5' ? '' : match
-    })
-    result = result.replace(IFNDEF_RE, (_, platformName, content) => {
-      if (platformName === 'H5') return content
-      return ''
-    })
-  }
-
-  result = result.replace(/^[ \t]*\/\/\s*#ifdef\s+\S+[^\n]*\n/gm, '')
-  result = result.replace(/^[ \t]*\/\/\s*#ifndef\s+\S+[^\n]*\n/gm, '')
-  result = result.replace(/^[ \t]*\/\/\s*#endif[^\n]*\n?/gm, '')
+  const result = stripScriptBlocks(code, platform)
   return stripStyleConditionalCompile(stripTemplateConditionalCompile(result, platform), platform)
-}
-
-export function stripTemplateConditionalCompile(code, platform) {
-  let result = code
-
-  if (platform === 'vue3') {
-    result = result.replace(TEMPLATE_IFNDEF_RE, (match, platformName) => {
-      return platformName === 'H5' ? '' : match
-    })
-    result = result.replace(TEMPLATE_IFDEF_RE, (_, platformName, content) => {
-      if (platformName === 'H5') return content
-      return ''
-    })
-  } else {
-    result = result.replace(TEMPLATE_IFDEF_RE, (match, platformName) => {
-      return platformName === 'H5' ? '' : match
-    })
-    result = result.replace(TEMPLATE_IFNDEF_RE, (_, platformName, content) => {
-      if (platformName === 'H5') return content
-      return ''
-    })
-  }
-
-  return result.replace(/<!--[ \t]*#(?:ifdef|ifndef|endif)(?:\s+\S+)?[ \t]*-->/g, '')
-}
-
-export function stripStyleConditionalCompile(code, platform) {
-  let result = code
-  if (platform === 'vue3') {
-    result = result.replace(STYLE_IFNDEF_RE, (match, platformName) =>
-      platformName === 'H5' ? '' : match)
-    result = result.replace(STYLE_IFDEF_RE, (_, platformName, content) =>
-      platformName === 'H5' ? content : '')
-  } else {
-    result = result.replace(STYLE_IFDEF_RE, (match, platformName) =>
-      platformName === 'H5' ? '' : match)
-    result = result.replace(STYLE_IFNDEF_RE, (_, platformName, content) =>
-      platformName === 'H5' ? content : '')
-  }
-  return result.replace(/\/\*[ \t]*#(?:ifdef|ifndef|endif)(?:\s+\S+)?[ \t]*\*\//g, '')
 }
 
 /**

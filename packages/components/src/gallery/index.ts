@@ -1,11 +1,7 @@
-import type { App } from 'vue'
-import WeuiGallery from './gallery.vue'
+import { withInstall } from '../utils/with-install'
+import WeuiGalleryComponent from './gallery.vue'
 
-WeuiGallery.install = (app: App) => {
-  app.component(WeuiGallery.name || 'WeuiGallery', WeuiGallery)
-}
-
-export { WeuiGallery }
+export const WeuiGallery = withInstall(WeuiGalleryComponent, 'WeuiGallery')
 export { Gallery } from './gallery'
 export type { WeuiGalleryProps, WeuiGalleryEmits } from './gallery.vue'
 export type { GalleryShowOptions } from './gallery'
