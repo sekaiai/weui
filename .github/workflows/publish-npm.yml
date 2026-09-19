@@ -65,6 +65,12 @@ jobs:
       - name: End-to-end tests
         run: pnpm e2e
 
+      - name: Re-verify package contract before publish
+        # 消费端构建（尤其 docs 的 prebuild）会再次调用 build:vue3。
+        # 在真正发布前重新校验一次，避免该步骤清空 dist/vue3/types 后
+        # 静默发出缺失 types 入口的包（见 v0.3.1–v0.3.3）。
+        run: pnpm --filter weui-uniapp-design check:package
+
       - name: Publish to npm
         # 上述 prepack 已验证当前目录；publish 禁止重复执行生命周期脚本。
         run: cd packages/components && npm publish --ignore-scripts --provenance --access public
