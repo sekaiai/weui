@@ -24,6 +24,7 @@ describe('WeuiCells', () => {
   it('默认只渲染 weui-cells 基础类', () => {
     const wrapper = mount(WeuiCells)
     expect(wrapper.find('.weui-cells').classes()).toEqual(['weui-cells'])
+    expect(wrapper.classes()).toContain('weui-cells__group')
   })
 
   it('通过语义 props 追加 modifier classes', () => {
@@ -43,6 +44,7 @@ describe('WeuiCells', () => {
   it('title prop 渲染标题区域', () => {
     const wrapper = mount(WeuiCells, { props: { title: '列表标题' } })
     expect(wrapper.find('.weui-cells__title').text()).toBe('列表标题')
+    expect(wrapper.find('.weui-cells__title').element.parentElement).toBe(wrapper.element)
   })
 
   it('title slot 直接渲染且不生成标题包装节点', () => {
@@ -72,6 +74,12 @@ describe('WeuiCells', () => {
     const wrapper = mount(WeuiCells)
     expect(wrapper.find('.weui-cells__title').exists()).toBe(false)
     expect(wrapper.find('.weui-cells__tips').exists()).toBe(false)
+  })
+
+  it('form 同时追加 group 和 cells 的 form 类', () => {
+    const wrapper = mount(WeuiCells, { props: { form: true } })
+    expect(wrapper.classes()).toContain('weui-cells__group_form')
+    expect(wrapper.find('.weui-cells').classes()).toContain('weui-cells_form')
   })
 
   it('保留业务自定义 extClass', () => {

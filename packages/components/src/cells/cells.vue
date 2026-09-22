@@ -1,11 +1,13 @@
 <template>
-  <slot v-if="slots.title" name="title" />
-  <div v-else-if="title" class="weui-cells__title">{{ title }}</div>
-  <div :class="rootClass" v-bind="$attrs">
-    <slot />
+  <div :class="groupClass">
+    <slot v-if="slots.title" name="title" />
+    <div v-else-if="title" class="weui-cells__title">{{ title }}</div>
+    <div :class="rootClass" v-bind="$attrs">
+      <slot />
+    </div>
+    <slot v-if="slots.tips" name="tips" />
+    <div v-else-if="tips" class="weui-cells__tips">{{ tips }}</div>
   </div>
-  <slot v-if="slots.tips" name="tips" />
-  <div v-else-if="tips" class="weui-cells__tips">{{ tips }}</div>
 </template>
 
 <script lang="ts">
@@ -50,6 +52,12 @@ const props = withDefaults(defineProps<WeuiCellsProps>(), {
 })
 
 const slots = useSlots()
+
+const groupClass = computed(() => {
+  const classes: string[] = ['weui-cells__group']
+  if (props.form) classes.push('weui-cells__group_form')
+  return classes
+})
 
 const rootClass = computed(() => {
   const classes: string[] = ['weui-cells']
