@@ -87,9 +87,9 @@ export interface WeuiCellProps {
   /** WeUI icon name, or an image URL/path/data URI. */
   icon?: string
   footer?: string
-  /** Access style alias. A string is used as the navigation target. */
+  /** Access arrow style. A string is used as the navigation target. */
   access?: boolean | string
-  /** Primary access style. A string is used as the navigation target. */
+  /** Link color/style. A string is used as the navigation target. */
   link?: boolean | string
   url?: string
   vcode?: boolean
@@ -148,7 +148,7 @@ const navigationTarget = computed(() => {
   if (accessTarget) return accessTarget
   return props.link || props.access ? props.url : ''
 })
-const isAccess = computed(() => Boolean(props.access || props.link))
+const isAccess = computed(() => Boolean(props.access))
 const hasHeaderContent = computed(() => hasIcon.value || Boolean(props.label))
 const hasFooterContent = computed(() => Boolean(props.footer || props.value || props.desc || slots.footer))
 const hasIcon = computed(() => Boolean(props.icon || slots.icon))

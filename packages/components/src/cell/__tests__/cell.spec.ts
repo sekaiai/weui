@@ -120,22 +120,22 @@ describe('WeuiCell', () => {
   })
 
   describe('link', () => {
-    it('link=true 追加 weui-cell_access 和 weui-cell_link 类', () => {
+    it('link=true 只追加 weui-cell_link 类', () => {
       const wrapper = mount(WeuiCell, { props: { link: true } })
-      expect(wrapper.classes()).toContain('weui-cell_access')
       expect(wrapper.classes()).toContain('weui-cell_link')
+      expect(wrapper.classes()).not.toContain('weui-cell_access')
     })
 
-    it('link 传入路径时保留两个 modifier 并输出导航地址', () => {
+    it('link 传入路径时保留 link modifier 并输出导航地址', () => {
       const wrapper = mount(WeuiCell, { props: { link: '/pages/detail' } })
-      expect(wrapper.classes()).toContain('weui-cell_access')
       expect(wrapper.classes()).toContain('weui-cell_link')
+      expect(wrapper.classes()).not.toContain('weui-cell_access')
       expect(wrapper.attributes('href')).toBe('/pages/detail')
     })
 
-    it('link=true 时 footer 不追加 weui-cell__ft_in-access（access 模式靠父选择器接管）', () => {
+    it('link=true 时不生成访问箭头', () => {
       const wrapper = mount(WeuiCell, { props: { link: true } })
-      expect(wrapper.find('.weui-cell__ft').classes()).not.toContain('weui-cell__ft_in-access')
+      expect(wrapper.find('.weui-cell__ft').exists()).toBe(false)
     })
 
     it('link=false 时不追加 access 类', () => {

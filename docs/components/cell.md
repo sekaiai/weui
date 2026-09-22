@@ -134,7 +134,7 @@ const send = () => {
 
 ## 图标、跳转与副标题
 
-`icon` 独立渲染在 header，`title` 与 `subtitle` 位于可伸缩的 body，`footer` 位于右侧。`link` 是推荐的跳转 attr：传入路径时，H5 直接渲染 `href`，小程序直接使用 `url`，并同时使用链接与访问箭头样式；`access` 只使用访问箭头样式。普通图标字符串会渲染为 WeUI 图标，`/`、`./`、`../`、`http(s):` 与 `data:` 开头的字符串会渲染为图片；`#icon` 插槽也自带默认对齐和间距。
+`icon` 独立渲染在 header，`title` 与 `subtitle` 位于可伸缩的 body，`footer` 位于右侧。`link` 只表示链接样式：传入路径时，H5 直接渲染 `href`，小程序直接使用 `url`，不会附带访问箭头；`access` 只表示访问箭头，也支持通过 `url` 导航。普通图标字符串会渲染为 WeUI 图标，`/`、`./`、`../`、`http(s):` 与 `data:` 开头的字符串会渲染为图片；`#icon` 插槽也自带默认对齐和间距。
 
 <div class="demo-block vp-raw"><div class="demo-mobile"><weui-cells title="带图标、跳转的列表项"><weui-cell link icon="info" title="cell standard" subtitle="通过图标名渲染" footer="说明文字" @click="clickResult = 'cell click 事件已触发'" /><weui-cell link icon="https://weui.io/images/pic_160.png" title="image icon" subtitle="通过图片地址渲染" /><weui-cell link title="slot icon" subtitle="插槽也有默认对齐"><template #icon><weui-icon type="success" /></template></weui-cell></weui-cells><p>{{ clickResult || '点击列表项试试' }}</p></div></div>
 
