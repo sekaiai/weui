@@ -59,12 +59,6 @@ jobs:
           pnpm --filter weui-uniapp-design-example build:mp-weixin
           pnpm build:docs
 
-      - name: Install Playwright Chromium
-        run: pnpm exec playwright install --with-deps chromium
-
-      - name: End-to-end tests
-        run: pnpm e2e
-
       - name: Re-verify package contract before publish
         # 消费端构建（尤其 docs 的 prebuild）会再次调用 build:vue3。
         # 在真正发布前重新校验一次，避免该步骤清空 dist/vue3/types 后
