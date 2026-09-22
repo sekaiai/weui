@@ -45,25 +45,27 @@ describe('WeuiCells', () => {
     expect(wrapper.find('.weui-cells__title').text()).toBe('列表标题')
   })
 
-  it('title slot 覆盖 title prop', () => {
+  it('title slot 直接渲染且不生成标题包装节点', () => {
     const wrapper = mount(WeuiCells, {
       props: { title: '默认标题' },
       slots: { title: '<span class="custom-title">自定义标题</span>' },
     })
     expect(wrapper.find('.custom-title').text()).toBe('自定义标题')
+    expect(wrapper.find('.weui-cells__title').exists()).toBe(false)
   })
 
-  it('tips prop 渲染底部提示区域', () => {
+  it('tips prop 渲染提示区域', () => {
     const wrapper = mount(WeuiCells, { props: { tips: '底部提示' } })
     expect(wrapper.find('.weui-cells__tips').text()).toBe('底部提示')
   })
 
-  it('tips slot 覆盖 tips prop', () => {
+  it('tips slot 直接渲染且不生成提示包装节点', () => {
     const wrapper = mount(WeuiCells, {
       props: { tips: '默认提示' },
       slots: { tips: '<span class="custom-tips">自定义提示</span>' },
     })
     expect(wrapper.find('.custom-tips').text()).toBe('自定义提示')
+    expect(wrapper.find('.weui-cells__tips').exists()).toBe(false)
   })
 
   it('没有 title/tips 时不渲染空区域', () => {

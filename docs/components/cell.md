@@ -28,13 +28,13 @@ Cells 容器的内置 modifier 使用语义属性：`<weui-cells form>`、`<weui
 
 ## Cells 容器
 
-`weui-cells` 自带标题、列表主体和底部提示结构。`title`、`tips` 没有内容时对应区域不会渲染；同名 slot 的优先级高于 prop。`default` slot 始终渲染到 `.weui-cells` 主体中。
+`weui-cells` 自带标题、列表主体和底部提示结构。`title`、`tips` 没有内容时对应区域不会渲染；提供同名 slot 时，slot 会直接渲染并接管对应区域，不会自动生成 `.weui-cells__title` 或 `.weui-cells__tips` 包装节点。如需 WeUI 默认样式，请在 slot 内容上自行添加对应 class。`default` slot 始终渲染到 `.weui-cells` 主体中。
 
 ```vue
 <weui-cells title="列表标题" tips="底部提示" form>
   <weui-cell title="列表项" />
-  <template #title><strong>自定义列表标题</strong></template>
-  <template #tips>自定义底部提示</template>
+  <template #title><div class="weui-cells__title">自定义列表标题</div></template>
+  <template #tips><div class="weui-cells__tips">自定义底部提示</div></template>
 </weui-cells>
 ```
 
