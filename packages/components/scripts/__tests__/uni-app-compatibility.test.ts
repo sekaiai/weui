@@ -196,12 +196,22 @@ describe('uni-app compatibility audit', () => {
       const sourcePath = join(sourceRoot(), relativePath)
       const transformed = transformUniAppSource(readFileSync(sourcePath, 'utf-8'), sourcePath)
       const template = transformed.match(/<template\b[^>]*>([\s\S]*?)<\/template>/i)?.[1] ?? ''
+      // 断言前先去掉注释，避免源码里的契约说明文字被当成真实标记命中
+      const markup = template.replace(/<!--[\s\S]*?-->/g, '')
 
-      expect(template, relativePath).toContain(nativeTag)
-      if (removedFallback) expect(template, relativePath).not.toContain(removedFallback)
+      expect(markup, relativePath).toContain(nativeTag)
+      if (removedFallback) expect(markup, relativePath).not.toContain(removedFallback)
       if (relativePath === 'checkbox/checkbox.vue' || relativePath === 'radio/radio.vue') {
-        expect(template, relativePath).not.toContain('weui-icon-checked')
-        expect(template, relativePath).not.toMatch(/class="weui-check"/)
+        // 小程序原生 checkbox/radio 无法用 appearance 渲染官方圆形勾选框，
+        // 必须走 weui.css 的「weui-check 代理 + aria-checked 相邻兄弟」契约：
+        //   .weui-cells_checkbox .weui-check[aria-checked="true"] + .weui-icon-checked
+        // 所以非 H5 产物里 class="weui-check" 与 .weui-icon-checked 是必需的，
+        // 且代理元素必须紧邻在视觉元素之前，否则 + 选择器命中不到。
+        expect(markup, relativePath).toContain('class="weui-check"')
+        expect(markup, relativePath).toContain('aria-checked="{{')
+        expect(markup.replace(/\s+/g, ' '), relativePath).toMatch(
+          /aria-checked="\{\{[^"]*\}\}"[^>]*\/>\s*<view class="weui-icon-checked"/,
+        )
       }
       expect(transformed, relativePath).not.toMatch(/<!--\s*#(?:ifdef|ifndef|endif)/)
     }
