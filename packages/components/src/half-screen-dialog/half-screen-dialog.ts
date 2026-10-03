@@ -3,10 +3,10 @@
 // 调用前需确保应用中已挂载 <weui-overlay-host />
 
 import WeuiHalfScreenDialog from './half-screen-dialog.vue'
-import type { HalfScreenDialogButton } from './half-screen-dialog.vue'
+import type { HalfScreenDialogAction, HalfScreenDialogButton, HalfScreenDialogVariant } from './half-screen-dialog.vue'
 import { showDialogOverlay } from '../utils/overlay-service'
 
-export type { HalfScreenDialogButton } from './half-screen-dialog.vue'
+export type { HalfScreenDialogAction, HalfScreenDialogButton, HalfScreenDialogVariant } from './half-screen-dialog.vue'
 
 export interface HalfScreenDialogShowOptions {
   /** 标题 */
@@ -15,8 +15,30 @@ export interface HalfScreenDialogShowOptions {
   subtitle?: string
   /** 内容文字 */
   content?: string
+  /** 辅助描述（对应 __desc） */
+  desc?: string
+  /** 辅助提示（对应 __tips） */
+  tips?: string
   /** 按钮列表 */
   buttons?: HalfScreenDialogButton[]
+  /** 头部右侧操作列表 */
+  headerActions?: HalfScreenDialogAction[]
+  /** 附加操作文字（对应 __attachment-area） */
+  attachmentText?: string
+  /** 头部头像图片地址 */
+  avatar?: string
+  /** 昵称，配合 avatar 使用 */
+  nickname?: string
+  /** 变体样式 */
+  variant?: HalfScreenDialogVariant
+  /** 是否显示头部关闭按钮，默认 true */
+  showClose?: boolean
+  /** 关闭按钮图标，默认按variant 推导 */
+  closeIcon?: string
+  /** 是否允许下拉关闭（仅 grab 变体生效），默认 true */
+  draggable?: boolean
+  /** 下拉关闭阈值（px），默认 56 */
+  dragThreshold?: number
   /** 点击遮罩是否关闭，默认 true */
   maskClosable?: boolean
   /** 是否显示遮罩，默认 true */
@@ -49,7 +71,18 @@ export const HalfScreenDialog = {
           title: options.title,
           subtitle: options.subtitle,
           content: options.content,
+          desc: options.desc,
+          tips: options.tips,
           buttons: options.buttons ?? [],
+          headerActions: options.headerActions ?? [],
+          attachmentText: options.attachmentText,
+          avatar: options.avatar,
+          nickname: options.nickname,
+          variant: options.variant ?? 'default',
+          showClose: options.showClose ?? true,
+          closeIcon: options.closeIcon,
+          draggable: options.draggable ?? true,
+          dragThreshold: options.dragThreshold ?? 56,
           maskClosable: options.maskClosable ?? true,
           mask: options.mask ?? true,
           extClass: options.extClass,

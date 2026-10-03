@@ -146,7 +146,7 @@ import type { WeuiRadioProps, WeuiRadioEmits, WeuiRadioGroupProps, WeuiRadioGrou
 import type { OverlayItem } from './overlay-host'
 import type { WeuiActionsheetProps, WeuiActionsheetEmits, ActionsheetItem, ActionsheetShowOptions, ActionsheetShowResult } from './actionsheet'
 import type { WeuiDialogProps, WeuiDialogEmits, DialogButton, DialogShowOptions, DialogAlertOptions, DialogConfirmOptions, DialogShowResult } from './dialog'
-import type { WeuiHalfScreenDialogProps, WeuiHalfScreenDialogEmits, HalfScreenDialogButton, HalfScreenDialogShowOptions, HalfScreenDialogShowResult } from './half-screen-dialog'
+import type { WeuiHalfScreenDialogProps, WeuiHalfScreenDialogEmits, HalfScreenDialogButton, HalfScreenDialogAction, HalfScreenDialogVariant, HalfScreenDialogShowOptions, HalfScreenDialogShowResult } from './half-screen-dialog'
 import type { WeuiToptipsProps, WeuiToptipsEmits, ToptipsType, ToptipsShowOptions } from './toptips'
 import type { WeuiToastProps, WeuiToastEmits, ToastType, ToastShowOptions } from './toast'
 import type { WeuiPickerProps, WeuiPickerEmits, PickerColumn, PickerOption, PickerShowOptions, PickerShowResult } from './picker'
@@ -235,7 +235,7 @@ export type {
   OverlayItem,
   WeuiActionsheetProps, WeuiActionsheetEmits, ActionsheetItem, ActionsheetShowOptions, ActionsheetShowResult,
   WeuiDialogProps, WeuiDialogEmits, DialogButton, DialogShowOptions, DialogAlertOptions, DialogConfirmOptions, DialogShowResult,
-  WeuiHalfScreenDialogProps, WeuiHalfScreenDialogEmits, HalfScreenDialogButton, HalfScreenDialogShowOptions, HalfScreenDialogShowResult,
+  WeuiHalfScreenDialogProps, WeuiHalfScreenDialogEmits, HalfScreenDialogButton, HalfScreenDialogAction, HalfScreenDialogVariant, HalfScreenDialogShowOptions, HalfScreenDialogShowResult,
   WeuiToptipsProps, WeuiToptipsEmits, ToptipsType, ToptipsShowOptions,
   WeuiToastProps, WeuiToastEmits, ToastType, ToastShowOptions,
   WeuiPickerProps, WeuiPickerEmits, PickerColumn, PickerOption, PickerShowOptions, PickerShowResult,
