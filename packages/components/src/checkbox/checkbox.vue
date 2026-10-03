@@ -12,21 +12,34 @@
       />
       <!-- #endif -->
       <!-- #ifndef H5 -->
+      <!--
+        小程序端原生 <checkbox> 无法用 appearance/background 变成官方圆形样式，
+        官方 weui.css 约定用「weui-check 代理 + aria-checked 相邻兄弟选择器」：
+          .weui-cells_checkbox .weui-check[aria-checked="true"] + .weui-icon-checked {...}
+        因此原生 checkbox 需挂 weui-check 并紧邻 .weui-icon-checked 视觉元素。
+      -->
       <checkbox-group v-if="!group" @change="onNativeChange">
         <checkbox
+          class="weui-check"
+          aria-checked="{{ isChecked ? 'true' : 'false' }}"
           :value="value"
           :checked="isChecked"
           :disabled="isDisabled"
           @click.stop
         />
+        <view class="weui-icon-checked" />
       </checkbox-group>
-      <checkbox
-        v-else
-        :value="value"
-        :checked="isChecked"
-        :disabled="isDisabled"
-        @click.stop
-      />
+      <template v-else>
+        <checkbox
+          class="weui-check"
+          aria-checked="{{ isChecked ? 'true' : 'false' }}"
+          :value="value"
+          :checked="isChecked"
+          :disabled="isDisabled"
+          @click.stop
+        />
+        <view class="weui-icon-checked" />
+      </template>
       <!-- #endif -->
       <!-- #ifdef H5 -->
       <div class="weui-icon-checked"></div>

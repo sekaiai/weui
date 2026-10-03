@@ -14,19 +14,32 @@
       />
       <!-- #endif -->
       <!-- #ifndef H5 -->
+      <!--
+        小程序端原生 <radio> 无法用 appearance/background 变成官方圆形样式，
+        官方 weui.css 约定用「weui-check 代理 + aria-checked 相邻兄弟选择器」：
+          .weui-cells_radio .weui-check[aria-checked="true"] + .weui-icon-checked {...}
+        因此原生 radio 需挂 weui-check 并紧邻 .weui-icon-checked 视觉元素。
+      -->
       <radio-group v-if="!group" @change="onNativeChange">
         <radio
+          class="weui-check"
+          aria-checked="{{ isChecked ? 'true' : 'false' }}"
           :value="value"
           :checked="isChecked"
           :disabled="isDisabled"
         />
+        <view class="weui-icon-checked" />
       </radio-group>
-      <radio
-        v-else
-        :value="value"
-        :checked="isChecked"
-        :disabled="isDisabled"
-      />
+      <template v-else>
+        <radio
+          class="weui-check"
+          aria-checked="{{ isChecked ? 'true' : 'false' }}"
+          :value="value"
+          :checked="isChecked"
+          :disabled="isDisabled"
+        />
+        <view class="weui-icon-checked" />
+      </template>
       <!-- #endif -->
       <!-- #ifdef H5 -->
       <span class="weui-icon-checked"></span>

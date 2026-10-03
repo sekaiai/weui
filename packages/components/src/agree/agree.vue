@@ -10,12 +10,22 @@
     />
     <!-- #endif -->
     <!-- #ifndef H5 -->
+    <!--
+      小程序端 <checkbox> 无法用 appearance/background 变成官方圆形样式，
+      官方为此提供了「零尺寸代理 + aria-checked 兄弟选择器」的兼容写法：
+        .weui-agree__checkbox-check[aria-checked="true"] + .weui-agree__checkbox { ...勾选态... }
+      即代理元素负责承载选中态，真实 checkbox 只负责点击与无障碍语义。
+      class 顺序不可调整，否则 + 相邻兄弟选择器会失效。
+    -->
     <checkbox-group @change="handleChange">
       <checkbox
+        class="weui-agree__checkbox-check"
+        aria-checked="{{ modelValue ? 'true' : 'false' }}"
         value="__weui_agree__"
         :checked="modelValue"
         :disabled="disabled"
       />
+      <view class="weui-agree__checkbox" />
     </checkbox-group>
     <!-- #endif -->
     <span class="weui-agree__text">

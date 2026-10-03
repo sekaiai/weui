@@ -87,4 +87,64 @@ describe('WeuiAgree', () => {
       expect(wrapper.emitted('change')![0]).toEqual([true])
     })
   })
+
+  //小程序端样式与 H5 不一致的问题：
+  // 小程序 <checkbox> 无法通过 appearance/background 变成官方圆形勾选框，
+  // 官方 weui.css 为此提供了「零尺寸代理 + aria-checked 相邻兄弟选择器」写法：
+  //   .weui-agree__checkbox-check[aria-checked="true"] + .weui-agree__checkbox {...}
+  // 若不给原生 checkbox 挂 weui-agree__checkbox-check，小程序端将完全无样式。
+  //
+  // 注意：测试环境只渲染 H5 分支（非 H5 分支被 strip 掉），
+  // 因此这里针对「构建期转换后的产物」断言，而非运行时 DOM。
+  describe('小程序端结构', () => {
+    // 复用构建脚本真实的条件编译 + 标签转换逻辑，避免测试与产物脱节
+    const buildTemplate = async (platform: 'vue3' | 'uni-app') => {
+      const { readFile } = await import('node:fs/promises')
+      const { fileURLToPath } = await import('node:url')
+      const { dirname, resolve } = await import('node:path')
+      const src = await readFile(
+        resolve(dirname(fileURLToPath(import.meta.url)), '../agree.vue'),
+        'utf-8',
+      )
+      const { stripConditionalCompile, transformTemplateTags } = await import(
+        '../../../scripts/transform-utils.mjs'
+      )
+      const stripped = stripConditionalCompile(src, platform)
+      const out = platform === 'uni-app' ? transformTemplateTags(stripped) : stripped
+      return out.slice(0, out.indexOf('</template>') + 11)
+    }
+
+    it('小程序产物给原生 checkbox 挂 weui-agree__checkbox-check 代理类', async () => {
+      const tpl = await buildTemplate('uni-app')
+      expect(tpl).toContain('class="weui-agree__checkbox-check"')
+      // 视觉圆圈仍需保留，否则勾选态背景图无处施加
+      expect(tpl).toContain('class="weui-agree__checkbox"')
+    })
+
+    it('代理 checkbox 排在视觉元素之前，保证 + 相邻兄弟选择器生效', async () => {
+      const tpl = await buildTemplate('uni-app')
+      const proxyIdx = tpl.indexOf('weui-agree__checkbox-check')
+      const visualIdx = tpl.indexOf('class="weui-agree__checkbox"')
+      expect(proxyIdx).toBeGreaterThan(-1)
+      expect(visualIdx).toBeGreaterThan(proxyIdx)
+    })
+
+    it('小程序产物用 aria-checked 承载选中态', async () => {
+      const tpl = await buildTemplate('uni-app')
+      expect(tpl).toContain('aria-checked=')
+    })
+
+    it('小程序产物保留 value 与 disabled，维持交互与无障碍语义', async () => {
+      const tpl = await buildTemplate('uni-app')
+      expect(tpl).toContain('value="__weui_agree__"')
+      expect(tpl).toContain(':disabled="disabled"')
+    })
+
+    it('H5 产物不含小程序代理类，仍是原生 input', async () => {
+      const tpl = await buildTemplate('vue3')
+      expect(tpl).toContain('type="checkbox"')
+      expect(tpl).toContain('class="weui-agree__checkbox"')
+      expect(tpl).not.toContain('weui-agree__checkbox-check')
+    })
+  })
 })
