@@ -91,7 +91,7 @@
                     :src="avatar"
                     alt=""
                     style="width: 24px; margin-right: 8px; border-radius: 50%; display: block;"
-                  >
+                  />
                   {{ nickname }}
                 </div>
                 <template v-else>

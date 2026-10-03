@@ -233,6 +233,38 @@ describe('uni-app compatibility audit', () => {
       '<source>: unresolved custom component <weui-icon>',
     ])
   })
+
+  it('reports mapped void tags that are not self-closed', () => {
+    // 源文件里的 <img>（无自闭合斜杠）会被改写成 <image>，而 image 不是空元素
+    const source = '<template><img :src="a"></template>'
+
+    const transformed = transformUniAppSource(source, 'component.vue')
+
+    expect(transformed).toContain('<image :src="a">')
+    expect(collectUniAppCompatibilityIssues(transformed, 'component.vue')).toEqual([
+      'component.vue: <image> 未自闭合——源文件里的 <img> 会被改写为 <image>，'
+        + '而 image 不是空元素，必须写成 <image ... />',
+    ])
+  })
+
+  it('accepts self-closed mapped void tags', () => {
+    const source = '<template><img :src="a" /></template>'
+
+    const transformed = transformUniAppSource(source, 'component.vue')
+
+    expect(transformed).toContain('<image :src="a" />')
+    expect(collectUniAppCompatibilityIssues(transformed, 'component.vue')).toEqual([])
+  })
+
+  it('accepts explicitly paired image tags', () => {
+    // 手写成对闭合的 <image>...</image> 同样合法，不应误报
+    const source = '<template><image :src="a"></image></template>'
+
+    const transformed = transformUniAppSource(source, 'component.vue')
+
+    expect(transformed).toContain('<image :src="a"></image>')
+    expect(collectUniAppCompatibilityIssues(transformed, 'component.vue')).toEqual([])
+  })
 })
 
 function sourceRoot(): string {
