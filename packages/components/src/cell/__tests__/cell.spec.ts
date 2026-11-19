@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { defineComponent, h, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import WeuiCell from '../cell.vue'
 
@@ -50,6 +51,63 @@ describe('WeuiCell', () => {
       expect(label.exists()).toBe(true)
       expect(label.element.tagName).toBe('LABEL')
       expect(label.text()).toBe('手机号')
+    })
+
+    describe.each([false, true])('isSwipe=%s', (isSwipe) => {
+      it('仅提供 label slot 时渲染 header', () => {
+        const wrapper = mount(WeuiCell, {
+          props: { isSwipe },
+          slots: { label: '<label class="weui-label custom-label">自定义标签</label>' },
+        })
+
+        const header = wrapper.find('.weui-cell__hd')
+        expect(header.exists()).toBe(true)
+        expect(header.find('.custom-label').text()).toBe('自定义标签')
+      })
+
+      it('label slot 覆盖 label 属性且保留 icon', () => {
+        const wrapper = mount(WeuiCell, {
+          props: { icon: 'info', label: '属性标签', isSwipe },
+          slots: { label: '<label class="weui-label custom-label">插槽标签</label>' },
+        })
+
+        expect(wrapper.find('.weui-cell__icon').exists()).toBe(true)
+        expect(wrapper.find('.weui-cell__hd').text()).toContain('插槽标签')
+        expect(wrapper.find('.weui-cell__hd').text()).not.toContain('属性标签')
+        expect(wrapper.find('.weui-cell__hd .custom-label').exists()).toBe(true)
+      })
+
+      it('hasHeader=false 时不渲染 label slot header', () => {
+        const wrapper = mount(WeuiCell, {
+          props: { hasHeader: false, isSwipe },
+          slots: { label: '<label class="weui-label custom-label">自定义标签</label>' },
+        })
+
+        expect(wrapper.find('.weui-cell__hd').exists()).toBe(false)
+        expect(wrapper.find('.custom-label').exists()).toBe(false)
+      })
+
+      it('父组件动态添加和移除 label slot 时同步 header', async () => {
+        const showLabel = ref(false)
+        const Parent = defineComponent({
+          setup: () => () => h(
+            WeuiCell,
+            { isSwipe },
+            showLabel.value
+              ? { label: () => h('label', { class: 'weui-label dynamic-label' }, '动态标签') }
+              : undefined,
+          ),
+        })
+        const wrapper = mount(Parent)
+
+        expect(wrapper.find('.weui-cell__hd').exists()).toBe(false)
+        showLabel.value = true
+        await nextTick()
+        expect(wrapper.find('.weui-cell__hd .dynamic-label').text()).toBe('动态标签')
+        showLabel.value = false
+        await nextTick()
+        expect(wrapper.find('.weui-cell__hd').exists()).toBe(false)
+      })
     })
   })
 

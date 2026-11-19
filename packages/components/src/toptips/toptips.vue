@@ -106,3 +106,17 @@ onBeforeUnmount(() => {
   clearTimer()
 })
 </script>
+
+<style>
+.weui-toptips_info {
+  background-color: var(--weui-BLUE, #10aeff);
+}
+
+.weui-toptips_success {
+  background-color: var(--weui-BRAND, #07c160);
+}
+
+.weui-toptips_error {
+  background-color: var(--weui-RED, #fa5151);
+}
+</style>

@@ -15,13 +15,14 @@
         :role="ariaRole"
         @click="handleClick"
       >
-        <div v-if="hasHeader && hasHeaderContent" :class="['weui-cell__hd', iconClass]">
+        <div v-if="hasHeader && (hasIcon || label || slots.label)" :class="['weui-cell__hd', iconClass]">
           <div v-if="hasIcon" class="weui-cell__icon">
             <img v-if="isImageIcon" class="weui-cell__icon-image" :src="icon" alt="" />
             <span v-else-if="icon" :class="weuiIconClass" aria-hidden="true" />
             <slot v-else name="icon" />
           </div>
-          <label v-if="label" class="weui-label">{{ label }}</label>
+          <slot v-if="slots.label" name="label" />
+          <label v-else-if="label" class="weui-label">{{ label }}</label>
         </div>
         <div v-if="hasBody" :class="bodyClassName">
           <slot v-if="slots.title" name="title" />
@@ -48,13 +49,14 @@
     :role="ariaRole"
     @click="handleClick"
   >
-    <div v-if="hasHeader && hasHeaderContent" :class="['weui-cell__hd', iconClass]">
+    <div v-if="hasHeader && (hasIcon || label || slots.label)" :class="['weui-cell__hd', iconClass]">
       <div v-if="hasIcon" class="weui-cell__icon">
         <img v-if="isImageIcon" class="weui-cell__icon-image" :src="icon" alt="" />
         <span v-else-if="icon" :class="weuiIconClass" aria-hidden="true" />
         <slot v-else name="icon" />
       </div>
-      <label v-if="label" class="weui-label">{{ label }}</label>
+      <slot v-if="slots.label" name="label" />
+      <label v-else-if="label" class="weui-label">{{ label }}</label>
     </div>
     <div v-if="hasBody" :class="bodyClassName">
       <slot v-if="slots.title" name="title" />
@@ -149,7 +151,6 @@ const navigationTarget = computed(() => {
   return props.link || props.access ? props.url : ''
 })
 const isAccess = computed(() => Boolean(props.access))
-const hasHeaderContent = computed(() => hasIcon.value || Boolean(props.label))
 const hasFooterContent = computed(() => Boolean(props.footer || props.value || props.desc || slots.footer))
 const hasIcon = computed(() => Boolean(props.icon || slots.icon))
 const isImageIcon = computed(() => /^(?:\/|\.\/|\.\.\/|https?:|data:)/.test(props.icon ?? ''))

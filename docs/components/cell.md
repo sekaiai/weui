@@ -94,9 +94,9 @@ Cells 容器的内置 modifier 使用语义属性：`<weui-cells form>`、`<weui
 
 ## 表单标签
 
-`label` 渲染表单标签；验证码场景使用 `vcode`，输入框放在默认插槽，发送按钮放在 `#footer` 插槽。点击按钮会模拟发送并从“已发送(59)”开始倒计时。
+`label` 渲染表单标签；提供 `#label` 时优先渲染插槽内容并忽略 `label` 属性，调用者需要自行写入 `label.weui-label` 以保持 WeUI 样式。验证码场景使用 `vcode`，输入框放在默认插槽，发送按钮放在 `#footer` 插槽。点击按钮会模拟发送并从“已发送(59)”开始倒计时。
 
-<div class="demo-block vp-raw"><div class="demo-mobile"><weui-cells form title="表单标签"><weui-cell label="手机号"><weui-input type="number" placeholder="请输入手机号" /></weui-cell><weui-cell label="验证码" vcode><weui-input v-model="vcode" type="number" placeholder="请输入验证码" /><template #footer><weui-button vcode :disabled="vcodeSeconds > 0" @click="sendVcode">{{ vcodeSeconds ? `已发送(${vcodeSeconds})` : '获取验证码' }}</weui-button></template></weui-cell></weui-cells></div></div>
+<div class="demo-block vp-raw"><div class="demo-mobile"><weui-cells form title="表单标签"><weui-cell label="手机号"><weui-input type="number" placeholder="请输入手机号" /></weui-cell><weui-cell><template #label><label class="weui-label">昵称</label></template><weui-input placeholder="请输入昵称" /></weui-cell><weui-cell label="验证码" vcode><weui-input v-model="vcode" type="number" placeholder="请输入验证码" /><template #footer><weui-button vcode :disabled="vcodeSeconds > 0" @click="sendVcode">{{ vcodeSeconds ? `已发送(${vcodeSeconds})` : '获取验证码' }}</weui-button></template></weui-cell></weui-cells></div></div>
 
 ::: details 查看代码
 ```vue
@@ -119,6 +119,10 @@ const send = () => {
 <template>
   <weui-cells form title="表单标签">
     <weui-cell label="手机号"><weui-input type="number" placeholder="请输入手机号" /></weui-cell>
+    <weui-cell>
+      <template #label><label class="weui-label">昵称</label></template>
+      <weui-input placeholder="请输入昵称" />
+    </weui-cell>
     <weui-cell label="验证码" vcode>
       <weui-input v-model="code" type="number" placeholder="请输入验证码" />
       <template #footer>
@@ -201,7 +205,7 @@ const send = () => {
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | title | body 标题；`#title` 可自定义 | `string` | — |
-| label | header 中的表单标签，可与 icon 共存 | `string` | — |
+| label | header 中的表单标签，可与 icon 共存；`#label` 存在时优先使用 slot | `string` | — |
 | subtitle | body 标题下的副标题；`#subtitle` 可自定义 | `string` | — |
 | footer | 右侧说明；`#footer` 可自定义 | `string` | — |
 | value / desc | footer 的兼容回退，优先级低于 footer | `string` | — |
@@ -215,6 +219,16 @@ const send = () => {
 | is-swipe | 官方结构的滑动操作项 | `boolean` | `false` |
 | swipe-text / swipe-type | 操作按钮文案与类型 | `string` / `'default' \| 'warn'` | `'删除'` / `'warn'` |
 | ext-class | 自定义扩展类 | `string` | — |
+
+## Slots
+
+| 插槽 | 说明 |
+| --- | --- |
+| label | 自定义 header 标签；优先于 `label` 属性，调用者需自行写入 `label.weui-label` 保持默认样式 |
+| icon | 自定义 header 图标 |
+| title / subtitle | 自定义 body 标题或副标题 |
+| footer | 自定义右侧说明 |
+| default | body 默认内容 |
 
 ## Events
 
